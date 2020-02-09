@@ -39,7 +39,6 @@ data class Ride(
         @OneToMany(mappedBy = "ride")
         private val rideRequest: List<RideRequest>?
 
-
 ) : BaseEntity<Long>() {
     fun getAvailableSeats(): Int {
         if (this.rideRequest != null) {

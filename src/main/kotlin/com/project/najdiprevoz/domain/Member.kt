@@ -21,9 +21,6 @@ data class Member(
         @Column(name = "profile_photo", nullable = false)
         private val profilePhoto: String,
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "to")
-        private val ratings: List<Rating>,
-
         @Column(name = "password", nullable = false)
         private val password: String,
 
