@@ -40,4 +40,14 @@ data class Ride(
         private val rideRequest: List<RideRequest>?
 
 
-) : BaseEntity<Long>()
+) : BaseEntity<Long>() {
+    fun getAvailableSeats(): Int {
+        if (this.rideRequest != null) {
+            return this.totalSeats - this.rideRequest.filter { it.getStatus().name == "Approved" }.size
+        }
+        return this.totalSeats
+    }
+
+    fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
+
+}

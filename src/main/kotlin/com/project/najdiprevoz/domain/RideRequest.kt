@@ -30,4 +30,7 @@ data class RideRequest(
         @Column(name="status")
         private val status: RequestRideStatus
 
-) : BaseEntity<Long>()
+) : BaseEntity<Long>() {
+
+        fun getStatus() = status
+}

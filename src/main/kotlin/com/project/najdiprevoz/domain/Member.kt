@@ -34,9 +34,13 @@ data class Member(
         @Column(name = "phone_number", nullable = false)
         private val phoneNumber: String,
 
-        @OneToOne
+        @OneToOne(mappedBy = "owner")
         private val car: Car,
 
         @OneToMany(mappedBy = "requester")
-        private val rideRequests: List<RideRequest>?
+        private val rideRequests: List<RideRequest>?,
+
+        @OneToOne
+        @JoinColumn(name = "preference_id", referencedColumnName = "id")
+        private val userPreference: MemberPreferences?
 ) : BaseEntity<Long>()
