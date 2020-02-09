@@ -37,7 +37,10 @@ data class Ride(
         private val additionalDescription: String?,
 
         @OneToMany(mappedBy = "ride")
-        private val rideRequest: List<RideRequest>?
+        private val rideRequest: List<RideRequest>?,
+
+        @OneToMany(mappedBy = "ride")
+        private val rating: List<Rating>?
 
 ) : BaseEntity<Long>() {
     fun getAvailableSeats(): Int {
@@ -46,6 +49,7 @@ data class Ride(
         }
         return this.totalSeats
     }
+    fun getRatings(): List<Rating>? = rating
 
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 

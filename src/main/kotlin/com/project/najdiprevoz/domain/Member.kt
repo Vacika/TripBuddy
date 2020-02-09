@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.Gender
 import java.util.*
 import javax.persistence.*
 

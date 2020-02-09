@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.RequestRideStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -11,7 +12,7 @@ data class RideRequest(
         @JoinColumn(name = "requester_id")
         private val requester: Member,
 
-        @ManyToOne(fetch=FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
         private val ride: Ride,
 
@@ -23,14 +24,14 @@ data class RideRequest(
         @JoinColumn(name = "city_to", referencedColumnName = "id", nullable = false)
         private val cityTo: City,
 
-        @Column(name="created_on")
+        @Column(name = "created_on")
         private val createdOn: ZonedDateTime,
 
         @Enumerated(EnumType.STRING)
-        @Column(name="status")
+        @Column(name = "status")
         private val status: RequestRideStatus
 
 ) : BaseEntity<Long>() {
 
-        fun getStatus() = status
+    fun getStatus() = status
 }
