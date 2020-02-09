@@ -4,7 +4,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name="members")
+@Table(name = "members")
 data class Member(
         @Column(name = "email", nullable = false)
         private val email: String,
@@ -21,20 +21,22 @@ data class Member(
         @Column(name = "profile_photo", nullable = false)
         private val profilePhoto: String,
 
-        @OneToMany(fetch=FetchType.LAZY,mappedBy = "to")
-        private val ratings:List<Rating>,
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "to")
+        private val ratings: List<Rating>,
 
-        @Column(name="password",nullable=false)
+        @Column(name = "password", nullable = false)
         private val password: String,
 
-        @Column(name="gender",nullable=false)
+        @Column(name = "gender", nullable = false)
         @Enumerated(EnumType.STRING)
         private val gender: Gender,
 
-        @Column(name="phone_number", nullable=false)
+        @Column(name = "phone_number", nullable = false)
         private val phoneNumber: String,
 
-        @OneToMany(fetch=FetchType.LAZY,mappedBy = "driver")
-        private val drives: List<Drive>?
+        @OneToOne
+        private val car: Car,
 
-): BaseEntity<Long>()
+        @OneToMany(mappedBy = "requester")
+        private val rideRequests: List<RideRequest>?
+) : BaseEntity<Long>()
