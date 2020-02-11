@@ -19,8 +19,8 @@ data class Member(
         @Column(name = "birth_date", nullable = false)
         private val birthDate: Date,
 
-        @Column(name = "profile_photo", nullable = false)
-        private val profilePhoto: String,
+        @Column(name = "profile_photo", nullable = true)
+        private val profilePhoto: String?,
 
         @Column(name = "password", nullable = false)
         private val password: String,
@@ -38,7 +38,6 @@ data class Member(
         @OneToMany(mappedBy = "requester")
         private val rideRequests: List<RideRequest>?,
 
-        @OneToOne
-        @JoinColumn(name = "preference_id", referencedColumnName = "id")
+        @OneToOne(mappedBy = "member")
         private val userPreference: MemberPreferences?
 ) : BaseEntity<Long>()

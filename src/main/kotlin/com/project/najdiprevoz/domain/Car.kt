@@ -18,6 +18,6 @@ data class Car(
         private val seats: Int,
 
         @OneToOne
-        @JoinColumn(name = "car_id", referencedColumnName = "id")
+        @JoinColumn(name = "owner_id", referencedColumnName = "id")
         private val owner: Member
 ) : BaseEntity<Long>()
