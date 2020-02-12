@@ -19,5 +19,7 @@ data class Rating(
 
         private val note: String?,
 
-        private val dateSubmitted: ZonedDateTime
+        private val dateSubmitted: ZonedDateTime,
+
+        private val rating: Integer
 ) : BaseEntity<Long>()
