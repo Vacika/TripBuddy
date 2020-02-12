@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class NajdiprevozApplication
 
 fun main(args: Array<String>) {
-	runApplication<NajdiprevozApplication>(*args)
+    runApplication<NajdiprevozApplication>(*args)
 }
