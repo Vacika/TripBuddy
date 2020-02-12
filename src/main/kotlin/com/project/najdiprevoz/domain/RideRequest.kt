@@ -34,4 +34,5 @@ data class RideRequest(
 ) : BaseEntity<Long>() {
 
     fun getStatus() = status
+    fun getRide() = ride
 }

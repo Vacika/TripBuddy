@@ -2,9 +2,11 @@ package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.City
 import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
@@ -30,4 +32,6 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     fun findAllByFromLocation(fromLocation: City): List<Ride>?
 
     fun findById(id: Int): Ride?
+
+    fun findAllByDriver_IdAndFinishedIsTrue(driverId: Long): List<Ride>?
 }

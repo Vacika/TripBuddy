@@ -52,6 +52,7 @@ data class Ride(
 
     fun getRatings(): List<Rating>? = rating
 
+    fun getRideRequests(): List<RideRequest>? = rideRequest
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
 }
