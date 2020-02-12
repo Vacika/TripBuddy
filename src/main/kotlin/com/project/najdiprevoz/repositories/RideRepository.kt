@@ -6,6 +6,7 @@ import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRidePro
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.sql.Driver
 
@@ -21,8 +22,10 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
          FROM RideRequest rd 
          JOIN Ride r 
          ON r = rd.ride 
+         WHERE rd.status = 'Approved'
+         AND r = :ride
          GROUP BY r.id""")
-    fun getAvailableSeatsForRide(ride: Ride): AvailableSeatsForRideProjection
+    fun getAvailableSeatsForRide(@Param("ride") ride: Ride): AvailableSeatsForRideProjection
 
     fun findAllByFromLocation(fromLocation: City): List<Ride>?
 
