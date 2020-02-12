@@ -30,14 +30,5 @@ data class Member(
         private val gender: Gender,
 
         @Column(name = "phone_number", nullable = false)
-        private val phoneNumber: String,
-
-        @OneToOne(mappedBy = "owner")
-        private val car: Car,
-
-        @OneToMany(mappedBy = "requester")
-        private val rideRequests: List<RideRequest>?,
-
-        @OneToOne(mappedBy = "member")
-        private val userPreference: MemberPreferences?
+        private val phoneNumber: String
 ) : BaseEntity<Long>()

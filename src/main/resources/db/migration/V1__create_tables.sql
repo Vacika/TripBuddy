@@ -120,7 +120,8 @@ CREATE TABLE public.ratings (
                                 date_submitted timestamp without time zone,
                                 note character varying(255),
                                 author_id bigint NOT NULL,
-                                ride_id bigint NOT NULL
+                                ride_id bigint NOT NULL,
+                                rating bigint NOT NULL
 );
 
 
