@@ -21,5 +21,5 @@ data class Rating(
 
         private val dateSubmitted: ZonedDateTime,
 
-        private val rating: Integer
+        private val rating: Int
 ) : BaseEntity<Long>()

@@ -9,4 +9,6 @@ import javax.persistence.Table
 data class City(
         @Column(name = "name")
         private val name: String
-) : BaseEntity<Long>()
+) : BaseEntity<Long>() {
+    fun getName(): String = name
+}

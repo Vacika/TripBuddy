@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.*
+import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.web.request.create.CreateRideRequest
 import org.springframework.stereotype.Service
@@ -26,7 +27,7 @@ class RideService(private val repository: RideRepository,
             repository.deleteById(rideId)
 
     fun findById(id: Long) =
-            repository.findById(id)
+            repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
     fun getAllRidesFromLocation(location: City) =
             repository.findAllByFromLocation(fromLocation = location)

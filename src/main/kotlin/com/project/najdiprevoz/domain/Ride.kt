@@ -49,9 +49,11 @@ data class Ride(
         }
         return this.totalSeats
     }
-
     fun getRatings(): List<Rating>? = rating
-
+    fun getFinished(): Boolean = finished
+    fun getDepartureTime(): ZonedDateTime = departureTime
+    fun getFromLocationName(): String = fromLocation.getName()
+    fun getDestinationName(): String = destination.getName()
     fun getRideRequests(): List<RideRequest>? = rideRequest
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
