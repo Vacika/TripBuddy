@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.web.request
+package com.project.najdiprevoz.web.request.create
 
 import com.project.najdiprevoz.enums.Gender
 import java.util.*

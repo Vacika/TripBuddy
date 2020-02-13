@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.web.request
+package com.project.najdiprevoz.web.request.edit
 
 class EditMemberPreferenceRequest(
         val isSmokingAllowed: Boolean,

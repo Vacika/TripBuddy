@@ -3,7 +3,7 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.Car
 import com.project.najdiprevoz.exceptions.NoCarFoundForUserException
 import com.project.najdiprevoz.repositories.CarRepository
-import com.project.najdiprevoz.web.request.CreateCarRequest
+import com.project.najdiprevoz.web.request.create.CreateCarRequest
 import org.springframework.stereotype.Service
 
 @Service

@@ -4,8 +4,8 @@ import com.project.najdiprevoz.domain.Member
 import com.project.najdiprevoz.domain.MemberPreferences
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.MemberRepository
-import com.project.najdiprevoz.web.request.CreateMemberRequest
-import com.project.najdiprevoz.web.request.EditMemberPreferenceRequest
+import com.project.najdiprevoz.web.request.create.CreateMemberRequest
+import com.project.najdiprevoz.web.request.edit.EditMemberPreferenceRequest
 import org.springframework.stereotype.Service
 
 @Service
