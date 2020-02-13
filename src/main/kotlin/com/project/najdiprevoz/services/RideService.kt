@@ -10,25 +10,35 @@ import java.time.ZonedDateTime
 class RideService(private val repository: RideRepository,
                   private val memberService: MemberService) {
 
-    fun createNewRide(createRideRequest: CreateRideRequest) = repository.save(mapToRide(createRideRequest = createRideRequest))
+    fun createNewRide(createRideRequest: CreateRideRequest) =
+            repository.save(mapToRide(createRideRequest = createRideRequest))
 
-    fun getPastRidesForMember(memberId: Long) = repository.findAllByDriver_IdAndFinishedIsTrue(driverId = memberId)
+    fun getPastRidesForMember(memberId: Long) =
+            repository.findAllByDriver_IdAndFinishedIsTrue(driverId = memberId)
 
-    fun setRideFinished(rideId: Long): Boolean = repository.setRideToFinished(rideId = rideId) == 1
+    fun setRideFinished(rideId: Long): Boolean =
+            repository.setRideToFinished(rideId = rideId) == 1
 
-    fun changeTimeDeparture(rideId: Long, newTime: ZonedDateTime) = repository.changeRideTiming(rideId = rideId, newTime = newTime) == 1
+    fun changeTimeDeparture(rideId: Long, newTime: ZonedDateTime) =
+            repository.changeRideTiming(rideId = rideId, newTime = newTime) == 1
 
-    fun deleteRide(rideId: Long) = repository.deleteById(rideId)
+    fun deleteRide(rideId: Long) =
+            repository.deleteById(rideId)
 
-    fun findById(id: Long) = repository.findById(id)
+    fun findById(id: Long) =
+            repository.findById(id)
 
-    fun getAllRidesFromLocation(location: City) = repository.findAllByFromLocation(fromLocation = location)
+    fun getAllRidesFromLocation(location: City) =
+            repository.findAllByFromLocation(fromLocation = location)
 
-    fun getAllRidesForDestination(destination: City) = repository.findAllByDestination(destination = destination)
+    fun getAllRidesForDestination(destination: City) =
+            repository.findAllByDestination(destination = destination)
 
-    fun findAvailableSeatsForRide(rideId: Long) = repository.getAvailableSeatsForRide(rideId = rideId)
+    fun findAvailableSeatsForRide(rideId: Long) =
+            repository.getAvailableSeatsForRide(rideId = rideId)
 
-    fun findAllRidesForUser(user: Member) = repository.findAllByDriver(driver = user)
+    fun findAllRidesForUser(user: Member) =
+            repository.findAllByDriver(driver = user)
 
     private fun mapToRide(createRideRequest: CreateRideRequest) = with(createRideRequest) {
         Ride(

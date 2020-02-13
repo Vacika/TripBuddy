@@ -10,17 +10,19 @@ import org.springframework.stereotype.Service
 class CarService(private val repository: CarRepository,
                  private val memberService: MemberService) {
 
-    fun addNewCar(addCarRequest: CreateCarRequest): Car {
-        return repository.save(mapToCar(addCarRequest))
-    }
+    fun addNewCar(addCarRequest: CreateCarRequest) =
+            repository.save(mapToCar(addCarRequest))
 
-    fun removeCar(car: Car) = repository.delete(car);
 
-    fun removeCarByMemberId(memberId: Long) = repository.deleteCarByOwner_Id(memberId)
+    fun removeCar(car: Car) =
+            repository.delete(car);
+
+    fun removeCarByMemberId(memberId: Long) =
+            repository.deleteCarByOwner_Id(memberId)
 
     fun findCarForMember(memberId: Long): Car? {
         return repository.findByOwner_Id(ownerId = memberId)
-                .orElseThrow { NoCarFoundForUserException("User with ID [$memberId] does not have car") }
+                .orElseThrow { NoCarFoundForUserException(memberId) }
     }
 
     private fun mapToCar(addCarRequest: CreateCarRequest) =

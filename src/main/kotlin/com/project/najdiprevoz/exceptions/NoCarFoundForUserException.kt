@@ -2,5 +2,5 @@ package com.project.najdiprevoz.exceptions
 
 import javassist.NotFoundException
 
-class NoCarFoundForUserException(message: String) : NotFoundException(message) {
+class NoCarFoundForUserException(memberId: Long) : NotFoundException("No car was found for Member with ID: [$memberId]") {
 }

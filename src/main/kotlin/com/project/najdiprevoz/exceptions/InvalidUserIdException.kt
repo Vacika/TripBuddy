@@ -1,3 +1,3 @@
 package com.project.najdiprevoz.exceptions
 
-class InvalidUserIdException(message: String) : IllegalArgumentException(message) {}
+class InvalidUserIdException(id: Long) : IllegalArgumentException("Member with ID: [$id] was not found.") {}

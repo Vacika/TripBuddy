@@ -5,44 +5,41 @@ import com.project.najdiprevoz.domain.MemberPreferences
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.MemberRepository
 import com.project.najdiprevoz.web.request.create.CreateMemberRequest
-import com.project.najdiprevoz.web.request.edit.EditMemberPreferenceRequest
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(private val repository: MemberRepository,
                     private val memberPreferencesService: MemberPreferencesService) {
 
-    fun createNewUser(createMemberRequest: CreateMemberRequest) = with(createMemberRequest) {
-        createDefaultPreferences(repository.save(
-                Member(firstName = firstName,
-                        lastName = lastName,
-                        email = email,
-                        password = password,
-                        birthDate = birthDate,
-                        gender = gender,
-                        phoneNumber = phoneNumber,
-                        profilePhoto = null)))
+    fun createNewUser(createMemberRequest: CreateMemberRequest): Member {
+        val newMember = with(createMemberRequest) {
+            repository.save(Member(
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email,
+                    password = password,
+                    birthDate = birthDate,
+                    gender = gender,
+                    phoneNumber = phoneNumber,
+                    profilePhoto = null))
+        }
+        createDefaultPreferences(newMember);
+        return newMember
     }
 
-    fun createDefaultPreferences(member: Member): Member {
+    fun createDefaultPreferences(member: Member) {
         memberPreferencesService.createMemberPreferences(
                 MemberPreferences(isPetAllowed = false, isSmokingAllowed = false, member = member))
-        return member
     }
 
-    fun EditMemberPreferenceRequest(editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences = with(editMemberPreferenceRequest) {
-        memberPreferencesService.EditMemberPreferenceRequest(
-                isSmokingAllowed = isSmokingAllowed,
-                isPetAllowed = isPetAllowed,
-                member = findMemberById(memberId = memberId))
-    }
+//    fun EditMemberPreferenceRequest(editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences = with(editMemberPreferenceRequest) {
+//        memberPreferencesService.EditMemberPreferenceRequest(
+//                isSmokingAllowed = isSmokingAllowed,
+//                isPetAllowed = isPetAllowed,
+//                memberId = memberId)
+//    }
 
-
-    fun findMemberById(memberId: Long): Member {
-        return repository.findById(memberId)
-                .orElseThrow {
-                    InvalidUserIdException("User with ID [$memberId] was not found")
-                }
-    }
-
+    fun findMemberById(memberId: Long): Member =
+            repository.findById(memberId)
+                    .orElseThrow { InvalidUserIdException(memberId) }
 }
