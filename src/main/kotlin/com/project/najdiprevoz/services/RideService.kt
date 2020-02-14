@@ -1,6 +1,9 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.*
+import com.project.najdiprevoz.domain.Member
+import com.project.najdiprevoz.domain.Rating
+import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.web.request.create.CreateRideRequest
@@ -9,7 +12,8 @@ import java.time.ZonedDateTime
 
 @Service
 class RideService(private val repository: RideRepository,
-                  private val memberService: MemberService) {
+                  private val memberService: MemberService,
+                  private val cityService: CityService) {
 
     fun createNewRide(createRideRequest: CreateRideRequest) =
             repository.save(mapToRide(createRideRequest = createRideRequest))
@@ -26,14 +30,14 @@ class RideService(private val repository: RideRepository,
     fun deleteRide(rideId: Long) =
             repository.deleteById(rideId)
 
-    fun findById(id: Long) =
+    fun findById(id: Long): Ride =
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
-    fun getAllRidesFromLocation(location: City) =
-            repository.findAllByFromLocation(fromLocation = location)
-
-    fun getAllRidesForDestination(destination: City) =
-            repository.findAllByDestination(destination = destination)
+//    fun getAllRidesFromLocation(location: City) =
+//            repository.findAllByFromLocation(fromLocation = location)
+//
+//    fun getAllRidesForDestination(destination: City) =
+//            repository.findAllByDestination(destination = destination)
 
     fun findAvailableSeatsForRide(rideId: Long) =
             repository.getAvailableSeatsForRide(rideId = rideId)
@@ -44,8 +48,8 @@ class RideService(private val repository: RideRepository,
     private fun mapToRide(createRideRequest: CreateRideRequest) = with(createRideRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
-                fromLocation = fromLocation,
-                destination = destination,
+                fromLocation = cityService.findByName(fromLocation),
+                destination = cityService.findByName(destination),
                 departureTime = departureTime,
                 totalSeats = totalSeats,
                 finished = false,

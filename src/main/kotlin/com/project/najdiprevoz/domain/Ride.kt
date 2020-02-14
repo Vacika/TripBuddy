@@ -7,54 +7,53 @@ import javax.persistence.*
 @Table(name = "rides")
 data class Ride(
         @Column(name = "created_on")
-        private val createdOn: ZonedDateTime,
+        val createdOn: ZonedDateTime,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "from_location", referencedColumnName = "name")
-        private val fromLocation: City,
+        @JoinColumn(name="from_location", referencedColumnName = "id")
+        val fromLocation: City,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "to_location", referencedColumnName = "name")
-        private val destination: City,
+        @JoinColumn(name = "to_location", referencedColumnName = "id")
+        val destination: City,
 
         @Column(name = "departure_time")
-        private val departureTime: ZonedDateTime,
+        val departureTime: ZonedDateTime,
 
         @Column(name = "total_seats")
-        private val totalSeats: Int,
+        val totalSeats: Int,
 
         @Column(name = "is_finished")
-        private val finished: Boolean,
+        val finished: Boolean,
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "driver_id", nullable = false)
-        private val driver: Member,
+        val driver: Member,
 
         @Column(name = "price_per_head")
-        private val pricePerHead: Int,
+        val pricePerHead: Int,
 
         @Column(name = "description")
-        private val additionalDescription: String?,
+        val additionalDescription: String?,
 
         @OneToMany(mappedBy = "ride")
-        private val rideRequest: List<RideRequest>?,
+        val rideRequest: List<RideRequest>?,
 
-        @OneToMany(mappedBy = "ride")
-        private val rating: List<Rating>?
+        @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY)
+        val rating: List<Rating>?
 
 ) : BaseEntity<Long>() {
-    private fun getAvailableSeats(): Int {
+    fun getAvailableSeats(): Int {
         if (this.rideRequest != null) {
-            return this.totalSeats - this.rideRequest.filter { it.getStatus().name == "Approved" }.size
+            return this.totalSeats - this.rideRequest.filter { it.status.name == "Approved" }.size
         }
         return this.totalSeats
     }
-    fun getRatings(): List<Rating>? = rating
-    fun getFinished(): Boolean = finished
-    fun getDepartureTime(): ZonedDateTime = departureTime
-    fun getFromLocationName(): String = fromLocation.getName()
-    fun getDestinationName(): String = destination.getName()
-    fun getRideRequests(): List<RideRequest>? = rideRequest
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
+
+    @Override
+    override fun toString(): String{
+        return ""
+    }
 
 }

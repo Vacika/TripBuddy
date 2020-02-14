@@ -11,15 +11,15 @@ import javax.persistence.Table
 data class Rating(
         @ManyToOne
         @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
-        private val author: Member,
+        val author: Member,
 
         @ManyToOne
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
-        private val ride: Ride,
+        val ride: Ride,
 
-        private val note: String?,
+        val note: String?,
 
-        private val dateSubmitted: ZonedDateTime,
+        val dateSubmitted: ZonedDateTime,
 
-        private val rating: Int
+        val rating: Int
 ) : BaseEntity<Long>()

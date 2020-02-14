@@ -18,7 +18,7 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     fun findAllByDriver(driver: Member): List<Ride>?
 
-    fun findAllByDestination(destination: City): List<Ride>?
+    fun findAllByDestination_Name(destination: String): List<Ride>?
 
     @Query("""SELECT (r.totalSeats - count(rd.id)) as available_seats 
          FROM RideRequest rd 
@@ -29,7 +29,7 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
          GROUP BY r.id""")
     fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
 
-    fun findAllByFromLocation(fromLocation: City): List<Ride>?
+    fun findAllByFromLocation_Name(name: String): List<Ride>?
 
     fun findAllByDriver_IdAndFinishedIsTrue(driverId: Long): List<Ride>?
 

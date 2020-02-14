@@ -31,5 +31,5 @@ class RideRequestService(private val repository: RideRequestRepository) {
             repository.isRideRequestFinished(rideRequestId = rideRequestId)
 
     fun getRequestsForRideByStatus(rideId: Long, status: RequestRideStatus): List<RideRequest> =
-            getAll().filter { it.getRide().id == rideId && it.getStatus() == status }
+            getAll().filter { it.ride.id == rideId && it.status == status }
 }
