@@ -31,4 +31,6 @@ data class Member(
 
         @Column(name = "phone_number", nullable = false)
         val phoneNumber: String
-) : BaseEntity<Long>()
+) : BaseEntity<Long>(){
+
+}

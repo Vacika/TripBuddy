@@ -5,11 +5,14 @@ import com.project.najdiprevoz.exceptions.NoCarFoundForUserException
 import com.project.najdiprevoz.repositories.CarRepository
 import com.project.najdiprevoz.web.request.create.CreateCarRequest
 import org.springframework.stereotype.Service
+import javax.annotation.PostConstruct
+import javax.transaction.Transactional
 
 @Service
 class CarService(private val repository: CarRepository,
                  private val memberService: MemberService) {
 
+    @Transactional
     fun addNewCar(addCarRequest: CreateCarRequest) =
             repository.save(mapToCar(addCarRequest))
 
@@ -34,4 +37,15 @@ class CarService(private val repository: CarRepository,
                         yearOfManufacture = yearManufacture,
                         seats = totalSeats)
             }
+
+    @PostConstruct
+    fun test(){
+        val res1 = addNewCar(CreateCarRequest(
+                brand= "Zastava",
+                model = "101",
+                yearManufacture = 1992,
+                ownerId = 1,
+                totalSeats = 3
+        ))
+    }
 }
