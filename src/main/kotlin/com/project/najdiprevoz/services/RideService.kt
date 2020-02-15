@@ -85,7 +85,7 @@ class RideService(private val repository: RideRepository,
 
     fun decreaseSeatsOffered(rideId: Long, seatsToMinus: Int): Ride {
         val ride = findById(rideId)
-        if (ride.getAvailableSeats() - seatsToMinus >= 0)
+        if (ride.getAvailableSeats().minus(seatsToMinus) >= 0)
             ride.copy(totalSeatsOffered = ride.totalSeatsOffered - seatsToMinus)
         else throw NotEnoughSeatsToDeleteException(rideId, seatsToMinus, ride.getAvailableSeats())
         return ride

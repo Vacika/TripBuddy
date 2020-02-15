@@ -39,7 +39,7 @@ class RideController(private val service: RideService) {
             service.findFromToRides(from = cityFrom, to = cityTo)
 
     @GetMapping("/edit-seats/{rideId}")
-    fun descreaseAvailableSeats(@PathVariable("rideId") rideId: Long, minusSeats: Int) =
+    fun decreaseAvailableSeats(@PathVariable("rideId") rideId: Long, minusSeats: Int) =
             service.decreaseSeatsOffered(rideId, minusSeats)
 
     @PostMapping("/add")

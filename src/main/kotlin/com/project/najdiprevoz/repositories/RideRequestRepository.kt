@@ -13,7 +13,7 @@ import javax.transaction.Transactional
 
 @Repository
 interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecificationExecutor<RideRequest> {
-    fun findAllByRide(ride: Ride): List<RideRequest>?
+    fun findAllByRide_Id(rideId: Long): List<RideRequest>
 
     fun findAllByRequester_Id(requesterId: Long): List<RideRequest>?
 
