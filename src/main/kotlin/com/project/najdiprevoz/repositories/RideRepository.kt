@@ -1,6 +1,5 @@
 package com.project.najdiprevoz.repositories
 
-import com.project.najdiprevoz.domain.City
 import com.project.najdiprevoz.domain.Member
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
@@ -18,9 +17,12 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     fun findAllByDriver(driver: Member): List<Ride>?
 
+
+    fun findAllByByFromLocation_NameAndDestination_Name(fromLocationName: String, destinationName: String): List<Ride>
+
     fun findAllByDestination_Name(destination: String): List<Ride>?
 
-    @Query("""SELECT (r.totalSeats - count(rd.id)) as available_seats 
+    @Query("""SELECT (r.totalSeatsOffered - count(rd.id)) as available_seats 
          FROM RideRequest rd 
          JOIN Ride r 
          ON r = rd.ride 
@@ -30,6 +32,8 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
 
     fun findAllByFromLocation_Name(name: String): List<Ride>?
+
+    fun findRidesByFinishedIsFalse(): List<Ride>
 
     fun findAllByDriver_IdAndFinishedIsTrue(driverId: Long): List<Ride>?
 

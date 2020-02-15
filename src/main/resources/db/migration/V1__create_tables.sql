@@ -185,7 +185,7 @@ CREATE TABLE public.rides (
                               departure_time timestamp without time zone,
                               is_finished boolean,
                               price_per_head integer,
-                              total_seats integer,
+                              total_seats_offered integer,
                               to_location bigint,
                               driver_id bigint NOT NULL,
                               from_location bigint
@@ -285,16 +285,16 @@ INSERT INTO public.member_preferences VALUES (10, true, true, 10);
 -- Data for Name: members; Type: TABLE DATA; Schema: public; Owner: najdiprevoz
 --
 
-INSERT INTO public.members VALUES (1, '2020-02-11 22:00:06', 'email@email.com', 'John', 'MALE', 'Smith', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (2, '2020-02-11 22:00:06', 'email2@email.com', 'Jane', 'FEMALE', 'Doe', 'password', '45282138', NULL);
-INSERT INTO public.members VALUES (3, '2020-02-11 22:00:06', 'email3@email.com', 'Thierry', 'MALE', 'Henry', 'password', '357429566', NULL);
-INSERT INTO public.members VALUES (4, '2020-02-11 22:00:06', 'email4@email.com', 'Renath', 'MALE', 'Minerou', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (5, '2020-02-11 22:00:06', 'email5@email.com', 'Millow', 'MALE', 'Hobs', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (6, '2020-02-11 22:00:06', 'email6@email.com', 'Nathan', 'MALE', 'Bowie', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (7, '2020-02-11 22:00:06', 'email7@email.com', 'John', 'MALE', 'Lennon', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (8, '2020-02-11 22:00:06', 'email8@email.com', 'Jennifer', 'FEMALE', 'Lopez', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (9, '2020-02-11 22:00:06', 'email9@email.com', 'Danielle', 'FEMALE', 'Rossi', 'password', '071711033', NULL);
-INSERT INTO public.members VALUES (10, '2020-02-11 22:00:06', 'email10@email.com', 'Adrianna', 'FEMALE', 'Lima', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (1, '2020-02-11 22:00:06', 'email@email.com', 'John', 'M', 'Smith', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (2, '2020-02-11 22:00:06', 'email2@email.com', 'Jane', 'F', 'Doe', 'password', '45282138', NULL);
+INSERT INTO public.members VALUES (3, '2020-02-11 22:00:06', 'email3@email.com', 'Thierry', 'M', 'Henry', 'password', '357429566', NULL);
+INSERT INTO public.members VALUES (4, '2020-02-11 22:00:06', 'email4@email.com', 'Renath', 'M', 'Minerou', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (5, '2020-02-11 22:00:06', 'email5@email.com', 'Millow', 'M', 'Hobs', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (6, '2020-02-11 22:00:06', 'email6@email.com', 'Nathan', 'M', 'Bowie', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (7, '2020-02-11 22:00:06', 'email7@email.com', 'John', 'M', 'Lennon', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (8, '2020-02-11 22:00:06', 'email8@email.com', 'Jennifer', 'F', 'Lopez', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (9, '2020-02-11 22:00:06', 'email9@email.com', 'Danielle', 'F', 'Rossi', 'password', '071711033', NULL);
+INSERT INTO public.members VALUES (10, '2020-02-11 22:00:06', 'email10@email.com', 'Adrianna', 'F', 'Lima', 'password', '071711033', NULL);
 
 
 --

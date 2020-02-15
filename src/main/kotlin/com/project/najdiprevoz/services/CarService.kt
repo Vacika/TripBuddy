@@ -38,16 +38,16 @@ class CarService(private val repository: CarRepository,
                         seats = totalSeats)
             }
 
-    @PostConstruct
-    fun test() {
-        val res1 = addNewCar(CreateCarRequest(
-                brand = "Zastava",
-                model = "101",
-                yearManufacture = 1992,
-                ownerId = 1,
-                totalSeats = 3
-        ))
-    }
+//    @PostConstruct
+//    fun test() {
+//        val res1 = addNewCar(CreateCarRequest(
+//                brand = "Zastava",
+//                model = "101",
+//                yearManufacture = 1992,
+//                ownerId = 1,
+//                totalSeats = 3
+//        ))
+//    }
 
     fun findById(carId: Long): Car = repository.findById(carId).orElseThrow { CarNotFoundException(carId) }
 

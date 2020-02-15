@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.RequestRideStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -10,7 +11,7 @@ data class Ride(
         val createdOn: ZonedDateTime,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name="from_location", referencedColumnName = "id")
+        @JoinColumn(name = "from_location", referencedColumnName = "id")
         val fromLocation: City,
 
         @ManyToOne(fetch = FetchType.LAZY)
@@ -20,8 +21,8 @@ data class Ride(
         @Column(name = "departure_time")
         val departureTime: ZonedDateTime,
 
-        @Column(name = "total_seats")
-        val totalSeats: Int,
+        @Column(name = "total_seats_offered")
+        val totalSeatsOffered: Int,
 
         @Column(name = "is_finished")
         val finished: Boolean,
@@ -45,14 +46,15 @@ data class Ride(
 ) : BaseEntity<Long>() {
     fun getAvailableSeats(): Int {
         if (this.rideRequest != null) {
-            return this.totalSeats - this.rideRequest.filter { it.status.name == "Approved" }.size
+            return this.totalSeatsOffered - this.rideRequest.filter { it.status == RequestRideStatus.APPROVED }.size
         }
-        return this.totalSeats
+        return this.totalSeatsOffered
     }
+
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
     @Override
-    override fun toString(): String{
+    override fun toString(): String {
         return ""
     }
 
