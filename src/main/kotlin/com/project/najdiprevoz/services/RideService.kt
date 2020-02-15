@@ -15,6 +15,7 @@ class RideService(private val repository: RideRepository,
                   private val memberService: MemberService,
                   private val cityService: CityService) {
 
+
     fun createNewRide(createRideRequest: CreateRideRequest) =
             repository.save(mapToRide(createRideRequest = createRideRequest))
 

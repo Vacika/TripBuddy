@@ -3,19 +3,26 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.MemberPreferences
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.MemberPreferencesRepository
+import com.project.najdiprevoz.web.request.edit.EditMemberPreferenceRequest
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class MemberPreferencesService(private val repository: MemberPreferencesRepository) {
 
-    fun EditMemberPreferenceRequest(memberId: Long, isPetAllowed: Boolean, isSmokingAllowed: Boolean): MemberPreferences {
+    val logger: Logger = LoggerFactory.getLogger(MemberPreferencesService::class.java)
+
+    fun EditMemberPreferenceRequest(memberId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences =
+    with(editMemberPreferenceRequest){
         val preference = repository.findByMember_Id(memberId)
                 .orElseThrow { InvalidUserIdException(memberId) }
                 .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)
-        return repository.save(preference)
+        logger.info("Editing member preference for member $memberId.Preference: $preference")
+        repository.save(preference)
     }
 
-    fun getMemberPreferences(memberId: Long) =
+    fun getMemberPreferences(memberId: Long): MemberPreferences =
             repository.findByMember_Id(memberId)
                     .orElseThrow { InvalidUserIdException(memberId) }
 

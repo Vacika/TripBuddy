@@ -31,15 +31,15 @@ class RatingService(private val repository: RatingRepository,
                 rating = rating
         ))
     }
-//
-    @PostConstruct
-    fun test(){
-//        addRating(CreateRatingRequest(
-//                rating=2,
-//                rideId = 1,
-//                note="Kolata nemase klima",
-//                authorId = 1
-//        ))
-//        val t = getRatingsForMember(1)
-    }
+////
+//    @PostConstruct
+//    fun test(){
+////        addRating(CreateRatingRequest(
+////                rating=2,
+////                rideId = 1,
+////                note="Kolata nemase klima",
+////                authorId = 1
+////        ))
+////        val t = getRatingsForMember(1)
+//    }
 }
