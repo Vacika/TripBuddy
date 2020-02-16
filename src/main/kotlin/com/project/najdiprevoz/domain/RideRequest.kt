@@ -14,7 +14,7 @@ data class RideRequest(
         val requester: Member,
 
         @JsonManagedReference
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
         val ride: Ride,
 

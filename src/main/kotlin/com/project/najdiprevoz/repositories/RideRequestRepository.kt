@@ -21,7 +21,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         JOIN Ride r 
         ON r = rd.ride
         WHERE r.id = :rideId
-        AND rd.status = 'Approved'
+        AND rd.status = 'APPROVED'
     """)
     fun getApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>?
 
@@ -41,4 +41,17 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         WHERE r.id = :rideRequestId
     """)
     fun isRideRequestFinished(@Param("rideRequestId") rideRequestId: Long): Boolean
+
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE RideRequest req SET req.status='DENIED' WHERE req.ride.id in (:rideIds)")
+//    fun updateRideRequestCron(@Param("rideIds") rideIds: List<Long>): Int
+
+
+    //TODO: WTF IS HAPPENING HERE?
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE RideRequest req SET req.status='DENIED' WHERE req.ride.finished" +
+//            "(SELECT r FROM Ride r WHERE r.)")
+//    fun updateRideRequestsCron(): Int
 }

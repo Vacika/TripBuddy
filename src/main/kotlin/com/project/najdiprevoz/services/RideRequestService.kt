@@ -21,6 +21,10 @@ class RideRequestService(private val repository: RideRequestRepository) {
     fun getApprovedRideRequestsForRide(rideId: Long) =
             repository.getApprovedRequestsForRide(rideId = rideId)
 
+    fun changeStatus(rideRequest: RideRequest, status: RequestStatus) {
+        repository.updateRideRequestStatus(rideRequest.id, status)
+    }
+
     fun changeStatus(changeRideRequestStatusRequest: ChangeRideRequestStatusRequest): Boolean =
             with(changeRideRequestStatusRequest) {
                 if (canChangeStatus(previousStatus, newStatus))
@@ -41,4 +45,12 @@ class RideRequestService(private val repository: RideRequestRepository) {
     fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
 
     fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
+
+    fun updateRideRequestCron(rideIds: List<Long>) {
+        repository.findAll()
+                .filter {
+                    rideIds.contains(it.ride.id)
+                    it.status == RequestStatus.PENDING
+                }.forEach { changeStatus(it, RequestStatus.DENIED) }
+    }
 }

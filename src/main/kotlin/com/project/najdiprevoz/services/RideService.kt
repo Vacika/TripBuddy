@@ -14,15 +14,17 @@ import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import javax.annotation.PostConstruct
 
 @Service
 class RideService(private val repository: RideRepository,
                   private val memberService: MemberService,
-                  private val cityService: CityService) {
+                  private val cityService: CityService,
+                  private val rideRequestService: RideRequestService) {
 
     val logger: Logger = LoggerFactory.getLogger(RideService::class.java)
 
-    fun findAllActiveRides() =
+    fun findAllActiveRides(): List<Ride> =
             repository.findRidesByFinishedIsFalse()
 
     fun findAllActiveRidesWithAvailableSeats() =
@@ -97,10 +99,25 @@ class RideService(private val repository: RideRepository,
     }
 
 
-    @Scheduled(cron = "0 0/5 * * * *")
+    @Scheduled(cron = "0 0/1 * * * *")
     private fun checkForFinishedRidesTask() {
+        val rideIds = findAllActiveRides()
+                .filter {
+                    it.departureTime < ZonedDateTime.now()
+                    !it.finished
+                }
+                .map { it.id }
+
         logger.info("[CRONJOB] Checking for finished rides..")
-        logger.info("[CRONJOB] Updated [" + repository.updateFinishedRides(ZonedDateTime.now()) + "] rides.")
+        logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
+        logger.info("[CRONJOB] Updating ride requests..")
+        logger.info("[CRONJOB] Successfully updated [" + rideRequestService.updateRideRequestCron(rideIds) + "] ride requests")
+        //TODO: Can we avoid injecting RideRequestService?
+    }
+
+    @PostConstruct
+    fun test() {
+        val t = checkForFinishedRidesTask()
     }
 
 }

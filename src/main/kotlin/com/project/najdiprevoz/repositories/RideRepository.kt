@@ -58,7 +58,8 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     @Transactional
     @Query("""UPDATE Ride r 
         SET r.finished = true 
-        WHERE r.departureTime < :dateTimeNow""")
-    fun updateFinishedRides(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
+        WHERE r.departureTime < :dateTimeNow
+        AND r.finished = false""")
+    fun updateRidesCron(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
 
 }

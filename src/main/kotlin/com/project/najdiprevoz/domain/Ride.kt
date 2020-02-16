@@ -41,12 +41,12 @@ data class Ride(
         val additionalDescription: String?,
 
         @JsonBackReference
-        @OneToMany(mappedBy = "ride")
-        val rideRequests: List<RideRequest>?,
+        @OneToMany(mappedBy = "ride",fetch = FetchType.LAZY)
+        val rideRequests: List<RideRequest>,
 
         @JsonBackReference
         @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY)
-        val rating: List<Rating>?
+        val rating: List<Rating>
 
 ) : BaseEntity<Long>() {
     fun getAvailableSeats(): Int {
@@ -57,6 +57,8 @@ data class Ride(
     }
 
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
+
+    fun setFinished(value: Boolean) = this.copy(finished=true)
 
     @Override
     override fun toString(): String {
