@@ -2,6 +2,7 @@ package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
@@ -36,11 +37,11 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
 
 
     @Query("""
-        SELECT r.ride.finished 
+        SELECT r.ride.status
         FROM RideRequest r 
         WHERE r.id = :rideRequestId
     """)
-    fun isRideRequestFinished(@Param("rideRequestId") rideRequestId: Long): Boolean
+    fun getRideStatus(@Param("rideRequestId") rideRequestId: Long): RideStatus
 
 
     //TODO: WTF IS HAPPENING HERE?

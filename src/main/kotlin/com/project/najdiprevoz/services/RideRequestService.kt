@@ -2,6 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForRideRequest
 import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
@@ -59,7 +60,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     }
 
     private fun isRideRequestFinished(rideRequestId: Long) =
-            repository.isRideRequestFinished(rideRequestId = rideRequestId)
+            repository.getRideStatus(rideRequestId = rideRequestId) == RideStatus.FINISHED
 
     private fun getRequestsForRideByStatus(rideId: Long, status: RequestStatus): List<RideRequest> =
             getAll().filter { it.ride.id == rideId && it.status == status }

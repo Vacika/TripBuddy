@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.*
-import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.NotEnoughSeatsToDeleteException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -24,7 +23,7 @@ class RideService(private val repository: RideRepository,
     val logger: Logger = LoggerFactory.getLogger(RideService::class.java)
 
     fun findAllActiveRides(): List<Ride> =
-            repository.findRidesByFinishedIsFalse()
+            repository.findAllByStatus(RideStatus.ACTIVE)
 
     fun findAllActiveRidesWithAvailableSeats() =
             findAllActiveRides().filter { it.getAvailableSeats() > 0 }
@@ -33,16 +32,16 @@ class RideService(private val repository: RideRepository,
             repository.save(createRide(createRideRequest = createRideRequest))
 
     fun getPastRidesForMember(memberId: Long) =
-            repository.findAllByFinishedIsTrueAndDriverId(driverId = memberId)
+            repository.findAllByDriverIdAndStatus(driverId = memberId, status = RideStatus.FINISHED)
 
     fun setRideFinished(rideId: Long): Boolean =
-            repository.changeRideStatus(rideId = rideId,status=RideStatus.FINISHED) == 1
+            repository.changeRideStatus(rideId = rideId, status = RideStatus.FINISHED) == 1
 
 
     fun deleteRide(rideId: Long) {
         val ride = findById(rideId)
         ride.rideRequests.forEach { pushNotification(it, NotificationType.RIDE_CANCELLED) }
-        repository.changeRideStatus(rideId,RideStatus.CANCELLED)
+        repository.changeRideStatus(rideId, RideStatus.CANCELLED)
     }
 
     private fun pushNotification(req: RideRequest, type: NotificationType) {
@@ -65,7 +64,6 @@ class RideService(private val repository: RideRepository,
                 destination = cityService.findByName(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
-                finished = false,
                 driver = memberService.findMemberById(driverId),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
@@ -77,7 +75,7 @@ class RideService(private val repository: RideRepository,
 
     fun findFromToRides(from: String, to: String): List<Ride> =
             repository.findAllByFromLocationNameAndDestinationName(from, to)
-                    .filter { !it.finished && it.getAvailableSeats() > 0 }
+                    .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
 
     fun editRide(rideId: Long, editRideRequest: EditRideRequest) = with(editRideRequest) {
         val ride = findById(rideId)

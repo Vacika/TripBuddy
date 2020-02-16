@@ -168,7 +168,6 @@ CREATE TABLE public.rides
     description         character varying(255),
     created_on          timestamp without time zone,
     departure_time      timestamp without time zone,
-    is_finished         boolean, /* TODO: REMOVE THIS*/
     price_per_head      integer,
     total_seats_offered integer,
     to_location         bigint,
@@ -378,10 +377,10 @@ VALUES (1, '2020-02-12 19:50:27', 'PENDING', 1, 2);
 
 
 
-INSERT INTO public.rides
-VALUES (1, 'test-description', '2020-02-12 19:50:55', '2020-02-12 19:50:57', true, 100, 5, 1, 1,2, 'ACTIVE');
-INSERT INTO public.rides
-VALUES (2, 'test-ride-2', '2020-02-12 21:04:51', '2020-02-12 21:04:55', true, 150, 3, 1, 2, 1, 'ACTIVE');
+INSERT INTO public.rides(id, description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
+                         driver_id, from_location, status)
+VALUES (1, 'test-description', '2020-02-12 19:50:55', '2020-02-12 19:50:57', 100, 5, 1, 1, 2, 'ACTIVE'),
+       (2, 'test-ride-2', '2020-02-12 21:04:51', '2020-02-12 21:04:55', 150, 3, 1, 2, 1, 'ACTIVE');
 
 
 

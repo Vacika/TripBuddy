@@ -33,15 +33,15 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     fun findAllByFromLocationName(name: String): List<Ride>?
 
-    fun findRidesByFinishedIsFalse(): List<Ride>
+    fun findAllByStatus(status: RideStatus): List<Ride>
 
-    fun findAllByFinishedIsTrueAndDriverId(driverId: Long): List<Ride>?
+    fun findAllByDriverIdAndStatus(driverId: Long, status: RideStatus): List<Ride>?
 
     @Modifying
     @Transactional
     @Query("""
         UPDATE Ride r
-        SET r.finished = true
+        SET r.status = 'FINISHED'
         where r.id = :rideId
     """)
     fun setRideToFinished(@Param("rideId") rideId: Long): Int
@@ -58,9 +58,9 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     @Modifying
     @Transactional
     @Query("""UPDATE Ride r 
-        SET r.finished = true 
+        SET r.status = 'FINISHED'
         WHERE r.departureTime < :dateTimeNow
-        AND r.finished = false""")
+        AND r.status = 'ACTIVE' """)
     fun updateRidesCron(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
 
     @Modifying

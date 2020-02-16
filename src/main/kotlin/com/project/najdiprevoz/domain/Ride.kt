@@ -28,9 +28,6 @@ data class Ride(
         @Column(name = "total_seats_offered")
         val totalSeatsOffered: Int,
 
-        @Column(name = "is_finished")
-        val finished: Boolean,
-
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "driver_id", nullable = false)
         val driver: Member,
@@ -62,9 +59,9 @@ data class Ride(
 
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
+    fun isFinished(): Boolean = this.status == RideStatus.FINISHED
 
-    //TODO: REFACTOR, change status instead of finished property
-    fun setFinished(value: Boolean) = this.copy(finished = true)
+    fun setStatus(status: RideStatus) = this.copy(status = status)
 
     @Override
     override fun toString(): String {
