@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.api
 
+import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.services.RideRequestService
 import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
 import org.springframework.web.bind.annotation.GetMapping
@@ -36,5 +37,15 @@ class RideRequestController(private val service: RideRequestService) {
     fun changeStatus(request: ChangeRideRequestStatusRequest) =
             service.changeStatus(request)
 
+    @GetMapping("/approve/{requestId}")
+    fun changeStatusToApproved(@PathVariable("requestId") requestId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED)
 
+    @GetMapping("/deny/{requestId}")
+    fun changeStatusToDenied(@PathVariable("requestId") requestId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.DENIED)
+
+    @GetMapping("/cancel/{requestId}")
+    fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.CANCELLED)
 }

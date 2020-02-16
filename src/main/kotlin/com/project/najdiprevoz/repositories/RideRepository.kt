@@ -2,6 +2,7 @@ package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.Member
 import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
@@ -61,5 +62,10 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
         WHERE r.departureTime < :dateTimeNow
         AND r.finished = false""")
     fun updateRidesCron(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
+
+    @Modifying
+    @Transactional
+    @Query("""UPDATE Ride r SET r.status = :status where r.id = :rideId""")
+    fun changeRideStatus(rideId: Long, status: RideStatus): Int
 
 }

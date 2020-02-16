@@ -2,6 +2,7 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -41,12 +42,15 @@ data class Ride(
         val additionalDescription: String?,
 
         @JsonBackReference
-        @OneToMany(mappedBy = "ride",fetch = FetchType.LAZY)
-        val rideRequests: List<RideRequest>,
+        @OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY?
+        val rideRequests: List<RideRequest> = listOf(),
 
         @JsonBackReference
-        @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY)
-        val rating: List<Rating>
+        @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        val rating: List<Rating> = listOf(),
+
+        @Enumerated(EnumType.STRING)
+        val status: RideStatus
 
 ) : BaseEntity<Long>() {
     fun getAvailableSeats(): Int {
@@ -58,7 +62,9 @@ data class Ride(
 
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
-    fun setFinished(value: Boolean) = this.copy(finished=true)
+
+    //TODO: REFACTOR, change status instead of finished property
+    fun setFinished(value: Boolean) = this.copy(finished = true)
 
     @Override
     override fun toString(): String {

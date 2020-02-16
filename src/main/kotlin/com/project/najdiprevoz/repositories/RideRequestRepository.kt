@@ -42,11 +42,6 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
     """)
     fun isRideRequestFinished(@Param("rideRequestId") rideRequestId: Long): Boolean
 
-//    @Modifying
-//    @Transactional
-//    @Query("UPDATE RideRequest req SET req.status='DENIED' WHERE req.ride.id in (:rideIds)")
-//    fun updateRideRequestCron(@Param("rideIds") rideIds: List<Long>): Int
-
 
     //TODO: WTF IS HAPPENING HERE?
 //    @Modifying

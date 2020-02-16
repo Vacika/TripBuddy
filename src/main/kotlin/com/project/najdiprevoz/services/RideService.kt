@@ -1,9 +1,8 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.Member
-import com.project.najdiprevoz.domain.Rating
-import com.project.najdiprevoz.domain.Ride
-import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.domain.*
+import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.NotEnoughSeatsToDeleteException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.RideRepository
@@ -20,7 +19,7 @@ import javax.annotation.PostConstruct
 class RideService(private val repository: RideRepository,
                   private val memberService: MemberService,
                   private val cityService: CityService,
-                  private val rideRequestService: RideRequestService) {
+                  private val notificationService: NotificationService) {
 
     val logger: Logger = LoggerFactory.getLogger(RideService::class.java)
 
@@ -37,22 +36,21 @@ class RideService(private val repository: RideRepository,
             repository.findAllByFinishedIsTrueAndDriverId(driverId = memberId)
 
     fun setRideFinished(rideId: Long): Boolean =
-            repository.setRideToFinished(rideId = rideId) == 1
+            repository.changeRideStatus(rideId = rideId,status=RideStatus.FINISHED) == 1
 
-//    fun changeTimeDeparture(rideId: Long, newTime: ZonedDateTime) =
-//            repository.changeRideTiming(rideId = rideId, newTime = newTime) == 1
 
-    fun deleteRide(rideId: Long) =
-            repository.deleteById(rideId)
+    fun deleteRide(rideId: Long) {
+        val ride = findById(rideId)
+        ride.rideRequests.forEach { pushNotification(it, NotificationType.RIDE_CANCELLED) }
+        repository.changeRideStatus(rideId,RideStatus.CANCELLED)
+    }
+
+    private fun pushNotification(req: RideRequest, type: NotificationType) {
+        notificationService.pushNotification(req, type)
+    }
 
     fun findById(id: Long): Ride =
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
-
-//    fun getAllRidesFromLocation(location: City) =
-//            repository.findAllByFromLocation(fromLocation = location)
-//
-//    fun getAllRidesForDestination(destination: City) =
-//            repository.findAllByDestination(destination = destination)
 
     fun findAvailableSeatsForRide(rideId: Long) =
             repository.getAvailableSeatsForRide(rideId = rideId)
@@ -72,7 +70,8 @@ class RideService(private val repository: RideRepository,
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rating = listOf<Rating>(),
-                rideRequests = listOf<RideRequest>()
+                rideRequests = listOf<RideRequest>(),
+                status = RideStatus.ACTIVE
         )
     }
 
@@ -101,23 +100,29 @@ class RideService(private val repository: RideRepository,
 
     @Scheduled(cron = "0 0/1 * * * *")
     private fun checkForFinishedRidesTask() {
-        val rideIds = findAllActiveRides()
+        val updatedRideIds = findAllActiveRides()
                 .filter {
                     it.departureTime < ZonedDateTime.now()
-                    !it.finished
+                    it.status == RideStatus.ACTIVE
                 }
                 .map { it.id }
 
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
         logger.info("[CRONJOB] Updating ride requests..")
-        logger.info("[CRONJOB] Successfully updated [" + rideRequestService.updateRideRequestCron(rideIds) + "] ride requests")
+//        logger.info("[CRONJOB] Successfully updated [" + rideRequestService.updateRideRequestCron(updatedRideIds) + "] ride requests")
         //TODO: Can we avoid injecting RideRequestService?
     }
 
     @PostConstruct
     fun test() {
-        val t = checkForFinishedRidesTask()
+        val t = deleteRide(2)
     }
+
+    //    fun getAllRidesFromLocation(location: City) =
+//            repository.findAllByFromLocation(fromLocation = location)
+//
+//    fun getAllRidesForDestination(destination: City) =
+//            repository.findAllByDestination(destination = destination)
 
 }
