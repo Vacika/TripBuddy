@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.project.najdiprevoz.enums.RequestStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
@@ -39,9 +40,11 @@ data class Ride(
         @Column(name = "description")
         val additionalDescription: String?,
 
+        @JsonBackReference
         @OneToMany(mappedBy = "ride")
         val rideRequests: List<RideRequest>?,
 
+        @JsonBackReference
         @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY)
         val rating: List<Rating>?
 
