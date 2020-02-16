@@ -9,6 +9,9 @@ import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.web.request.create.CreateRideRequest
 import com.project.najdiprevoz.web.request.edit.EditRideRequest
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
@@ -16,6 +19,8 @@ import java.time.ZonedDateTime
 class RideService(private val repository: RideRepository,
                   private val memberService: MemberService,
                   private val cityService: CityService) {
+
+    val logger: Logger = LoggerFactory.getLogger(RideService::class.java)
 
     fun findAllActiveRides() =
             repository.findRidesByFinishedIsFalse()
@@ -27,7 +32,7 @@ class RideService(private val repository: RideRepository,
             repository.save(createRide(createRideRequest = createRideRequest))
 
     fun getPastRidesForMember(memberId: Long) =
-            repository.findAllByDriver_IdAndFinishedIsTrue(driverId = memberId)
+            repository.findAllByFinishedIsTrueAndDriverId(driverId = memberId)
 
     fun setRideFinished(rideId: Long): Boolean =
             repository.setRideToFinished(rideId = rideId) == 1
@@ -65,12 +70,12 @@ class RideService(private val repository: RideRepository,
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rating = listOf<Rating>(),
-                rideRequest = listOf<RideRequest>()
+                rideRequests = listOf<RideRequest>()
         )
     }
 
     fun findFromToRides(from: String, to: String): List<Ride> =
-            repository.findAllByByFromLocation_NameAndDestination_Name(from, to)
+            repository.findAllByFromLocationNameAndDestinationName(from, to)
                     .filter { !it.finished && it.getAvailableSeats() > 0 }
 
     fun editRide(rideId: Long, editRideRequest: EditRideRequest) = with(editRideRequest) {
@@ -90,4 +95,12 @@ class RideService(private val repository: RideRepository,
         else throw NotEnoughSeatsToDeleteException(rideId, seatsToMinus, ride.getAvailableSeats())
         return ride
     }
+
+
+    @Scheduled(cron = "0 0/5 * * * *")
+    private fun checkForFinishedRidesTask() {
+        logger.info("[CRONJOB] Checking for finished rides..")
+        logger.info("[CRONJOB] Updated [" + repository.updateFinishedRides(ZonedDateTime.now()) + "] rides.")
+    }
+
 }

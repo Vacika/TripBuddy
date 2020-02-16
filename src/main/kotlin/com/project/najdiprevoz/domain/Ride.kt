@@ -1,8 +1,10 @@
 package com.project.najdiprevoz.domain
 
-import com.project.najdiprevoz.enums.RequestRideStatus
+import com.project.najdiprevoz.enums.RequestStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
+
+//TODO: Implement Builder Pattern
 
 @Entity
 @Table(name = "rides")
@@ -38,15 +40,15 @@ data class Ride(
         val additionalDescription: String?,
 
         @OneToMany(mappedBy = "ride")
-        val rideRequest: List<RideRequest>?,
+        val rideRequests: List<RideRequest>?,
 
         @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY)
         val rating: List<Rating>?
 
 ) : BaseEntity<Long>() {
     fun getAvailableSeats(): Int {
-        if (this.rideRequest != null) {
-            return this.totalSeatsOffered - this.rideRequest.filter { it.status == RequestRideStatus.APPROVED }.size
+        if (this.rideRequests != null) {
+            return this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.size
         }
         return this.totalSeatsOffered
     }

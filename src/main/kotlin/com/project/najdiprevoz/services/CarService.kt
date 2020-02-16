@@ -8,7 +8,6 @@ import com.project.najdiprevoz.web.request.create.CreateCarRequest
 import com.project.najdiprevoz.web.request.edit.EditCarRequest
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
-import javax.annotation.PostConstruct
 import javax.transaction.Transactional
 
 @Service
@@ -24,7 +23,7 @@ class CarService(private val repository: CarRepository,
             repository.deleteById(carId)
 
     fun findCarForMember(memberId: Long): Car? {
-        return repository.findByOwner_Id(ownerId = memberId)
+        return repository.findByOwnerId(ownerId = memberId)
                 .orElseThrow { NoCarFoundForUserException(memberId) }
     }
 
@@ -37,17 +36,6 @@ class CarService(private val repository: CarRepository,
                         yearOfManufacture = yearManufacture,
                         seats = totalSeats)
             }
-
-//    @PostConstruct
-//    fun test() {
-//        val res1 = addNewCar(CreateCarRequest(
-//                brand = "Zastava",
-//                model = "101",
-//                yearManufacture = 1992,
-//                ownerId = 1,
-//                totalSeats = 3
-//        ))
-//    }
 
     fun findById(carId: Long): Car = repository.findById(carId).orElseThrow { CarNotFoundException(carId) }
 

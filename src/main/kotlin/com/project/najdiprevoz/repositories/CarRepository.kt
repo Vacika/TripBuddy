@@ -9,7 +9,7 @@ import java.util.*
 @Repository
 interface CarRepository : JpaRepository<Car, Long> {
 
-    fun findByOwner_Id(ownerId: Long): Optional<Car>
+    fun findByOwnerId(ownerId: Long): Optional<Car>
     fun findByOwner(owner: Member): Car?
-    fun deleteCarByOwner_Id(ownerId: Long)
+    fun deleteCarByOwnerId(ownerId: Long)
 }

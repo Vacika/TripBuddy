@@ -1,8 +1,7 @@
 package com.project.najdiprevoz.repositories
 
-import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RequestRideStatus
+import com.project.najdiprevoz.enums.RequestStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
@@ -13,9 +12,9 @@ import javax.transaction.Transactional
 
 @Repository
 interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecificationExecutor<RideRequest> {
-    fun findAllByRide_Id(rideId: Long): List<RideRequest>
+    fun findAllByRideId(rideId: Long): List<RideRequest>
 
-    fun findAllByRequester_Id(requesterId: Long): List<RideRequest>?
+    fun findAllByRequesterId(requesterId: Long): List<RideRequest>?
 
     @Query("""
         SELECT rd from RideRequest rd 
@@ -33,7 +32,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         SET r.status = :status
         WHERE r.id = :requestId
     """)
-    fun updateRideRequestStatus(@Param("requestId") requestId: Long, @Param("status") status: RequestRideStatus): Int
+    fun updateRideRequestStatus(@Param("requestId") requestId: Long, @Param("status") status: RequestStatus): Int
 
 
     @Query("""

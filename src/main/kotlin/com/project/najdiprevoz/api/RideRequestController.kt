@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.services.RideRequestService
+import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,8 +27,14 @@ class RideRequestController(private val service: RideRequestService) {
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getDeniedRequestsForRide(rideId)
 
+    //TODO: Replace {memberId} with authentication principal
     @GetMapping("/my/{memberId}")
     fun findRideRequestsByMember(@PathVariable("memberId") memberId: Long) =
             service.findAllRequestsForMember(memberId)
+
+    @GetMapping("/change-status")
+    fun changeStatus(request: ChangeRideRequestStatusRequest) =
+            service.changeStatus(request)
+
 
 }

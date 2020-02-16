@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface RatingRepository : JpaRepository<Rating, Long> {
-    fun findRatingsByRide_Id(rideId: Long): List<Rating>?
+    fun findRatingsByRideId(rideId: Long): List<Rating>?
 
-    fun findRatingsByAuthor_Id(authorId: Long): List<Rating>?
+    fun findRatingsByAuthorId(authorId: Long): List<Rating>?
 
     @Query("""
         SELECT r from Rating r 
@@ -18,5 +18,5 @@ interface RatingRepository : JpaRepository<Rating, Long> {
         ON r.ride = ride
         WHERE ride.driver.id = :driverId
     """)
-    fun findRatingsForDriver_Id(@Param("driverId") driverId: Long): List<Rating>?
+    fun findRatingsForDriverId(@Param("driverId") driverId: Long): List<Rating>?
 }

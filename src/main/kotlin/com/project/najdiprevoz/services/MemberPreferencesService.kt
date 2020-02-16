@@ -15,7 +15,7 @@ class MemberPreferencesService(private val repository: MemberPreferencesReposito
 
     fun EditMemberPreferenceRequest(memberId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences =
     with(editMemberPreferenceRequest){
-        val preference = repository.findByMember_Id(memberId)
+        val preference = repository.findByMemberId(memberId)
                 .orElseThrow { InvalidUserIdException(memberId) }
                 .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)
         logger.info("Editing member preference for member $memberId.Preference: $preference")
@@ -23,7 +23,7 @@ class MemberPreferencesService(private val repository: MemberPreferencesReposito
     }
 
     fun getMemberPreferences(memberId: Long): MemberPreferences =
-            repository.findByMember_Id(memberId)
+            repository.findByMemberId(memberId)
                     .orElseThrow { InvalidUserIdException(memberId) }
 
     fun createMemberPreferences(memberPreference: MemberPreferences) =

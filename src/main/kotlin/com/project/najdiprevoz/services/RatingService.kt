@@ -5,8 +5,6 @@ import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.web.request.create.CreateRatingRequest
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
-import javax.transaction.Transactional
 
 @Service
 class RatingService(private val repository: RatingRepository,
@@ -14,13 +12,13 @@ class RatingService(private val repository: RatingRepository,
                     private val rideService: RideService) {
 
     fun getRatingsForRide(rideId: Long) =
-            repository.findRatingsByRide_Id(rideId = rideId)
+            repository.findRatingsByRideId(rideId = rideId)
 
     fun getRatingsForMember(memberId: Long) =
-            repository.findRatingsForDriver_Id(driverId = memberId)
+            repository.findRatingsForDriverId(driverId = memberId)
 
     fun getRatingsSubmittedByMember(memberId: Long) =
-            repository.findRatingsByAuthor_Id(authorId = memberId)
+            repository.findRatingsByAuthorId(authorId = memberId)
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         repository.save(Rating(
@@ -31,15 +29,4 @@ class RatingService(private val repository: RatingRepository,
                 rating = rating
         ))
     }
-////
-//    @PostConstruct
-//    fun test(){
-////        addRating(CreateRatingRequest(
-////                rating=2,
-////                rideId = 1,
-////                note="Kolata nemase klima",
-////                authorId = 1
-////        ))
-////        val t = getRatingsForMember(1)
-//    }
 }

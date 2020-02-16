@@ -17,25 +17,24 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     fun findAllByDriver(driver: Member): List<Ride>?
 
+    fun findAllByFromLocationNameAndDestinationName(fromLocationName: String, destinationName: String): List<Ride>
 
-    fun findAllByByFromLocation_NameAndDestination_Name(fromLocationName: String, destinationName: String): List<Ride>
-
-    fun findAllByDestination_Name(destination: String): List<Ride>?
+    fun findAllByDestinationName(destination: String): List<Ride>?
 
     @Query("""SELECT (r.totalSeatsOffered - count(rd.id)) as available_seats 
          FROM RideRequest rd 
          JOIN Ride r 
          ON r = rd.ride 
-         WHERE rd.status = 'Approved'
+         WHERE rd.status = 'APPROVED'
          AND r.id = :rideId
          GROUP BY r.id""")
     fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
 
-    fun findAllByFromLocation_Name(name: String): List<Ride>?
+    fun findAllByFromLocationName(name: String): List<Ride>?
 
     fun findRidesByFinishedIsFalse(): List<Ride>
 
-    fun findAllByDriver_IdAndFinishedIsTrue(driverId: Long): List<Ride>?
+    fun findAllByFinishedIsTrueAndDriverId(driverId: Long): List<Ride>?
 
     @Modifying
     @Transactional
@@ -54,4 +53,12 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
         where r.id = :rideId
     """)
     fun changeRideTiming(@Param("rideId") rideId: Long, @Param("newTime") newTime: ZonedDateTime): Int
+
+    @Modifying
+    @Transactional
+    @Query("""UPDATE Ride r 
+        SET r.finished = true 
+        WHERE r.departureTime < :dateTimeNow""")
+    fun updateFinishedRides(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
+
 }
