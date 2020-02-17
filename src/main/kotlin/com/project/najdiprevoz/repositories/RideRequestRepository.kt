@@ -44,10 +44,8 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
     fun getRideStatus(@Param("rideRequestId") rideRequestId: Long): RideStatus
 
 
-    //TODO: WTF IS HAPPENING HERE?
-//    @Modifying
-//    @Transactional
-//    @Query("UPDATE RideRequest req SET req.status='DENIED' WHERE req.ride.finished" +
-//            "(SELECT r FROM Ride r WHERE r.)")
-//    fun updateRideRequestsCron(): Int
+    @Modifying
+    @Transactional
+    @Query("""UPDATE RideRequest r set r.status='DENIED' where r.status='PENDING' and r.ride.status='FINISHED'""")
+    fun updateRideRequestsCron(): Int
 }

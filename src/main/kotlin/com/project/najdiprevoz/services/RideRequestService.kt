@@ -24,7 +24,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun findAllRequestsForMember(memberId: Long) =
             repository.findAllByRequesterId(requesterId = memberId)
 
-    private fun getAll(): List<RideRequest> =
+    fun getAll(): List<RideRequest> =
             repository.findAll()
 
     fun getApprovedRideRequestsForRide(rideId: Long) =
@@ -77,16 +77,7 @@ class RideRequestService(private val repository: RideRequestRepository,
         }
         return false
     }
-
     fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
 
     fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
-
-    fun updateRideRequestCron(updatedRideIds: List<Long>) {
-        repository.findAll()
-                .filter {
-                    updatedRideIds.contains(it.ride.id)
-                    it.status == RequestStatus.PENDING
-                }.forEach { changeStatusByRideRequest(it, RequestStatus.DENIED) }
-    }
 }

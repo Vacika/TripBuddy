@@ -97,25 +97,17 @@ class RideService(private val repository: RideRepository,
 
 
     @Scheduled(cron = "0 0/1 * * * *")
-    private fun checkForFinishedRidesTask() {
-        val updatedRideIds = findAllActiveRides()
-                .filter {
-                    it.departureTime < ZonedDateTime.now()
-                    it.status == RideStatus.ACTIVE
-                }
-                .map { it.id }
-
+     fun checkForFinishedRidesTask() {
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
         logger.info("[CRONJOB] Updating ride requests..")
-//        logger.info("[CRONJOB] Successfully updated [" + rideRequestService.updateRideRequestCron(updatedRideIds) + "] ride requests")
-        //TODO: Can we avoid injecting RideRequestService?
+
     }
 
-    @PostConstruct
-    fun test() {
-        val t = deleteRide(2)
-    }
+//    @PostConstruct
+//    fun test() {
+//        val t = deleteRide(2)
+//    }
 
     //    fun getAllRidesFromLocation(location: City) =
 //            repository.findAllByFromLocation(fromLocation = location)

@@ -66,6 +66,7 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     @Modifying
     @Transactional
     @Query("""UPDATE Ride r SET r.status = :status where r.id = :rideId""")
-    fun changeRideStatus(rideId: Long, status: RideStatus): Int
+    fun changeRideStatus(@Param("rideId") rideId: Long, @Param("status") status: RideStatus): Int
+
 
 }

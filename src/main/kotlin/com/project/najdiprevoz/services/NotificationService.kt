@@ -18,7 +18,7 @@ class NotificationService(private val repository: NotificationRepository) {
         var notificationType: NotificationType = NotificationType.REQUEST_SENT
         when (rideRequest.status) {
             RequestStatus.APPROVED -> {
-                actionsAllowed.plus(Actions.CANCEL)
+                actionsAllowed.plus(Actions.CANCEL.name)
                 from = driver
                 to = requester
                 notificationType = NotificationType.REQUEST_APPROVED
@@ -57,10 +57,9 @@ class NotificationService(private val repository: NotificationRepository) {
 
     //TODO: Refactor this, find a better way.
     fun pushNotification(rideRequest: RideRequest, type: NotificationType) {
-        var status: RequestStatus
         val requestId = rideRequest.id
 
-        status = when (type) {
+        var status = when (type) {
             NotificationType.RIDE_CANCELLED -> RequestStatus.RIDE_CANCELLED
             NotificationType.REQUEST_SENT -> RequestStatus.PENDING
             NotificationType.REQUEST_CANCELLED -> RequestStatus.CANCELLED
