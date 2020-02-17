@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/preferences")
-class MemberPreferenceController(private val service:MemberPreferencesService) {
+class MemberPreferenceController(private val service: MemberPreferencesService) {
 
     @GetMapping("/{memberId}")
     fun getPreferenceByMember(@PathVariable("memberId") memberId: Long) =
@@ -17,5 +17,5 @@ class MemberPreferenceController(private val service:MemberPreferencesService) {
 
     @GetMapping("/edit/{memberId}")
     fun editPreferenceByMember(@PathVariable("memberId") memberId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest) =
-            service.EditMemberPreferenceRequest(memberId,editMemberPreferenceRequest)
+            service.EditMemberPreferenceRequest(memberId, editMemberPreferenceRequest)
 }

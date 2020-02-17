@@ -18,7 +18,7 @@ data class Car(
         val seats: Int,
 
         @ManyToOne(optional = true, fetch = FetchType.LAZY)
-        @JoinColumn(name = "owner_id", referencedColumnName = "id",nullable = false)
+        @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
         val owner: Member
 ) : BaseEntity<Long>() {
 

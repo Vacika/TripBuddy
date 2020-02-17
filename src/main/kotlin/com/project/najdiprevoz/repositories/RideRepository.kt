@@ -20,7 +20,7 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     fun findAllByFromLocationNameAndDestinationName(fromLocationName: String, destinationName: String): List<Ride>
 
-    fun findAllByDestinationName(destination: String): List<Ride>?
+    fun findAllByDriverIdAndStatus(driverId: Long, status: RideStatus): List<Ride>?
 
     @Query("""SELECT (r.totalSeatsOffered - count(rd.id)) as available_seats 
          FROM RideRequest rd 
@@ -31,11 +31,24 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
          GROUP BY r.id""")
     fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
 
-    fun findAllByFromLocationName(name: String): List<Ride>?
-
     fun findAllByStatus(status: RideStatus): List<Ride>
 
-    fun findAllByDriverIdAndStatus(driverId: Long, status: RideStatus): List<Ride>?
+    fun findAllByFromLocationName(fromLocationName: String): List<Ride>?
+
+    fun findAllByDestinationName(destination: String): List<Ride>?
+
+    @Modifying
+    @Transactional
+    @Query("""UPDATE Ride r 
+        SET r.status = 'FINISHED'
+        WHERE r.departureTime < :dateTimeNow
+        AND r.status = 'ACTIVE' """)
+    fun updateRidesCron(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
+
+    @Modifying
+    @Transactional
+    @Query("""UPDATE Ride r SET r.status = :status where r.id = :rideId""")
+    fun changeRideStatus(@Param("rideId") rideId: Long, @Param("status") status: RideStatus): Int
 
     @Modifying
     @Transactional
@@ -54,19 +67,4 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
         where r.id = :rideId
     """)
     fun changeRideTiming(@Param("rideId") rideId: Long, @Param("newTime") newTime: ZonedDateTime): Int
-
-    @Modifying
-    @Transactional
-    @Query("""UPDATE Ride r 
-        SET r.status = 'FINISHED'
-        WHERE r.departureTime < :dateTimeNow
-        AND r.status = 'ACTIVE' """)
-    fun updateRidesCron(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
-
-    @Modifying
-    @Transactional
-    @Query("""UPDATE Ride r SET r.status = :status where r.id = :rideId""")
-    fun changeRideStatus(@Param("rideId") rideId: Long, @Param("status") status: RideStatus): Int
-
-
 }

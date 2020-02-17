@@ -14,7 +14,7 @@ class RideRequestController(private val service: RideRequestService) {
 
     @GetMapping("/{rideId}")
     fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.findAllRequestsForRide(rideId)
+            service.getAllRequestsForRide(rideId)
 
     @GetMapping("/{rideId}/pending")
     fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
@@ -31,7 +31,7 @@ class RideRequestController(private val service: RideRequestService) {
     //TODO: Replace {memberId} with authentication principal
     @GetMapping("/my/{memberId}")
     fun findRideRequestsByMember(@PathVariable("memberId") memberId: Long) =
-            service.findAllRequestsForMember(memberId)
+            service.getAllRequestsForMember(memberId)
 
     @GetMapping("/change-status")
     fun changeStatus(request: ChangeRideRequestStatusRequest) =

@@ -1,6 +1,9 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.*
+import com.project.najdiprevoz.domain.Member
+import com.project.najdiprevoz.domain.NotificationType
+import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.NotEnoughSeatsToDeleteException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -9,7 +12,6 @@ import com.project.najdiprevoz.web.request.create.CreateRideRequest
 import com.project.najdiprevoz.web.request.edit.EditRideRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import javax.annotation.PostConstruct
@@ -29,7 +31,7 @@ class RideService(private val repository: RideRepository,
             findAllActiveRides().filter { it.getAvailableSeats() > 0 }
 
     fun createNewRide(createRideRequest: CreateRideRequest) =
-            repository.save(createRide(createRideRequest = createRideRequest))
+            repository.save(createRideObject(createRideRequest = createRideRequest))
 
     fun getPastRidesForMember(memberId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = memberId, status = RideStatus.FINISHED)
@@ -42,11 +44,11 @@ class RideService(private val repository: RideRepository,
         val ride = findById(rideId)
         ride.rideRequests.forEach { pushNotification(it, NotificationType.RIDE_CANCELLED) }
         repository.changeRideStatus(rideId, RideStatus.CANCELLED)
-        logger.info("[NajdiPrevoz] Ride with id $rideId successfully deleted!")
+        logger.info("[RideService - DELETE RIDE] Ride with id $rideId successfully deleted!")
     }
 
     private fun pushNotification(req: RideRequest, type: NotificationType) {
-        notificationService.pushNotification(req, type)
+        notificationService.pushRequestStatusChangeNotification(req, type)
     }
 
     fun findById(id: Long): Ride =
@@ -58,7 +60,7 @@ class RideService(private val repository: RideRepository,
     fun findAllRidesForUser(user: Member) =
             repository.findAllByDriver(driver = user)
 
-    private fun createRide(createRideRequest: CreateRideRequest) = with(createRideRequest) {
+    private fun createRideObject(createRideRequest: CreateRideRequest) = with(createRideRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
                 fromLocation = cityService.findByName(fromLocation),
@@ -99,19 +101,17 @@ class RideService(private val repository: RideRepository,
     fun checkForFinishedRidesTask() {
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
-        logger.info("[CRONJOB] Updating ride requests..")
-
     }
 
-//    @PostConstruct
-//    fun test() {
-//        val t = deleteRide(2)
-//    }
+    fun getAllRidesFromLocation(location: String) =
+            repository.findAllByFromLocationName(fromLocationName = location)
 
-    //    fun getAllRidesFromLocation(location: City) =
-//            repository.findAllByFromLocation(fromLocation = location)
-//
-//    fun getAllRidesForDestination(destination: City) =
-//            repository.findAllByDestination(destination = destination)
+    fun getAllRidesForDestination(destination: String) =
+            repository.findAllByDestinationName(destination = destination)
+
+    @PostConstruct
+    fun test() {
+        val t = deleteRide(1)
+    }
 
 }

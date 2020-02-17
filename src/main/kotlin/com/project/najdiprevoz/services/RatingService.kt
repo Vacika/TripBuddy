@@ -19,9 +19,6 @@ class RatingService(private val repository: RatingRepository,
     fun getRatingsForMember(memberId: Long) =
             repository.findRatingsForDriverId(driverId = memberId)
 
-//    fun getRatingsSubmittedByMember(memberId: Long) =
-//            repository.findByAuthor_Id(authorId = memberId)
-
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {
             true -> pushRatingNotification(this)
@@ -40,9 +37,9 @@ class RatingService(private val repository: RatingRepository,
                 )))
     }
 
+    // Return true if the request has been approved and the member has not submitted rating for this ride previously!
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
-        // Return true if the request has been approved and the member has not submitted rating for this ride previously!
         val rideRequest = rideRequestService.findById(rideRequestId)
-        rideRequest.status == RequestStatus.APPROVED && rideRequest.rating == null  // AVOID checking rideRequest.rating, instead DATABASE SHOULD FORBID DUPLICATE FOREIGN KEYS!
+        rideRequest.status == RequestStatus.APPROVED && rideRequest.rating == null  // TODO: AVOID checking rideRequest.rating, instead DATABASE SHOULD FORBID DUPLICATE FOREIGN KEYS!
     }
 }

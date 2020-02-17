@@ -22,11 +22,12 @@ data class RideRequest(
         @Column(name = "created_on")
         val createdOn: ZonedDateTime,
 
-        @OneToOne(mappedBy="rideRequest",optional = true,cascade = [CascadeType.ALL])
+        @OneToOne(mappedBy = "rideRequest", optional = true, cascade = [CascadeType.ALL])
+        @JsonManagedReference
         val rating: Rating? = null,
 
         @Enumerated(EnumType.STRING)
-        @Column(name = "status",nullable = false)
+        @Column(name = "status", nullable = false)
         var status: RequestStatus = RequestStatus.PENDING
 
 ) : BaseEntity<Long>()

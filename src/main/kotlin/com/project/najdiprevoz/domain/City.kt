@@ -2,7 +2,6 @@ package com.project.najdiprevoz.domain
 
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity

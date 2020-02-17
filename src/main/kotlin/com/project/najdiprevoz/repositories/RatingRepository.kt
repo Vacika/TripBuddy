@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository
 interface RatingRepository : JpaRepository<Rating, Long> {
 
 
-
     fun findRatingsByRideRequestRide_Id(rideId: Long): List<Rating>?
 
 //    fun findByAuthor_Id(authorId: Long): List<Rating>?

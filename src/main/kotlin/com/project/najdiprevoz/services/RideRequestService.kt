@@ -9,6 +9,7 @@ import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import javax.annotation.PostConstruct
 
 @Service
 class RideRequestService(private val repository: RideRequestRepository,
@@ -16,12 +17,14 @@ class RideRequestService(private val repository: RideRequestRepository,
                          private val memberService: MemberService,
                          private val notificationService: NotificationService) {
 
-    fun findById(id: Long) = repository.findById(id).orElseThrow { NotFoundException("Ride request not found!") }
+    fun findById(id: Long): RideRequest =
+            repository.findById(id)
+                    .orElseThrow { NotFoundException("Ride request not found!") }
 
-    fun findAllRequestsForRide(rideId: Long) =
+    fun getAllRequestsForRide(rideId: Long) =
             repository.findAllByRideId(rideId)
 
-    fun findAllRequestsForMember(memberId: Long) =
+    fun getAllRequestsForMember(memberId: Long) =
             repository.findAllByRequesterId(requesterId = memberId)
 
     fun getAll(): List<RideRequest> =
@@ -31,8 +34,10 @@ class RideRequestService(private val repository: RideRequestRepository,
             repository.findApprovedRequestsForRide(rideId = rideId)
 
     fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) {
-        repository.updateRideRequestStatus(rideRequest.id, status)
-        pushNotification(findById(rideRequest.id))
+        val request = findById(rideRequest.id)
+        request.status = status
+        repository.save(request)
+        pushNotification(request)
     }
 
     fun changeStatusByRideRequestId(rideRequestId: Long, status: RequestStatus) {
@@ -40,12 +45,12 @@ class RideRequestService(private val repository: RideRequestRepository,
         pushNotification(findById(rideRequestId))
     }
 
-    fun changeStatus(changeRideRequestStatusRequest: ChangeRideRequestStatusRequest) =
-            with(changeRideRequestStatusRequest) {
-                if (changeStatusActionAllowed(previousStatus, newStatus))
-                    repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
-                pushNotification(findById(requestId))
-            }
+    fun changeStatus(changeRideRequestStatusRequest: ChangeRideRequestStatusRequest) = with(changeRideRequestStatusRequest) {
+        if (changeStatusActionAllowed(previousStatus, newStatus))
+            repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
+
+        pushNotification(findById(requestId))
+    }
 
     fun addNewRideRequest(createRideRequest: CreateRequestForRideRequest) = with(createRideRequest) {
         pushNotification(repository.save(RideRequest(
@@ -55,8 +60,13 @@ class RideRequestService(private val repository: RideRequestRepository,
                 requester = memberService.findMemberById(requesterId))))
     }
 
+    fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
+
+    fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
+
+
     private fun pushNotification(rideRequest: RideRequest) {
-        notificationService.pushNotification(rideRequest)
+        notificationService.pushRequestStatusChangeNotification(rideRequest)
     }
 
     private fun isRideRequestFinished(rideRequestId: Long) =
@@ -79,7 +89,8 @@ class RideRequestService(private val repository: RideRequestRepository,
         return false
     }
 
-    fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
-
-    fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
+    @PostConstruct
+    fun test() {
+        changeStatusByRideRequest(findById(1), RequestStatus.EXPIRED)
+    }
 }

@@ -14,13 +14,13 @@ class MemberPreferencesService(private val repository: MemberPreferencesReposito
     val logger: Logger = LoggerFactory.getLogger(MemberPreferencesService::class.java)
 
     fun EditMemberPreferenceRequest(memberId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences =
-    with(editMemberPreferenceRequest){
-        val preference = repository.findByMemberId(memberId)
-                .orElseThrow { InvalidUserIdException(memberId) }
-                .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)
-        logger.info("Editing member preference for member $memberId.Preference: $preference")
-        repository.save(preference)
-    }
+            with(editMemberPreferenceRequest) {
+                val preference = repository.findByMemberId(memberId)
+                        .orElseThrow { InvalidUserIdException(memberId) }
+                        .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)
+                logger.info("Editing member preference for member $memberId.Preference: $preference")
+                repository.save(preference)
+            }
 
     fun getMemberPreferences(memberId: Long): MemberPreferences =
             repository.findByMemberId(memberId)
