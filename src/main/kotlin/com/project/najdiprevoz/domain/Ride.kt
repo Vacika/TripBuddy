@@ -42,10 +42,6 @@ data class Ride(
         @OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
         val rideRequests: List<RideRequest> = listOf(),
 
-        @JsonManagedReference
-        @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-        val rating: List<Rating> = listOf(),
-
         @Enumerated(EnumType.STRING)
         val status: RideStatus
 

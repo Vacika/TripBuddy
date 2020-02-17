@@ -9,24 +9,24 @@ import java.time.ZonedDateTime
 @Service
 class RatingService(private val repository: RatingRepository,
                     private val memberService: MemberService,
-                    private val rideService: RideService) {
+                    private val rideRequestService: RideRequestService,
+                    private val notificationService: NotificationService) {
 
-    fun getRatingsForRide(rideId: Long) =
-            repository.findRatingsByRideId(rideId = rideId)
+//    fun getRatingsForRide(rideId: Long) =
+//            repository.findRatingsByRideId(rideId = rideId)
 
     fun getRatingsForMember(memberId: Long) =
             repository.findRatingsForDriverId(driverId = memberId)
 
-    fun getRatingsSubmittedByMember(memberId: Long) =
-            repository.findRatingsByAuthorId(authorId = memberId)
+//    fun getRatingsSubmittedByMember(memberId: Long) =
+//            repository.findRatingsByAuthorId(authorId = memberId)
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
-        repository.save(Rating(
-                author = memberService.findMemberById(memberId = authorId),
-                ride = rideService.findById(rideId),
+        notificationService.pushRatingNotification(repository.save(Rating(
+                rideRequest = rideRequestService.findById(rideRequestId),
                 note = note,
                 dateSubmitted = ZonedDateTime.now(),
                 rating = rating
-        ))
+        )))
     }
 }

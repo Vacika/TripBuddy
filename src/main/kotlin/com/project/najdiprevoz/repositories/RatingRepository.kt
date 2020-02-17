@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface RatingRepository : JpaRepository<Rating, Long> {
-    fun findRatingsByRideId(rideId: Long): List<Rating>?
-
-    fun findRatingsByAuthorId(authorId: Long): List<Rating>?
+//    fun findRatingsByRideId(rideId: Long): List<Rating>?
+//
+//    fun findRatingsByAuthorId(authorId: Long): List<Rating>?
 
     @Query("""
         SELECT r from Rating r 
         JOIN Ride ride 
-        ON r.ride = ride
+        ON r.rideRequest.ride = ride
         WHERE ride.driver.id = :driverId
     """)
     fun findRatingsForDriverId(@Param("driverId") driverId: Long): List<Rating>?

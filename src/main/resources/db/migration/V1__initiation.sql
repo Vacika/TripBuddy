@@ -109,12 +109,11 @@ ALTER TABLE public.members
 
 CREATE TABLE public.ratings
 (
-    id             bigint  NOT NULL,
-    date_submitted timestamp without time zone,
-    note           character varying(255),
-    rating         integer NOT NULL,
-    author_id      bigint  NOT NULL,
-    ride_id        bigint  NOT NULL
+    id              bigint  NOT NULL,
+    date_submitted  timestamp without time zone,
+    note            character varying(255),
+    rating          integer NOT NULL,
+    ride_request_id bigint  NOT NULL
 );
 
 
@@ -363,19 +362,15 @@ VALUES (10, '2020-02-11 22:00:06', 'email10@email.com', 'Adrianna', 'F', 'Lima',
 
 
 
-INSERT INTO public.ratings
-VALUES (1, '2020-02-12 21:01:04', 'dobra voznja', 1, 1, 2);
-INSERT INTO public.ratings
-VALUES (2, '2020-02-12 21:01:15', 'mnogu loso', 2, 1, 1);
-INSERT INTO public.ratings
-VALUES (3, '2020-02-12 21:04:36', 'Meh,sredno', 3, 2, 2);
-
+INSERT INTO public.ratings(id, date_submitted, note, rating, ride_request_id)
+VALUES (1, '2020-02-12 21:01:04', 'dobra voznja', 5, 1),
+       (2, '2020-02-12 21:01:15', 'mnogu loso', 1, 1),
+       (3, '2020-02-12 21:04:36', 'Meh,sredno', 3, 2);
 
 
 INSERT INTO public.ride_requests(id, created_on, status, requester_id, ride_id)
-VALUES (1, '2020-02-12 19:50:27', 'PENDING', 1, 2);
-
-
+VALUES (1, '2020-02-12 19:50:27', 'PENDING', 1, 1),
+       (2, '2020-02-12 19:50:27', 'PENDING', 1, 2);
 
 INSERT INTO public.rides(id, description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
                          driver_id, from_location, status)
@@ -426,46 +421,26 @@ ALTER TABLE ONLY public.notifications
 ALTER TABLE ONLY public.ride_requests
     ADD CONSTRAINT fk4mlf748wvd1c16p2at7mkux39 FOREIGN KEY (ride_id) REFERENCES public.rides (id);
 
-
-
 ALTER TABLE ONLY public.rides
     ADD CONSTRAINT fkgco6pwrgn8co7gwyludy1nnc1 FOREIGN KEY (from_location) REFERENCES public.cities (id);
-
-
 
 ALTER TABLE ONLY public.cars
     ADD CONSTRAINT fkm9dna12woo9bxuhtbdlhek4al FOREIGN KEY (owner_id) REFERENCES public.members (id);
 
-
-
 ALTER TABLE ONLY public.rides
     ADD CONSTRAINT fko62n3qexfjtslknusqfjfcs2p FOREIGN KEY (to_location) REFERENCES public.cities (id);
-
-
 
 ALTER TABLE ONLY public.ride_requests
     ADD CONSTRAINT fkoc5uj7y01drryd0itrmnkk1kf FOREIGN KEY (requester_id) REFERENCES public.members (id);
 
-
-
 ALTER TABLE ONLY public.ratings
-    ADD CONSTRAINT fkpn9mvopg00wpfi5xti2wf3p1s FOREIGN KEY (ride_id) REFERENCES public.rides (id);
-
-
+    ADD CONSTRAINT fkndfvgd6891sq1h8sipcw0ddu7 FOREIGN KEY (ride_request_id) REFERENCES public.ride_requests (id);
 
 ALTER TABLE ONLY public.rides
     ADD CONSTRAINT fkq0n68ras6f40ck5lqccd3v75n FOREIGN KEY (driver_id) REFERENCES public.members (id);
 
-
-
 ALTER TABLE ONLY public.member_preferences
     ADD CONSTRAINT fkr36s4dryxkuqc91v9bfl7nxc7 FOREIGN KEY (member_id) REFERENCES public.members (id);
-
-
-
-ALTER TABLE ONLY public.ratings
-    ADD CONSTRAINT fks922wdjjs39auw6ac4nd8tgfb FOREIGN KEY (author_id) REFERENCES public.members (id);
-
 
 ALTER TABLE ONLY public.notifications
     ADD CONSTRAINT fklij3ynti4lrb8otc71ofaf0gd FOREIGN KEY (ride_request_id) REFERENCES public.ride_requests (id);

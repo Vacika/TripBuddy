@@ -19,7 +19,7 @@ class RatingController(private val service: RatingService) {
     fun getMyRatings(memberId: Long) =
             service.getRatingsForMember(memberId)
 
-    @GetMapping("/ride/{rideId}")
-    fun getRatingsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getRatingsForRide(rideId)
+//    @GetMapping("/ride/{rideId}")
+//    fun getRatingsForRide(@PathVariable("rideId") rideId: Long) =
+//            service.getRatingsForRide(rideId)
 }

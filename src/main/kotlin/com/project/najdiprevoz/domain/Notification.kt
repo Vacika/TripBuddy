@@ -25,7 +25,7 @@ data class Notification(val createdOn: ZonedDateTime,
 enum class NotificationType(private val type: String) {
     REQUEST_SENT("REQUEST_SENT"), REQUEST_DENIED("REQUEST_DENIED"),
     REQUEST_APPROVED("REQUEST_APPROVED"), REQUEST_CANCELLED("REQUEST_CANCELLED"),
-    RIDE_CANCELLED("RIDE_CANCELLED")
+    RIDE_CANCELLED("RIDE_CANCELLED"), RATING_SUBMITTED("RATING_GIVEN")
 }
 
 enum class Actions(private val action: String) {

@@ -62,8 +62,23 @@ class NotificationService(private val repository: NotificationRepository) {
             NotificationType.REQUEST_CANCELLED -> RequestStatus.CANCELLED
             NotificationType.REQUEST_APPROVED -> RequestStatus.APPROVED
             NotificationType.REQUEST_DENIED -> RequestStatus.DENIED
+            NotificationType.RATING_SUBMITTED -> throw Exception("RATING_SUBMITTED notification type can not be used on ride request status change!")
         }
-        rideRequest.status=status
+        rideRequest.status = status
         pushNotification(rideRequest)
+    }
+
+    fun pushRatingNotification(rating: Rating) = with(rating) {
+        repository.saveAndFlush(
+                Notification(
+                        from = rating.getAuthor(),
+                        to = rating.getDriver(),
+                        type = NotificationType.RATING_SUBMITTED,
+                        rideRequest = rating.rideRequest,
+                        seen = false,
+                        actionsAvailable = Actions.MARK_AS_SEEN.toString(),
+                        createdOn = ZonedDateTime.now()
+                )
+        )
     }
 }

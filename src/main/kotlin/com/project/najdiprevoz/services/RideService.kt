@@ -68,7 +68,6 @@ class RideService(private val repository: RideRepository,
                 driver = memberService.findMemberById(driverId),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
-                rating = listOf<Rating>(),
                 rideRequests = listOf<RideRequest>(),
                 status = RideStatus.ACTIVE
         )
@@ -104,10 +103,10 @@ class RideService(private val repository: RideRepository,
 
     }
 
-    @PostConstruct
-    fun test() {
-        val t = deleteRide(2)
-    }
+//    @PostConstruct
+//    fun test() {
+//        val t = deleteRide(2)
+//    }
 
     //    fun getAllRidesFromLocation(location: City) =
 //            repository.findAllByFromLocation(fromLocation = location)
