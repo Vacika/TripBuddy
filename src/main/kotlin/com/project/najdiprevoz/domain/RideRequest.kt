@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.RequestStatus
 import java.time.ZonedDateTime
@@ -13,7 +14,7 @@ data class RideRequest(
         @JoinColumn(name = "requester_id")
         val requester: Member,
 
-        @JsonManagedReference
+        @JsonBackReference
         @ManyToOne
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
         val ride: Ride,
@@ -22,7 +23,7 @@ data class RideRequest(
         val createdOn: ZonedDateTime,
 
         @Enumerated(EnumType.STRING)
-        @Column(name = "status")
-        val status: RequestStatus
+        @Column(name = "status",nullable = false)
+        var status: RequestStatus = RequestStatus.PENDING
 
 ) : BaseEntity<Long>()

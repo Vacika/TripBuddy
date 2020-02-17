@@ -42,6 +42,7 @@ class RideService(private val repository: RideRepository,
         val ride = findById(rideId)
         ride.rideRequests.forEach { pushNotification(it, NotificationType.RIDE_CANCELLED) }
         repository.changeRideStatus(rideId, RideStatus.CANCELLED)
+        logger.info("[NajdiPrevoz] Ride with id $rideId successfully deleted!")
     }
 
     private fun pushNotification(req: RideRequest, type: NotificationType) {
@@ -96,18 +97,17 @@ class RideService(private val repository: RideRepository,
     }
 
 
-    @Scheduled(cron = "0 0/1 * * * *")
-     fun checkForFinishedRidesTask() {
+    fun checkForFinishedRidesTask() {
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
         logger.info("[CRONJOB] Updating ride requests..")
 
     }
 
-//    @PostConstruct
-//    fun test() {
-//        val t = deleteRide(2)
-//    }
+    @PostConstruct
+    fun test() {
+        val t = deleteRide(2)
+    }
 
     //    fun getAllRidesFromLocation(location: City) =
 //            repository.findAllByFromLocation(fromLocation = location)

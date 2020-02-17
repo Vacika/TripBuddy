@@ -55,10 +55,7 @@ class NotificationService(private val repository: NotificationRepository) {
                 type = notificationType))
     }
 
-    //TODO: Refactor this, find a better way.
     fun pushNotification(rideRequest: RideRequest, type: NotificationType) {
-        val requestId = rideRequest.id
-
         var status = when (type) {
             NotificationType.RIDE_CANCELLED -> RequestStatus.RIDE_CANCELLED
             NotificationType.REQUEST_SENT -> RequestStatus.PENDING
@@ -66,8 +63,7 @@ class NotificationService(private val repository: NotificationRepository) {
             NotificationType.REQUEST_APPROVED -> RequestStatus.APPROVED
             NotificationType.REQUEST_DENIED -> RequestStatus.DENIED
         }
-        val newRide = rideRequest.copy(status = status)
-        newRide.id = requestId
-        pushNotification(newRide)
+        rideRequest.status=status
+        pushNotification(rideRequest)
     }
 }

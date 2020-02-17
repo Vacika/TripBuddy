@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.domain
 
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.JsonBackReference
 import java.time.ZonedDateTime
 import javax.persistence.Entity
 import javax.persistence.JoinColumn
@@ -14,7 +14,7 @@ data class Rating(
         @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
         val author: Member,
 
-        @JsonManagedReference
+        @JsonBackReference
         @ManyToOne
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
         val ride: Ride,

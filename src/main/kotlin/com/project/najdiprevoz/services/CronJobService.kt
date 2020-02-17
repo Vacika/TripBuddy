@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class CronJobService(private val rideRequestService: RideRequestService,
                      private val rideService: RideService) {
 
-    @Scheduled(cron = "0 0/5 * * * *")
+    @Scheduled(cron = "0 0/1 * * * *")
     private fun updateRidesAndRequestsJob() {
         updateRideCron()
         updateRideRequestCron()
@@ -18,9 +18,11 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     private fun updateRideRequestCron() {
         val activeRequests = rideRequestService.getAll().filter { it.status == RequestStatus.PENDING }
+
         activeRequests
                 .filter { it.ride.status == RideStatus.FINISHED }                    //RIDE FINISHED: Request Status ==> DENIED
                 .forEach { changeStatusByRideRequest(it, RequestStatus.DENIED) }
+
         activeRequests
                 .filter { it.ride.status == RideStatus.CANCELLED }
                 .forEach { changeStatusByRideRequest(it, RequestStatus.RIDE_CANCELLED) }      //RIDE CANCELLED: Request Status ==> RIDE_CANCELLED

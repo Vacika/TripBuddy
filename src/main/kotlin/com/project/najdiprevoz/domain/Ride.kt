@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.domain
 
-import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import java.time.ZonedDateTime
@@ -38,11 +38,11 @@ data class Ride(
         @Column(name = "description")
         val additionalDescription: String?,
 
-        @JsonBackReference
-        @OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY?
+        @JsonManagedReference
+        @OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
         val rideRequests: List<RideRequest> = listOf(),
 
-        @JsonBackReference
+        @JsonManagedReference
         @OneToMany(mappedBy = "ride", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         val rating: List<Rating> = listOf(),
 
