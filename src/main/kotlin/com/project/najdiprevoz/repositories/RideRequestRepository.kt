@@ -24,7 +24,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         WHERE r.id = :rideId
         AND rd.status = 'APPROVED'
     """)
-    fun getApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>?
+    fun findApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>?
 
     @Modifying
     @Transactional

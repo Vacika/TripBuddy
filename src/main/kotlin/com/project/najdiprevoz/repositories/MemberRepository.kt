@@ -17,5 +17,5 @@ interface MemberRepository : JpaRepository<Member, Long> {
         ORDER BY avg(rating)
         DESC
     """)
-    fun getTopRatedDrivers(page: Pageable): List<Member>?
+    fun findTopRatedDrivers(page: Pageable): List<Member>?
 }

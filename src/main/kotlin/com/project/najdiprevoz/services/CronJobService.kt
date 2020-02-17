@@ -21,7 +21,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
         activeRequests
                 .filter { it.ride.status == RideStatus.FINISHED }                    //RIDE FINISHED: Request Status ==> DENIED
-                .forEach { changeStatusByRideRequest(it, RequestStatus.DENIED) }
+                .forEach { changeStatusByRideRequest(it, RequestStatus.EXPIRED) }
 
         activeRequests
                 .filter { it.ride.status == RideStatus.CANCELLED }

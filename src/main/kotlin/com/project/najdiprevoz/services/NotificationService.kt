@@ -3,11 +3,15 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.*
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.repositories.NotificationRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
 @Service
 class NotificationService(private val repository: NotificationRepository) {
+
+    val logger: Logger = LoggerFactory.getLogger(NotificationService::class.java)
 
     fun pushNotification(rideRequest: RideRequest) {
         var actionsAllowed: List<String> = listOf(Actions.MARK_AS_SEEN.name)
@@ -45,6 +49,11 @@ class NotificationService(private val repository: NotificationRepository) {
                 to = requester
                 notificationType = NotificationType.RIDE_CANCELLED
             }
+            RequestStatus.EXPIRED -> {
+                from = driver
+                to = requester
+                notificationType = NotificationType.REQUEST_EXPIRED
+            }
         }
         repository.saveAndFlush(Notification(createdOn = ZonedDateTime.now(),
                 rideRequest = rideRequest,
@@ -53,6 +62,7 @@ class NotificationService(private val repository: NotificationRepository) {
                 from = from,
                 to = to,
                 type = notificationType))
+        logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${notificationType.name}]")
     }
 
     fun pushNotification(rideRequest: RideRequest, type: NotificationType) {
@@ -62,6 +72,7 @@ class NotificationService(private val repository: NotificationRepository) {
             NotificationType.REQUEST_CANCELLED -> RequestStatus.CANCELLED
             NotificationType.REQUEST_APPROVED -> RequestStatus.APPROVED
             NotificationType.REQUEST_DENIED -> RequestStatus.DENIED
+            NotificationType.REQUEST_EXPIRED -> RequestStatus.EXPIRED
             NotificationType.RATING_SUBMITTED -> throw Exception("RATING_SUBMITTED notification type can not be used on ride request status change!")
         }
         rideRequest.status = status
@@ -80,5 +91,6 @@ class NotificationService(private val repository: NotificationRepository) {
                         createdOn = ZonedDateTime.now()
                 )
         )
+        logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type: [RATING_SUBMITTED]")
     }
 }

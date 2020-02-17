@@ -28,7 +28,7 @@ class RideRequestService(private val repository: RideRequestRepository,
             repository.findAll()
 
     fun getApprovedRideRequestsForRide(rideId: Long) =
-            repository.getApprovedRequestsForRide(rideId = rideId)
+            repository.findApprovedRequestsForRide(rideId = rideId)
 
     fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) {
         repository.updateRideRequestStatus(rideRequest.id, status)
@@ -73,10 +73,12 @@ class RideRequestService(private val repository: RideRequestRepository,
                 RequestStatus.CANCELLED -> false
                 RequestStatus.DENIED -> false
                 RequestStatus.RIDE_CANCELLED -> true
+                RequestStatus.EXPIRED -> false
             }
         }
         return false
     }
+
     fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
 
     fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
