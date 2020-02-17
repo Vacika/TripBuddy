@@ -9,7 +9,6 @@ import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 
 @Service
 class RideRequestService(private val repository: RideRequestRepository,
@@ -64,7 +63,6 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
 
-
     private fun pushNotification(rideRequest: RideRequest) {
         notificationService.pushRequestStatusChangeNotification(rideRequest)
     }
@@ -87,10 +85,5 @@ class RideRequestService(private val repository: RideRequestRepository,
             }
         }
         return false
-    }
-
-    @PostConstruct
-    fun test() {
-        changeStatusByRideRequest(findById(1), RequestStatus.EXPIRED)
     }
 }

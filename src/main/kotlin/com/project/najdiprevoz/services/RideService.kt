@@ -14,7 +14,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 
 @Service
 class RideService(private val repository: RideRepository,
@@ -108,10 +107,4 @@ class RideService(private val repository: RideRepository,
 
     fun getAllRidesForDestination(destination: String) =
             repository.findAllByDestinationName(destination = destination)
-
-    @PostConstruct
-    fun test() {
-        val t = deleteRide(1)
-    }
-
 }
