@@ -1,57 +1,67 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
+
+//TODO: Implement Builder Pattern
 
 @Entity
 @Table(name = "rides")
 data class Ride(
         @Column(name = "created_on")
-        private val createdOn: ZonedDateTime,
+        val createdOn: ZonedDateTime,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "from_location", referencedColumnName = "name")
-        private val fromLocation: City,
+        @JoinColumn(name = "from_location", referencedColumnName = "id")
+        val fromLocation: City,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "to_location", referencedColumnName = "name")
-        private val destination: City,
+        @JoinColumn(name = "to_location", referencedColumnName = "id")
+        val destination: City,
 
         @Column(name = "departure_time")
-        private val departureTime: ZonedDateTime,
+        val departureTime: ZonedDateTime,
 
-        @Column(name = "total_seats")
-        private val totalSeats: Int,
-
-        @Column(name = "is_finished")
-        private val finished: Boolean,
+        @Column(name = "total_seats_offered")
+        val totalSeatsOffered: Int,
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "driver_id", nullable = false)
-        private val driver: Member,
+        val driver: Member,
 
         @Column(name = "price_per_head")
-        private val pricePerHead: Int,
+        val pricePerHead: Int,
 
         @Column(name = "description")
-        private val additionalDescription: String?,
+        val additionalDescription: String?,
 
-        @OneToMany(mappedBy = "ride")
-        private val rideRequest: List<RideRequest>?,
+        @JsonManagedReference
+        @OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
+        val rideRequests: List<RideRequest> = listOf(),
 
-        @OneToMany(mappedBy = "ride")
-        private val rating: List<Rating>?
+        @Enumerated(EnumType.STRING)
+        val status: RideStatus
 
 ) : BaseEntity<Long>() {
-    private fun getAvailableSeats(): Int {
-        if (this.rideRequest != null) {
-            return this.totalSeats - this.rideRequest.filter { it.getStatus().name == "Approved" }.size
+    fun getAvailableSeats(): Int {
+        if (this.rideRequests != null) {
+            return this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.size
         }
-        return this.totalSeats
+        return this.totalSeatsOffered
     }
 
-    fun getRatings(): List<Rating>? = rating
-
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
+
+    fun isFinished(): Boolean = this.status == RideStatus.FINISHED
+
+    fun setStatus(status: RideStatus) = this.copy(status = status)
+
+    @Override
+    override fun toString(): String {
+        return ""
+    }
 
 }

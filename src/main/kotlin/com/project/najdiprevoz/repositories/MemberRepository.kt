@@ -12,10 +12,10 @@ interface MemberRepository : JpaRepository<Member, Long> {
     @Query("""
         SELECT u as rating FROM Member u
         JOIN Rating r on
-        r.ride.driver = u
+        r.rideRequest.ride.driver = u
         GROUP BY u.id
         ORDER BY avg(rating)
         DESC
     """)
-    fun getTopRatedDrivers(page: Pageable): List<Member>?
+    fun findTopRatedDrivers(page: Pageable): List<Member>?
 }
