@@ -29,9 +29,9 @@ class RideController(private val service: RideService) {
     fun markAsFinished(@PathVariable("rideId") rideId: Long) =
             service.setRideFinished(rideId)
 
-    @GetMapping("/history/{memberId}")
-    fun getMemberPastRides(@PathVariable("memberId") memberId: Long) =
-            service.getPastRidesForMember(memberId)
+    @GetMapping("/history/{userId}")
+    fun getMemberPastRides(@PathVariable("userId") userId: Long) =
+            service.getPastRidesForMember(userId)
 
     @GetMapping("/{cityFrom}-{cityTo}")
     fun getRidesForRelation(@PathVariable("cityFrom") cityFrom: String,

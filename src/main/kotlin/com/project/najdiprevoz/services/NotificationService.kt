@@ -14,7 +14,7 @@ class NotificationService(private val repository: NotificationRepository) {
     val logger: Logger = LoggerFactory.getLogger(NotificationService::class.java)
 
 
-    private fun pushNotification(from: Member, to: Member, actionsAllowed: List<String>, type: NotificationType, rideRequest: RideRequest) {
+    private fun pushNotification(from: User, to: User, actionsAllowed: List<String>, type: NotificationType, rideRequest: RideRequest) {
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,
@@ -28,10 +28,10 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun pushRequestStatusChangeNotification(rideRequest: RideRequest) {
         var actionsAllowed: List<String> = listOf(Actions.MARK_AS_SEEN.name)
-        var to: Member
-        var from: Member
-        val driver: Member = rideRequest.ride.driver
-        val requester: Member = rideRequest.requester
+        var to: User
+        var from: User
+        val driver: User = rideRequest.ride.driver
+        val requester: User = rideRequest.requester
         var notificationType: NotificationType
 
         when (rideRequest.status) {

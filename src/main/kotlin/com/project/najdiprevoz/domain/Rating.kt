@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Rating(
         @JsonBackReference
         @OneToOne(optional = false)
-        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = false)
+        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = false, unique = true)
         val rideRequest: RideRequest,
 
         @Column(name = "note")
@@ -21,8 +21,8 @@ data class Rating(
         @Column(name = "rating")
         val rating: Int
 ) : BaseEntity<Long>() {
-    fun getAuthor(): Member = rideRequest.requester
-    fun getDriver(): Member = rideRequest.ride.driver
+    fun getAuthor(): User = rideRequest.requester
+    fun getDriver(): User = rideRequest.ride.driver
 
     override fun toString(): String = "Rating id:[${getId()}], Ride Request id:[${rideRequest.id}], rating: [$rating], date: [$dateSubmitted]"
 

@@ -13,7 +13,7 @@ import java.time.ZonedDateTime
 @Service
 class RideRequestService(private val repository: RideRequestRepository,
                          private val rideService: RideService,
-                         private val memberService: MemberService,
+                         private val userService: UserService,
                          private val notificationService: NotificationService) {
 
     fun findById(id: Long): RideRequest =
@@ -23,8 +23,8 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun getAllRequestsForRide(rideId: Long) =
             repository.findAllByRideId(rideId)
 
-    fun getAllRequestsForMember(memberId: Long) =
-            repository.findAllByRequesterId(requesterId = memberId)
+    fun getAllRequestsForMember(userId: Long) =
+            repository.findAllByRequesterId(requesterId = userId)
 
     fun getAll(): List<RideRequest> =
             repository.findAll()
@@ -56,7 +56,7 @@ class RideRequestService(private val repository: RideRequestRepository,
                 status = RequestStatus.PENDING,
                 ride = rideService.findById(rideId),
                 createdOn = ZonedDateTime.now(),
-                requester = memberService.findMemberById(requesterId))))
+                requester = userService.findMemberById(requesterId))))
     }
 
     fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)

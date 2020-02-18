@@ -7,7 +7,7 @@ import javax.persistence.*
 data class MemberPreferences(
         @OneToOne
         @JoinColumn(name = "member_id", referencedColumnName = "id")
-        val member: Member,
+        val user: User,
 
         @Column(name = "is_smoking_allowed")
         val isSmokingAllowed: Boolean? = false,

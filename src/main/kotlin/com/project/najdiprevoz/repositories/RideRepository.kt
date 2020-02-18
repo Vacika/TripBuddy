@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.repositories
 
-import com.project.najdiprevoz.domain.Member
 import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
 import org.springframework.data.jpa.repository.JpaRepository
@@ -16,7 +16,7 @@ import javax.transaction.Transactional
 @Repository
 interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<Ride> {
 
-    fun findAllByDriver(driver: Member): List<Ride>?
+    fun findAllByDriver(driver: User): List<Ride>?
 
     fun findAllByFromLocationNameAndDestinationName(fromLocationName: String, destinationName: String): List<Ride>
 

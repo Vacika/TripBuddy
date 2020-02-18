@@ -8,5 +8,5 @@ import java.util.*
 @Repository
 interface MemberPreferencesRepository : JpaRepository<MemberPreferences, Long> {
 
-    fun findByMemberId(memberId: Long): Optional<MemberPreferences>
+    fun findByUserId(userId: Long): Optional<MemberPreferences>
 }

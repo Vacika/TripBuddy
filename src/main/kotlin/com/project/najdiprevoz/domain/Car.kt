@@ -19,7 +19,7 @@ data class Car(
 
         @ManyToOne(optional = true, fetch = FetchType.LAZY)
         @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-        val owner: Member
+        val owner: User
 ) : BaseEntity<Long>() {
 
 //    override fun toString(): String {

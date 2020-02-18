@@ -16,10 +16,10 @@ data class Notification(val createdOn: ZonedDateTime,
                         val actionsAvailable: String? = "MARK_AS_SEEN",
                         @ManyToOne
                         @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
-                        val from: Member,
+                        val from: User,
                         @ManyToOne
                         @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
-                        val to: Member,
+                        val to: User,
                         val seen: Boolean = false) : BaseEntity<Long>()
 
 enum class NotificationType(private val type: String) {

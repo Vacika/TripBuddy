@@ -28,10 +28,10 @@ class RideRequestController(private val service: RideRequestService) {
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getDeniedRequestsForRide(rideId)
 
-    //TODO: Replace {memberId} with authentication principal
-    @GetMapping("/my/{memberId}")
-    fun findRideRequestsByMember(@PathVariable("memberId") memberId: Long) =
-            service.getAllRequestsForMember(memberId)
+    //TODO: Replace {userId} with authentication principal
+    @GetMapping("/my/{userId}")
+    fun findRideRequestsByMember(@PathVariable("userId") userId: Long) =
+            service.getAllRequestsForMember(userId)
 
     @GetMapping("/change-status")
     fun changeStatus(request: ChangeRideRequestStatusRequest) =

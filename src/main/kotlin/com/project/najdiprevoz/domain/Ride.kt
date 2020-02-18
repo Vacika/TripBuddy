@@ -30,7 +30,7 @@ data class Ride(
 
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "driver_id", nullable = false)
-        val driver: Member,
+        val driver: User,
 
         @Column(name = "price_per_head")
         val pricePerHead: Int,

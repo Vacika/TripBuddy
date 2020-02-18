@@ -12,7 +12,7 @@ data class RideRequest(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "requester_id")
-        val requester: Member,
+        val requester: User,
 
         @JsonBackReference
         @ManyToOne

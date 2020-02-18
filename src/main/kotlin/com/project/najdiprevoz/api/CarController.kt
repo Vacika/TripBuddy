@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/cars")
 class CarController(private val service: CarService) {
 
-    @GetMapping("/member/{memberId}")
-    fun getCarForMember(@PathVariable("memberId") memberId: Long) =
-            service.findCarForMember(memberId)
+    @GetMapping("/member/{userId}")
+    fun getCarForMember(@PathVariable("userId") userId: Long) =
+            service.findCarForMember(userId)
 
     @GetMapping("/edit/{carId}")
     fun editCar(@PathVariable("carId") carId: Long, editCarRequest: EditCarRequest) =

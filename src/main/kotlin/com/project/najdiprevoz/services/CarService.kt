@@ -12,7 +12,7 @@ import javax.transaction.Transactional
 
 @Service
 class CarService(private val repository: CarRepository,
-                 private val memberService: MemberService) {
+                 private val userService: UserService) {
 
     @Transactional
     fun addNewCar(addCarRequest: CreateCarRequest) =
@@ -22,9 +22,9 @@ class CarService(private val repository: CarRepository,
     fun removeCar(carId: Long) =
             repository.deleteById(carId)
 
-    fun findCarForMember(memberId: Long): Car? {
-        return repository.findByOwnerId(ownerId = memberId)
-                .orElseThrow { NoCarFoundForUserException(memberId) }
+    fun findCarForMember(userId: Long): Car? {
+        return repository.findByOwnerId(ownerId = userId)
+                .orElseThrow { NoCarFoundForUserException(userId) }
     }
 
     private fun mapToCar(addCarRequest: CreateCarRequest) =
@@ -32,7 +32,7 @@ class CarService(private val repository: CarRepository,
                 Car(
                         brand = brand,
                         model = model,
-                        owner = memberService.findMemberById(ownerId),
+                        owner = userService.findMemberById(ownerId),
                         yearOfManufacture = yearManufacture,
                         seats = totalSeats)
             }

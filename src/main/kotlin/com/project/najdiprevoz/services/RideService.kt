@@ -1,9 +1,9 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.Member
 import com.project.najdiprevoz.domain.NotificationType
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.NotEnoughSeatsToDeleteException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -17,7 +17,7 @@ import java.time.ZonedDateTime
 
 @Service
 class RideService(private val repository: RideRepository,
-                  private val memberService: MemberService,
+                  private val userService: UserService,
                   private val cityService: CityService,
                   private val notificationService: NotificationService) {
 
@@ -32,8 +32,8 @@ class RideService(private val repository: RideRepository,
     fun createNewRide(createRideRequest: CreateRideRequest) =
             repository.save(createRideObject(createRideRequest = createRideRequest))
 
-    fun getPastRidesForMember(memberId: Long) =
-            repository.findAllByDriverIdAndStatus(driverId = memberId, status = RideStatus.FINISHED)
+    fun getPastRidesForMember(userId: Long) =
+            repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
 
     fun setRideFinished(rideId: Long): Boolean =
             repository.changeRideStatus(rideId = rideId, status = RideStatus.FINISHED) == 1
@@ -56,7 +56,7 @@ class RideService(private val repository: RideRepository,
     fun findAvailableSeatsForRide(rideId: Long) =
             repository.getAvailableSeatsForRide(rideId = rideId)
 
-    fun findAllRidesForUser(user: Member) =
+    fun findAllRidesForUser(user: User) =
             repository.findAllByDriver(driver = user)
 
     private fun createRideObject(createRideRequest: CreateRideRequest) = with(createRideRequest) {
@@ -66,7 +66,7 @@ class RideService(private val repository: RideRepository,
                 destination = cityService.findByName(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
-                driver = memberService.findMemberById(driverId),
+                driver = userService.findMemberById(driverId),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rideRequests = listOf<RideRequest>(),

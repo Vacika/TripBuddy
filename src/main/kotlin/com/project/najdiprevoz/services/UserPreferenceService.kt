@@ -9,22 +9,21 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class MemberPreferencesService(private val repository: MemberPreferencesRepository) {
+class UserPreferenceService(private val repository: MemberPreferencesRepository) {
 
-    val logger: Logger = LoggerFactory.getLogger(MemberPreferencesService::class.java)
+    val logger: Logger = LoggerFactory.getLogger(UserPreferenceService::class.java)
 
-    fun EditMemberPreferenceRequest(memberId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences =
+    fun editUserPreferenceRequest(userId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences =
             with(editMemberPreferenceRequest) {
-                val preference = repository.findByMemberId(memberId)
-                        .orElseThrow { InvalidUserIdException(memberId) }
+                val preference = getUserPreference(userId)
                         .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)
-                logger.info("Editing member preference for member $memberId.Preference: $preference")
+                logger.info("Editing member preference for member $userId.Preference: $preference")
                 repository.save(preference)
             }
 
-    fun getMemberPreferences(memberId: Long): MemberPreferences =
-            repository.findByMemberId(memberId)
-                    .orElseThrow { InvalidUserIdException(memberId) }
+    fun getUserPreference(userId: Long): MemberPreferences =
+            repository.findByUserId(userId)
+                    .orElseThrow { InvalidUserIdException(userId) }
 
     fun createMemberPreferences(memberPreference: MemberPreferences) =
             repository.save(memberPreference)
