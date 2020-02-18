@@ -32,7 +32,7 @@ class CarService(private val repository: CarRepository,
                 Car(
                         brand = brand,
                         model = model,
-                        owner = userService.findMemberById(ownerId),
+                        owner = userService.findUserById(ownerId),
                         yearOfManufacture = yearManufacture,
                         seats = totalSeats)
             }

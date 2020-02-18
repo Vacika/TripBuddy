@@ -13,8 +13,8 @@ class UserPreferenceService(private val repository: MemberPreferencesRepository)
 
     val logger: Logger = LoggerFactory.getLogger(UserPreferenceService::class.java)
 
-    fun editUserPreferenceRequest(userId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest): MemberPreferences =
-            with(editMemberPreferenceRequest) {
+    fun editUserPreferenceRequest(userId: Long, req: EditMemberPreferenceRequest): MemberPreferences =
+            with(req) {
                 val preference = getUserPreference(userId)
                         .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)
                 logger.info("Editing member preference for member $userId.Preference: $preference")

@@ -23,8 +23,8 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun getAllRequestsForRide(rideId: Long) =
             repository.findAllByRideId(rideId)
 
-    fun getAllRequestsForMember(userId: Long) =
-            repository.findAllByRequesterId(requesterId = userId)
+    fun getAllRequestsForUser(username: String) =
+            repository.findAllByRequesterUsername(username = username)
 
     fun getAll(): List<RideRequest> =
             repository.findAll()
@@ -56,7 +56,7 @@ class RideRequestService(private val repository: RideRequestRepository,
                 status = RequestStatus.PENDING,
                 ride = rideService.findById(rideId),
                 createdOn = ZonedDateTime.now(),
-                requester = userService.findMemberById(requesterId))))
+                requester = userService.findUserById(requesterId))))
     }
 
     fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/ride-requests")
@@ -28,10 +29,9 @@ class RideRequestController(private val service: RideRequestService) {
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getDeniedRequestsForRide(rideId)
 
-    //TODO: Replace {userId} with authentication principal
-    @GetMapping("/my/{userId}")
-    fun findRideRequestsByMember(@PathVariable("userId") userId: Long) =
-            service.getAllRequestsForMember(userId)
+    @GetMapping("/my}")
+    fun findMyRideRequests(principal: Principal) =
+            service.getAllRequestsForUser(principal.name)
 
     @GetMapping("/change-status")
     fun changeStatus(request: ChangeRideRequestStatusRequest) =

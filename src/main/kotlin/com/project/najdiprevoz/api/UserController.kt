@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.*
 class UserController(private val userService: UserService) {
 
     @GetMapping("/{userId}")
-    fun findMemberById(@PathVariable("userId") userId: Long) =
-            userService.findMemberById(userId)
+    fun findUserById(@PathVariable("userId") userId: Long) =
+            userService.findUserById(userId)
+
+    @GetMapping
+    fun findUserByUsername(username: String) =
+            userService.findUserByUsername(username)
 
     @PutMapping
-    fun createMember(@RequestBody createMemberRequest: CreateMemberRequest) =
-            userService.createNewUser(createMemberRequest)
+    fun createUser(@RequestBody request: CreateMemberRequest) =
+            userService.createNewUser(request)
 
     @GetMapping("/edit/profile-photo")
-    fun editProfilePhoto(changeProfilePhotoRequest: ChangeProfilePhotoRequest) =
-            userService.editProfilePhoto(changeProfilePhotoRequest)
+    fun editProfilePhoto(request: ChangeProfilePhotoRequest) =
+            userService.editProfilePhoto(request)
 }

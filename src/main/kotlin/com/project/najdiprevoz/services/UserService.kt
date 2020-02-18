@@ -1,17 +1,19 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.Authority
 import com.project.najdiprevoz.domain.MemberPreferences
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
+import com.project.najdiprevoz.repositories.AuthorityRepository
 import com.project.najdiprevoz.repositories.MemberRepository
 import com.project.najdiprevoz.web.request.create.CreateMemberRequest
 import com.project.najdiprevoz.web.request.edit.ChangeProfilePhotoRequest
-import com.project.najdiprevoz.web.response.MemberResponse
+import com.project.najdiprevoz.web.response.UserResponse
 import org.springframework.context.annotation.Bean
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import javax.annotation.PostConstruct
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -20,10 +22,11 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: MemberRepository,
+                  private val authorityRepository: AuthorityRepository,
                   private val userPreferenceService: UserPreferenceService) {
 
     fun createNewUser(createMemberRequest: CreateMemberRequest): User {
-        val newMember = with(createMemberRequest) {
+        val newUser = with(createMemberRequest) {
             repository.save(User(
                     firstName = firstName,
                     lastName = lastName,
@@ -33,32 +36,43 @@ class UserService(private val repository: MemberRepository,
                     gender = gender,
                     phoneNumber = phoneNumber,
                     profilePhoto = null,
-                    authority = Authority()))
+                    authority = authorityRepository.findByAuthority("ROLE_USER")!!))
         }
-        createDefaultPreferences(newMember)
-        return newMember
+        createDefaultPreferences(newUser)
+        return newUser
     }
 
+    fun findUserByUsername(username: String): User =
+            repository.findByUsername(username)
+                    .orElseThrow { UsernameNotFoundException("User was not found") }
 
-    private fun createDefaultPreferences(user: User) {
-        userPreferenceService.createMemberPreferences(
-                MemberPreferences(isPetAllowed = false, isSmokingAllowed = false, user = user))
-    }
 
-    fun findMemberById(userId: Long): User =
+    fun findUserById(userId: Long): User =
             repository.findById(userId)
                     .orElseThrow { InvalidUserIdException(userId) }
 
-    fun editProfilePhoto(changeProfilePhotoRequest: ChangeProfilePhotoRequest) = with(changeProfilePhotoRequest) {
-        val member = findMemberById(userId)
+    fun editProfilePhoto(req: ChangeProfilePhotoRequest) = with(req) {
+        val member = findUserById(userId)
         member.copy(profilePhoto = profilePhoto.toString())
-        mapToMemberResponse(repository.save(member))
+        mapToUserResponse(repository.save(member))
     }
 
-    private fun mapToMemberResponse(user: User): MemberResponse = with(user) {
-        MemberResponse(firstName = firstName,
+    private fun mapToUserResponse(user: User): UserResponse = with(user) {
+        UserResponse(firstName = firstName,
                 lastName = lastName,
-                profilePhoto = profilePhoto
+                profilePhoto = profilePhoto,
+                username = user.username,
+                phoneNumber = user.phoneNumber
         )
+    }
+
+    private fun createDefaultPreferences(user: User) = with(user) {
+        userPreferenceService.createMemberPreferences(
+                MemberPreferences(isPetAllowed = false, isSmokingAllowed = false, user = this))
+    }
+
+    fun changePassword(newPassword: String, username: String) {
+       repository.save(findUserByUsername(username)
+                .setPassword(passwordEncoder().encode(newPassword)))
     }
 }

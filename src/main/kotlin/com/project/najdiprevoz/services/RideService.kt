@@ -32,22 +32,17 @@ class RideService(private val repository: RideRepository,
     fun createNewRide(createRideRequest: CreateRideRequest) =
             repository.save(createRideObject(createRideRequest = createRideRequest))
 
-    fun getPastRidesForMember(userId: Long) =
+    fun getPastRidesForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
 
     fun setRideFinished(rideId: Long): Boolean =
             repository.changeRideStatus(rideId = rideId, status = RideStatus.FINISHED) == 1
-
 
     fun deleteRide(rideId: Long) {
         val ride = findById(rideId)
         ride.rideRequests.forEach { pushNotification(it, NotificationType.RIDE_CANCELLED) }
         repository.changeRideStatus(rideId, RideStatus.CANCELLED)
         logger.info("[RideService - DELETE RIDE] Ride with id $rideId successfully deleted!")
-    }
-
-    private fun pushNotification(req: RideRequest, type: NotificationType) {
-        notificationService.pushRequestStatusChangeNotification(req, type)
     }
 
     fun findById(id: Long): Ride =
@@ -66,7 +61,7 @@ class RideService(private val repository: RideRepository,
                 destination = cityService.findByName(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
-                driver = userService.findMemberById(driverId),
+                driver = userService.findUserById(driverId),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rideRequests = listOf<RideRequest>(),
@@ -96,7 +91,6 @@ class RideService(private val repository: RideRepository,
         return ride
     }
 
-
     fun checkForFinishedRidesTask() {
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
@@ -107,4 +101,9 @@ class RideService(private val repository: RideRepository,
 
     fun getAllRidesForDestination(destination: String) =
             repository.findAllByDestinationName(destination = destination)
+
+    private fun pushNotification(req: RideRequest, type: NotificationType) {
+        notificationService.pushRequestStatusChangeNotification(req, type)
+    }
 }
+

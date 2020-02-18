@@ -16,6 +16,6 @@ class UserPreferenceController(private val service: UserPreferenceService) {
             service.getUserPreference(userId)
 
     @GetMapping("/edit/{userId}")
-    fun editPreferenceByUser(@PathVariable("userId") userId: Long, editMemberPreferenceRequest: EditMemberPreferenceRequest) =
-            service.editUserPreferenceRequest(userId, editMemberPreferenceRequest)
+    fun editPreferenceByUser(@PathVariable("userId") userId: Long, request: EditMemberPreferenceRequest) =
+            service.editUserPreferenceRequest(userId, request)
 }
