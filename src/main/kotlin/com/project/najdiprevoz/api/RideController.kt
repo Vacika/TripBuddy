@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.services.RideService
+import com.project.najdiprevoz.web.request.FilterRideRequest
 import com.project.najdiprevoz.web.request.create.CreateRideRequest
 import com.project.najdiprevoz.web.request.edit.EditRideRequest
 import org.springframework.web.bind.annotation.*
@@ -12,6 +13,11 @@ class RideController(private val service: RideService) {
     @GetMapping
     fun getAllActiveRides() =
             service.findAllActiveRidesWithAvailableSeats()
+
+    @GetMapping
+    fun findAllFiltered(filterRequest: FilterRideRequest) =
+            service.findAllFiltered(filterRequest)
+
 
     @GetMapping("/{rideId}")
     fun getRide(@PathVariable("rideId") rideId: Long) =

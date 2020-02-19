@@ -30,7 +30,8 @@ class SecurityConfig(service: UserDetailsServiceImpl) : WebSecurityConfigurerAda
                 .httpBasic()
                 .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
                 .and()
-                .authorizeRequests() //                .antMatchers("/api/auth/principal")
+                .authorizeRequests()
+                //                .antMatchers("/api/auth/principal")
 //                    .hasAnyRole("USER", "ADMIN")
 //
 //                .antMatchers("/api/leases/my")
