@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.Ride
-import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
 import org.springframework.data.jpa.repository.JpaRepository
@@ -16,7 +15,7 @@ import javax.transaction.Transactional
 @Repository
 interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<Ride> {
 
-    fun findAllByDriver(driver: User): List<Ride>?
+    fun findAllByDriverId(driverId: Long): List<Ride>?
 
     fun findAllByFromLocationNameAndDestinationName(fromLocationName: String, destinationName: String): List<Ride>
 
@@ -32,10 +31,10 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
 
     fun findAllByStatus(status: RideStatus): List<Ride>
-
-    fun findAllByFromLocationName(fromLocationName: String): List<Ride>?
-
-    fun findAllByDestinationName(destination: String): List<Ride>?
+//
+//    fun findAllByFromLocationName(fromLocationName: String): List<Ride>?
+//
+//    fun findAllByDestinationName(destination: String): List<Ride>?
 
     @Modifying
     @Transactional

@@ -13,7 +13,7 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         @Column(name = "id", nullable = false, unique = true)
-        val id: Long = 0,
+        val id: Long? = null,
 
         @Column(name = "username", nullable = false, unique = true)
         private val username: String,

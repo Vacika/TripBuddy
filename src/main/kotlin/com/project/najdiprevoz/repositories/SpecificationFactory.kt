@@ -1,23 +1,15 @@
 package com.project.najdiprevoz.repositories
 
-import com.project.najdiprevoz.domain.City
 import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.springframework.data.jpa.domain.Specification
 import java.time.ZonedDateTime
-import java.util.*
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.Path
 import javax.persistence.criteria.Root
 
-
-//search by city name
-private fun fromCityNameLike(cityName: String, root: Root<Ride>, cb: CriteriaBuilder) =
-        cb.equal(root.get<City>("from").get<String>("name"), cityName)
-
-fun fromCityNameLike(cityName: String) = Specification<Ride> { root, _, cb ->
-    fromCityNameLike(cityName, root, cb)
-}
 
 fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
     var path: Path<Ride> = root
@@ -27,33 +19,18 @@ fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
     return path
 }
 
-private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>, cb: CriteriaBuilder) = cb.equal(getPath(root, properties), value)
-
+private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>, cb: CriteriaBuilder) =
+        cb.equal(getPath(root, properties), value)
 fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
         Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
-private fun cityToLikePredicate(cityName: String, root: Root<Ride>, cb: CriteriaBuilder) =
-        cb.equal(root.get<City>("to").get<String>("name"), cityName)
-
-fun cityToLike(cityName: String) =
-        Specification<Ride> { root, _, cb -> cityToLikePredicate(cityName, root, cb) }
-
 private fun valueLike(value: String, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)
-
 fun likeSpecification(properties: List<String>, value: String): Specification<Ride> =
         Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
 
 
-private fun dateOnSpecificationPredicate(value: Date, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
-        cb.equal(getPath(root, properties).`as`(Date::class.java), value)
-
-fun dateOnSpecification(properties: List<String>, value: Date) =
-        Specification<Ride> { root, _, cb -> dateOnSpecificationPredicate(value, root, cb, properties) }
-
-
 private fun greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<Ride>, cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(getPath(root, properties).`as`(Int::class.java), value)
-
 fun greaterThanOrEquals(properties: List<String>, value: Int) =
         Specification<Ride> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
 

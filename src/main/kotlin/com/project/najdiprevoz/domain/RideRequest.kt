@@ -9,6 +9,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "ride_requests")
 data class RideRequest(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "requester_id")
@@ -22,7 +25,7 @@ data class RideRequest(
         @Column(name = "created_on")
         val createdOn: ZonedDateTime,
 
-        @OneToOne(mappedBy = "rideRequest", optional = true, cascade = [CascadeType.ALL])
+        @OneToOne(mappedBy = "rideRequest", optional = true)
         @JsonManagedReference
         val rating: Rating? = null,
 
@@ -30,4 +33,4 @@ data class RideRequest(
         @Column(name = "status", nullable = false)
         var status: RequestStatus = RequestStatus.PENDING
 
-) : BaseEntity<Long>()
+)
