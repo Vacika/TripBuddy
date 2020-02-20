@@ -4,7 +4,7 @@ import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
-import com.project.najdiprevoz.web.request.create.CreateRequestForRideRequest
+import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
@@ -12,7 +12,7 @@ import java.time.ZonedDateTime
 
 @Service
 class RideRequestService(private val repository: RideRequestRepository,
-                         private val rideService: RideService,
+                         private val tripService: TripService,
                          private val userService: UserService,
                          private val notificationService: NotificationService) {
 
@@ -51,10 +51,10 @@ class RideRequestService(private val repository: RideRequestRepository,
         pushNotification(findById(requestId))
     }
 
-    fun addNewRideRequest(createRideRequest: CreateRequestForRideRequest) = with(createRideRequest) {
+    fun addNewRideRequest(createRideRequestForTrip: CreateRequestForTrip) = with(createRideRequestForTrip) {
         pushNotification(repository.save(RideRequest(
                 status = RequestStatus.PENDING,
-                ride = rideService.findById(rideId),
+                ride = tripService.findById(rideId),
                 createdOn = ZonedDateTime.now(),
                 requester = userService.findUserById(requesterId))))
     }

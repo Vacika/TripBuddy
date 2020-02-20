@@ -20,10 +20,9 @@ data class Car(
         @ManyToOne(optional = true, fetch = FetchType.LAZY)
         @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
         val owner: User
-) : BaseEntity<Long>() {
+) : BaseEntity<Long>()
 
 //    override fun toString(): String {
 //        return ""
 ////        return "Brand: $brand, Model: $model, Year: $yearOfManufacture, totalSeats: $seats, owner: $owner "
 //    }
-}

@@ -3,6 +3,7 @@ package com.project.najdiprevoz.repositories
 import com.project.najdiprevoz.domain.City
 import com.project.najdiprevoz.domain.Ride
 import org.springframework.data.jpa.domain.Specification
+import java.time.ZonedDateTime
 import java.util.*
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.Path
@@ -43,14 +44,20 @@ private fun <T> dateOnSpecificationPredicate(value: Date, root: Root<T>, cb: Cri
         cb.equal(getPath(root, properties).`as`(Date::class.java), value)
 
 fun <T> dateOnSpecification(properties: List<String>, value: Date) =
-    Specification<T> { root, _, cb -> dateOnSpecificationPredicate(value, root, cb, properties) }
+        Specification<T> { root, _, cb -> dateOnSpecificationPredicate(value, root, cb, properties) }
 
 
-private  fun <T> greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<T>, cb: CriteriaBuilder )
-    = cb.greaterThanOrEqualTo(getPath(root,properties).`as`(Int::class.java),value)
+private fun <T> greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<T>, cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(getPath(root, properties).`as`(Int::class.java), value)
 
-fun <T, E> greaterThanOrEquals(properties: List<String>, value: Int) =
-        Specification<T> {root,_,cb ->greaterThanOrEqualsPredicate(value,properties,root,cb)}
+fun <T> greaterThanOrEquals(properties: List<String>, value: Int) =
+        Specification<T> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
+
+
+private fun <T> laterThanTimePredicate (value: ZonedDateTime, properties: List<String>, root: Root<T>, cb: CriteriaBuilder) =
+        cb.greaterThan(getPath(root, properties).`as`(ZonedDateTime::class.java), value)
+
+fun <T> laterThanTime(properties: List<String>, value: ZonedDateTime) =
+        Specification<T> { root, _, cb -> laterThanTimePredicate(value,properties,root,cb) }
 
 
 //private fun <T> valueLike(value: String, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =

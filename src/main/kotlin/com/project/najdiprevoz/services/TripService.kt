@@ -8,9 +8,9 @@ import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.NotEnoughSeatsToDeleteException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
-import com.project.najdiprevoz.web.request.FilterRideRequest
-import com.project.najdiprevoz.web.request.create.CreateRideRequest
-import com.project.najdiprevoz.web.request.edit.EditRideRequest
+import com.project.najdiprevoz.web.request.FilterTripRequest
+import com.project.najdiprevoz.web.request.create.CreateTripRequest
+import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.Specification
@@ -19,12 +19,12 @@ import java.time.ZonedDateTime
 import java.util.*
 
 @Service
-class RideService(private val repository: RideRepository,
+class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
                   private val notificationService: NotificationService) {
 
-    val logger: Logger = LoggerFactory.getLogger(RideService::class.java)
+    val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
     fun findAllActiveRides(): List<Ride> =
             repository.findAllByStatus(RideStatus.ACTIVE)
@@ -32,8 +32,8 @@ class RideService(private val repository: RideRepository,
     fun findAllActiveRidesWithAvailableSeats() =
             findAllActiveRides().filter { it.getAvailableSeats() > 0 }
 
-    fun createNewRide(createRideRequest: CreateRideRequest) =
-            repository.save(createRideObject(createRideRequest = createRideRequest))
+    fun createNewRide(createTripRequest: CreateTripRequest): Ride =
+            repository.save(createRideObject(createTripRequest = createTripRequest))
 
     fun getPastRidesForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
@@ -57,7 +57,7 @@ class RideService(private val repository: RideRepository,
     fun findAllRidesForUser(user: User) =
             repository.findAllByDriver(driver = user)
 
-    private fun createRideObject(createRideRequest: CreateRideRequest) = with(createRideRequest) {
+    private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
                 fromLocation = cityService.findByName(fromLocation),
@@ -76,7 +76,7 @@ class RideService(private val repository: RideRepository,
             repository.findAllByFromLocationNameAndDestinationName(from, to)
                     .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
 
-    fun editRide(rideId: Long, editRideRequest: EditRideRequest) = with(editRideRequest) {
+    fun editRide(rideId: Long, editTripRequest: EditTripRequest) = with(editTripRequest) {
         val ride = findById(rideId)
         ride.copy(fromLocation = cityService.findByName(fromLocation),
                 departureTime = departureTime,
@@ -109,39 +109,19 @@ class RideService(private val repository: RideRepository,
         notificationService.pushRequestStatusChangeNotification(req, type)
     }
 
-    fun findAllFiltered(filterRequest: FilterRideRequest) = with(filterRequest) {
-        val specification = createRideSpecification()
+    fun findAllFiltered(req: FilterTripRequest): List<Ride> = with(req) {
+        val specification = createRideSpecification(fromAddress = fromAddress, toAddress = toAddress, departureDay = departureDay)
+        repository.findAll(specification)
     }
 
-
-    private fun createRideSpecification(fromAddress: String?, toAddress: String?, departureDay: Date,
-                                        departureTime: String?, requestSeats: Int?): Specification<Ride> =
+    private fun createRideSpecification(fromAddress: String?, toAddress: String?, departureDay: Date?): Specification<Ride> =
             listOfNotNull(
                     fromAddress?.let { likeSpecification<Ride>(listOf("from", "name"), it) },
                     toAddress?.let { likeSpecification<Ride>(listOf("to", "name"), it) },
-                    dateOnSpecification<Ride>(listOf("departureTime"),departureDay)
-//                    greaterThanOrEquals<Ride>(listOf(""))
-
-
-
-//                    evaluateSpecification(status?.takeIf { it.isNotEmpty() }, ::statusNameIn),
-//                    evaluateSpecification(startDate, ::afterDate),
-//                    //FIXME: for some stupid reason when executing the query through jpa the given date that goes one plus day
-//                    //FIXME: meaning that the equal part is not true, even though it is supposed to be
-//                    //FIXME: the current fix means that we add one day so we get that functionality
-//                    //FIXME: this also applies to start date but in reverse order (on the greater than clause it acts as an equal)
-//                    evaluateSpecification(endDate, ::beforeDate),
-//                    evaluateSpecification(userSearch, ::fromAddressLike),
-//                    evaluateSpecification(projectId, ::projectIdEquals),
-//                    evaluateSpecification(ticketNumberSearch, ::ticketNumberEquals),
-//                    evaluateSpecification(subject, ::subjectLike),
-//                    evaluateSpecification(trackers, ::trackerIn)
+                    departureDay?.let { dateOnSpecification<Ride>(listOf("departureTime"), it) },
+                    laterThanTime<Ride>(listOf("departureTime"), ZonedDateTime.now())
             ).fold(whereTrue()) { first, second ->
-                Specification.where(first).and(second)
+                Specification.where(first).and(second as Specification<Ride>)
             }
-
-    private inline fun <reified T> evaluateSpecification(value: T?, fn: (T) -> Specification<Ride>) = value?.let(fn)
-
-
 }
 

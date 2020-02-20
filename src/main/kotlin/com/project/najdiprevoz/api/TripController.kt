@@ -1,21 +1,22 @@
 package com.project.najdiprevoz.api
 
-import com.project.najdiprevoz.services.RideService
-import com.project.najdiprevoz.web.request.FilterRideRequest
-import com.project.najdiprevoz.web.request.create.CreateRideRequest
-import com.project.najdiprevoz.web.request.edit.EditRideRequest
+import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.services.TripService
+import com.project.najdiprevoz.web.request.FilterTripRequest
+import com.project.najdiprevoz.web.request.create.CreateTripRequest
+import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/rides")
-class RideController(private val service: RideService) {
+class TripController(private val service: TripService) {
 
     @GetMapping
     fun getAllActiveRides() =
             service.findAllActiveRidesWithAvailableSeats()
 
     @GetMapping
-    fun findAllFiltered(filterRequest: FilterRideRequest) =
+    fun findAllFiltered(filterRequest: FilterTripRequest): List<Ride> =
             service.findAllFiltered(filterRequest)
 
 
@@ -28,8 +29,8 @@ class RideController(private val service: RideService) {
             service.deleteRide(rideId)
 
     @PostMapping("/edit/{rideId}")
-    fun editRide(@PathVariable("rideId") rideId: Long, @RequestBody editRideRequest: EditRideRequest) =
-            service.editRide(rideId, editRideRequest)
+    fun editRide(@PathVariable("rideId") rideId: Long, @RequestBody editTripRequest: EditTripRequest) =
+            service.editRide(rideId, editTripRequest)
 
     @GetMapping("/finish/{rideId}")
     fun markAsFinished(@PathVariable("rideId") rideId: Long) =
@@ -50,6 +51,6 @@ class RideController(private val service: RideService) {
             service.decreaseSeatsOffered(rideId, minusSeats)
 
     @PostMapping("/add")
-    fun addNewRide(@RequestBody createRideRequest: CreateRideRequest) =
-            service.createNewRide(createRideRequest)
+    fun addNewRide(@RequestBody createTripRequest: CreateTripRequest): Ride =
+            service.createNewRide(createTripRequest)
 }

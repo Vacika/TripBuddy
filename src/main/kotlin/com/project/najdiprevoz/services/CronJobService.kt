@@ -12,7 +12,7 @@ import javax.transaction.Transactional
 
 @Service
 class CronJobService(private val rideRequestService: RideRequestService,
-                     private val rideService: RideService) {
+                     private val tripService: TripService) {
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
@@ -44,5 +44,5 @@ class CronJobService(private val rideRequestService: RideRequestService,
             rideRequestService.changeStatusByRideRequest(rideRequest, status)
 
     private fun updateRideCron() =
-            rideService.checkForFinishedRidesTask()
+            tripService.checkForFinishedRidesTask()
 }
