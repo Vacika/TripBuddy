@@ -7,7 +7,10 @@ import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.NotEnoughSeatsToDeleteException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
-import com.project.najdiprevoz.repositories.*
+import com.project.najdiprevoz.repositories.RideRepository
+import com.project.najdiprevoz.repositories.likeSpecification
+import com.project.najdiprevoz.repositories.tripStatusEqualsSpecification
+import com.project.najdiprevoz.repositories.whereTrue
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
@@ -116,10 +119,10 @@ class TripService(private val repository: RideRepository,
 
     private fun createRideSpecification(fromAddress: String?, toAddress: String?, departureDay: Date?) =
             listOfNotNull(
-                    evaluateSpecification(listOf("from", "name"), fromAddress, ::likeSpecification),
-                    evaluateSpecification(listOf("to", "name"), toAddress, ::likeSpecification),
-                    evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
-                    evaluateSpecification(listOf("departureTime"), departureDay, ::dateOnSpecification),
+                    evaluateSpecification(listOf("fromLocation", "name"), fromAddress, ::likeSpecification),
+                    evaluateSpecification(listOf("destination", "name"), toAddress, ::likeSpecification),
+//                    evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
+//                    evaluateSpecification(listOf("departureTime"), z, ::dateOnSpecification),
                     evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
             ).fold(whereTrue()) { first, second ->
                 Specification.where(first).and(second)

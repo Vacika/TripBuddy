@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 import javax.annotation.PostConstruct
 
 @RestController
-@RequestMapping("/api/rides")
+@RequestMapping("/api/trips")
 class TripController(private val service: TripService) {
 
     @GetMapping
