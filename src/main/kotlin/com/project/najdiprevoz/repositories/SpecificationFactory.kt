@@ -2,6 +2,7 @@ package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.City
 import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.enums.RideStatus
 import org.springframework.data.jpa.domain.Specification
 import java.time.ZonedDateTime
 import java.util.*
@@ -18,13 +19,18 @@ fun fromCityNameLike(cityName: String) = Specification<Ride> { root, _, cb ->
     fromCityNameLike(cityName, root, cb)
 }
 
-fun <T> getPath(root: Root<T>, attributeName: List<String>): Path<T> {
-    var path: Path<T> = root
+fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
+    var path: Path<Ride> = root
     for (part in attributeName) {
         path = path.get(part)
     }
     return path
 }
+
+private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>, cb: CriteriaBuilder) = cb.equal(getPath(root, properties), value)
+
+fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
+        Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
 private fun cityToLikePredicate(cityName: String, root: Root<Ride>, cb: CriteriaBuilder) =
         cb.equal(root.get<City>("to").get<String>("name"), cityName)
@@ -32,32 +38,31 @@ private fun cityToLikePredicate(cityName: String, root: Root<Ride>, cb: Criteria
 fun cityToLike(cityName: String) =
         Specification<Ride> { root, _, cb -> cityToLikePredicate(cityName, root, cb) }
 
-private fun <T> valueLike(value: String, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =
+private fun valueLike(value: String, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)
 
-fun <T> likeSpecification(properties: List<String>, value: String) {
-    Specification<T> { root, _, cb -> valueLike(value, root, cb, properties) }
-}
+fun likeSpecification(properties: List<String>, value: String): Specification<Ride> =
+        Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
 
 
-private fun <T> dateOnSpecificationPredicate(value: Date, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =
+private fun dateOnSpecificationPredicate(value: Date, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
         cb.equal(getPath(root, properties).`as`(Date::class.java), value)
 
-fun <T> dateOnSpecification(properties: List<String>, value: Date) =
-        Specification<T> { root, _, cb -> dateOnSpecificationPredicate(value, root, cb, properties) }
+fun dateOnSpecification(properties: List<String>, value: Date) =
+        Specification<Ride> { root, _, cb -> dateOnSpecificationPredicate(value, root, cb, properties) }
 
 
-private fun <T> greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<T>, cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(getPath(root, properties).`as`(Int::class.java), value)
+private fun greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<Ride>, cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(getPath(root, properties).`as`(Int::class.java), value)
 
-fun <T> greaterThanOrEquals(properties: List<String>, value: Int) =
-        Specification<T> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
+fun greaterThanOrEquals(properties: List<String>, value: Int) =
+        Specification<Ride> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
 
 
-private fun <T> laterThanTimePredicate (value: ZonedDateTime, properties: List<String>, root: Root<T>, cb: CriteriaBuilder) =
+private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>, cb: CriteriaBuilder) =
         cb.greaterThan(getPath(root, properties).`as`(ZonedDateTime::class.java), value)
 
-fun <T> laterThanTime(properties: List<String>, value: ZonedDateTime) =
-        Specification<T> { root, _, cb -> laterThanTimePredicate(value,properties,root,cb) }
+fun laterThanTime(properties: List<String>, value: ZonedDateTime) =
+        Specification<Ride> { root, _, cb -> laterThanTimePredicate(value, properties, root, cb) }
 
 
 //private fun <T> valueLike(value: String, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =

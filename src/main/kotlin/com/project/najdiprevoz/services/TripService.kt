@@ -29,7 +29,7 @@ class TripService(private val repository: RideRepository,
     fun findAllActiveRides(): List<Ride> =
             repository.findAllByStatus(RideStatus.ACTIVE)
 
-    fun findAllActiveRidesWithAvailableSeats() =
+    fun findAllActiveTripsWithAvailableSeats() =
             findAllActiveRides().filter { it.getAvailableSeats() > 0 }
 
     fun createNewRide(createTripRequest: CreateTripRequest): Ride =
@@ -114,14 +114,19 @@ class TripService(private val repository: RideRepository,
         repository.findAll(specification)
     }
 
-    private fun createRideSpecification(fromAddress: String?, toAddress: String?, departureDay: Date?): Specification<Ride> =
+    private fun createRideSpecification(fromAddress: String?, toAddress: String?, departureDay: Date?) =
             listOfNotNull(
-                    fromAddress?.let { likeSpecification<Ride>(listOf("from", "name"), it) },
-                    toAddress?.let { likeSpecification<Ride>(listOf("to", "name"), it) },
-                    departureDay?.let { dateOnSpecification<Ride>(listOf("departureTime"), it) },
-                    laterThanTime<Ride>(listOf("departureTime"), ZonedDateTime.now())
+                    evaluateSpecification(listOf("from", "name"), fromAddress, ::likeSpecification),
+                    evaluateSpecification(listOf("to", "name"), toAddress, ::likeSpecification),
+                    evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
+                    evaluateSpecification(listOf("departureTime"), departureDay, ::dateOnSpecification),
+                    evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
             ).fold(whereTrue()) { first, second ->
-                Specification.where(first).and(second as Specification<Ride>)
+                Specification.where(first).and(second)
             }
+
+    private inline fun <reified T> evaluateSpecification(value: T?, fn: (T) -> Specification<Ride>) = value?.let(fn)
+    private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
+
 }
 

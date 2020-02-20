@@ -6,35 +6,36 @@ import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import org.springframework.web.bind.annotation.*
+import javax.annotation.PostConstruct
 
 @RestController
 @RequestMapping("/api/rides")
 class TripController(private val service: TripService) {
 
     @GetMapping
-    fun getAllActiveRides() =
-            service.findAllActiveRidesWithAvailableSeats()
+    fun getAllActiveTrips() =
+            service.findAllActiveTripsWithAvailableSeats()
 
     @GetMapping
     fun findAllFiltered(filterRequest: FilterTripRequest): List<Ride> =
             service.findAllFiltered(filterRequest)
 
 
-    @GetMapping("/{rideId}")
-    fun getRide(@PathVariable("rideId") rideId: Long) =
-            service.findById(rideId)
+    @GetMapping("/{tripId}")
+    fun getTrip(@PathVariable("tripId") tripId: Long) =
+            service.findById(tripId)
 
-    @GetMapping("/cancel/{rideId}")
-    fun cancelRide(@PathVariable("rideId") rideId: Long) =
-            service.deleteRide(rideId)
+    @GetMapping("/cancel/{tripId}")
+    fun cancelRide(@PathVariable("tripId") tripId: Long) =
+            service.deleteRide(tripId)
 
-    @PostMapping("/edit/{rideId}")
-    fun editRide(@PathVariable("rideId") rideId: Long, @RequestBody editTripRequest: EditTripRequest) =
-            service.editRide(rideId, editTripRequest)
+    @PostMapping("/edit/{tripId}")
+    fun editRide(@PathVariable("tripId") tripId: Long, @RequestBody editTripRequest: EditTripRequest) =
+            service.editRide(tripId, editTripRequest)
 
-    @GetMapping("/finish/{rideId}")
-    fun markAsFinished(@PathVariable("rideId") rideId: Long) =
-            service.setRideFinished(rideId)
+    @GetMapping("/finish/{tripId}")
+    fun markAsFinished(@PathVariable("tripId") tripId: Long) =
+            service.setRideFinished(tripId)
 
     //TODO: Replace this
     @GetMapping("/history/{userId}")
@@ -46,11 +47,17 @@ class TripController(private val service: TripService) {
                             @PathVariable("cityTo") cityTo: String) =
             service.findFromToRides(from = cityFrom, to = cityTo)
 
-    @GetMapping("/edit-seats/{rideId}")
-    fun decreaseAvailableSeats(@PathVariable("rideId") rideId: Long, minusSeats: Int) =
-            service.decreaseSeatsOffered(rideId, minusSeats)
+    @GetMapping("/edit-seats/{tripId}")
+    fun decreaseAvailableSeats(@PathVariable("tripId") tripId: Long, minusSeats: Int) =
+            service.decreaseSeatsOffered(tripId, minusSeats)
 
     @PostMapping("/add")
     fun addNewRide(@RequestBody createTripRequest: CreateTripRequest): Ride =
             service.createNewRide(createTripRequest)
+
+    @PostConstruct
+    fun test(): List<Ride> {
+        val t = findAllFiltered(FilterTripRequest(fromAddress = "Skopje", toAddress = "Struga", departureTime = null, requestedSeats = null, departureDay = null))
+        return t
+    }
 }
