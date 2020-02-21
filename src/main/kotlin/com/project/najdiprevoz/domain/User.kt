@@ -1,5 +1,4 @@
 package com.project.najdiprevoz.domain
-
 import com.project.najdiprevoz.enums.Gender
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -45,6 +44,7 @@ data class User(
         @Column(name = "phone_number", nullable = true)
         val phoneNumber: String? = null
 ) : UserDetails {
+
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return Collections.singleton(SimpleGrantedAuthority(authority.authority))
     }
