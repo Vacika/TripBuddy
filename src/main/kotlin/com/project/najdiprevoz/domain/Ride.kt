@@ -44,6 +44,7 @@ data class Ride(
         var rideRequests: List<RideRequest> = listOf(),
 
         @Enumerated(EnumType.STRING)
+        @Column(name="status")
         var status: RideStatus) {
 
     fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.size

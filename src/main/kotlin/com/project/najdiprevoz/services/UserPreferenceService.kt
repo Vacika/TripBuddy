@@ -3,7 +3,7 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.UserPreferences
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.UserPreferenceRepository
-import com.project.najdiprevoz.web.request.edit.EditMemberPreferenceRequest
+import com.project.najdiprevoz.web.request.edit.EditUserPreferenceRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -13,7 +13,7 @@ class UserPreferenceService(private val repository: UserPreferenceRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(UserPreferenceService::class.java)
 
-    fun editUserPreferenceRequest(userId: Long, req: EditMemberPreferenceRequest): UserPreferences =
+    fun editUserPreferenceRequest(userId: Long, req: EditUserPreferenceRequest): UserPreferences =
             with(req) {
                 val preference = getUserPreference(userId)
                         .copy(isPetAllowed = isPetAllowed, isSmokingAllowed = isSmokingAllowed)

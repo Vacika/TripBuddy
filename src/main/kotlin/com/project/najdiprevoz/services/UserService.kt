@@ -6,7 +6,7 @@ import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
 import com.project.najdiprevoz.repositories.UserRepository
-import com.project.najdiprevoz.web.request.create.CreateMemberRequest
+import com.project.najdiprevoz.web.request.create.CreateUserRequest
 import com.project.najdiprevoz.web.request.edit.ChangeProfilePhotoRequest
 import com.project.najdiprevoz.web.response.UserResponse
 import org.springframework.context.annotation.Bean
@@ -27,8 +27,8 @@ class UserService(private val repository: UserRepository,
                   private val authorityRepository: AuthorityRepository,
                   private val userPreferenceService: UserPreferenceService) {
 
-    fun createNewUser(createMemberRequest: CreateMemberRequest): User {
-        val newUser = with(createMemberRequest) {
+    fun createNewUser(createUserRequest: CreateUserRequest): User {
+        val newUser = with(createUserRequest) {
             repository.save(User(
                     firstName = firstName,
                     lastName = lastName,

@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.Actions
 import com.project.najdiprevoz.enums.NotificationType
 import java.time.ZonedDateTime
 import javax.persistence.*
@@ -11,6 +12,7 @@ data class Notification(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0L,
 
+        @Column(name="created_on")
         val createdOn: ZonedDateTime,
 
         @ManyToOne
@@ -18,9 +20,11 @@ data class Notification(
         val rideRequest: RideRequest,
 
         @Enumerated(EnumType.STRING)
+        @Column(name="type")
         val type: NotificationType,
 
-        val actionsAvailable: String? = "MARK_AS_SEEN",
+        @Column(name="actions_available")
+        val actionsAvailable: String = Actions.MARK_AS_SEEN.name,
 
         @ManyToOne
         @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
@@ -30,5 +34,6 @@ data class Notification(
         @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
         val to: User,
 
+        @Column(name="seen")
         val seen: Boolean = false)
 
