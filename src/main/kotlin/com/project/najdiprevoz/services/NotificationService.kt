@@ -11,9 +11,11 @@ import com.project.najdiprevoz.exceptions.NotificationNotFoundException
 import com.project.najdiprevoz.repositories.NotificationRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import javax.annotation.PostConstruct
+import javax.transaction.Transactional
 
 @Service
 class NotificationService(private val repository: NotificationRepository) {
@@ -96,6 +98,12 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun markAsSeen(notificationId: Long) {
         repository.save(findById(notificationId).markAsSeen())
+    }
+
+    @Transactional
+    @Modifying
+    fun updateNotification(notification: Notification){
+        repository.save(notification)
     }
 
 //    @PostConstruct

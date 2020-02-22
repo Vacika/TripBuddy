@@ -31,25 +31,22 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun getApprovedRideRequestsForTrip(rideId: Long) =
             repository.findApprovedRequestsForRide(rideId = rideId)
 
-    fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) {
+    fun rideRequestCronJob(rideRequest: RideRequest, status: RequestStatus) {
         val request = findById(rideRequest.id)
         request.status = status
         repository.save(request)
         pushNotification(request)
     }
 
-    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus) {
+    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus, notificationId:Long) {
         updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
+        notificationService.markAsSeen(notificationId) // mark previous notification as SEEN
     }
 
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
         if (changeStatusActionAllowed(previousStatus, newStatus))
             repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
         pushNotification(findById(requestId))
-    }
-
-    fun changeRideRequestStatus(changeRideRequestStatusRequest: ChangeRideRequestStatusRequest) = with(changeRideRequestStatusRequest) {
-        updateStatusIfPossible(requestId = requestId, previousStatus = previousStatus, newStatus = newStatus)
     }
 
     fun addNewRideRequest(createRideRequestForTrip: CreateRequestForTrip, username: String) = with(createRideRequestForTrip) {

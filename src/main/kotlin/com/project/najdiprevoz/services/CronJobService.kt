@@ -5,10 +5,7 @@ import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.data.jpa.repository.Modifying
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
 
 @Service
 class CronJobService(private val rideRequestService: RideRequestService,
@@ -33,7 +30,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
     }
 
     private fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) =
-            rideRequestService.changeStatusByRideRequest(rideRequest, status)
+            rideRequestService.rideRequestCronJob(rideRequest, status)
 
     private fun updateRideCron() =
             tripService.checkForFinishedRidesTask()

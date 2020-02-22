@@ -3,7 +3,6 @@ package com.project.najdiprevoz.api
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.services.RideRequestService
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
-import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
@@ -39,19 +38,16 @@ class RideRequestController(private val service: RideRequestService) {
     fun findMyRideRequests(principal: Principal) =
             service.getAllRequestsForUser(principal.name)
 
-    @GetMapping("/change-status")
-    fun changeStatus(request: ChangeRideRequestStatusRequest) =
-            service.changeRideRequestStatus(request)
 
-    @GetMapping("/{requestId}/approve")
-    fun changeStatusToApproved(@PathVariable("requestId") requestId: Long) =
-            service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED)
+    @GetMapping("/{notificationId}/{requestId}/approve")
+    fun changeStatusToApproved(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED, notificationId)
 
     @GetMapping("/{requestId}/deny")
-    fun changeStatusToDenied(@PathVariable("requestId") requestId: Long) =
-            service.changeStatusByRideRequestId(requestId, RequestStatus.DENIED)
+    fun changeStatusToDenied(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.DENIED, notificationId)
 
     @GetMapping("/{requestId}/cancel")
-    fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
-            service.changeStatusByRideRequestId(requestId, RequestStatus.CANCELLED)
+    fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.CANCELLED, notificationId)
 }
