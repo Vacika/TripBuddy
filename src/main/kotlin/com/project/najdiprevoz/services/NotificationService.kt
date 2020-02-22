@@ -4,35 +4,26 @@ import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.domain.Rating
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.domain.User
-import com.project.najdiprevoz.enums.Actions
+import com.project.najdiprevoz.enums.NotificationActions
 import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.exceptions.NotificationNotFoundException
 import com.project.najdiprevoz.repositories.NotificationRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import javax.annotation.PostConstruct
 
 @Service
 class NotificationService(private val repository: NotificationRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(NotificationService::class.java)
 
-
-    private fun pushNotification(from: User, to: User, actionsAllowed: List<String>, type: NotificationType, rideRequest: RideRequest) {
-        repository.saveAndFlush(Notification(
-                from = from,
-                to = to,
-                actionsAvailable = actionsAllowed.joinToString(separator = ", "),
-                type = type,
-                createdOn = ZonedDateTime.now(),
-                seen = false,
-                rideRequest = rideRequest
-        ))
-    }
+    fun findById(id: Long) = repository.findById(id).orElseThrow { NotificationNotFoundException(id) }
 
     fun pushRequestStatusChangeNotification(rideRequest: RideRequest) {
-        var actionsAllowed: List<String> = listOf(Actions.MARK_AS_SEEN.name)
+        var notificationActionsAllowed: List<NotificationActions> = listOf(NotificationActions.MARK_AS_SEEN)
         var to: User
         var from: User
         val driver: User = rideRequest.ride.driver
@@ -40,7 +31,7 @@ class NotificationService(private val repository: NotificationRepository) {
         var notificationType: NotificationType
         when (rideRequest.status) {
             RequestStatus.APPROVED -> {
-                actionsAllowed.plus(Actions.CANCEL.name)
+                notificationActionsAllowed.plus(NotificationActions.CANCEL)
                 from = driver
                 to = requester
                 notificationType = NotificationType.REQUEST_APPROVED
@@ -49,10 +40,9 @@ class NotificationService(private val repository: NotificationRepository) {
                 from = driver
                 to = requester
                 notificationType = NotificationType.REQUEST_DENIED
-
             }
             RequestStatus.PENDING -> {
-                actionsAllowed.plus(Actions.DENY.name).plus(Actions.APPROVE.name)
+                notificationActionsAllowed.plus(NotificationActions.DENY).plus(NotificationActions.APPROVE)
                 from = requester
                 to = driver
                 notificationType = NotificationType.REQUEST_SENT
@@ -73,22 +63,8 @@ class NotificationService(private val repository: NotificationRepository) {
                 notificationType = NotificationType.REQUEST_EXPIRED
             }
         }
-        pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType, actionsAllowed = actionsAllowed)
+        pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType, notificationActionsAllowed = notificationActionsAllowed)
         logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${notificationType.name}]")
-    }
-
-    fun pushRequestStatusChangeNotification(rideRequest: RideRequest, type: NotificationType) {
-        var status = when (type) {
-            NotificationType.RIDE_CANCELLED -> RequestStatus.RIDE_CANCELLED
-            NotificationType.REQUEST_SENT -> RequestStatus.PENDING
-            NotificationType.REQUEST_CANCELLED -> RequestStatus.CANCELLED
-            NotificationType.REQUEST_APPROVED -> RequestStatus.APPROVED
-            NotificationType.REQUEST_DENIED -> RequestStatus.DENIED
-            NotificationType.REQUEST_EXPIRED -> RequestStatus.EXPIRED
-            NotificationType.RATING_SUBMITTED -> throw Exception("RATING_SUBMITTED notification type can not be used on ride request status change!")
-        }
-        rideRequest.status = status
-        pushRequestStatusChangeNotification(rideRequest)
     }
 
     fun pushRatingNotification(rating: Rating) = with(rating) {
@@ -97,8 +73,33 @@ class NotificationService(private val repository: NotificationRepository) {
                 to = rating.getDriver(),
                 type = NotificationType.RATING_SUBMITTED,
                 rideRequest = rating.rideRequest,
-                actionsAllowed = listOf(Actions.MARK_AS_SEEN.name))
+                notificationActionsAllowed = listOf(NotificationActions.MARK_AS_SEEN))
 
         logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type: [RATING_SUBMITTED]")
     }
+
+    fun getMyNotifications(username: String) = repository.findAllByToUsername(username)
+
+    fun getUnreadNotifications(username: String) = repository.findAllByToUsername(username).filter { !it.seen }
+
+    private fun pushNotification(from: User, to: User, notificationActionsAllowed: List<NotificationActions>, type: NotificationType, rideRequest: RideRequest) {
+        repository.saveAndFlush(Notification(
+                from = from,
+                to = to,
+                actions = notificationActionsAllowed,
+                type = type,
+                createdOn = ZonedDateTime.now(),
+                seen = false,
+                rideRequest = rideRequest
+        ))
+    }
+
+    fun markAsSeen(notificationId: Long) {
+        repository.save(findById(notificationId).markAsSeen())
+    }
+
+//    @PostConstruct
+//    fun testMarkAsSeen() {
+//        markAsSeen(1)
+//    }
 }

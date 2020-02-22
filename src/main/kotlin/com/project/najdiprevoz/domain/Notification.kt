@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.domain
 
-import com.project.najdiprevoz.enums.Actions
+import com.project.najdiprevoz.enums.NotificationActions
 import com.project.najdiprevoz.enums.NotificationType
 import java.time.ZonedDateTime
 import javax.persistence.*
@@ -12,7 +12,7 @@ data class Notification(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0L,
 
-        @Column(name="created_on")
+        @Column(name = "created_on")
         val createdOn: ZonedDateTime,
 
         @ManyToOne
@@ -20,11 +20,12 @@ data class Notification(
         val rideRequest: RideRequest,
 
         @Enumerated(EnumType.STRING)
-        @Column(name="type")
+        @Column(name = "type")
         val type: NotificationType,
 
-        @Column(name="actions_available")
-        val actionsAvailable: String = Actions.MARK_AS_SEEN.name,
+        @Enumerated(EnumType.STRING)
+        @ElementCollection(targetClass = NotificationActions::class, fetch = FetchType.EAGER)
+        var actions: List<NotificationActions> = listOf(NotificationActions.MARK_AS_SEEN),
 
         @ManyToOne
         @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
@@ -34,6 +35,17 @@ data class Notification(
         @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
         val to: User,
 
-        @Column(name="seen")
-        val seen: Boolean = false)
+        @Column(name = "seen")
+        var seen: Boolean = false) {
+
+    fun markAsSeen(): Notification {
+        seen = true
+        removeAction(NotificationActions.MARK_AS_SEEN)
+        return this
+    }
+
+    private fun removeAction(action: NotificationActions) {
+        actions = actions.minus(action)
+    }
+}
 
