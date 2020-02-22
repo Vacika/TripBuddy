@@ -33,7 +33,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
     }
 
     private fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) =
-            rideRequestService.changeStatusByRideRequest(rideRequest, status)
+            rideRequestService.rideRequestCronJob(rideRequest, status)
 
     private fun updateRideCron() =
             tripService.checkForFinishedRidesTask()

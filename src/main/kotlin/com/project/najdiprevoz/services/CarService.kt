@@ -40,7 +40,7 @@ class CarService(private val repository: CarRepository,
     fun findById(carId: Long): Car = repository.findById(carId).orElseThrow { CarNotFoundException(carId) }
 
     @Modifying
-    fun editCar(carId: Long, editCarRequest: EditCarRequest) = with(editCarRequest) {
+    fun editCar(carId: Long, editCarRequest: EditCarRequest): Car = with(editCarRequest) {
         val member = findById(carId)
         member.copy(brand = brand,
                 model = model,

@@ -11,7 +11,7 @@ import java.time.ZonedDateTime
 @Service
 class RatingService(private val repository: RatingRepository,
                     private val rideRequestService: RideRequestService,
-                    private val notificationService: RideNotificationService) {
+                    private val notificationService: NotificationService) {
 
     fun getRatingsForRide(rideId: Long) =
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)

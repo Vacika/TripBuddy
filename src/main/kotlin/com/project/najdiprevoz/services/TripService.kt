@@ -2,7 +2,6 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -16,13 +15,14 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import javax.annotation.PostConstruct
 import javax.transaction.Transactional
 
 @Service
 class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
-                  private val notificationService: RideNotificationService) {
+                  private val notificationService: NotificationService) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
@@ -44,6 +44,7 @@ class TripService(private val repository: RideRepository,
         var ride = findById(rideId)
         ride.status = RideStatus.CANCELLED
         ride.rideRequests = ride.rideRequests.map { it.copy(status = RequestStatus.RIDE_CANCELLED) }
+        ride.rideRequests.forEach { notificationService.pushRequestStatusChangeNotification(it) }
         repository.save(ride)
         logger.info("[RideService - DELETE RIDE] Ride with id $rideId successfully deleted!")
     }
@@ -86,10 +87,6 @@ class TripService(private val repository: RideRepository,
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
     }
 
-    private fun pushNotification(req: RideRequest, type: NotificationType) {
-        notificationService.pushRequestStatusChangeNotification(req, type)
-    }
-
     fun findAllFiltered(req: FilterTripRequest): List<Ride> = with(req) {
         val specification = createRideSpecification(fromAddress = fromAddress, toAddress = toAddress, departure = departure)
         if (requestedSeats != null) {
@@ -112,16 +109,16 @@ class TripService(private val repository: RideRepository,
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
 
 
-    //    @PostConstruct
-    fun editRideTest() {
-        val t = EditTripRequest(fromLocation = "Valandovo", toLocation = "Kumanovo",
-                pricePerHead = 12500, departureTime = ZonedDateTime.now(), description = "ahaaa")
-        this.editRide(1, t)
-        val p = findById(1)
-        logger.warn("P$p")
-    }
+//    @PostConstruct
+//    fun editRideTest() {
+//        val t = EditTripRequest(fromLocation = "Valandovo", toLocation = "Kumanovo",
+//                pricePerHead = 12500, departureTime = ZonedDateTime.now(), description = "ahaaa")
+//        this.editRide(1, t)
+//        val p = findById(1)
+//        logger.warn("P$p")
+//    }
 
-    //    @PostConstruct
+//        @PostConstruct
     fun deleteRideTest() {
         val t = deleteRide(1L)
     }
