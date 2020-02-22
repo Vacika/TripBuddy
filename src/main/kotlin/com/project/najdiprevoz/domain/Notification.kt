@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.NotificationType
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -20,23 +21,14 @@ data class Notification(
         val type: NotificationType,
 
         val actionsAvailable: String? = "MARK_AS_SEEN",
+
         @ManyToOne
         @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
         val from: User,
+
         @ManyToOne
         @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
         val to: User,
+
         val seen: Boolean = false)
-
-enum class NotificationType(private val type: String) {
-    REQUEST_SENT("REQUEST_SENT"), REQUEST_DENIED("REQUEST_DENIED"),
-    REQUEST_APPROVED("REQUEST_APPROVED"), REQUEST_CANCELLED("REQUEST_CANCELLED"),
-    RIDE_CANCELLED("RIDE_CANCELLED"), RATING_SUBMITTED("RATING_GIVEN"),
-    REQUEST_EXPIRED("Request expired")
-}
-
-enum class Actions(private val action: String) {
-    APPROVE("Approve"), CANCEL("Cancel"),
-    MARK_AS_SEEN("Mark as seen"), DENY("Deny")
-}
 

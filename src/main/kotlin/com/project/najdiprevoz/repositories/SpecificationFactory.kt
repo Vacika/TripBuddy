@@ -1,8 +1,6 @@
 package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.Ride
-import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.springframework.data.jpa.domain.Specification
 import java.time.ZonedDateTime
@@ -21,11 +19,13 @@ fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
 
 private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>, cb: CriteriaBuilder) =
         cb.equal(getPath(root, properties), value)
+
 fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
         Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
 private fun valueLike(value: String, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)
+
 fun likeSpecification(properties: List<String>, value: String): Specification<Ride> =
         Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
 

@@ -16,7 +16,6 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 import javax.transaction.Transactional
 
 @Service
@@ -113,13 +112,13 @@ class TripService(private val repository: RideRepository,
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
 
 
-//        @PostConstruct
+    //    @PostConstruct
     fun editRideTest() {
         val t = EditTripRequest(fromLocation = "Valandovo", toLocation = "Kumanovo",
                 pricePerHead = 12500, departureTime = ZonedDateTime.now(), description = "ahaaa")
         this.editRide(1, t)
-        val p = findById(1);
-        logger.warn("P${p.toString()}")
+        val p = findById(1)
+        logger.warn("P$p")
     }
 
     //    @PostConstruct

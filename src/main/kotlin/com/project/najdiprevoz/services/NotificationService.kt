@@ -1,6 +1,9 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.*
+import com.project.najdiprevoz.domain.Notification
+import com.project.najdiprevoz.domain.Rating
+import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.repositories.NotificationRepository
 import org.slf4j.Logger
