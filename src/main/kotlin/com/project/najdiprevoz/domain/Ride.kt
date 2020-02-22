@@ -12,7 +12,7 @@ import javax.persistence.*
 data class Ride(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
+        val id: Long = 0L,
 
         @Column(name = "created_on")
         val createdOn: ZonedDateTime,
@@ -57,8 +57,6 @@ data class Ride(
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
     fun isFinished(): Boolean = this.status == RideStatus.FINISHED
-
-    fun setStatus(status: RideStatus) = this.copy(status = status)
 
     @Override
     override fun toString(): String {

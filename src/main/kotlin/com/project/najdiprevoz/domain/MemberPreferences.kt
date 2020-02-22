@@ -5,6 +5,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "member_preferences")
 data class MemberPreferences(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0L,
+
         @OneToOne
         @JoinColumn(name = "member_id", referencedColumnName = "id")
         val user: User,
@@ -16,4 +20,4 @@ data class MemberPreferences(
         val isPetAllowed: Boolean? = false
 
 
-) : BaseEntity<Long>()
+)

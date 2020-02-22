@@ -5,22 +5,28 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "notifications")
-data class Notification(val createdOn: ZonedDateTime,
-                        @ManyToOne
-                        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = true)
-                        val rideRequest: RideRequest,
+data class Notification(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0L,
 
-                        @Enumerated(EnumType.STRING)
-                        val type: NotificationType,
+        val createdOn: ZonedDateTime,
 
-                        val actionsAvailable: String? = "MARK_AS_SEEN",
-                        @ManyToOne
-                        @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
-                        val from: User,
-                        @ManyToOne
-                        @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
-                        val to: User,
-                        val seen: Boolean = false) : BaseEntity<Long>()
+        @ManyToOne
+        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = true)
+        val rideRequest: RideRequest,
+
+        @Enumerated(EnumType.STRING)
+        val type: NotificationType,
+
+        val actionsAvailable: String? = "MARK_AS_SEEN",
+        @ManyToOne
+        @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
+        val from: User,
+        @ManyToOne
+        @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
+        val to: User,
+        val seen: Boolean = false)
 
 enum class NotificationType(private val type: String) {
     REQUEST_SENT("REQUEST_SENT"), REQUEST_DENIED("REQUEST_DENIED"),

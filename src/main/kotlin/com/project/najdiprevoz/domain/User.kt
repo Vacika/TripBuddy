@@ -1,4 +1,5 @@
 package com.project.najdiprevoz.domain
+
 import com.project.najdiprevoz.enums.Gender
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -10,7 +11,7 @@ import javax.persistence.*
 @Table(name = "users")
 data class User(
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
         val id: Long? = null,
 

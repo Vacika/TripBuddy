@@ -48,14 +48,4 @@ public class BaseEntity<T extends Serializable> {
     public boolean equalsById(Long id) {
         return Objects.equals(getId(), id);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return String.format("{id=%s, type=%s}", getId(), getClass().getName());
-    }
 }

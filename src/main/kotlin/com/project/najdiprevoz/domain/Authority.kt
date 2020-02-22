@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "authorities")
 data class Authority(
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
         val id: Long? = null,
 

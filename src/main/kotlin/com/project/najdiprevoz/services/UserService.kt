@@ -2,6 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.MemberPreferences
 import com.project.najdiprevoz.domain.User
+import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
 import com.project.najdiprevoz.repositories.MemberRepository
@@ -13,6 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.time.ZonedDateTime
+import java.util.*
+import javax.annotation.PostConstruct
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -76,15 +80,16 @@ class UserService(private val repository: MemberRepository,
     }
 
 //    @PostConstruct
-//    fun testCreateUser() {
-//        val userr = User(username = "blabla", password = "blabla",
-//                firstName = "blabla",
-//                lastName = "blabla",
-//                authority = authorityRepository.findById(1).get(),
-//                gender = Gender.M,
-//                phoneNumber = "071711033",
-//                birthDate = Date.from(ZonedDateTime.now().toInstant()))
-//
-//        repository.save(userr)
-//    }
+    fun testCreateUser() {
+
+        repository.save(User(
+                username = "blabla",
+                password = "blabla",
+                firstName = "blabla",
+                lastName = "blabla",
+                authority = authorityRepository.findById(1).get(),
+                gender = Gender.M,
+                phoneNumber = "071711033",
+                birthDate = Date.from(ZonedDateTime.now().toInstant())))
+    }
 }

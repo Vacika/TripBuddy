@@ -107,15 +107,15 @@ class TripService(private val repository: RideRepository,
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
 
 
-//    @PostConstruct
-//    fun editRideTest() {
-//
-//        val t = EditTripRequest(fromLocation = "Strumica", toLocation = "Ohrid",
-//                pricePerHead = 500, departureTime = ZonedDateTime.now(), description = "ahaaa")
-//        val r = this.editRide(1, t)
-//        val p = findById(1);
-//        logger.warn("P${p.toString()}")
-//    }
+    @PostConstruct
+    fun editRideTest() {
+
+        val t = EditTripRequest(fromLocation = "Strumica", toLocation = "Ohrid",
+                pricePerHead = 500, departureTime = ZonedDateTime.now(), description = "ahaaa")
+        this.editRide(1, t)
+        val p = findById(1);
+        logger.warn("P${p.toString()}")
+    }
 //    fun getAvailableSeatsForRide(rideId: Long) =
 //            repository.getAvailableSeatsForRide(rideId = rideId)
 

@@ -1,12 +1,14 @@
 package com.project.najdiprevoz.domain
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "cities")
 data class City(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0L,
+
         @Column(name = "name")
         val name: String
-) : BaseEntity<Long>()
+)
