@@ -1,8 +1,8 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.NotificationType
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -22,7 +22,7 @@ import javax.transaction.Transactional
 class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
-                  private val notificationService: NotificationService) {
+                  private val notificationService: RideNotificationService) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 

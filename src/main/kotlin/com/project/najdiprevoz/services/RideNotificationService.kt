@@ -4,6 +4,8 @@ import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.domain.Rating
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.domain.User
+import com.project.najdiprevoz.enums.Actions
+import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.repositories.NotificationRepository
 import org.slf4j.Logger
@@ -12,9 +14,9 @@ import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
 @Service
-class NotificationService(private val repository: NotificationRepository) {
+class RideNotificationService(private val repository: NotificationRepository) {
 
-    val logger: Logger = LoggerFactory.getLogger(NotificationService::class.java)
+    val logger: Logger = LoggerFactory.getLogger(RideNotificationService::class.java)
 
 
     private fun pushNotification(from: User, to: User, actionsAllowed: List<String>, type: NotificationType, rideRequest: RideRequest) {

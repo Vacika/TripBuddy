@@ -14,7 +14,7 @@ import java.time.ZonedDateTime
 class RideRequestService(private val repository: RideRequestRepository,
                          private val tripService: TripService,
                          private val userService: UserService,
-                         private val notificationService: NotificationService) {
+                         private val notificationService: RideNotificationService) {
 
     fun findById(id: Long): RideRequest =
             repository.findById(id)
