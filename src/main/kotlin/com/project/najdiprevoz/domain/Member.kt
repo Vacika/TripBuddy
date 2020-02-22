@@ -8,36 +8,27 @@ import javax.persistence.*
 @Table(name = "members")
 data class Member(
         @Column(name = "email", nullable = false)
-        private val email: String,
+        val email: String,
 
         @Column(name = "first_name", nullable = false)
-        private val firstName: String,
+        val firstName: String,
 
         @Column(name = "last_name", nullable = false)
-        private val lastName: String,
+        val lastName: String,
 
         @Column(name = "birth_date", nullable = false)
-        private val birthDate: Date,
+        val birthDate: Date,
 
         @Column(name = "profile_photo", nullable = true)
-        private val profilePhoto: String?,
+        val profilePhoto: String?,
 
         @Column(name = "password", nullable = false)
-        private val password: String,
+        val password: String,
 
         @Column(name = "gender", nullable = false)
         @Enumerated(EnumType.STRING)
-        private val gender: Gender,
+        val gender: Gender,
 
         @Column(name = "phone_number", nullable = false)
-        private val phoneNumber: String,
-
-        @OneToOne(mappedBy = "owner")
-        private val car: Car,
-
-        @OneToMany(mappedBy = "requester")
-        private val rideRequests: List<RideRequest>?,
-
-        @OneToOne(mappedBy = "member")
-        private val userPreference: MemberPreferences?
+        val phoneNumber: String
 ) : BaseEntity<Long>()

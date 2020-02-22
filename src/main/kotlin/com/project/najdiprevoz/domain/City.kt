@@ -8,5 +8,5 @@ import javax.persistence.Table
 @Table(name = "cities")
 data class City(
         @Column(name = "name")
-        private val name: String
+        val name: String
 ) : BaseEntity<Long>()

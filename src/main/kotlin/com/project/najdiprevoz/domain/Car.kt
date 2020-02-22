@@ -6,18 +6,24 @@ import javax.persistence.*
 @Table(name = "cars")
 data class Car(
         @Column(name = "brand")
-        private val brand: String,
+        val brand: String,
 
         @Column(name = "model")
-        private val model: String,
+        val model: String,
 
         @Column(name = "year_manufacture")
-        private val yearOfManufacture: Int,
+        val yearOfManufacture: Int,
 
         @Column(name = "total_seats")
-        private val seats: Int,
+        val seats: Int,
 
-        @OneToOne
-        @JoinColumn(name = "owner_id", referencedColumnName = "id")
-        private val owner: Member
-) : BaseEntity<Long>()
+        @ManyToOne(optional = true, fetch = FetchType.LAZY)
+        @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
+        val owner: Member
+) : BaseEntity<Long>() {
+
+//    override fun toString(): String {
+//        return ""
+////        return "Brand: $brand, Model: $model, Year: $yearOfManufacture, totalSeats: $seats, owner: $owner "
+//    }
+}

@@ -7,13 +7,13 @@ import javax.persistence.*
 data class MemberPreferences(
         @OneToOne
         @JoinColumn(name = "member_id", referencedColumnName = "id")
-        private val member: Member,
+        val member: Member,
 
         @Column(name = "is_smoking_allowed")
-        private val isSmokingAllowed: Boolean? = false,
+        val isSmokingAllowed: Boolean? = false,
 
         @Column(name = "is_pet_allowed")
-        private val isPetAllowed: Boolean? = false
+        val isPetAllowed: Boolean? = false
 
 
 ) : BaseEntity<Long>()

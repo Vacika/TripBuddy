@@ -1,6 +1,8 @@
 package com.project.najdiprevoz.domain
 
-import com.project.najdiprevoz.enums.RequestRideStatus
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.project.najdiprevoz.enums.RequestStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -10,28 +12,22 @@ data class RideRequest(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "requester_id")
-        private val requester: Member,
+        val requester: Member,
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @JsonBackReference
+        @ManyToOne
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
-        private val ride: Ride,
-
-        @ManyToOne
-        @JoinColumn(name = "city_from", referencedColumnName = "id", nullable = false)
-        private val cityFrom: City,
-
-        @ManyToOne
-        @JoinColumn(name = "city_to", referencedColumnName = "id", nullable = false)
-        private val cityTo: City,
+        val ride: Ride,
 
         @Column(name = "created_on")
-        private val createdOn: ZonedDateTime,
+        val createdOn: ZonedDateTime,
+
+        @OneToOne(mappedBy = "rideRequest", optional = true, cascade = [CascadeType.ALL])
+        @JsonManagedReference
+        val rating: Rating? = null,
 
         @Enumerated(EnumType.STRING)
-        @Column(name = "status")
-        private val status: RequestRideStatus
+        @Column(name = "status", nullable = false)
+        var status: RequestStatus = RequestStatus.PENDING
 
-) : BaseEntity<Long>() {
-
-    fun getStatus() = status
-}
+) : BaseEntity<Long>()

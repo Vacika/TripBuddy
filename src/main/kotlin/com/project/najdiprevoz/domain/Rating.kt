@@ -1,25 +1,29 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import java.time.ZonedDateTime
-import javax.persistence.Entity
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "ratings")
 data class Rating(
-        @ManyToOne
-        @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
-        private val author: Member,
+        @JsonBackReference
+        @OneToOne(optional = false)
+        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = false)
+        val rideRequest: RideRequest,
 
-        @ManyToOne
-        @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
-        private val ride: Ride,
+        @Column(name = "note")
+        val note: String?,
 
-        private val note: String?,
+        @Column(name = "date_submitted")
+        val dateSubmitted: ZonedDateTime,
 
-        private val dateSubmitted: ZonedDateTime,
+        @Column(name = "rating")
+        val rating: Int
+) : BaseEntity<Long>() {
+    fun getAuthor(): Member = rideRequest.requester
+    fun getDriver(): Member = rideRequest.ride.driver
 
-        private val rating: Integer
-) : BaseEntity<Long>()
+    override fun toString(): String = "Rating id:[${getId()}], Ride Request id:[${rideRequest.id}], rating: [$rating], date: [$dateSubmitted]"
+
+}
