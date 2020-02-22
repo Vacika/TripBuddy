@@ -29,12 +29,12 @@ class TripService(private val repository: RideRepository,
     fun findAllActiveRides(): List<Ride> =
             repository.findAllByStatus(RideStatus.ACTIVE)
 
-    fun findAllActiveTripsWithAvailableSeats() =
-            findAllActiveRides().filter { it.getAvailableSeats() > 0 }
+    fun findAllActiveTripsWithAvailableSeats() = findAllActiveRides().filter { it.getAvailableSeats() > 0 }
 
-    fun createNewRide(createTripRequest: CreateTripRequest): Ride =
-            repository.save(createRideObject(createTripRequest = createTripRequest))
-
+    fun createNewRide(createTripRequest: CreateTripRequest): Ride {
+        logger.info("[RideService - ADD RIDE] Creating new ride!")
+        return repository.save(createRideObject(createTripRequest = createTripRequest))
+    }
     fun getPastRidesForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
 
@@ -66,8 +66,11 @@ class TripService(private val repository: RideRepository,
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rideRequests = listOf<RideRequest>(),
-                status = RideStatus.ACTIVE
-        )
+                status = RideStatus.ACTIVE,
+                isSmokingAllowed = smokingAllowed,
+                isPetAllowed = petAllowed,
+                hasAirCondition = hasAirCondition,
+                maxTwoBackSeat = maxTwoBackseat)
     }
 
     fun findFromToRides(from: String, to: String): List<Ride> =
@@ -75,6 +78,7 @@ class TripService(private val repository: RideRepository,
                     .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
 
     fun editRide(rideId: Long, editTripRequest: EditTripRequest): Ride = with(editTripRequest) {
+        logger.info("[RideService - Edit Ride] Editing ride with ID:[$rideId]..")
         repository.save(findById(rideId).copy(fromLocation = cityService.findByName(fromLocation),
                 departureTime = departureTime,
                 destination = cityService.findByName(toLocation),
@@ -118,28 +122,9 @@ class TripService(private val repository: RideRepository,
 //        logger.warn("P$p")
 //    }
 
-//        @PostConstruct
-    fun deleteRideTest() {
-        val t = deleteRide(1L)
-    }
-//    fun getAvailableSeatsForRide(rideId: Long) =
-//            repository.getAvailableSeatsForRide(rideId = rideId)
-
-//    fun setRideFinished(rideId: Long): Boolean =
-//            repository.changeRideStatus(rideId = rideId, status = RideStatus.FINISHED) == 1
-//
-//    fun decreaseSeatsOffered(rideId: Long, seatsToMinus: Int): Ride {
-//        val ride = findById(rideId)
-//        if (ride.getAvailableSeats().minus(seatsToMinus) >= 0)
-//            ride.copy(totalSeatsOffered = ride.totalSeatsOffered - seatsToMinus)
-//        else throw NotEnoughSeatsToDeleteException(rideId, seatsToMinus, ride.getAvailableSeats())
-//        return ride
+//            @PostConstruct
+//    fun deleteRideTest() {
+//        val t = deleteRide(1L)
 //    }
-//
-//    fun getAllRidesFromLocation(location: String) =
-//            repository.findAllByFromLocationName(fromLocationName = location)
-//
-//    fun getAllRidesForDestination(destination: String) =
-//            repository.findAllByDestinationName(destination = destination)
 }
 

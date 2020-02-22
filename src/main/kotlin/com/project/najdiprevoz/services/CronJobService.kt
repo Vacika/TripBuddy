@@ -1,10 +1,12 @@
 package com.project.najdiprevoz.services
 
+import com.fasterxml.jackson.annotation.JsonValue
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -24,7 +26,6 @@ class CronJobService(private val rideRequestService: RideRequestService,
         logger.info("[CRONJOB] Updating EXPIRED and RIDE_CANCELLED ride requests..")
         updateRideRequestCron()
     }
-
 
     private fun updateRideRequestCron() {
         rideRequestService.getAll()

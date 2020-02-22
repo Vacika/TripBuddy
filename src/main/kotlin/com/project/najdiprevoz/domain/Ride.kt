@@ -45,7 +45,19 @@ data class Ride(
 
         @Enumerated(EnumType.STRING)
         @Column(name="status")
-        var status: RideStatus) {
+        var status: RideStatus,
+
+        @Column(name = "is_smoking_allowed")
+        val isSmokingAllowed: Boolean = false,
+
+        @Column(name = "is_pet_allowed")
+        val isPetAllowed: Boolean = false,
+
+        @Column(name="max_two_backseat")
+        val maxTwoBackSeat: Boolean = false,
+
+        @Column(name="has_air_condition")
+        val hasAirCondition: Boolean = false) {
 
     fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.size
 

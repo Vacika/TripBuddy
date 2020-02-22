@@ -1,6 +1,5 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.UserPreferences
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
@@ -24,9 +23,7 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
-                  private val authorityRepository: AuthorityRepository,
-                  private val userPreferenceService: UserPreferenceService) {
-
+                  private val authorityRepository: AuthorityRepository){
     fun createNewUser(createUserRequest: CreateUserRequest): User {
         val newUser = with(createUserRequest) {
             repository.save(User(
@@ -40,7 +37,6 @@ class UserService(private val repository: UserRepository,
                     profilePhoto = null,
                     authority = authorityRepository.findByAuthority("ROLE_USER")!!))
         }
-        createDefaultPreferences(newUser)
         return newUser
     }
 
@@ -66,11 +62,6 @@ class UserService(private val repository: UserRepository,
                 username = user.username,
                 phoneNumber = user.phoneNumber
         )
-    }
-
-    private fun createDefaultPreferences(user: User) = with(user) {
-        userPreferenceService.createMemberPreferences(
-                UserPreferences(isPetAllowed = false, isSmokingAllowed = false, user = this))
     }
 
     fun changePassword(newPassword: String, username: String) {

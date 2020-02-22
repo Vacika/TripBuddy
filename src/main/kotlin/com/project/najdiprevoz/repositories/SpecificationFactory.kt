@@ -8,8 +8,12 @@ import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.Path
 import javax.persistence.criteria.Root
 
+// H@CK where 1 = 1
+fun whereTrue() = Specification<Ride> { _, _, cb ->
+    cb.and()
+}
 
-fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
+private fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
     var path: Path<Ride> = root
     for (part in attributeName) {
         path = path.get(part)
@@ -20,13 +24,13 @@ fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
 private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>, cb: CriteriaBuilder) =
         cb.equal(getPath(root, properties), value)
 
-fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
+fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus) =
         Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
 private fun valueLike(value: String, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)
 
-fun likeSpecification(properties: List<String>, value: String): Specification<Ride> =
+fun likeSpecification(properties: List<String>, value: String) =
         Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
 
 
@@ -119,9 +123,4 @@ fun laterThanTime(properties: List<String>, value: ZonedDateTime) =
 //fun trackerIn(trackers: List<String>) = Specification<Ride> { root, _, _ ->
 //    trackerSearch(trackers, root)
 //}
-//
-// H@CK where 1 = 1
-fun whereTrue() = Specification<Ride> { _, _, cb ->
-    cb.and()
-}
-//
+

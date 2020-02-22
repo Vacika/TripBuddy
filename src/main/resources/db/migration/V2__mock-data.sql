@@ -73,18 +73,6 @@ insert into public.users(birth_date, username, first_name, gender, last_name, pa
                          profile_photo)
 VALUES ('2020-02-11 22:00:06', 'email10@email.com', 'Adrianna', 'F', 'Lima', 'password', '071711033', 1, NULL);
 
-INSERT INTO public.member_preferences(is_pet_allowed, is_smoking_allowed, member_id)
-VALUES (false, false, 1),
-       (false, true, 2),
-       (true, false, 3),
-       (true, true, 4),
-       (false, true, 5),
-       (true, true, 6),
-       (false, false, 7),
-       (true, false, 8),
-       (false, true, 9),
-       (true, true, 10);
-
 INSERT INTO public.cars(brand, model, total_seats, year_manufacture, owner_id)
 VALUES ('Toyota', 'RAV4', 5, 2017, 1),
        ('BMW', 'X6', 5, 2009, 2),
@@ -99,9 +87,12 @@ VALUES ('Toyota', 'RAV4', 5, 2017, 1),
 
 
 INSERT INTO public.rides(description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
-                         driver_id, from_location, status)
-VALUES ('test-description', '2020-02-12 19:50:55', '2020-02-12 19:50:57', 100, 5, 1, 1, 2, 'ACTIVE'),
-       ('test-ride-2', '2020-02-12 21:04:51', '2020-02-12 21:04:55', 150, 3, 1, 2, 1, 'ACTIVE');
+                         driver_id, from_location, status, has_air_condition, is_pet_allowed, is_smoking_allowed,
+                         max_two_backseat)
+VALUES ('test-description', '2020-02-12 19:50:55', '2020-02-12 19:50:57', 100, 5, 1, 1, 2, 'ACTIVE', true, false, true,
+        true),
+       ('test-ride-2', '2020-02-12 21:04:51', '2020-02-12 21:04:55', 150, 3, 1, 2, 1, 'ACTIVE', true, true, false,
+        false);
 
 INSERT INTO public.ride_requests(created_on, status, requester_id, ride_id)
 VALUES ('2020-02-12 19:50:27', 'APPROVED', 1, 1),
