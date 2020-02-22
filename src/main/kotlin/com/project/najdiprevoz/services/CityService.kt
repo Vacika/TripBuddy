@@ -13,6 +13,6 @@ class CityService(private val repository: CityRepository) {
     fun findAll(): List<City> =
             repository.findAll()
 
-    fun addCity(name: String) =
+    fun addCity(name: String): City =
             repository.save(City(name = name))
 }

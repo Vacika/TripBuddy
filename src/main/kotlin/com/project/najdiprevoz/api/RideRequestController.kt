@@ -2,30 +2,36 @@ package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.services.RideRequestService
+import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 @RestController
 @RequestMapping("/api/ride-requests")
 class RideRequestController(private val service: RideRequestService) {
 
-    @GetMapping("/{rideId}")
-    fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getAllRequestsForRide(rideId)
+    @GetMapping("/new")
+    fun createNewRideRequest(@RequestBody req: CreateRequestForTrip, principal: Principal) =
+            service.addNewRideRequest(req, principal.name) // TODO: Does it have to be a requestbody?
 
-    @GetMapping("/{rideId}/pending")
+    @GetMapping("/ride/{rideId}")
+    fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
+            service.getAllRequestsByTripId(rideId)
+
+    @GetMapping("/ride/{rideId}/pending")
     fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getPendingRequestsForRide(rideId)
 
-    @GetMapping("/{rideId}/approved")
-    fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getApprovedRideRequestsForRide(rideId)
+    @GetMapping("/{requestId}")
+    fun getRequest(@PathVariable("requestId") requestId: Long) =
+            service.findById(requestId)
 
-    @GetMapping("/{rideId}/denied")
+    @GetMapping("/ride/{rideId}/approved")
+    fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
+            service.getApprovedRideRequestsForTrip(rideId)
+
+    @GetMapping("/ride/{rideId}/denied")
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getDeniedRequestsForRide(rideId)
 
@@ -35,17 +41,17 @@ class RideRequestController(private val service: RideRequestService) {
 
     @GetMapping("/change-status")
     fun changeStatus(request: ChangeRideRequestStatusRequest) =
-            service.changeStatus(request)
+            service.changeRideRequestStatus(request)
 
-    @GetMapping("/approve/{requestId}")
+    @GetMapping("/{requestId}/approve")
     fun changeStatusToApproved(@PathVariable("requestId") requestId: Long) =
             service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED)
 
-    @GetMapping("/deny/{requestId}")
+    @GetMapping("/{requestId}/deny")
     fun changeStatusToDenied(@PathVariable("requestId") requestId: Long) =
             service.changeStatusByRideRequestId(requestId, RequestStatus.DENIED)
 
-    @GetMapping("/cancel/{requestId}")
+    @GetMapping("/{requestId}/cancel")
     fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
             service.changeStatusByRideRequestId(requestId, RequestStatus.CANCELLED)
 }

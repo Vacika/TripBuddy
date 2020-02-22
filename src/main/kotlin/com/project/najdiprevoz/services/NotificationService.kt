@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
 @Service
-class RideNotificationService(private val repository: NotificationRepository) {
+class NotificationService(private val repository: NotificationRepository) {
 
-    val logger: Logger = LoggerFactory.getLogger(RideNotificationService::class.java)
+    val logger: Logger = LoggerFactory.getLogger(NotificationService::class.java)
 
 
     private fun pushNotification(from: User, to: User, actionsAllowed: List<String>, type: NotificationType, rideRequest: RideRequest) {
@@ -38,7 +38,6 @@ class RideNotificationService(private val repository: NotificationRepository) {
         val driver: User = rideRequest.ride.driver
         val requester: User = rideRequest.requester
         var notificationType: NotificationType
-
         when (rideRequest.status) {
             RequestStatus.APPROVED -> {
                 actionsAllowed.plus(Actions.CANCEL.name)
@@ -74,7 +73,6 @@ class RideNotificationService(private val repository: NotificationRepository) {
                 notificationType = NotificationType.REQUEST_EXPIRED
             }
         }
-
         pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType, actionsAllowed = actionsAllowed)
         logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${notificationType.name}]")
     }

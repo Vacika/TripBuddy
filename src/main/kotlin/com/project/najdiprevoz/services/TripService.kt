@@ -22,7 +22,7 @@ import javax.transaction.Transactional
 class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
-                  private val notificationService: RideNotificationService) {
+                  private val notificationService: NotificationService) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 

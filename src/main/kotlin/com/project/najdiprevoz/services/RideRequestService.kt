@@ -2,7 +2,6 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
-import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
@@ -14,13 +13,13 @@ import java.time.ZonedDateTime
 class RideRequestService(private val repository: RideRequestRepository,
                          private val tripService: TripService,
                          private val userService: UserService,
-                         private val notificationService: RideNotificationService) {
+                         private val notificationService: NotificationService) {
 
     fun findById(id: Long): RideRequest =
             repository.findById(id)
                     .orElseThrow { NotFoundException("Ride request not found!") }
 
-    fun getAllRequestsForRide(rideId: Long) =
+    fun getAllRequestsByTripId(rideId: Long) =
             repository.findAllByRideId(rideId)
 
     fun getAllRequestsForUser(username: String) =
@@ -29,7 +28,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun getAll(): List<RideRequest> =
             repository.findAll()
 
-    fun getApprovedRideRequestsForRide(rideId: Long) =
+    fun getApprovedRideRequestsForTrip(rideId: Long) =
             repository.findApprovedRequestsForRide(rideId = rideId)
 
     fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) {
@@ -39,36 +38,35 @@ class RideRequestService(private val repository: RideRequestRepository,
         pushNotification(request)
     }
 
-    fun changeStatusByRideRequestId(rideRequestId: Long, status: RequestStatus) {
-        repository.updateRideRequestStatus(rideRequestId, status)
-        pushNotification(findById(rideRequestId))
+    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus) {
+        updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
     }
 
-    fun changeStatus(changeRideRequestStatusRequest: ChangeRideRequestStatusRequest) = with(changeRideRequestStatusRequest) {
+    private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
         if (changeStatusActionAllowed(previousStatus, newStatus))
             repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
-
         pushNotification(findById(requestId))
     }
 
-    fun addNewRideRequest(createRideRequestForTrip: CreateRequestForTrip) = with(createRideRequestForTrip) {
+    fun changeRideRequestStatus(changeRideRequestStatusRequest: ChangeRideRequestStatusRequest) = with(changeRideRequestStatusRequest) {
+        updateStatusIfPossible(requestId = requestId, previousStatus = previousStatus, newStatus = newStatus)
+    }
+
+    fun addNewRideRequest(createRideRequestForTrip: CreateRequestForTrip, username: String) = with(createRideRequestForTrip) {
         pushNotification(repository.save(RideRequest(
                 status = RequestStatus.PENDING,
                 ride = tripService.findById(rideId),
                 createdOn = ZonedDateTime.now(),
-                requester = userService.findUserById(requesterId))))
+                requester = userService.findUserByUsername(username))))
     }
 
-    fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
+    fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId = rideId, status = RequestStatus.DENIED)
 
-    fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
+    fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId = rideId, status = RequestStatus.PENDING)
 
     private fun pushNotification(rideRequest: RideRequest) {
-        notificationService.pushRequestStatusChangeNotification(rideRequest)
+        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest)
     }
-
-    private fun isRideRequestFinished(rideRequestId: Long) =
-            repository.getRideStatus(rideRequestId = rideRequestId) == RideStatus.FINISHED
 
     private fun getRequestsForRideByStatus(rideId: Long, status: RequestStatus): List<RideRequest> =
             getAll().filter { it.ride.id == rideId && it.status == status }
