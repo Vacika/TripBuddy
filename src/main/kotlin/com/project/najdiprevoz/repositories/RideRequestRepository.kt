@@ -15,7 +15,7 @@ import javax.transaction.Transactional
 interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecificationExecutor<RideRequest> {
     fun findAllByRideId(rideId: Long): List<RideRequest>
 
-    fun findAllByRequesterId(requesterId: Long): List<RideRequest>?
+    fun findAllByRequesterUsername(username: String): List<RideRequest>?
 
     @Query("""
         SELECT rd from RideRequest rd 

@@ -1,36 +1,34 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.NotificationType
 import java.time.ZonedDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "notifications")
-data class Notification(val createdOn: ZonedDateTime,
-                        @ManyToOne
-                        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = true)
-                        val rideRequest: RideRequest,
+data class Notification(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0L,
 
-                        @Enumerated(EnumType.STRING)
-                        val type: NotificationType,
+        val createdOn: ZonedDateTime,
 
-                        val actionsAvailable: String? = "MARK_AS_SEEN",
-                        @ManyToOne
-                        @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
-                        val from: Member,
-                        @ManyToOne
-                        @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
-                        val to: Member,
-                        val seen: Boolean = false) : BaseEntity<Long>()
+        @ManyToOne
+        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = true)
+        val rideRequest: RideRequest,
 
-enum class NotificationType(private val type: String) {
-    REQUEST_SENT("REQUEST_SENT"), REQUEST_DENIED("REQUEST_DENIED"),
-    REQUEST_APPROVED("REQUEST_APPROVED"), REQUEST_CANCELLED("REQUEST_CANCELLED"),
-    RIDE_CANCELLED("RIDE_CANCELLED"), RATING_SUBMITTED("RATING_GIVEN"),
-    REQUEST_EXPIRED("Request expired")
-}
+        @Enumerated(EnumType.STRING)
+        val type: NotificationType,
 
-enum class Actions(private val action: String) {
-    APPROVE("Approve"), CANCEL("Cancel"),
-    MARK_AS_SEEN("Mark as seen"), DENY("Deny")
-}
+        val actionsAvailable: String? = "MARK_AS_SEEN",
+
+        @ManyToOne
+        @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
+        val from: User,
+
+        @ManyToOne
+        @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
+        val to: User,
+
+        val seen: Boolean = false)
 

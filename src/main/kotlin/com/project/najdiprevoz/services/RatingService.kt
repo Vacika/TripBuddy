@@ -11,13 +11,13 @@ import java.time.ZonedDateTime
 @Service
 class RatingService(private val repository: RatingRepository,
                     private val rideRequestService: RideRequestService,
-                    private val notificationService: NotificationService) {
+                    private val notificationService: RideNotificationService) {
 
     fun getRatingsForRide(rideId: Long) =
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
 
-    fun getRatingsForMember(memberId: Long) =
-            repository.findRatingsForDriverId(driverId = memberId)
+    fun getRatingsForMember(userId: Long) =
+            repository.findRatingsForDriverId(driverId = userId)
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {
@@ -26,8 +26,7 @@ class RatingService(private val repository: RatingRepository,
         }
     }
 
-    private fun pushRatingNotification(createRatingRequest: CreateRatingRequest) = with(createRatingRequest)
-    {
+    private fun pushRatingNotification(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         notificationService.pushRatingNotification(
                 repository.save(Rating(
                         rideRequest = rideRequestService.findById(rideRequestId),

@@ -5,6 +5,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "cars")
 data class Car(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0L,
+
         @Column(name = "brand")
         val brand: String,
 
@@ -19,11 +23,10 @@ data class Car(
 
         @ManyToOne(optional = true, fetch = FetchType.LAZY)
         @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-        val owner: Member
-) : BaseEntity<Long>() {
+        val owner: User
+) {
+    override fun toString(): String {
+        return "Brand: $brand, Model: $model, Year: $yearOfManufacture, totalSeats: $seats, owner: $owner "
+    }
 
-//    override fun toString(): String {
-//        return ""
-////        return "Brand: $brand, Model: $model, Year: $yearOfManufacture, totalSeats: $seats, owner: $owner "
-//    }
 }

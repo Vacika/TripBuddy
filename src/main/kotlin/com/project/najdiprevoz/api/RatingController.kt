@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/ratings")
 class RatingController(private val service: RatingService) {
-    @GetMapping("/member/{memberId}")
-    fun getRatingsForMember(@PathVariable("memberId") memberId: Long) =
-            service.getRatingsForMember(memberId)
+    @GetMapping("/member/{userId}")
+    fun getRatingsForMember(@PathVariable("userId") userId: Long) =
+            service.getRatingsForMember(userId)
 
     @PostMapping("/add")
     fun createNewRating(@RequestBody createRatingRequest: CreateRatingRequest) =
             service.addRating(createRatingRequest)
 
     @GetMapping
-    fun getMyRatings(memberId: Long) =
-            service.getRatingsForMember(memberId)
+    fun getMyRatings(userId: Long) =
+            service.getRatingsForMember(userId)
 
     @GetMapping("/ride/{rideId}")
     fun getRatingsForRide(@PathVariable("rideId") rideId: Long) =
