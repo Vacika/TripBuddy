@@ -1,11 +1,11 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.MemberPreferences
+import com.project.najdiprevoz.domain.UserPreferences
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
-import com.project.najdiprevoz.repositories.MemberRepository
+import com.project.najdiprevoz.repositories.UserRepository
 import com.project.najdiprevoz.web.request.create.CreateMemberRequest
 import com.project.najdiprevoz.web.request.edit.ChangeProfilePhotoRequest
 import com.project.najdiprevoz.web.response.UserResponse
@@ -23,7 +23,7 @@ fun passwordEncoder(): PasswordEncoder {
 }
 
 @Service
-class UserService(private val repository: MemberRepository,
+class UserService(private val repository: UserRepository,
                   private val authorityRepository: AuthorityRepository,
                   private val userPreferenceService: UserPreferenceService) {
 
@@ -70,7 +70,7 @@ class UserService(private val repository: MemberRepository,
 
     private fun createDefaultPreferences(user: User) = with(user) {
         userPreferenceService.createMemberPreferences(
-                MemberPreferences(isPetAllowed = false, isSmokingAllowed = false, user = this))
+                UserPreferences(isPetAllowed = false, isSmokingAllowed = false, user = this))
     }
 
     fun changePassword(newPassword: String, username: String) {

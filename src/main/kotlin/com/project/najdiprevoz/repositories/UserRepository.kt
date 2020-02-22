@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface MemberRepository : JpaRepository<User, Long> {
+interface UserRepository : JpaRepository<User, Long> {
 
     @Query("""
         SELECT u as rating FROM User u

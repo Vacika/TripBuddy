@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "member_preferences")
-data class MemberPreferences(
+data class UserPreferences(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0L,
@@ -18,6 +18,4 @@ data class MemberPreferences(
 
         @Column(name = "is_pet_allowed")
         val isPetAllowed: Boolean? = false
-
-
 )
