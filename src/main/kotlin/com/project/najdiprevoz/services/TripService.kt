@@ -3,6 +3,7 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.NotificationType
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
@@ -12,9 +13,11 @@ import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.Specification
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import javax.annotation.PostConstruct
+import javax.transaction.Transactional
 
 @Service
 class TripService(private val repository: RideRepository,
@@ -36,10 +39,13 @@ class TripService(private val repository: RideRepository,
     fun getPastRidesForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
 
+    @Modifying
+    @Transactional
     fun deleteRide(rideId: Long) {
-        val ride = findById(rideId)
-        ride.rideRequests.forEach { pushNotification(it, NotificationType.RIDE_CANCELLED) }
-        repository.changeRideStatus(rideId, RideStatus.CANCELLED)
+        var ride = findById(rideId)
+        ride.status = RideStatus.CANCELLED
+        ride.rideRequests = ride.rideRequests.map { it.copy(status = RequestStatus.RIDE_CANCELLED) }
+        repository.save(ride)
         logger.info("[RideService - DELETE RIDE] Ride with id $rideId successfully deleted!")
     }
 
@@ -68,7 +74,7 @@ class TripService(private val repository: RideRepository,
             repository.findAllByFromLocationNameAndDestinationName(from, to)
                     .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
 
-    fun editRide(rideId: Long, editTripRequest: EditTripRequest):Ride = with(editTripRequest) {
+    fun editRide(rideId: Long, editTripRequest: EditTripRequest): Ride = with(editTripRequest) {
         repository.save(findById(rideId).copy(fromLocation = cityService.findByName(fromLocation),
                 departureTime = departureTime,
                 destination = cityService.findByName(toLocation),
@@ -107,14 +113,18 @@ class TripService(private val repository: RideRepository,
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
 
 
-    @PostConstruct
+//        @PostConstruct
     fun editRideTest() {
-
-        val t = EditTripRequest(fromLocation = "Strumica", toLocation = "Ohrid",
-                pricePerHead = 500, departureTime = ZonedDateTime.now(), description = "ahaaa")
+        val t = EditTripRequest(fromLocation = "Valandovo", toLocation = "Kumanovo",
+                pricePerHead = 12500, departureTime = ZonedDateTime.now(), description = "ahaaa")
         this.editRide(1, t)
         val p = findById(1);
         logger.warn("P${p.toString()}")
+    }
+
+    //    @PostConstruct
+    fun deleteRideTest() {
+        val t = deleteRide(1L)
     }
 //    fun getAvailableSeatsForRide(rideId: Long) =
 //            repository.getAvailableSeatsForRide(rideId = rideId)

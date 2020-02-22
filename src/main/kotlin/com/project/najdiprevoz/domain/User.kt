@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.project.najdiprevoz.enums.Gender
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -13,28 +14,30 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
-        val id: Long? = null,
+        val id: Long? = 0L,
 
         @Column(name = "username", nullable = false, unique = true)
         private val username: String,
 
+        @JsonIgnore
         @Column(name = "password", nullable = false)
-        private val password: String,
+        private var password: String,
 
         @Column(name = "first_name", nullable = false)
-        val firstName: String,
+        var firstName: String,
 
         @Column(name = "last_name", nullable = false)
-        val lastName: String,
+        var lastName: String,
 
         @Column(name = "birth_date", nullable = false)
-        val birthDate: Date,
+        var birthDate: Date,
 
         @Column(name = "profile_photo", nullable = true)
-        val profilePhoto: String? = null,
+        var profilePhoto: String? = null,
 
         // Owning
         @ManyToOne
+        @JsonIgnore
         @JoinColumn(name = "authority_id", nullable = false)
         val authority: Authority,
 
@@ -43,12 +46,10 @@ data class User(
         val gender: Gender,
 
         @Column(name = "phone_number", nullable = true)
-        val phoneNumber: String? = null
+        var phoneNumber: String? = null
 ) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return Collections.singleton(SimpleGrantedAuthority(authority.authority))
-    }
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = Collections.singleton(SimpleGrantedAuthority(authority.authority))
 
     override fun isEnabled(): Boolean = true
 
@@ -68,4 +69,7 @@ data class User(
     override fun isAccountNonExpired(): Boolean = true
 
     override fun isAccountNonLocked(): Boolean = true
+
+    @Override
+    override fun toString(): String = ""
 }

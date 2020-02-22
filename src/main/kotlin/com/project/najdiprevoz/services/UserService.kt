@@ -81,9 +81,8 @@ class UserService(private val repository: MemberRepository,
 
 //    @PostConstruct
     fun testCreateUser() {
-
         repository.save(User(
-                username = "blabla",
+                username = "testuse1r",
                 password = "blabla",
                 firstName = "blabla",
                 lastName = "blabla",

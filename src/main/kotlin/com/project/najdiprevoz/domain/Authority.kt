@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 
@@ -9,11 +10,12 @@ data class Authority(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
-        val id: Long? = null,
+        val id: Long = 0L,
 
         @Column(name = "authority", nullable = false, unique = true)
-        val authority: String? = null,
+        var authority: String? = null,
         // Inverse
+        @JsonIgnore
         @OneToMany(mappedBy = "authority")
-        val users: List<User> = ArrayList()
+        var users: List<User> = ArrayList()
 )
