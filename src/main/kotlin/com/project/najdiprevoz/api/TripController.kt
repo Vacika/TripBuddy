@@ -17,7 +17,7 @@ class TripController(private val service: TripService) {
             service.findAllActiveTripsWithAvailableSeats()
 
     @GetMapping("/filter")
-    fun findAllFiltered(filterRequest: FilterTripRequest): List<TripResponse> =
+    fun findAllFiltered(filterRequest: FilterTripRequest) =
             service.findAllFiltered(filterRequest)
 
     @GetMapping("/{tripId}")
@@ -25,29 +25,29 @@ class TripController(private val service: TripService) {
             service.findById(tripId)
 
     @PostMapping("/add")
-    fun addNewRide(@RequestBody createTripRequest: CreateTripRequest): Ride =
-            service.createNewRide(createTripRequest)
+    fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest) =
+            service.createNewTrip(createTripRequest)
 
     @PostMapping("/edit/{tripId}")
-    fun editRide(@PathVariable("tripId") tripId: Long, @RequestBody req: EditTripRequest): Ride =
-            service.editRide(tripId, req)
+    fun editTrip(@PathVariable("tripId") tripId: Long, @RequestBody req: EditTripRequest) =
+            service.editTrip(tripId, req)
 
     @GetMapping("/cancel/{tripId}")
-    fun cancelRide(@PathVariable("tripId") tripId: Long) =
-            service.deleteRide(tripId)
+    fun cancelTrip(@PathVariable("tripId") tripId: Long) =
+            service.cancelTrip(tripId)
 
     @GetMapping("/history/{userId}")
-    fun getUserPastRides(@PathVariable("userId") userId: Long) =
-            service.getPastRidesForUser(userId)
+    fun getUserPastTrips(@PathVariable("userId") userId: Long) =
+            service.getPastTripsForUser(userId)
 
     @GetMapping("/all/{userId}")
     fun getAllUserTrips(@PathVariable("userId") userId: Long) =
-            service.findAllRidesForUser(userId)
+            service.getAllTripsForUser(userId)
 
     @GetMapping("/{cityFrom}/{cityTo}")
-    fun getRidesForRelation(@PathVariable("cityFrom") cityFrom: String,
+    fun getTripsForRelation(@PathVariable("cityFrom") cityFrom: String,
                             @PathVariable("cityTo") cityTo: String) =
-            service.findFromToRides(from = cityFrom, to = cityTo)
+            service.findRidesByFromLocationAndDestination(from = cityFrom, to = cityTo)
 
 //    @GetMapping("/finish/{tripId}")
 //    fun markAsFinished(@PathVariable("tripId") tripId: Long) =

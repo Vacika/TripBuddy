@@ -15,11 +15,11 @@ import javax.transaction.Transactional
 @Repository
 interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<Ride> {
 
-    fun findAllByDriverId(driverId: Long): List<Ride>?
+    fun findAllByDriverId(driverId: Long): List<Ride>
 
     fun findAllByFromLocationNameAndDestinationName(fromLocationName: String, destinationName: String): List<Ride>
 
-    fun findAllByDriverIdAndStatus(driverId: Long, status: RideStatus): List<Ride>?
+    fun findAllByDriverIdAndStatus(driverId: Long, status: RideStatus): List<Ride>
 
     @Query("""SELECT (r.totalSeatsOffered - count(rd.id)) as available_seats 
          FROM RideRequest rd 
