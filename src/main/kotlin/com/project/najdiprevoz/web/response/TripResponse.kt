@@ -3,7 +3,7 @@ package com.project.najdiprevoz.web.response
 import java.time.ZonedDateTime
 
 class TripResponse(val id: Long,
-                   val driver: DriverResponse,
+                   val driver: UserResponse,
                    val from: String,
                    val to: String,
                    val availableSeats: Int,

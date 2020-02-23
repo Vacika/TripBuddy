@@ -20,21 +20,21 @@ class RideRequestController(private val service: RideRequestService) {
 
     @GetMapping("/ride/{rideId}/pending")
     fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getPendingRequestsForRide(rideId)
+            service.getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
 
     @GetMapping("/{requestId}")
     fun getRequest(@PathVariable("requestId") requestId: Long) =
-            service.findById(requestId)
+            service.findRequestById(requestId)
 
     @GetMapping("/ride/{rideId}/approved")
     fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getApprovedRideRequestsForTrip(rideId)
+            service.getRequestsForRideByStatus(rideId, RequestStatus.APPROVED)
 
     @GetMapping("/ride/{rideId}/denied")
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getDeniedRequestsForRide(rideId)
+            service.getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
 
-    @GetMapping("/my}")
+    @GetMapping("/my")
     fun findMyRideRequests(principal: Principal) =
             service.getAllRequestsForUser(principal.name)
 

@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.fasterxml.jackson.annotation.JsonValue
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import java.time.ZonedDateTime
@@ -32,6 +32,7 @@ data class Ride(
         @Column(name = "total_seats_offered")
         val totalSeatsOffered: Int,
 
+        @JsonBackReference
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "driver_id")
         var driver: User,
@@ -47,7 +48,7 @@ data class Ride(
         var rideRequests: List<RideRequest> = listOf(),
 
         @Enumerated(EnumType.STRING)
-        @Column(name="status")
+        @Column(name = "status")
         var status: RideStatus,
 
         @Column(name = "is_smoking_allowed")
@@ -56,10 +57,10 @@ data class Ride(
         @Column(name = "is_pet_allowed")
         val isPetAllowed: Boolean = false,
 
-        @Column(name="max_two_backseat")
+        @Column(name = "max_two_backseat")
         val maxTwoBackSeat: Boolean = false,
 
-        @Column(name="has_air_condition")
+        @Column(name = "has_air_condition")
         val hasAirCondition: Boolean = false) {
 
     fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.size
@@ -67,6 +68,8 @@ data class Ride(
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
     fun isFinished(): Boolean = this.status == RideStatus.FINISHED
+
+    fun getDriverFullName() = this.driver.getFullName()
 
     @Override
     override fun toString(): String = ""

@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Ride
-import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -9,7 +8,7 @@ import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
-import com.project.najdiprevoz.web.response.DriverResponse
+import com.project.najdiprevoz.web.response.UserResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -73,7 +72,7 @@ class TripService(private val repository: RideRepository,
                 pricePerHead = pricePerHead))
     }
 
-    fun checkForFinishedRidesTask() {
+    fun checkForFinishedTripsCronJob() {
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
     }
@@ -89,14 +88,13 @@ class TripService(private val repository: RideRepository,
     }
 
     private fun convertToTripResponse(ride: Ride): TripResponse = with(ride) {
-
         TripResponse(id = id,
                 pricePerHead = pricePerHead,
                 availableSeats = getAvailableSeats(),
                 departureTime = departureTime,
                 from = fromLocation.name,
                 to = destination.name,
-                driver = DriverResponse(id = driver.id,
+                driver = UserResponse(id = driver.id,
                         name = driver.firstName + " " + driver.lastName,
                         rating = driver.ratings.map { it.rating }.average()))
     }
@@ -121,7 +119,7 @@ class TripService(private val repository: RideRepository,
                 driver = userService.findUserById(driverId),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
-                rideRequests = listOf<RideRequest>(),
+                rideRequests = listOf(),
                 status = RideStatus.ACTIVE,
                 isSmokingAllowed = smokingAllowed,
                 isPetAllowed = petAllowed,

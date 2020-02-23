@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.Gender
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -48,6 +49,8 @@ data class User(
         @Column(name = "phone_number", nullable = true)
         var phoneNumber: String? = null,
 
+        @JsonIgnore
+        @JsonManagedReference
         @OneToMany(mappedBy = "ratedUser")
         var ratings: List<Rating> = listOf()
 ) : UserDetails {
@@ -57,6 +60,10 @@ data class User(
     override fun isEnabled(): Boolean = true
 
     override fun getUsername(): String = username
+
+    fun getFullName(): String = "$firstName $lastName"
+
+    fun getAverageRating(): Double = ratings.map { it.rating }.average()
 
     override fun isCredentialsNonExpired(): Boolean = true
 

@@ -11,8 +11,7 @@ import java.time.ZonedDateTime
 @Service
 class RatingService(private val repository: RatingRepository,
                     private val rideRequestService: RideRequestService,
-                    private val notificationService: NotificationService,
-                    private val userService: UserService) {
+                    private val notificationService: NotificationService) {
 
     fun getRatingsForRide(rideId: Long) =
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
@@ -40,6 +39,6 @@ class RatingService(private val repository: RatingRepository,
     // Return true if the request has been approved and the member has not submitted rating for this ride previously!
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         val rideRequest = rideRequestService.findById(rideRequestId)
-        rideRequest.status == RequestStatus.APPROVED && rideRequest.rating == null  // TODO: AVOID checking rideRequest.rating, instead DATABASE SHOULD FORBID DUPLICATE FOREIGN KEYS!
+        rideRequest.status == RequestStatus.APPROVED && rideRequest.rating == null
     }
 }
