@@ -95,14 +95,14 @@ VALUES ('test-description', '2020-02-12 19:50:55', '2020-02-12 19:50:57', 100, 5
         false);
 
 INSERT INTO public.ride_requests(created_on, status, requester_id, ride_id)
-VALUES ('2020-02-12 19:50:27', 'APPROVED', 1, 1),
-       ('2020-02-12 19:50:27', 'PENDING', 1, 2),
+VALUES ('2020-02-12 19:50:27', 'PENDING', 1, 1),
+       ('2020-02-12 19:50:27', 'PENDING', 1, 1),
        ('2020-02-12 19:50:27', 'PENDING', 1, 2);
 
-INSERT INTO public.ratings(date_submitted, note, rating, ride_request_id)
-VALUES ('2020-02-12 21:01:04', 'dobra voznja', 5, 1),
-       ('2020-02-12 21:01:15', 'mnogu loso', 1, 3),
-       ('2020-02-12 21:04:36', 'Meh,sredno', 3, 2);
+INSERT INTO public.ratings(date_submitted, note, rating, ride_request_id, rated_user)
+VALUES ('2020-02-12 21:01:04', 'dobra voznja', 5, 1, 1),
+       ('2020-02-12 21:01:15', 'mnogu loso', 1, 3, 1),
+       ('2020-02-12 21:04:36', 'Meh,sredno', 3, 2, 2);
 
 
 

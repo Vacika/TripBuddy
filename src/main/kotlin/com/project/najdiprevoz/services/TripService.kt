@@ -9,14 +9,17 @@ import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.DriverResponse
+import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 import javax.transaction.Transactional
+
+//TODO: AVOID USING THIS MUCH SERVICES
 
 @Service
 class TripService(private val repository: RideRepository,
@@ -29,12 +32,13 @@ class TripService(private val repository: RideRepository,
     fun findAllActiveRides(): List<Ride> =
             repository.findAllByStatus(RideStatus.ACTIVE)
 
-    fun findAllActiveTripsWithAvailableSeats() = findAllActiveRides().filter { it.getAvailableSeats() > 0 }
+    fun findAllActiveTripsWithAvailableSeats() = findAllActiveRides().filter { it.getAvailableSeats() > 0 }.map { convertToTripResponse(it) }
 
     fun createNewRide(createTripRequest: CreateTripRequest): Ride {
         logger.info("[RideService - ADD RIDE] Creating new ride!")
         return repository.save(createRideObject(createTripRequest = createTripRequest))
     }
+
     fun getPastRidesForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
 
@@ -55,23 +59,6 @@ class TripService(private val repository: RideRepository,
     fun findAllRidesForUser(userId: Long) =
             repository.findAllByDriverId(driverId = userId)
 
-    private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
-        Ride(
-                createdOn = ZonedDateTime.now(),
-                fromLocation = cityService.findByName(fromLocation),
-                destination = cityService.findByName(destination),
-                departureTime = departureTime,
-                totalSeatsOffered = totalSeats,
-                driver = userService.findUserById(driverId),
-                pricePerHead = pricePerHead,
-                additionalDescription = additionalDescription,
-                rideRequests = listOf<RideRequest>(),
-                status = RideStatus.ACTIVE,
-                isSmokingAllowed = smokingAllowed,
-                isPetAllowed = petAllowed,
-                hasAirCondition = hasAirCondition,
-                maxTwoBackSeat = maxTwoBackseat)
-    }
 
     fun findFromToRides(from: String, to: String): List<Ride> =
             repository.findAllByFromLocationNameAndDestinationName(from, to)
@@ -91,12 +78,27 @@ class TripService(private val repository: RideRepository,
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
     }
 
-    fun findAllFiltered(req: FilterTripRequest): List<Ride> = with(req) {
+    fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
         val specification = createRideSpecification(fromAddress = fromAddress, toAddress = toAddress, departure = departure)
         if (requestedSeats != null) {
-            return repository.findAll(specification).filter { it.getAvailableSeats() >= requestedSeats }
+            return repository.findAll(specification)
+                    .filter { it.getAvailableSeats() >= requestedSeats }
+                    .map { convertToTripResponse(it) }
         }
-        return repository.findAll(specification)
+        return repository.findAll(specification).map { convertToTripResponse(it) }
+    }
+
+    private fun convertToTripResponse(ride: Ride): TripResponse = with(ride) {
+
+        TripResponse(id = id,
+                pricePerHead = pricePerHead,
+                availableSeats = getAvailableSeats(),
+                departureTime = departureTime,
+                from = fromLocation.name,
+                to = destination.name,
+                driver = DriverResponse(id = driver.id,
+                        name = driver.firstName + " " + driver.lastName,
+                        rating = driver.ratings.map { it.rating }.average()))
     }
 
     private fun createRideSpecification(fromAddress: String?, toAddress: String?, departure: ZonedDateTime?) =
@@ -108,6 +110,24 @@ class TripService(private val repository: RideRepository,
             ).fold(whereTrue()) { first, second ->
                 Specification.where(first).and(second)
             }
+
+    private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
+        Ride(
+                createdOn = ZonedDateTime.now(),
+                fromLocation = cityService.findByName(fromLocation),
+                destination = cityService.findByName(destination),
+                departureTime = departureTime,
+                totalSeatsOffered = totalSeats,
+                driver = userService.findUserById(driverId),
+                pricePerHead = pricePerHead,
+                additionalDescription = additionalDescription,
+                rideRequests = listOf<RideRequest>(),
+                status = RideStatus.ACTIVE,
+                isSmokingAllowed = smokingAllowed,
+                isPetAllowed = petAllowed,
+                hasAirCondition = hasAirCondition,
+                maxTwoBackSeat = maxTwoBackseat)
+    }
 
     private inline fun <reified T> evaluateSpecification(value: T?, fn: (T) -> Specification<Ride>) = value?.let(fn)
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }

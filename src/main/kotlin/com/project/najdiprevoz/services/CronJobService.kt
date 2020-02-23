@@ -18,7 +18,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
-    @Scheduled(cron = "0 0/2 * * * *")
+    @Scheduled(cron = "0 0/20 * * * *")
     @Modifying
     @Transactional
     fun updateRidesAndRequestsJob() {

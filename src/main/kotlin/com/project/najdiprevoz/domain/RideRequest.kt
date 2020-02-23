@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.RequestStatus
 import java.time.ZonedDateTime
@@ -16,6 +17,7 @@ data class RideRequest(
         @JoinColumn(name = "requester_id")
         val requester: User,
 
+        @JsonBackReference
         @ManyToOne
         @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
         val ride: Ride,

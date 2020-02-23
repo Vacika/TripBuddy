@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -23,7 +24,12 @@ data class Rating(
         val dateSubmitted: ZonedDateTime,
 
         @Column(name = "rating")
-        val rating: Int
+        val rating: Int,
+
+        @JsonIgnore
+        @ManyToOne
+        @JoinColumn(name="rated_user")
+        val ratedUser: User = rideRequest.ride.driver
 ) {
     fun getAuthor(): User = rideRequest.requester
     fun getDriver(): User = rideRequest.ride.driver

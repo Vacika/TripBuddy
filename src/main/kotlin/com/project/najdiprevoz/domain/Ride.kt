@@ -1,5 +1,7 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.JsonValue
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import java.time.ZonedDateTime
@@ -40,6 +42,7 @@ data class Ride(
         @Column(name = "description")
         var additionalDescription: String?,
 
+        @JsonManagedReference
         @OneToMany(mappedBy = "ride", targetEntity = RideRequest::class, fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
         var rideRequests: List<RideRequest> = listOf(),
 

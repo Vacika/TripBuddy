@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.services
 
+import com.project.najdiprevoz.domain.Rating
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import java.util.*
+import javax.annotation.PostConstruct
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -23,7 +25,7 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
-                  private val authorityRepository: AuthorityRepository){
+                  private val authorityRepository: AuthorityRepository) {
     fun createNewUser(createUserRequest: CreateUserRequest): User {
         val newUser = with(createUserRequest) {
             repository.save(User(
@@ -68,6 +70,7 @@ class UserService(private val repository: UserRepository,
         repository.save(findUserByUsername(username)
                 .setPassword(passwordEncoder().encode(newPassword)))
     }
+
 
     //    @PostConstruct
     fun testCreateUser() {

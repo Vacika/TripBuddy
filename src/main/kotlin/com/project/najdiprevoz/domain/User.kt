@@ -14,7 +14,7 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
-        val id: Long? = 0L,
+        val id: Long = 0L,
 
         @Column(name = "username", nullable = false, unique = true)
         private val username: String,
@@ -46,7 +46,10 @@ data class User(
         val gender: Gender,
 
         @Column(name = "phone_number", nullable = true)
-        var phoneNumber: String? = null
+        var phoneNumber: String? = null,
+
+        @OneToMany(mappedBy = "ratedUser")
+        var ratings: List<Rating> = listOf()
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = Collections.singleton(SimpleGrantedAuthority(authority.authority))

@@ -5,6 +5,7 @@ import com.project.najdiprevoz.services.TripService
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.TripResponse
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,7 +17,7 @@ class TripController(private val service: TripService) {
             service.findAllActiveTripsWithAvailableSeats()
 
     @GetMapping("/filter")
-    fun findAllFiltered(filterRequest: FilterTripRequest): List<Ride> =
+    fun findAllFiltered(filterRequest: FilterTripRequest): List<TripResponse> =
             service.findAllFiltered(filterRequest)
 
     @GetMapping("/{tripId}")
