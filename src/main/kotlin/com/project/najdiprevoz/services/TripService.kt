@@ -9,7 +9,6 @@ import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import com.project.najdiprevoz.web.response.TripResponse
-import com.project.najdiprevoz.web.response.UserResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.Specification
@@ -36,7 +35,7 @@ class TripService(private val repository: RideRepository,
             findAllActiveRides().filter { it.availableSeats > 0 }
 
     fun createNewTrip(createTripRequest: CreateTripRequest) {
-        logger.info("[RideService - ADD RIDE] Creating new ride!")
+        logger.`info`("[RideService - ADD RIDE] Creating new ride!")
         repository.save(createRideObject(createTripRequest = createTripRequest))
     }
 
@@ -94,17 +93,7 @@ class TripService(private val repository: RideRepository,
         return repository.findAll(specification).map { convertToTripResponse(it) }
     }
 
-    private fun convertToTripResponse(ride: Ride): TripResponse = with(ride) {
-        TripResponse(id = id,
-                pricePerHead = pricePerHead,
-                availableSeats = getAvailableSeats(),
-                departureTime = departureTime,
-                from = fromLocation.name,
-                to = destination.name,
-                driver = UserResponse(id = driver.id,
-                        name = driver.firstName + " " + driver.lastName,
-                        rating = driver.ratings.map { it.rating }.average()))
-    }
+    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
 
     private fun createRideSpecification(fromAddress: String?, toAddress: String?, departure: ZonedDateTime?) =
             listOfNotNull(
@@ -147,7 +136,7 @@ class TripService(private val repository: RideRepository,
 //        logger.warn("P$p")
 //    }
 
-            @PostConstruct
+    @PostConstruct
     fun deleteRideTest() {
         val t = cancelTrip(1L)
     }

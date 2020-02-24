@@ -52,14 +52,7 @@ class UserService(private val repository: UserRepository,
         mapToUserResponse(repository.save(member))
     }
 
-    private fun mapToUserResponse(user: User): UserProfileResponse = with(user) {
-        UserProfileResponse(firstName = firstName,
-                lastName = lastName,
-                profilePhoto = profilePhoto,
-                username = user.username,
-                phoneNumber = user.phoneNumber
-        )
-    }
+    private fun mapToUserResponse(user: User): UserProfileResponse = user.mapToUserProfileResponse()
 
     fun changePassword(newPassword: String, username: String) {
         repository.save(findUserByUsername(username)

@@ -13,11 +13,11 @@ class RatingService(private val repository: RatingRepository,
                     private val rideRequestService: RideRequestService,
                     private val notificationService: NotificationService) {
 
-    fun getRatingsForRide(rideId: Long) =
+    fun getRatingsForTrip(rideId: Long) =
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
 
-    fun getRatingsForMember(userId: Long) =
-            repository.findRatingsForDriverId(driverId = userId)
+    fun getRatingsForUser(username: String) =
+            repository.findAllByRatedUser_Username(username)
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {

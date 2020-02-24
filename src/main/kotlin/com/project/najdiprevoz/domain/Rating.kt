@@ -35,6 +35,7 @@ data class Rating(
     fun getAuthor(): User = rideRequest.requester
     @JsonIgnore
     fun getDriver(): User = rideRequest.ride.driver
+
     override fun toString(): String = "Rating id:[${id}], Ride Request id:[${rideRequest.id}], rating: [$rating], date: [$dateSubmitted]"
 
 }

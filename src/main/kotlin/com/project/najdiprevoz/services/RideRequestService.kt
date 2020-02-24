@@ -5,7 +5,7 @@ import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.response.RideRequestResponse
-import com.project.najdiprevoz.web.response.UserResponse
+import com.project.najdiprevoz.web.response.UserShortResponse
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
@@ -74,15 +74,7 @@ class RideRequestService(private val repository: RideRequestRepository,
         return false
     }
 
-    private fun convertToRideRequestResponse(rr: RideRequest): RideRequestResponse = with(rr) {
-        RideRequestResponse(id = id,
-                tripId = rr.ride.id,
-                profilePhoto = rr.requester.profilePhoto,
-                requester = UserResponse(
-                        id = rr.ride.driver.id,
-                        name = rr.getRequesterFullName(),
-                        rating = rr.requester.getAverageRating()))
-    }
+    private fun convertToRideRequestResponse(rr: RideRequest): RideRequestResponse = rr.mapToRideRequestResponse()
 
     fun rideRequestCronJob(rideRequest: RideRequest, status: RequestStatus) {
         val request = findById(rideRequest.id)

@@ -3,6 +3,8 @@ package com.project.najdiprevoz.domain
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.Gender
+import com.project.najdiprevoz.web.response.UserProfileResponse
+import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -82,4 +84,22 @@ data class User(
 
     @Override
     override fun toString(): String = ""
+
+    fun mapToUserShortResponse(): UserShortResponse {
+        return UserShortResponse(id = id,
+                rating = this.getAverageRating(),
+                name = this.getFullName())
+    }
+
+    fun mapToUserProfileResponse(): UserProfileResponse {
+        return UserProfileResponse(firstName = firstName,
+                lastName = lastName,
+                username = username,
+                profilePhoto = profilePhoto,
+                phoneNumber = phoneNumber,
+                gender = gender.name,
+                averageRating = getAverageRating(),
+                ratings = ratings,
+                id = id)
+    }
 }

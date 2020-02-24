@@ -3,23 +3,24 @@ package com.project.najdiprevoz.api
 import com.project.najdiprevoz.services.RatingService
 import com.project.najdiprevoz.web.request.create.CreateRatingRequest
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/ratings")
 class RatingController(private val service: RatingService) {
-    @GetMapping("/member/{userId}")
-    fun getRatingsForMember(@PathVariable("userId") userId: Long) =
-            service.getRatingsForMember(userId)
+    @GetMapping("/user") // TODO: should this be path variable or requestbody?
+    fun getRatingsForUser(@RequestBody username: String) =
+            service.getRatingsForUser(username)
 
     @PostMapping("/add")
     fun createNewRating(@RequestBody createRatingRequest: CreateRatingRequest) =
             service.addRating(createRatingRequest)
 
     @GetMapping
-    fun getMyRatings(userId: Long) =
-            service.getRatingsForMember(userId)
+    fun getMyRatings(principal: Principal) =
+            service.getRatingsForUser(principal.name)
 
-    @GetMapping("/ride/{rideId}")
-    fun getRatingsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getRatingsForRide(rideId)
+    @GetMapping("/trip/{tripId}")
+    fun getRatingsForRide(@PathVariable("tripId") tripId: Long) =
+            service.getRatingsForTrip(tripId)
 }

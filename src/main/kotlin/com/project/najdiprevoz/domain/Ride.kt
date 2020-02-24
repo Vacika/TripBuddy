@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.web.response.TripResponse
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -70,6 +71,16 @@ data class Ride(
     fun isFinished(): Boolean = this.status == RideStatus.FINISHED
 
     fun getDriverFullName() = this.driver.getFullName()
+
+    fun mapToTripResponse(): TripResponse {
+        return TripResponse(id = id,
+                from = fromLocation.name,
+                to = destination.name,
+                departureTime = departureTime,
+                availableSeats = getAvailableSeats(),
+                pricePerHead = pricePerHead,
+                driver = driver.mapToUserShortResponse())
+    }
 
     @Override
     override fun toString(): String = ""
