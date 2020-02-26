@@ -136,9 +136,9 @@ class TripService(private val repository: RideRepository,
 //        logger.warn("P$p")
 //    }
 
-    @PostConstruct
-    fun deleteRideTest() {
-        val t = cancelTrip(1L)
-    }
+//    @PostConstruct
+//    fun deleteRideTest() {
+//        val t = cancelTrip(1L)
+//    }
 }
 

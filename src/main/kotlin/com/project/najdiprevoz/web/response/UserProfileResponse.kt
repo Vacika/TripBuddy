@@ -5,7 +5,7 @@ import com.project.najdiprevoz.domain.Rating
 class UserProfileResponse(val id: Long,
                           val firstName: String,
                           val lastName: String,
-                          val profilePhoto: String?,
+                          val profilePhoto: ByteArray?,
                           val username: String,
                           val phoneNumber: String?,
                           val gender: String,

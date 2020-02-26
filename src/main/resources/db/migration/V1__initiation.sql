@@ -27,7 +27,7 @@ CREATE TABLE public.users
     password      character varying(255)                           NOT NULL,
     phone_number  character varying(255)                           NOT NULL,
     authority_id  bigint                                           NOT NULL REFERENCES public.authorities (id),
-    profile_photo character varying(255)
+    profile_photo bytea
 );
 
 

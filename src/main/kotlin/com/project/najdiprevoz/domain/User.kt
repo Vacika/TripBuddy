@@ -36,7 +36,7 @@ data class User(
         var birthDate: Date,
 
         @Column(name = "profile_photo", nullable = true)
-        var profilePhoto: String? = null,
+        var profilePhoto: ByteArray? = null,
 
         // Owning
         @ManyToOne
@@ -54,7 +54,7 @@ data class User(
         @JsonIgnore
         @JsonManagedReference
         @OneToMany(mappedBy = "ratedUser")
-        var ratings: List<Rating> = listOf()
+        var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = Collections.singleton(SimpleGrantedAuthority(authority.authority))
@@ -101,5 +101,23 @@ data class User(
                 averageRating = getAverageRating(),
                 ratings = ratings,
                 id = id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as User
+
+        if (id != other.id) return false
+        if (username != other.username) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + username.hashCode()
+        return result
     }
 }

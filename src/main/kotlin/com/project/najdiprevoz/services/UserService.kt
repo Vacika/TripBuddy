@@ -48,8 +48,8 @@ class UserService(private val repository: UserRepository,
 
     fun editProfilePhoto(req: ChangeProfilePhotoRequest) = with(req) {
         val member = findUserById(userId)
-        member.copy(profilePhoto = profilePhoto.toString())
-        mapToUserResponse(repository.save(member))
+        member.copy(profilePhoto = profilePhoto)
+        mapToUserResponse(repository.save(member)) //TODO: Doesn't work, fix
     }
 
     private fun mapToUserResponse(user: User): UserProfileResponse = user.mapToUserProfileResponse()
