@@ -1,6 +1,5 @@
 package com.project.najdiprevoz.api
 
-import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.services.TripService
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 class TripController(private val service: TripService) {
 
     @GetMapping
-    fun getAllActiveTrips() =
+    fun getAllActiveTrips(): List<TripResponse> =
             service.findAllActiveTripsWithAvailableSeats()
 
     @GetMapping("/filter")

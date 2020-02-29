@@ -1,6 +1,6 @@
 import {UserShortInfo} from "./user-short-info.interface";
 
-export interface RideRequest {
+export interface RideRequestResponse {
   id: number
   profilePhoto: string
   requester: UserShortInfo

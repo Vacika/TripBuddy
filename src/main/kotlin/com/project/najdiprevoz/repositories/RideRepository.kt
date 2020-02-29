@@ -66,4 +66,7 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
         where r.id = :rideId
     """)
     fun changeRideTiming(@Param("rideId") rideId: Long, @Param("newTime") newTime: ZonedDateTime): Int
+
+    @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.status='APPROVED' and count(rr)< r.totalSeatsOffered ")
+    fun findAllActiveTripsWithAvailableSeats(): List<Ride>
 }

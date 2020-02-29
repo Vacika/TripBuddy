@@ -35,7 +35,7 @@ class TripService(private val repository: RideRepository,
             findAllActiveRides().filter { it.availableSeats > 0 }
 
     fun createNewTrip(createTripRequest: CreateTripRequest) {
-        logger.`info`("[RideService - ADD RIDE] Creating new ride!")
+        logger.info("[RideService - ADD RIDE] Creating new ride!")
         repository.save(createRideObject(createTripRequest = createTripRequest))
     }
 
@@ -137,7 +137,7 @@ class TripService(private val repository: RideRepository,
 //    }
 
 //    @PostConstruct
-//    fun deleteRideTest() {
+//    fun cancelRideTest() {
 //        val t = cancelTrip(1L)
 //    }
 }

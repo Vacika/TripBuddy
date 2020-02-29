@@ -1,6 +1,6 @@
 export interface Rating {
   id: number
   rating: number
-  note: string
+  note?: string
   dateSubmitted: string
 }

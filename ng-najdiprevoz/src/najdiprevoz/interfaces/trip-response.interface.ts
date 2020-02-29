@@ -1,6 +1,6 @@
 import {UserShortInfo} from "./user-short-info.interface";
 
-export interface Trip {
+export interface TripResponse {
   id: number
   from: string
   to: string
