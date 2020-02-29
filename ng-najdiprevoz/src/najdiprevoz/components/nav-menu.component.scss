@@ -6,4 +6,13 @@
 
 :host ::ng-deep .mat-icon {
   line-height: 19px !important;
+  vertical-align: middle;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.link {
+  cursor: pointer;
 }

@@ -1,14 +1,35 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row class='menu'>
-    <div class='logo'>
-      <h1>Najdi Prevoz</h1>
+    <div class='link' [routerLink]='"/home"'>
+      <h1 class='inline-block'>{{'SITE_TITLE'|translate}}</h1>
+      <mat-icon>directions_car</mat-icon>
       <span class="menu-spacer"></span>
     </div>
     <div>
-      <a mat-button [routerLink]="'/trips'"><mat-icon>search</mat-icon> Find trips </a>
-      <a mat-button [routerLink]="'/add-trip'"> Publish trip </a>
-      <a mat-button [routerLink]="'/about-us'"> About us </a>
-      <button mat-icon-button><mat-icon>menu</mat-icon></button>
+      <a mat-button [routerLink]="'/trips/search'">
+        <mat-icon>search</mat-icon>
+        {{'FIND_TRIPS'|translate}} </a>
+      <a mat-button [routerLink]="'/add-trip'">
+        <mat-icon>add_circle_outline</mat-icon>
+        {{'PUBLISH_TRIP'|translate}} </a>
+
+      <a mat-button [routerLink]="'/register'"> {{'REGISTER'|translate}} </a>
+      <a mat-button [routerLink]="'/login'"> {{'LOGIN'|translate}} </a>
+      <!--      <span class="form-inline">-->
+      <!--        <select-->
+      <!--          class="form-control"-->
+      <!--          #selectedLang-->
+      <!--          (change)="switchLang(selectedLang.value)">-->
+      <!--          <option *ngFor="let language of translate.getLangs()"-->
+      <!--                  [value]="language"-->
+      <!--                  [selected]="language === translate.currentLang">-->
+      <!--            {{ language }}-->
+      <!--          </option>-->
+      <!--        </select>-->
+      <!--      </span>-->
+      <button mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
