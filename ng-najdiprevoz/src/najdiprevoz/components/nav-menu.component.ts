@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import {FormControl} from "@angular/forms";
 
 @Component({
@@ -9,11 +9,20 @@ import {FormControl} from "@angular/forms";
 export class NavMenuComponent implements OnInit {
 	selectedLangControl = new FormControl('');
 	@Input() languages: string[];
-	@Input() set currentLanguage(lang: string) {this.selectedLangControl.setValue(lang)};
+
+	@Input() set currentLanguage(lang: string) {
+		this.selectedLangControl.setValue(lang)
+	};
+
 	@Output() switchLangEmitter = new EventEmitter<string>();
 
+	@ViewChild('languageSelect') languageSelect;
 
 	ngOnInit(): void {
 		this.selectedLangControl.valueChanges.subscribe(newLang => this.switchLangEmitter.emit(newLang))
+	}
+
+	onFlagClick() {
+		this.languageSelect.toggle();
 	}
 }
