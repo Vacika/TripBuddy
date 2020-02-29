@@ -9,52 +9,42 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TripDetailsPage} from "../najdiprevoz/pages/trip-details/trip-details.page";
 import {CityService} from "../najdiprevoz/services/city.service";
 import {NavMenuComponent} from "../najdiprevoz/components/nav-menu.component";
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {MatCardModule} from "@angular/material/card";
-import {MatSelectModule} from "@angular/material/select";
-import {ReactiveFormsModule} from "@angular/forms";
+import {MaterialModules} from "./material/material.module";
+import {LoginPage} from "../najdiprevoz/pages/login/login.page";
 
 
 const services = [TripService, CityService];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TripListPage,
-    TripDetailsPage,
-    NavMenuComponent
-  ],
-  imports: [
-    RouterModule.forRoot(appRoutes),
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (httpTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
-    MatCardModule,
-    MatSelectModule,
-    ReactiveFormsModule
-  ],
-  providers: [...services],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		TripListPage,
+		TripDetailsPage,
+		NavMenuComponent,
+		LoginPage
+	],
+	imports: [
+		RouterModule.forRoot(appRoutes),
+		BrowserModule,
+		HttpClientModule,
+		MaterialModules,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: (httpTranslateLoader),
+				deps: [HttpClient]
+			}
+		})
+	],
+	providers: [...services],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 }
 
 
 export function httpTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/','.json');
+	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

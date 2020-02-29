@@ -35,8 +35,8 @@
   "SUBMIT": "TEST",
   "SAVE": "TEST",
   "USERNAME": "TEST",
-  "PASSWORD": "TEST",
-  "EMAIL": "TEST",
+  "PASSWORD": "Лозинка",
+  "EMAIL": "Вашата и-мејл адреса",
   "ERROR": "TEST",
   "FIND_TRIPS": "Најди превоз",
   "PUBLISH_TRIP": "Понуди превоз",
@@ -51,5 +51,7 @@
   "RATED_USER": "",
   "AUTHOR": "",
   "NOTE": "",
-  "ADDITIONAL_DESCRIPTION": ""
+  "ADDITIONAL_DESCRIPTION": "",
+	"LOG_IN": "Пријави се",
+	"MANDATORY_FIELD": "Ова поле е задолжително!"
 }
