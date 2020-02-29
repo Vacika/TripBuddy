@@ -9,10 +9,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {TripDetailsPage} from "../najdiprevoz/pages/trip-details/trip-details.page";
 import {CityService} from "../najdiprevoz/services/city.service";
 import {NavMenuComponent} from "../najdiprevoz/components/nav-menu.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 
-const services = [TripService,CityService];
+const services = [TripService, CityService];
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ const services = [TripService,CityService];
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [...services],
   bootstrap: [AppComponent]

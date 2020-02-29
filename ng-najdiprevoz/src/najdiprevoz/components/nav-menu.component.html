@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class='menu'>
+    <div class='logo'>
+      <h1>Najdi Prevoz</h1>
+      <span class="menu-spacer"></span>
+    </div>
+    <div>
+      <a mat-button [routerLink]="'/trips'"><mat-icon>search</mat-icon> Find trips </a>
+      <a mat-button [routerLink]="'/add-trip'"> Publish trip </a>
+      <a mat-button [routerLink]="'/about-us'"> About us </a>
+      <button mat-icon-button><mat-icon>menu</mat-icon></button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
