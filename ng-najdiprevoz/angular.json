@@ -20,7 +20,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/small_logo.png",
+              "src/small_logo.ico",
               "src/assets",
               "src/assets/i18n"
             ],
@@ -86,7 +86,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/small_logo.png",
+              "src/small_logo.ico",
               "src/assets"
             ],
             "styles": [

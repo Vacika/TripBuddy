@@ -19,16 +19,13 @@
 			<span mat-button class="mat-button">
        <img src="../../assets/images/{{selectedLangControl.value}}.png"
 						(click)="onFlagClick()"
-						width="15px"
-						height="15px"
-						class="text-bottom">
+						class="text-bottom px-15">
         <mat-select
 					[formControl]="selectedLangControl"
 					#languageSelect>
           <mat-option *ngFor="let language of languages"
 											[value]="language">
-            <img src='./../../assets/images/{{language}}.png' width="15px"
-								 height="15px" style="white-space: nowrap">{{language|uppercase}}
+            <img src='./../../assets/images/{{language}}.png' class="px-15">{{language|uppercase}}
           </mat-option>
         </mat-select>
       </span>
