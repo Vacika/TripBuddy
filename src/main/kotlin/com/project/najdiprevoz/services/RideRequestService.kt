@@ -4,7 +4,8 @@ import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
-import com.project.najdiprevoz.web.request.edit.ChangeRideRequestStatusRequest
+import com.project.najdiprevoz.web.response.RideRequestResponse
+import com.project.najdiprevoz.web.response.UserShortResponse
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
@@ -15,12 +16,14 @@ class RideRequestService(private val repository: RideRequestRepository,
                          private val userService: UserService,
                          private val notificationService: NotificationService) {
 
+    fun findRequestById(id: Long): RideRequestResponse = convertToRideRequestResponse(findById(id))
+
     fun findById(id: Long): RideRequest =
             repository.findById(id)
                     .orElseThrow { NotFoundException("Ride request not found!") }
 
-    fun getAllRequestsByTripId(rideId: Long) =
-            repository.findAllByRideId(rideId)
+    fun getAllRequestsByTripId(rideId: Long): List<RideRequestResponse> =
+            repository.findAllByRideId(rideId).map { convertToRideRequestResponse(it) }
 
     fun getAllRequestsForUser(username: String) =
             repository.findAllByRequesterUsername(username = username)
@@ -28,25 +31,14 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun getAll(): List<RideRequest> =
             repository.findAll()
 
-    fun getApprovedRideRequestsForTrip(rideId: Long) =
-            repository.findApprovedRequestsForRide(rideId = rideId)
+    fun getRequestsForRideByStatus(rideId: Long, status: RequestStatus): List<RideRequestResponse> =
+            getAll()
+                    .filter { it.ride.id == rideId && it.status == status }
+                    .map { convertToRideRequestResponse(it) }
 
-    fun rideRequestCronJob(rideRequest: RideRequest, status: RequestStatus) {
-        val request = findById(rideRequest.id)
-        request.status = status
-        repository.save(request)
-        pushNotification(request)
-    }
-
-    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus, notificationId:Long) {
+    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus, notificationId: Long) {
         updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
         notificationService.markAsSeen(notificationId) // mark previous notification as SEEN
-    }
-
-    private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
-        if (changeStatusActionAllowed(previousStatus, newStatus))
-            repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
-        pushNotification(findById(requestId))
     }
 
     fun addNewRideRequest(createRideRequestForTrip: CreateRequestForTrip, username: String) = with(createRideRequestForTrip) {
@@ -57,16 +49,16 @@ class RideRequestService(private val repository: RideRequestRepository,
                 requester = userService.findUserByUsername(username))))
     }
 
-    fun getDeniedRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId = rideId, status = RequestStatus.DENIED)
-
-    fun getPendingRequestsForRide(rideId: Long) = getRequestsForRideByStatus(rideId = rideId, status = RequestStatus.PENDING)
+    private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
+        if (changeStatusActionAllowed(previousStatus, newStatus))
+            repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
+        pushNotification(findById(requestId))
+    }
 
     private fun pushNotification(rideRequest: RideRequest) {
         notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest)
     }
 
-    private fun getRequestsForRideByStatus(rideId: Long, status: RequestStatus): List<RideRequest> =
-            getAll().filter { it.ride.id == rideId && it.status == status }
 
     private fun changeStatusActionAllowed(previousStatus: RequestStatus, nextStatus: RequestStatus): Boolean {
         if (previousStatus != nextStatus) {
@@ -80,5 +72,14 @@ class RideRequestService(private val repository: RideRequestRepository,
             }
         }
         return false
+    }
+
+    private fun convertToRideRequestResponse(rr: RideRequest): RideRequestResponse = rr.mapToRideRequestResponse()
+
+    fun rideRequestCronJob(rideRequest: RideRequest, status: RequestStatus) {
+        val request = findById(rideRequest.id)
+        request.status = status
+        repository.save(request)
+        pushNotification(request)
     }
 }

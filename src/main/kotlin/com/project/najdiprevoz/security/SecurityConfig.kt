@@ -27,30 +27,34 @@ class SecurityConfig(service: UserDetailsServiceImpl) : WebSecurityConfigurerAda
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
-                .httpBasic()
-                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
-                .and()
-                .authorizeRequests()
-                //                .antMatchers("/api/auth/principal")
-//                    .hasAnyRole("USER", "ADMIN")
-//
-//                .antMatchers("/api/leases/my")
-//                    .hasRole("USER")
-//
-//                .antMatchers(HttpMethod.POST, "/api/leases")
-//                    .hasRole("USER")
-//
-//                .antMatchers("/api/leases/**")
-//                    .hasRole("ADMIN")
-                .antMatchers("/api/**")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/api/auth/logout")
-                .logoutSuccessHandler { request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication? ->
-                    request.session.invalidate()
-                    response.status = HttpServletResponse.SC_OK
-                }
+//                .httpBasic()
+//                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
+//                .and()
+//                .authorizeRequests()
+////                .httpBasic()
+////                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
+////                .and()
+////                .authorizeRequests()
+//                //                .antMatchers("/api/auth/principal")
+////                    .hasAnyRole("USER", "ADMIN")
+////
+////                .antMatchers("/api/leases/my")
+////                    .hasRole("USER")
+////
+////                .antMatchers(HttpMethod.POST, "/api/leases")
+////                    .hasRole("USER")
+////
+////                .antMatchers("/api/leases/**")
+////                    .hasRole("ADMIN")
+//                .antMatchers("/api/**")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .logoutUrl("/api/auth/logout")
+//                .logoutSuccessHandler { request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication? ->
+//                    request.session.invalidate()
+//                    response.status = HttpServletResponse.SC_OK
+//                }
     }
 
     @Bean

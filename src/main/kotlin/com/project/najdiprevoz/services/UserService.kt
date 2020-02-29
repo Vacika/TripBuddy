@@ -7,7 +7,7 @@ import com.project.najdiprevoz.repositories.AuthorityRepository
 import com.project.najdiprevoz.repositories.UserRepository
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
 import com.project.najdiprevoz.web.request.edit.ChangeProfilePhotoRequest
-import com.project.najdiprevoz.web.response.UserResponse
+import com.project.najdiprevoz.web.response.UserProfileResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -23,21 +23,18 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
-                  private val authorityRepository: AuthorityRepository){
-    fun createNewUser(createUserRequest: CreateUserRequest): User {
-        val newUser = with(createUserRequest) {
-            repository.save(User(
-                    firstName = firstName,
-                    lastName = lastName,
-                    username = username,
-                    password = passwordEncoder().encode(password),
-                    birthDate = birthDate,
-                    gender = gender,
-                    phoneNumber = phoneNumber,
-                    profilePhoto = null,
-                    authority = authorityRepository.findByAuthority("ROLE_USER")!!))
-        }
-        return newUser
+                  private val authorityRepository: AuthorityRepository) {
+    fun createNewUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
+        repository.save(User(
+                firstName = firstName,
+                lastName = lastName,
+                username = username,
+                password = passwordEncoder().encode(password),
+                birthDate = birthDate,
+                gender = gender,
+                phoneNumber = phoneNumber,
+                profilePhoto = null,
+                authority = authorityRepository.findByAuthority("ROLE_USER")!!))
     }
 
     fun findUserByUsername(username: String): User =
@@ -51,23 +48,17 @@ class UserService(private val repository: UserRepository,
 
     fun editProfilePhoto(req: ChangeProfilePhotoRequest) = with(req) {
         val member = findUserById(userId)
-        member.copy(profilePhoto = profilePhoto.toString())
-        mapToUserResponse(repository.save(member))
+        member.copy(profilePhoto = profilePhoto)
+        mapToUserResponse(repository.save(member)) //TODO: Doesn't work, fix
     }
 
-    private fun mapToUserResponse(user: User): UserResponse = with(user) {
-        UserResponse(firstName = firstName,
-                lastName = lastName,
-                profilePhoto = profilePhoto,
-                username = user.username,
-                phoneNumber = user.phoneNumber
-        )
-    }
+    private fun mapToUserResponse(user: User): UserProfileResponse = user.mapToUserProfileResponse()
 
     fun changePassword(newPassword: String, username: String) {
         repository.save(findUserByUsername(username)
                 .setPassword(passwordEncoder().encode(newPassword)))
     }
+
 
     //    @PostConstruct
     fun testCreateUser() {

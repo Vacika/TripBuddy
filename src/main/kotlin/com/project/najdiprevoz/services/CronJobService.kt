@@ -1,12 +1,10 @@
 package com.project.najdiprevoz.services
 
-import com.fasterxml.jackson.annotation.JsonValue
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -18,7 +16,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
-    @Scheduled(cron = "0 0/2 * * * *")
+    @Scheduled(cron = "0 0/20 * * * *")
     @Modifying
     @Transactional
     fun updateRidesAndRequestsJob() {
@@ -37,5 +35,5 @@ class CronJobService(private val rideRequestService: RideRequestService,
             rideRequestService.rideRequestCronJob(rideRequest, status)
 
     private fun updateRideCron() =
-            tripService.checkForFinishedRidesTask()
+            tripService.checkForFinishedTripsCronJob()
 }

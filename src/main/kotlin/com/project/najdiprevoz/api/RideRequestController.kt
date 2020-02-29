@@ -18,27 +18,28 @@ class RideRequestController(private val service: RideRequestService) {
     fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getAllRequestsByTripId(rideId)
 
+    @GetMapping("/{requestId}")
+    fun getRequestById(@PathVariable("requestId") requestId: Long) =
+            service.findRequestById(requestId)
+
     @GetMapping("/ride/{rideId}/pending")
     fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getPendingRequestsForRide(rideId)
-
-    @GetMapping("/{requestId}")
-    fun getRequest(@PathVariable("requestId") requestId: Long) =
-            service.findById(requestId)
+            service.getRequestsForRideByStatus(rideId, RequestStatus.PENDING)
 
     @GetMapping("/ride/{rideId}/approved")
     fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getApprovedRideRequestsForTrip(rideId)
+            service.getRequestsForRideByStatus(rideId, RequestStatus.APPROVED)
 
     @GetMapping("/ride/{rideId}/denied")
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getDeniedRequestsForRide(rideId)
+            service.getRequestsForRideByStatus(rideId, RequestStatus.DENIED)
 
-    @GetMapping("/my}")
+    @GetMapping("/my")
     fun findMyRideRequests(principal: Principal) =
             service.getAllRequestsForUser(principal.name)
 
-
+    //Note: we need the notification id so we can set that notification as SEEN
+    //TODO: Get notification id in the request body, not the url.
     @GetMapping("/{notificationId}/{requestId}/approve")
     fun changeStatusToApproved(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
             service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED, notificationId)

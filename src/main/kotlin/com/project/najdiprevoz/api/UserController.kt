@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/api/users")
 class UserController(private val userService: UserService) {
 
     @GetMapping("/{userId}")
@@ -22,8 +22,8 @@ class UserController(private val userService: UserService) {
     fun createUser(@RequestBody request: CreateUserRequest) =
             userService.createNewUser(request)
 
-    @GetMapping("/edit/profile-photo")
-    fun editProfilePhoto(request: ChangeProfilePhotoRequest) =
+    @PutMapping("/edit/profile-photo")
+    fun editProfilePhoto(@RequestBody request: ChangeProfilePhotoRequest) =
             userService.editProfilePhoto(request)
 
     @PutMapping("/edit/password")

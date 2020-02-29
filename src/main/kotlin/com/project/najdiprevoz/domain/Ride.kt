@@ -1,7 +1,10 @@
 package com.project.najdiprevoz.domain
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.web.response.TripResponse
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -30,6 +33,7 @@ data class Ride(
         @Column(name = "total_seats_offered")
         val totalSeatsOffered: Int,
 
+        @JsonBackReference
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "driver_id")
         var driver: User,
@@ -40,11 +44,12 @@ data class Ride(
         @Column(name = "description")
         var additionalDescription: String?,
 
+        @JsonManagedReference
         @OneToMany(mappedBy = "ride", targetEntity = RideRequest::class, fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
         var rideRequests: List<RideRequest> = listOf(),
 
         @Enumerated(EnumType.STRING)
-        @Column(name="status")
+        @Column(name = "status")
         var status: RideStatus,
 
         @Column(name = "is_smoking_allowed")
@@ -53,10 +58,10 @@ data class Ride(
         @Column(name = "is_pet_allowed")
         val isPetAllowed: Boolean = false,
 
-        @Column(name="max_two_backseat")
+        @Column(name = "max_two_backseat")
         val maxTwoBackSeat: Boolean = false,
 
-        @Column(name="has_air_condition")
+        @Column(name = "has_air_condition")
         val hasAirCondition: Boolean = false) {
 
     fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.size
@@ -64,6 +69,18 @@ data class Ride(
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 
     fun isFinished(): Boolean = this.status == RideStatus.FINISHED
+
+    fun getDriverFullName() = this.driver.getFullName()
+
+    fun mapToTripResponse(): TripResponse {
+        return TripResponse(id = id,
+                from = fromLocation.name,
+                to = destination.name,
+                departureTime = departureTime,
+                availableSeats = getAvailableSeats(),
+                pricePerHead = pricePerHead,
+                driver = driver.mapToUserShortResponse())
+    }
 
     @Override
     override fun toString(): String = ""

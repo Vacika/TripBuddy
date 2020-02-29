@@ -1,7 +1,10 @@
 package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.Gender
+import com.project.najdiprevoz.web.response.UserProfileResponse
+import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -14,7 +17,7 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
-        val id: Long? = 0L,
+        val id: Long = 0L,
 
         @Column(name = "username", nullable = false, unique = true)
         private val username: String,
@@ -33,7 +36,7 @@ data class User(
         var birthDate: Date,
 
         @Column(name = "profile_photo", nullable = true)
-        var profilePhoto: String? = null,
+        var profilePhoto: ByteArray? = null,
 
         // Owning
         @ManyToOne
@@ -46,7 +49,12 @@ data class User(
         val gender: Gender,
 
         @Column(name = "phone_number", nullable = true)
-        var phoneNumber: String? = null
+        var phoneNumber: String? = null,
+
+        @JsonIgnore
+        @JsonManagedReference
+        @OneToMany(mappedBy = "ratedUser")
+        var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = Collections.singleton(SimpleGrantedAuthority(authority.authority))
@@ -54,6 +62,10 @@ data class User(
     override fun isEnabled(): Boolean = true
 
     override fun getUsername(): String = username
+
+    fun getFullName(): String = "$firstName $lastName"
+
+    fun getAverageRating(): Double = ratings.map { it.rating }.average()
 
     override fun isCredentialsNonExpired(): Boolean = true
 
@@ -72,4 +84,40 @@ data class User(
 
     @Override
     override fun toString(): String = ""
+
+    fun mapToUserShortResponse(): UserShortResponse {
+        return UserShortResponse(id = id,
+                rating = this.getAverageRating(),
+                name = this.getFullName())
+    }
+
+    fun mapToUserProfileResponse(): UserProfileResponse {
+        return UserProfileResponse(firstName = firstName,
+                lastName = lastName,
+                username = username,
+                profilePhoto = profilePhoto,
+                phoneNumber = phoneNumber,
+                gender = gender.name,
+                averageRating = getAverageRating(),
+                ratings = ratings,
+                id = id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as User
+
+        if (id != other.id) return false
+        if (username != other.username) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + username.hashCode()
+        return result
+    }
 }
