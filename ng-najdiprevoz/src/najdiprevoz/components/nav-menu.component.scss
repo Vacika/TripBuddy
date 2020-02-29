@@ -1,9 +1,25 @@
 .menu {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
-:host ::ng-deep .mat-icon {
-  line-height: 19px !important;
+:host ::ng-deep {
+	& .mat-select {
+		width: auto !important;
+	}
+
+	& .mat-icon {
+		line-height: 19px !important;
+		vertical-align: middle;
+	}
+}
+
+.px-15 {
+	width: 15px;
+	height: 15px;
+}
+
+.link {
+	cursor: pointer;
 }

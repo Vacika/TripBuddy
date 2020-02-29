@@ -1,0 +1,24 @@
+<div class="example-container">
+	<div class="form-container">
+		<form [formGroup]="loginForm" (submit)="submit()">
+			<mat-form-field class="form-field" appearance="outline">
+				<mat-label> {{'EMAIL' | translate}}
+				</mat-label>
+				<input matInput formControlName="email" required>
+				<mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+					<span *ngIf="loginForm.controls.email.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+					<span *ngIf="loginForm.controls.email.errors.pattern">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field class="form-field" appearance="outline">
+				<mat-label> {{'PASSWORD' | translate}}
+				</mat-label>
+				<input matInput formControlName="password" type="password">
+				<mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+					<span *ngIf="loginForm.controls.password.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</mat-form-field>
+			<button mat-raised-button color="primary" type="submit">{{'LOG_IN' | translate}}</button>
+		</form>
+	</div>
+</div>

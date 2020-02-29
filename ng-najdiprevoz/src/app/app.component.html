@@ -1,2 +1,5 @@
-<nav-menu></nav-menu>
+<nav-menu [languages]="translate.getLangs()"
+          [currentLanguage]="translate.getDefaultLang()"
+          (switchLangEmitter)="changeLang($event)">
+</nav-menu>
 <router-outlet></router-outlet>
