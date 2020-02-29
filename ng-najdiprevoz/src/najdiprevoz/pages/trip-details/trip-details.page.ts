@@ -4,10 +4,10 @@ import {ActivatedRoute} from "@angular/router";
 import {Trip} from "../../interfaces/trip.interface";
 
 @Component({
-  templateUrl: './trip.page.html',
-  styleUrls: ['./trip.page.scss']
+  templateUrl: './trip-details.page.html',
+  styleUrls: ['./trip-details.page.scss']
 })
-export class TripPage implements OnInit {
+export class TripDetailsPage implements OnInit {
   trip: Trip;
   tripId: number;
 
@@ -21,7 +21,6 @@ export class TripPage implements OnInit {
     if (this.tripId) {
       console.log('tripId:', this.tripId);
       this._service.getTripInformation(this.tripId).subscribe(response => this.trip = response);
-      console.log(this.trip);
     }
   }
 

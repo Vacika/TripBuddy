@@ -6,8 +6,10 @@ import {RouterModule} from "@angular/router";
 import {appRoutes} from "./routing.module";
 import {TripService} from "../najdiprevoz/services/trip.service";
 import {HttpClientModule} from "@angular/common/http";
-import {TripPage} from "../najdiprevoz/pages/trip/trip.page";
+import {TripDetailsPage} from "../najdiprevoz/pages/trip-details/trip-details.page";
 import {CityService} from "../najdiprevoz/services/city.service";
+import {NavMenuComponent} from "../najdiprevoz/components/nav-menu.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 const services = [TripService,CityService];
@@ -16,13 +18,14 @@ const services = [TripService,CityService];
   declarations: [
     AppComponent,
     TripListPage,
-    TripPage
+    TripDetailsPage,
+    NavMenuComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes,
-      {enableTracing: true}),
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [...services],
   bootstrap: [AppComponent]
