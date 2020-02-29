@@ -4,13 +4,15 @@
   justify-content: space-between;
 }
 
-:host ::ng-deep .mat-icon {
-  line-height: 19px !important;
-  vertical-align: middle;
-}
+:host ::ng-deep {
+  & .mat-select {
+    width: auto !important;
+  }
 
-.inline-block {
-  display: inline-block;
+  & .mat-icon {
+    line-height: 19px !important;
+    vertical-align: middle;
+  }
 }
 
 .link {

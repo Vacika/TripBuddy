@@ -15,6 +15,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {MatCardModule} from "@angular/material/card";
+import {MatSelectModule} from "@angular/material/select";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 const services = [TripService, CityService];
@@ -40,7 +43,10 @@ const services = [TripService, CityService];
         useFactory: (httpTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    MatCardModule,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [...services],
   bootstrap: [AppComponent]
