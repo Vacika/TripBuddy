@@ -14,6 +14,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MaterialModules} from "./material/material.module";
 import {LoginPage} from "../najdiprevoz/pages/login/login.page";
 import {StarRatingComponent} from "../najdiprevoz/components/star-rating/star-rating.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 const services = [TripService, CityService];
@@ -27,19 +28,20 @@ const services = [TripService, CityService];
 		LoginPage,
 		StarRatingComponent
 	],
-	imports: [
-		RouterModule.forRoot(appRoutes),
-		BrowserModule,
-		HttpClientModule,
-		MaterialModules,
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: (httpTranslateLoader),
-				deps: [HttpClient]
-			}
-		})
-	],
+    imports: [
+        RouterModule.forRoot(appRoutes),
+        BrowserModule,
+        HttpClientModule,
+        MaterialModules,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (httpTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        MatTooltipModule
+    ],
 	providers: [...services],
 	bootstrap: [AppComponent]
 })

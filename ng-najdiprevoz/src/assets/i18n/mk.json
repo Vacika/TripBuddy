@@ -54,7 +54,7 @@
   "ADDITIONAL_DESCRIPTION": "Дополнителен опис",
 	"LOG_IN": "Пријави се",
 	"MANDATORY_FIELD": "Ова поле е задолжително!",
-	"PRICE_PER_HEAD": "Цена по човек",
 	"REQUEST_RIDE": "Аплицирај за место",
-	"SEE_DETAILS": "Повеќе информации"
+	"SEE_DETAILS": "Повеќе информации",
+	"REMAINING_FREE_SEATS": "Преостанати слободни места"
 }

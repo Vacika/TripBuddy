@@ -29,7 +29,7 @@ class TripService(private val repository: RideRepository,
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
     fun findAllActiveRides(): List<TripResponse> =
-            repository.findAllByStatus(RideStatus.ACTIVE).map { convertToTripResponse(it) }
+            repository.findAllByStatus(RideStatus.ACTIVE).map { it.mapToTripResponse() }
 
     fun findAllActiveTripsWithAvailableSeats() =
             findAllActiveRides().filter { it.availableSeats > 0 }
@@ -41,7 +41,7 @@ class TripService(private val repository: RideRepository,
 
     fun getPastTripsForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
-                    .map { convertToTripResponse(it) }
+                    .map {it.mapToTripResponse() }
 
     @Modifying
     @Transactional
@@ -58,13 +58,13 @@ class TripService(private val repository: RideRepository,
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
     fun getAllTripsForUser(userId: Long) =
-            repository.findAllByDriverId(driverId = userId)?.map { convertToTripResponse(it) }
+            repository.findAllByDriverId(driverId = userId)?.map { it.mapToTripResponse() }
 
 
     fun findRidesByFromLocationAndDestination(from: String, to: String): List<TripResponse> =
             repository.findAllByFromLocationNameAndDestinationName(from, to)
                     .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
-                    .map { convertToTripResponse(it) }
+                    .map { it.mapToTripResponse() }
 
     @Modifying
     @Transactional
@@ -75,7 +75,7 @@ class TripService(private val repository: RideRepository,
                 departureTime = departureTime,
                 destination = cityService.findByName(toLocation),
                 additionalDescription = description,
-                pricePerHead = pricePerHead)).let { convertToTripResponse(it) }
+                pricePerHead = pricePerHead)).let { it.mapToTripResponse() }
     }
 
     fun checkForFinishedTripsCronJob() {
@@ -88,12 +88,12 @@ class TripService(private val repository: RideRepository,
         if (requestedSeats != null) {
             return repository.findAll(specification)
                     .filter { it.getAvailableSeats() >= requestedSeats }
-                    .map { convertToTripResponse(it) }
+                    .map { it.mapToTripResponse() }
         }
-        return repository.findAll(specification).map { convertToTripResponse(it) }
+        return repository.findAll(specification).map { it.mapToTripResponse() }
     }
 
-    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
+//    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
 
     private fun createRideSpecification(fromAddress: String?, toAddress: String?, departure: ZonedDateTime?) =
             listOfNotNull(

@@ -7,6 +7,7 @@ class TripResponse(val id: Long,
                    val from: String,
                    val to: String,
                    val availableSeats: Int,
+                   val totalSeats: Int,
                    val departureTime: ZonedDateTime,
                    val pricePerHead: Int) {
 }

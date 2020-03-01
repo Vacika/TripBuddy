@@ -54,7 +54,7 @@
   "ADDITIONAL_DESCRIPTION": "Additional description",
 	"LOG_IN": "Log in",
 	"MANDATORY_FIELD": "This is a mandatory field!",
-	"PRICE_PER_HEAD": "Price per head",
 	"REQUEST_RIDE": "Request seat",
-	"SEE_DETAILS": "See details"
+	"SEE_DETAILS": "See details",
+	"REMAINING_FREE_SEATS": "Remaining free seats"
 }

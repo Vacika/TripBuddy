@@ -79,6 +79,7 @@ data class Ride(
                 departureTime = departureTime,
                 availableSeats = getAvailableSeats(),
                 pricePerHead = pricePerHead,
+                totalSeats = totalSeatsOffered,
                 driver = driver.mapToUserShortResponse())
     }
 

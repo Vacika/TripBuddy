@@ -1,7 +1,43 @@
-.card-header-image{
-	background-size:cover;
+.card-header-image {
+	background-size: cover;
 }
-.mat-card{
-	display:inline-block;
+
+.mat-card {
+	display: inline-block;
 	margin: 30px 30px;
+}
+
+.margin-bottom-0 {
+	margin-bottom: 0 !important;
+}
+
+.space-between {
+	display: flex;
+	justify-content: space-between;
+}
+
+:host ::ng-deep {
+	& .mat-card-header-text {
+		width: 100%;
+	}
+}
+
+.width-21 {
+	width: 21px;
+}
+
+.font-26 {
+	font-size: 26px;
+}
+
+.font-18 {
+	font-size: 18px;
+}
+
+.color-green {
+	color: rgb(93, 209, 103);
+}
+
+.color-red {
+	color: #ff2a26;
 }

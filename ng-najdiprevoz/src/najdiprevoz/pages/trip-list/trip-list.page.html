@@ -2,11 +2,17 @@
 	<mat-card-header>
 		<div mat-card-avatar class="card-header-image"
 				 style="background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg')"></div>
-		<mat-card-title>{{trip.from}} - {{trip.to}}</mat-card-title>
-		<mat-card-subtitle>{{trip.driver.name}}
-			<mat-star-rating [rating]="trip.driver.rating" [starCount]="5">
-
-			</mat-star-rating>
+		<mat-card-title class="margin-bottom-0 space-between">
+			<span class="font-18">{{trip.driver.name}}</span>
+			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}">
+					<mat-icon *ngFor="let index of getNumberAsArray(trip.totalSeats)"
+										[ngClass]="getClassForPersonIcon(index,trip.availableSeats)">
+						person
+					</mat-icon>
+			</span>
+		</mat-card-title>
+		<mat-card-subtitle>
+			<mat-star-rating [rating]="trip.driver.rating" [starCount]="5"></mat-star-rating>
 		</mat-card-subtitle>
 	</mat-card-header>
 	<mat-card-content>

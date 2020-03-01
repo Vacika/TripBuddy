@@ -5,7 +5,8 @@ export interface TripResponse {
   from: string
   to: string
   departureTime: string
-  availableSeats: number
+  availableSeats: number,
+	totalSeats:number,
   pricePerHead: number
   driver: UserShortInfo
 }
