@@ -1,18 +1,23 @@
-<div>
-  <span>id:</span>
-  <span>driver name:</span>
-  <span>available seats:</span>
-  <span>price per head:</span>
-  <span>from:</span>
-  <span>to:</span>
-  <span>Time of departure:</span>
-</div>
-<div *ngFor='let trip of allTrips'>
-  <span [routerLink]="['/trips/', trip.id]"> {{trip.id}}</span>
-  <span> {{trip.driver.name}}</span>
-  <span> {{trip.availableSeats}}</span>
-  <span> {{trip.pricePerHead}}</span>
-  <span> {{trip.from}}</span>
-  <span> {{trip.to}}</span>
-  <span> {{trip.departureTime}}</span>
-</div>
+<mat-card class="card" *ngFor="let trip of allTrips">
+	<mat-card-header>
+		<div mat-card-avatar class="card-header-image"
+				 style="background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg')"></div>
+		<mat-card-title>{{trip.from}} - {{trip.to}}</mat-card-title>
+		<mat-card-subtitle>{{trip.driver.name}}
+			<mat-star-rating [rating]="trip.driver.rating" [starCount]="5">
+
+			</mat-star-rating>
+		</mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-content>
+		<p>
+			<b>{{'PRICE_PER_HEAD' | translate}}: </b>{{trip.pricePerHead}}<br/>
+			<b>{{'DEPARTURE_TIME' | translate}}: </b>{{trip.departureTime|date}}<br/>
+			<b>{{'AVAILABLE_SEATS' | translate}}: </b>{{trip.availableSeats}}<br/>
+		</p>
+	</mat-card-content>
+	<mat-card-actions>
+		<button mat-button>{{'REQUEST_RIDE'| translate}}</button>
+		<button mat-button>{{'SEE_DETAILS' | translate}}</button>
+	</mat-card-actions>
+</mat-card>

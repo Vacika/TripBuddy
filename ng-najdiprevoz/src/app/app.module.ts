@@ -13,6 +13,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MaterialModules} from "./material/material.module";
 import {LoginPage} from "../najdiprevoz/pages/login/login.page";
+import {StarRatingComponent} from "../najdiprevoz/components/star-rating/star-rating.component";
 
 
 const services = [TripService, CityService];
@@ -23,7 +24,8 @@ const services = [TripService, CityService];
 		TripListPage,
 		TripDetailsPage,
 		NavMenuComponent,
-		LoginPage
+		LoginPage,
+		StarRatingComponent
 	],
 	imports: [
 		RouterModule.forRoot(appRoutes),

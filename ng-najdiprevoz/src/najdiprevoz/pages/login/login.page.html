@@ -2,7 +2,7 @@
 	<div class="form-container">
 		<form [formGroup]="loginForm" (submit)="submit()">
 			<mat-form-field class="form-field" appearance="outline">
-				<mat-label> {{'EMAIL' | translate}}
+				<mat-label> {{'YOUR_EMAIL_ADDRESS' | translate}}
 				</mat-label>
 				<input matInput formControlName="email" required>
 				<mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
