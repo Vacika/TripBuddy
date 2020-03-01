@@ -8,6 +8,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 export const MaterialModules = [
 	CommonModule,
@@ -19,5 +20,6 @@ export const MaterialModules = [
 	MatSelectModule,
 	ReactiveFormsModule,
 	MatFormFieldModule,
-	MatInputModule
+	MatInputModule,
+	MatSnackBarModule
 ];
