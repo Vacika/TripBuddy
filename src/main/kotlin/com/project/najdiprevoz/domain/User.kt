@@ -35,6 +35,7 @@ data class User(
         @Column(name = "birth_date", nullable = false)
         var birthDate: Date,
 
+        @Lob
         @Column(name = "profile_photo", nullable = true)
         var profilePhoto: ByteArray? = null,
 
@@ -88,7 +89,8 @@ data class User(
     fun mapToUserShortResponse(): UserShortResponse {
         return UserShortResponse(id = id,
                 rating = this.getAverageRating(),
-                name = this.getFullName())
+                name = this.getFullName(),
+                profilePhoto = this.profilePhoto)
     }
 
     fun mapToUserProfileResponse(): UserProfileResponse {
