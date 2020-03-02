@@ -11,6 +11,10 @@
 	margin-bottom: 0 !important;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .space-between {
 	display: flex;
 	justify-content: space-between;
@@ -40,4 +44,20 @@
 
 .color-red {
 	color: #ff2a26;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.height-12 {
+	height: 12px;
+}
+
+.distance-divider {
+	border-top-width: 12px !important;
+}
+
+.align-center {
+	align-items: center;
 }
