@@ -27,8 +27,12 @@ mat-icon:not(.ignore-default-color) {
 	color: $primary-color !important;
 }
 
-.primary-dark-color{
+.primary-dark-color {
 	color: $primary-dark-color;
+}
+
+.primary-dark-color-background {
+	background-color: $primary-dark-color;
 }
 
 

@@ -9,5 +9,6 @@ class TripResponse(val id: Long,
                    val availableSeats: Int,
                    val totalSeats: Int,
                    val departureTime: ZonedDateTime,
-                   val pricePerHead: Int) {
+                   val pricePerHead: Int,
+                   val maxTwoBackSeat: Boolean) {
 }

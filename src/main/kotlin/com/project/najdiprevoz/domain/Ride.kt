@@ -80,7 +80,8 @@ data class Ride(
                 availableSeats = getAvailableSeats(),
                 pricePerHead = pricePerHead,
                 totalSeats = totalSeatsOffered,
-                driver = driver.mapToUserShortResponse())
+                driver = driver.mapToUserShortResponse(),
+                maxTwoBackSeat = maxTwoBackSeat)
     }
 
     @Override
