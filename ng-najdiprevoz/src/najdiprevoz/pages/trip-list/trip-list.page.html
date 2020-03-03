@@ -16,18 +16,20 @@
 		</mat-card-subtitle>
 	</mat-card-header>
 	<mat-card-content>
-		<div class="space-between align-center text-bold">
+		<div class="space-between align-end">
 			<span>{{trip.from}}</span>
 			<img src='assets/images/moving-car.gif' height="52px" width="52px">
 			<span>{{trip.to}}</span>
 		</div>
-		<div class="height-12">
+		<div class="height-12 margin-top-minus-20px">
 			<mat-divider class="inline-block distance-divider"></mat-divider>
 		</div>
 
 		<p>
 			<span><b>{{'PRICE_PER_HEAD' | translate}}: </b>{{trip.pricePerHead}}</span><br/>
-			<span matTooltip="{{'DEPARTURE_TIME_MORE_INFO' |translate}}: {{trip.departureTime | date:'medium'}}"><b>{{'DEPARTURE_TIME' | translate}}: </b>{{trip.departureTime|date: 'H:mm'}}</span><br/>
+			<span
+				matTooltip="{{'DEPARTURE_TIME_MORE_INFO' |translate}}: {{trip.departureTime | date:'medium'}}"><b>{{'DEPARTURE_TIME' | translate}}
+				: </b>{{trip.departureTime|date: 'H:mm'}}</span><br/>
 			<span><b>{{'AVAILABLE_SEATS' | translate}}: </b>{{trip.availableSeats}}</span>
 		</p>
 	</mat-card-content>
