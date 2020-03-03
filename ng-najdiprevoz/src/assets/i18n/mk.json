@@ -57,5 +57,7 @@
 	"REQUEST_RIDE": "Аплицирај за место",
 	"SEE_DETAILS": "Повеќе информации",
 	"REMAINING_FREE_SEATS": "Преостанати слободни места",
-	"DEPARTURE_TIME_MORE_INFO": "Патувањето започнува на"
+	"DEPARTURE_TIME_MORE_INFO": "Патувањето започнува на",
+	"MAXIMUM_TWO_BACKSEAT_TOOLTIP": "Максимум две лица на задно седиште",
+	"PRICE_PER_HEAD_TOOLTIP": "Цена по лице"
 }

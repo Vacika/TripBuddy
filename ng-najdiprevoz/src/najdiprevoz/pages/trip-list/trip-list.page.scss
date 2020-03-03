@@ -15,8 +15,11 @@
 	cursor: pointer;
 }
 
-.space-between {
+.flex {
 	display: flex;
+}
+
+.space-between {
 	justify-content: space-between;
 }
 
@@ -71,7 +74,7 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%,-50%);
+	transform: translate(-50%, -50%);
 	width: 80px;
 	height: 60px;
 	cursor: pointer;
@@ -105,4 +108,25 @@
 	top: 12px;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, .2);
 	transform: rotate(-45deg);
+}
+
+.width-100-percent {
+	width: 100%;
+}
+
+.center {
+	align-items: center;
+	justify-content: center;
+}
+
+.align-flex-end {
+	align-items: flex-end;
+}
+
+.margin-top-20 {
+	margin-top: 20px;
+}
+
+.margin-left-minus-29 {
+	margin-left: -29px;
 }

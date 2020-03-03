@@ -57,5 +57,7 @@
 	"REQUEST_RIDE": "Request for a seat",
 	"SEE_DETAILS": "See more details",
 	"REMAINING_FREE_SEATS": "Remaining free seats",
-	"DEPARTURE_TIME_MORE_INFO": "Ride begins at"
+	"DEPARTURE_TIME_MORE_INFO": "Ride begins at",
+	"MAXIMUM_TWO_BACKSEAT_TOOLTIP": "Maximum two people allowed to sit in backseats",
+	"PRICE_PER_HEAD_TOOLTIP": "Price per person"
 }

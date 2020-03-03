@@ -35,8 +35,8 @@ export class TripListPage implements OnInit {
 
 	getClassForPersonIcon(index: any, availableSeats: number) {
 		if (index  <= availableSeats)
-			return "width-21 font-26 color-green pointer";
+			return "width-21 font-26 color-green pointer ignore-default-color";
 
-		return "width-21 font-26 color-red pointer";
+		return "width-21 font-26 color-red pointer ignore-default-color";
 	}
 }
