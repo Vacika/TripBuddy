@@ -20,7 +20,7 @@
 	</mat-card-header>
 
 	<mat-card-content>
-		<div class="flex space-between align-end">
+		<div class="flex space-between align-end primary-dark-color">
 			<span>{{trip.from}}</span>
 			<img src='assets/images/moving-car.gif' height="52px" width="52px">
 			<span>{{trip.to}}</span>
@@ -29,13 +29,13 @@
 			<mat-divider class="inline-block distance-divider"></mat-divider>
 		</div>
 		<div class="width-100-percent flex center">
-			<span matTooltip="{{'DEPARTURE_TIME'|translate}}" class="flex align-flex-end pointer margin-left-minus-29">
+			<span matTooltip="{{'DEPARTURE_TIME'|translate}}" class="flex align-flex-end pointer margin-left-minus-29 primary-dark-color">
 				<mat-icon>alarm</mat-icon>
 				{{trip.departureTime|date: 'H:mm'}}</span>
 		</div>
 
 		<div class="flex space-between margin-top-20">
-			<span class="flex align-flex-end pointer" matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
+			<span class="flex align-flex-end pointer primary-dark-color" matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
 				<mat-icon>monetization_on</mat-icon>{{trip.pricePerHead}}.00 MKD
 			</span>
 			<span class="pointer" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
@@ -56,8 +56,8 @@
 	</mat-card-content>
 	<mat-divider></mat-divider>
 	<mat-card-actions>
-		<button mat-button>{{'REQUEST_RIDE'| translate}}</button>
-		<button mat-button>{{'SEE_DETAILS' | translate}}</button>
+		<button mat-button class="primary-dark-color">{{'REQUEST_RIDE'| translate}}</button>
+		<button mat-button class="primary-dark-color">{{'SEE_DETAILS' | translate}}</button>
 	</mat-card-actions>
 </mat-card>
 
