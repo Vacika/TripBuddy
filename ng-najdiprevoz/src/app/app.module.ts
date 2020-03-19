@@ -15,6 +15,8 @@ import {MaterialModules} from "./material/material.module";
 import {LoginPage} from "../najdiprevoz/pages/login/login.page";
 import {StarRatingComponent} from "../najdiprevoz/components/star-rating/star-rating.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { CreateTripPage } from '../najdiprevoz/pages/create-trip/create-trip.page';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 const services = [TripService, CityService];
@@ -26,22 +28,24 @@ const services = [TripService, CityService];
 		TripDetailsPage,
 		NavMenuComponent,
 		LoginPage,
-		StarRatingComponent
+		StarRatingComponent,
+		CreateTripPage
 	],
-    imports: [
-        RouterModule.forRoot(appRoutes),
-        BrowserModule,
-        HttpClientModule,
-        MaterialModules,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (httpTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
-        MatTooltipModule
-    ],
+	imports: [
+		RouterModule.forRoot(appRoutes),
+		BrowserModule,
+		HttpClientModule,
+		MaterialModules,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: (httpTranslateLoader),
+				deps: [HttpClient]
+			}
+		}),
+		MatTooltipModule,
+		MatCheckboxModule
+	],
 	providers: [...services],
 	bootstrap: [AppComponent]
 })

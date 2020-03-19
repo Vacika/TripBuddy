@@ -89,9 +89,9 @@ VALUES ('Toyota', 'RAV4', 5, 2017, 1),
 INSERT INTO public.rides(description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
                          driver_id, from_location, status, has_air_condition, is_pet_allowed, is_smoking_allowed,
                          max_two_backseat)
-VALUES ('test-description', '2020-02-12 19:50:55', '2020-02-12 19:50:57', 100, 5, 1, 1, 2, 'ACTIVE', true, false, true,
+VALUES ('test-description', '2020-02-12 19:50:55', '2021-02-12 19:50:57', 100, 5, 1, 1, 2, 'ACTIVE', true, false, true,
         true),
-       ('test-ride-2', '2020-02-12 21:04:51', '2020-02-12 21:04:55', 150, 3, 1, 2, 1, 'ACTIVE', true, true, false,
+       ('test-ride-2', '2020-02-12 21:04:51', '2021-02-12 21:04:55', 150, 3, 1, 2, 1, 'ACTIVE', true, true, false,
         false);
 
 INSERT INTO public.ride_requests(created_on, status, requester_id, ride_id)

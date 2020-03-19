@@ -59,5 +59,13 @@
 	"REMAINING_FREE_SEATS": "Преостанати слободни места",
 	"DEPARTURE_TIME_MORE_INFO": "Патувањето започнува на",
 	"MAXIMUM_TWO_BACKSEAT_TOOLTIP": "Максимум две лица на задно седиште",
-	"PRICE_PER_HEAD_TOOLTIP": "Цена по лице"
+	"PRICE_PER_HEAD_TOOLTIP": "Цена по лице",
+	"FROM": "Поаѓање од",
+	"TO": "Дестинација",
+	"NEXT": "Продолжи",
+	"HAS_AIR_CONDITION": "Клима",
+		"MAX_TWO_BACKSEAT": "Max. 2 лица на задно седиште",
+	"TOTAL_SEATS_OFFERED": "Слободни седишта"
+
+
 }

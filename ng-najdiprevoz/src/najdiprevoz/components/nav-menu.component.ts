@@ -9,13 +9,10 @@ import {FormControl} from "@angular/forms";
 export class NavMenuComponent implements OnInit {
 	selectedLangControl = new FormControl('');
 	@Input() languages: string[];
-
 	@Input() set currentLanguage(lang: string) {
 		this.selectedLangControl.setValue(lang)
 	};
-
 	@Output() switchLangEmitter = new EventEmitter<string>();
-
 	@ViewChild('languageSelect') languageSelect;
 
 	ngOnInit(): void {

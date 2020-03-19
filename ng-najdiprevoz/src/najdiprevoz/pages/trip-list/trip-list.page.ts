@@ -9,8 +9,6 @@ import {Router} from "@angular/router";
 })
 export class TripListPage implements OnInit {
 	allTrips: TripResponse[] = [];
-	tempTotalSeats = [];
-
 	constructor(private _service: TripService,
 							private _router: Router) {
 	}

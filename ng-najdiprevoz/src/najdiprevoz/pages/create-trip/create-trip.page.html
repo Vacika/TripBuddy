@@ -1,0 +1,112 @@
+<div class='margin-side'>
+
+	<div class="form-container">    <!--todo: if not active, add some class to make it like smoked/disabled whole part -->
+		<form [formGroup]="fromToForm" (submit)="submitFromTo()" class='flex space-between'>
+			<mat-form-field class="form-field width-40" appearance="outline">
+				<mat-label> {{'FROM' | translate}}</mat-label>
+				<mat-select formControlName="fromLocation" required>
+					<mat-option *ngFor="let city of allCities" [value]="city.name">
+						{{city.name}}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="fromToForm.controls.fromLocation.touched && fromToForm.controls.fromLocation.invalid">
+					<span *ngIf="fromToForm.controls.fromLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</mat-form-field>
+
+			<button mat-raised-button
+							[hidden]='(currentStep|async) != 1'
+							type="submit"
+							class='button-primary width-20 color-white button-form'>
+				{{'NEXT' | translate}}
+				<img src='assets/images/map.gif' height="52px" width="52px">
+			</button>
+
+			<mat-form-field class="form-field width-40" appearance="outline">
+				<mat-label> {{'TO' | translate}}</mat-label>
+				<mat-select formControlName="toLocation" required>
+					<mat-option *ngFor="let city of allCities" [value]="city.name">
+						{{city.name}}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="fromToForm.controls.toLocation.touched && fromToForm.controls.toLocation.invalid">
+					<span *ngIf="fromToForm.controls.toLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</mat-form-field>
+		</form>
+	</div>
+
+
+	<div class="form-container" *ngIf='(currentStep|async) > 1'>
+		<!--todo: if not active, add some class to make it like smoked/disabled whole part -->
+		<form [formGroup]="passengerInfoForm" (submit)="submitPassengerInfo()" class='flex space-between'>
+			<mat-form-field class="form-field width-40" appearance="outline">
+				<mat-label> {{'TOTAL_SEATS_OFFERED' | translate}}</mat-label>
+				<input matInput type='number' [max]='5' [min]=1 formControlName='totalSeatsOffered'>
+				<mat-error
+					*ngIf="passengerInfoForm.controls.totalSeatsOffered.touched && passengerInfoForm.controls.totalSeatsOffered.invalid">
+					<span
+						*ngIf="passengerInfoForm.controls.totalSeatsOffered.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</mat-form-field>
+			<button mat-raised-button type="submit"
+							[hidden]='(currentStep|async) != 2'
+							class='button-primary width-20 color-white button-form'>{{'NEXT' | translate}}
+				<img src='assets/images/gears.gif' height="52px" width="52px">
+			</button>
+			<mat-form-field class="form-field width-40" appearance="outline">
+				<mat-label> {{'PRICE_PER_HEAD' | translate}}</mat-label>
+				<input matInput type='number' formControlName='pricePerHead' [min]='0' [max]='1000'>
+				<mat-error
+					*ngIf="passengerInfoForm.controls.pricePerHead.touched && passengerInfoForm.controls.pricePerHead.invalid">
+					<span *ngIf="passengerInfoForm.controls.pricePerHead.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</mat-form-field>
+		</form>
+	</div>
+
+
+	<div class="form-container" *ngIf='(currentStep|async) > 2'>
+		<form [formGroup]="preferencesForm" (submit)="submitPreferences()" class='text-center'>
+			<div class='flex space-between'>
+				<mat-checkbox class="form-field width-25"
+											formControlName='isSmokingAllowed'>{{'IS_SMOKING_ALLOWED' | translate}} </mat-checkbox>
+				<mat-error
+					*ngIf="preferencesForm.controls.isSmokingAllowed.touched && preferencesForm.controls.isSmokingAllowed.invalid">
+					<span
+						*ngIf="preferencesForm.controls.isSmokingAllowed.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+
+
+				<mat-checkbox class="form-field width-25"
+											formControlName='isPetAllowed'>{{'IS_PET_ALLOWED' | translate}} </mat-checkbox>
+				<mat-error
+					*ngIf="preferencesForm.controls.isPetAllowed.touched && preferencesForm.controls.isPetAllowed.invalid">
+					<span *ngIf="preferencesForm.controls.isPetAllowed.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+
+				<mat-checkbox class="form-field width-25"
+											formControlName='hasAirCondition'>{{'HAS_AIR_CONDITION' | translate}} </mat-checkbox>
+				<mat-error
+					*ngIf="preferencesForm.controls.hasAirCondition.touched && preferencesForm.controls.hasAirCondition.invalid">
+					<span
+						*ngIf="preferencesForm.controls.hasAirCondition.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+
+				<mat-checkbox class="form-field width-25"
+											formControlName='maxTwoBackseat'>{{'MAX_TWO_BACKSEAT' | translate}} </mat-checkbox>
+				<mat-error
+					*ngIf="preferencesForm.controls.maxTwoBackseat.touched && preferencesForm.controls.maxTwoBackseat.invalid">
+					<span *ngIf="preferencesForm.controls.maxTwoBackseat.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+				</mat-error>
+			</div>
+			<button mat-raised-button type="submit"
+							[hidden]='(currentStep|async) != 3'
+							class='button-primary width-20 color-white button-form'>
+				{{'SUBMIT' | translate}}
+				<img src='assets/images/moving-car.gif' height="52px" width="52px">
+			</button>
+		</form>
+
+	</div>
+</div>
