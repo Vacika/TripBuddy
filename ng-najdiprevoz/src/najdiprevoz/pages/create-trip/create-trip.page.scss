@@ -27,8 +27,8 @@
 }
 
 .button-form {
-	height: max-content;
-	margin-top: 0.70em;
+	height: 51px;
+	margin: 0.25em 0;
 }
 
 .text-center {
@@ -41,4 +41,16 @@
 
 button[hidden] {
 	display: none;
+}
+
+.top-align {
+	vertical-align: top;
+}
+
+.height-30 {
+	height: 30px;
+}
+
+.width-30 {
+	width: 30px;
 }
