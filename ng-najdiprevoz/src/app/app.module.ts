@@ -18,8 +18,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CreateTripPage } from '../najdiprevoz/pages/create-trip/create-trip.page';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { TripListView } from '../najdiprevoz/views/trip-list/trip-list.view';
+import { SearchTripsPage } from '../najdiprevoz/pages/find-trips/search-trips-page.component';
+import { HelperService } from '../najdiprevoz/services/helper.service';
 
-const services = [TripService, CityService];
+const services = [TripService, CityService, HelperService];
 
 @NgModule({
 	declarations: [
@@ -29,7 +32,9 @@ const services = [TripService, CityService];
 		NavMenuComponent,
 		LoginPage,
 		StarRatingComponent,
-		CreateTripPage
+		CreateTripPage,
+		TripListView,
+		SearchTripsPage
 	],
 	imports: [
 		RouterModule.forRoot(appRoutes),

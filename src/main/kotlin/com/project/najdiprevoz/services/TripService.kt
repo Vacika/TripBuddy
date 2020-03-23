@@ -15,7 +15,6 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 import javax.transaction.Transactional
 
 //TODO: AVOID USING THIS MUCH SERVICES
@@ -84,8 +83,8 @@ class TripService(private val repository: RideRepository,
     }
 
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
-        val specification = createRideSpecification(fromAddress = fromAddress, toAddress = toAddress, departure = departure)
-        if (requestedSeats != null) {
+        val specification = createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = departureDate)
+        if (requestedSeats!=null) {
             return repository.findAll(specification)
                     .filter { it.getAvailableSeats() >= requestedSeats }
                     .map { it.mapToTripResponse() }
@@ -95,10 +94,10 @@ class TripService(private val repository: RideRepository,
 
 //    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
 
-    private fun createRideSpecification(fromAddress: String?, toAddress: String?, departure: ZonedDateTime?) =
+    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
             listOfNotNull(
-                    evaluateSpecification(listOf("fromLocation", "name"), fromAddress, ::likeSpecification),
-                    evaluateSpecification(listOf("destination", "name"), toAddress, ::likeSpecification),
+                    evaluateSpecification(listOf("fromLocation", "id"), fromAddress.toString(), ::likeSpecification),
+                    evaluateSpecification(listOf("destination", "id"), toAddress.toString(), ::likeSpecification),
                     evaluateSpecification(listOf("departureTime"), departure, ::laterThanTime),
                     evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
             ).fold(whereTrue()) { first, second ->

@@ -1,0 +1,64 @@
+<form [formGroup]="form" (submit)="submit()" class='flex flex-column'>
+	<div class='flex space-between'>
+		<!-- From Location -->
+		<mat-form-field class="form-field width-20" appearance="outline">
+			<mat-label> {{'FROM' | translate}}</mat-label>
+			<mat-select formControlName="fromLocation" required>
+				<mat-option *ngFor="let city of allCities" [value]="city.id">
+					{{city.name}}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.fromLocation.touched && form.controls.fromLocation.invalid">
+				<span *ngIf="form.controls.fromLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+			</mat-error>
+		</mat-form-field>
+
+		<!-- To Location -->
+		<mat-form-field class="form-field width-20" appearance="outline">
+			<mat-label> {{'TO' | translate}}</mat-label>
+			<mat-select formControlName="toLocation" required>
+				<mat-option *ngFor="let city of allCities" [value]="city.id">
+					{{city.name}}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.toLocation.touched && form.controls.toLocation.invalid">
+				<span *ngIf="form.controls.toLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+			</mat-error>
+		</mat-form-field>
+
+
+		<!-- Seats requested -->
+		<mat-form-field class="form-field width-20" appearance="outline">
+			<mat-label> {{'TOTAL_SEATS_OFFERED' | translate}}</mat-label>
+			<input matInput type='number' [max]='5' [min]=1 formControlName='requestedSeats'>
+			<mat-error
+				*ngIf="form.controls.requestedSeats.touched && form.controls.requestedSeats.invalid">
+						<span
+							*ngIf="form.controls.requestedSeats.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+			</mat-error>
+		</mat-form-field>
+
+
+		<!-- Departure date -->
+		<mat-form-field class="form-field width-20" appearance="outline">
+			<input matInput class='border-top-0' formControlName='departureDate'
+						 [owlDateTime]="departureDate" [min]='getTimeDateNow()'
+						 [owlDateTimeFilter]='myDateTimeFilter'
+						 [owlDateTimeTrigger]="departureDate" placeholder="Departure date">
+			<owl-date-time [pickerType]='"calendar"' [stepMinute]='30' #departureDate></owl-date-time>
+			<mat-error
+				*ngIf='form.controls.departureDate.touched && form.controls.departureDate.invalid'>{{'INVALID_INPUT' | translate}}</mat-error>
+		</mat-form-field>
+	</div>
+
+	<button mat-raised-button type="submit"
+					[disabled]='form.invalid || form.pristine'
+					class='button-primary color-white button-form final-submit-button'>
+		{{'SEARCH' | translate}}
+		<img src='assets/images/moving-car.gif' height="52px" width="52px">
+	</button>
+</form>
+
+<div *ngIf='showTrips'>
+	<list-trips [allTrips]='data$ | async'></list-trips>
+</div>
