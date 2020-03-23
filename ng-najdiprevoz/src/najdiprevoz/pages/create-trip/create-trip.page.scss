@@ -36,10 +36,6 @@
 	text-align: center;
 }
 
-//.width-60-percent {
-//	margin-right: 60%;
-//}
-
 button[hidden] {
 	display: none;
 }
@@ -65,6 +61,14 @@ button[hidden] {
 	align-self: center;
 }
 
-.align-baseline{
+.align-baseline {
 	align-items: baseline;
+}
+
+.flex {
+	display: flex;
+}
+
+.space-between {
+	justify-content: space-between;
 }

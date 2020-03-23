@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { TripService } from '../../services/trip.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 	styleUrls: ['./create-trip.page.scss']
 })
 export class CreateTripPage implements OnInit {
+	@HostBinding('class') classes = 'page';
 	fromToForm: FormGroup;
 	passengerInfoForm: FormGroup;
 	preferencesForm: FormGroup;
@@ -65,7 +66,7 @@ export class CreateTripPage implements OnInit {
 			maxTwoBackseats: this.getMaxTwoBackseat.value,
 			driverId: 1 //TODO: CHANGE THIS !!!!!! FETCH FROM LOGGED USER ID
 		};
-		this._service.addNewTrip(formValues).subscribe()
+		this._service.addNewTrip(formValues).subscribe();
 	}
 
 	get getFromLocation() {

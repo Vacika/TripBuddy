@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.transaction.Transactional
 
@@ -40,7 +43,7 @@ class TripService(private val repository: RideRepository,
 
     fun getPastTripsForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
-                    .map {it.mapToTripResponse() }
+                    .map { it.mapToTripResponse() }
 
     @Modifying
     @Transactional
@@ -83,8 +86,18 @@ class TripService(private val repository: RideRepository,
     }
 
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
-        val specification = createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = departureDate)
-        if (requestedSeats!=null) {
+        val specification = if (departureDate != null)
+            createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
+                                    departure = ZonedDateTime.of(
+                                            LocalDate.ofInstant(departureDate.toInstant(),
+                                                                ZoneId.systemDefault()), LocalTime.MIN,
+                                            ZoneId.systemDefault())) //TODO: refactor this
+
+        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
+                                     departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
+                                                                  ZoneId.systemDefault()))
+
+        if (requestedSeats != null) {
             return repository.findAll(specification)
                     .filter { it.getAvailableSeats() >= requestedSeats }
                     .map { it.mapToTripResponse() }
@@ -94,7 +107,7 @@ class TripService(private val repository: RideRepository,
 
 //    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
 
-    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
+    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime) =
             listOfNotNull(
                     evaluateSpecification(listOf("fromLocation", "id"), fromAddress.toString(), ::likeSpecification),
                     evaluateSpecification(listOf("destination", "id"), toAddress.toString(), ::likeSpecification),
@@ -123,7 +136,10 @@ class TripService(private val repository: RideRepository,
     }
 
     private inline fun <reified T> evaluateSpecification(value: T?, fn: (T) -> Specification<Ride>) = value?.let(fn)
-    private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
+    private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?,
+                                                         fn: (List<String>, T) -> Specification<Ride>) = value?.let {
+        fn(properties, value)
+    }
 
 
 //    @PostConstruct
