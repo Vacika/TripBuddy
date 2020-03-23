@@ -19,4 +19,8 @@ export class TripService {
   getTripInformation(tripId: number): Observable<Trip>{
     return this._http.get<Trip>(`${this.path}/${tripId}`)
   }
+
+	addNewTrip(formValues: any) {
+		return this._http.put(`${this.path}/add`,formValues)
+	}
 }

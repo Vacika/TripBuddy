@@ -1,6 +1,9 @@
 @import "najdi-prevoz-theme.scss";
+
 @include mat-core();
 @include angular-material-theme($najdi-prevoz-theme);
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
 $primary-color: rgb(112, 140, 145);
 $primary-dark-color: rgb(5, 71, 82);
 

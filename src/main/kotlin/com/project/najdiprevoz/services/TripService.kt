@@ -108,8 +108,8 @@ class TripService(private val repository: RideRepository,
     private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
-                fromLocation = cityService.findByName(fromLocation),
-                destination = cityService.findByName(destination),
+                fromLocation = cityService.findById(fromLocation),
+                destination = cityService.findById(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
                 driver = userService.findUserById(driverId),
