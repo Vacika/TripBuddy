@@ -68,11 +68,11 @@ export class CreateTripPage implements OnInit {
 		this._service.addNewTrip(formValues).subscribe()
 	}
 
-	private get getFromLocation() {
+	get getFromLocation() {
 		return this.fromToForm.get('fromLocation');
 	}
 
-	private get getToLocation() {
+	get getToLocation() {
 		return this.fromToForm.get('toLocation');
 	}
 
