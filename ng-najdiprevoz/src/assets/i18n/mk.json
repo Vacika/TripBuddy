@@ -54,8 +54,8 @@
 	"ADDITIONAL_DESCRIPTION": "Дополнителен опис",
 	"LOG_IN": "Пријави се",
 	"MANDATORY_FIELD": "Ова поле е задолжително!",
-	"REQUEST_RIDE": "Аплицирај за место",
-	"SEE_DETAILS": "Повеќе информации",
+	"REQUEST_RIDE": "Резервирај",
+	"SEE_DETAILS": "Детали",
 	"REMAINING_FREE_SEATS": "Преостанати слободни места",
 	"DEPARTURE_TIME_MORE_INFO": "Патувањето започнува на",
 	"MAXIMUM_TWO_BACKSEAT_TOOLTIP": "Максимум две лица на задно седиште",
@@ -64,7 +64,7 @@
 	"TO": "Дестинација",
 	"NEXT": "Продолжи",
 	"HAS_AIR_CONDITION": "Клима",
-		"MAX_TWO_BACKSEAT": "Max. 2 лица на задно седиште",
+	"MAX_TWO_BACKSEAT": "Max. 2 лица на задно седиште",
 	"TOTAL_SEATS_OFFERED": "Слободни седишта"
 
 

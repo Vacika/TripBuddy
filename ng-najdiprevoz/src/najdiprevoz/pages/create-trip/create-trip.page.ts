@@ -57,7 +57,7 @@ export class CreateTripPage implements OnInit {
 			fromLocation: this.getFromLocation.value,
 			destination: this.getToLocation.value,
 			pricePerHead: this.getPricePerHead.value,
-			passengerSeats: this.getPassengerSeats.value,
+			totalSeats: this.getPassengerSeats.value,
 			smokingAllowed: this.getIsSmokingAllowed.value,
 			petAllowed: this.getIsPetAllowed.value,
 			hasAirCondition: this.getHasAirCondition.value,
