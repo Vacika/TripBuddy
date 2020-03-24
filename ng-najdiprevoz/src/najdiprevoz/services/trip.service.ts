@@ -32,7 +32,7 @@ export class TripService {
 		map.set('toLocation', value['toLocation']);
 		if (value['departureDate']) {
 			var date = new Date(value['departureDate']);
-			var fullDate = date.getMonth().toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
+			var fullDate = (date.getMonth()+1).toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
 			map.set('departureDate', fullDate);
 		}
 		if (value['requestedSeats']) {
