@@ -1,24 +1,23 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
 import { TripService } from '../../services/trip.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { City } from '../../interfaces/city.interface';
 import { CityService } from '../../services/city.service';
-import { TripResponse } from '../../interfaces/trip-response.interface';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
-	templateUrl: './search-trips-page.component.html',
-	styleUrls: ['./search-trips-page.component.scss']
+	selector: 'search-trips-component',
+	templateUrl: './search-trips.page.html',
+	styleUrls: ['./search-trips.page.scss']
 })
 export class SearchTripsPage implements OnInit {
 	@HostBinding('class') classes = 'page';
+	@Output() searchFormEmitter = new EventEmitter();
+
 	form: FormGroup = this.searchFormDefinition;
 	allCities: City[] = [];
+	departureDateSearched: Date;
 	dateNow: Date = new Date();
-	showTrips: boolean = false;
-	data$: Observable<TripResponse[]>;
 
 	constructor(private _service: TripService,
 							private _route: ActivatedRoute,
@@ -29,6 +28,7 @@ export class SearchTripsPage implements OnInit {
 
 	ngOnInit(): void {
 		this._cityService.getAllCities().subscribe(it => this.allCities = it);
+		this.dateNow.setDate(this.dateNow.getDate()-1); //TODO: Fix this workaround
 	}
 
 	private get searchFormDefinition() {
@@ -41,8 +41,12 @@ export class SearchTripsPage implements OnInit {
 	}
 
 	submit() {
-		this.showTrips = true;
-		this.data$ = this._service.findAllFiltered(this.form.value);
+		this.departureDateSearched = this.form.value['departureDate'];
+		this.searchFormEmitter.emit(this.form.value);
+	}
+
+	get getDepartureDate() {
+		return this.form.controls.departureDate.value;
 	}
 
 	getTimeDateNow() {
@@ -52,4 +56,8 @@ export class SearchTripsPage implements OnInit {
 	myDateTimeFilter = (d: Date): boolean => {
 		return this.dateNow <= d;
 	};
+
+	theTimeNow() {
+		return new Date();
+	}
 }

@@ -53,3 +53,15 @@ mat-icon:not(.ignore-default-color) {
 	color: white;
 }
 
+a:not(.mat-icon-button):after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background-color: $primary-color;
+	width: 0;
+	-webkit-transition: width .3s;
+	transition: width .3s;
+}

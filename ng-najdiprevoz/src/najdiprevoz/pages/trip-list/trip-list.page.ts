@@ -1,20 +1,25 @@
-import {Component, OnInit} from "@angular/core";
-import {TripService} from "../../services/trip.service";
-import {TripResponse} from "../../interfaces/trip-response.interface";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { TripService } from '../../services/trip.service';
+import { TripResponse } from '../../interfaces/trip-response.interface';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
 	templateUrl: './trip-list.page.html',
 	styleUrls: ['./trip-list.page.scss']
 })
 export class TripListPage implements OnInit {
-	allTrips: TripResponse[] = [];
+	data$ = new Observable<TripResponse[]>();
+
 	constructor(private _service: TripService,
 							private _router: Router) {
 	}
 
 	ngOnInit(): void {
-		this._service.getAllActiveTripsWithFreeSeats().subscribe(response => this.allTrips = response) // fetch all active rides
+		this.data$ = this._service.getAllActiveTripsWithFreeSeats();// fetch all active rides
 	}
 
+	onSearchEmit(formValue: any) {
+		this.data$ = this._service.findAllFiltered(formValue);
+	}
 }
