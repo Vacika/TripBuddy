@@ -1,6 +1,8 @@
-<button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick()">
-	<mat-icon>
-		{{showIcon(i)}}
-	</mat-icon>
-</button>
-
+<span matTooltip="{{'RATING'|translate}}: {{rating}}/5">
+	<button mat-icon-button   [color]="color"
+					*ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick()">
+		<mat-icon class="ignore-default-color">
+			{{showIcon(i)}}
+		</mat-icon>
+	</button>
+</span>

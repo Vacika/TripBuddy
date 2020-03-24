@@ -23,7 +23,7 @@ class TripController(private val service: TripService) {
     fun getTrip(@PathVariable("tripId") tripId: Long) =
             service.findById(tripId)
 
-    @PostMapping("/add")
+    @PutMapping("/add")
     fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest) =
             service.createNewTrip(createTripRequest)
 

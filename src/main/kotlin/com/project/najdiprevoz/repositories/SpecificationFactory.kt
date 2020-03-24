@@ -21,7 +21,8 @@ private fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
     return path
 }
 
-private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>, cb: CriteriaBuilder) =
+private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>,
+                                      cb: CriteriaBuilder) =
         cb.equal(getPath(root, properties), value)
 
 fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus) =
@@ -34,13 +35,18 @@ fun likeSpecification(properties: List<String>, value: String) =
         Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
 
 
-private fun greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<Ride>, cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(getPath(root, properties).`as`(Int::class.java), value)
+private fun greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<Ride>,
+                                         cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(
+        getPath(root, properties).`as`(Int::class.java), value)
+
 fun greaterThanOrEquals(properties: List<String>, value: Int) =
         Specification<Ride> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
 
 
-private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>, cb: CriteriaBuilder) =
-        cb.greaterThan(getPath(root, properties).`as`(ZonedDateTime::class.java), value)
+private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>,
+                                   cb: CriteriaBuilder) =
+        cb.and(cb.greaterThanOrEqualTo(getPath(root,properties).`as`(ZonedDateTime::class.java), value),
+               cb.lessThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value.plusDays(1)))
 
 fun laterThanTime(properties: List<String>, value: ZonedDateTime) =
         Specification<Ride> { root, _, cb -> laterThanTimePredicate(value, properties, root, cb) }

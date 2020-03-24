@@ -9,7 +9,6 @@ import {Router} from "@angular/router";
 })
 export class TripListPage implements OnInit {
 	allTrips: TripResponse[] = [];
-
 	constructor(private _service: TripService,
 							private _router: Router) {
 	}
@@ -18,8 +17,4 @@ export class TripListPage implements OnInit {
 		this._service.getAllActiveTripsWithFreeSeats().subscribe(response => this.allTrips = response) // fetch all active rides
 	}
 
-	convertToImage(image) {
-		let base64image = btoa(String.fromCharCode.apply(null, new Uint8Array(image)));
-		return 'data:image/jpeg;base64,' + image
-	}
 }

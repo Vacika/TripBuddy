@@ -1,0 +1,7 @@
+@import '~@angular/material/theming';
+
+$najdi-prevoz-theme-primary: mat-palette($mat-light-blue);
+$najdi-prevoz-theme-accent: mat-palette($mat-blue-gray);
+$najdi-prevoz-theme-warn: mat-palette($mat-light-blue);
+
+$najdi-prevoz-theme: mat-light-theme($najdi-prevoz-theme-primary, $najdi-prevoz-theme-accent, $najdi-prevoz-theme-warn);

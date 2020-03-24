@@ -14,8 +14,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
-import javax.annotation.PostConstruct
 import javax.transaction.Transactional
 
 //TODO: AVOID USING THIS MUCH SERVICES
@@ -29,7 +31,7 @@ class TripService(private val repository: RideRepository,
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
     fun findAllActiveRides(): List<TripResponse> =
-            repository.findAllByStatus(RideStatus.ACTIVE).map { convertToTripResponse(it) }
+            repository.findAllByStatus(RideStatus.ACTIVE).map { it.mapToTripResponse() }
 
     fun findAllActiveTripsWithAvailableSeats() =
             findAllActiveRides().filter { it.availableSeats > 0 }
@@ -41,7 +43,7 @@ class TripService(private val repository: RideRepository,
 
     fun getPastTripsForUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
-                    .map { convertToTripResponse(it) }
+                    .map { it.mapToTripResponse() }
 
     @Modifying
     @Transactional
@@ -58,13 +60,13 @@ class TripService(private val repository: RideRepository,
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
     fun getAllTripsForUser(userId: Long) =
-            repository.findAllByDriverId(driverId = userId)?.map { convertToTripResponse(it) }
+            repository.findAllByDriverId(driverId = userId)?.map { it.mapToTripResponse() }
 
 
     fun findRidesByFromLocationAndDestination(from: String, to: String): List<TripResponse> =
             repository.findAllByFromLocationNameAndDestinationName(from, to)
                     .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
-                    .map { convertToTripResponse(it) }
+                    .map { it.mapToTripResponse() }
 
     @Modifying
     @Transactional
@@ -75,7 +77,7 @@ class TripService(private val repository: RideRepository,
                 departureTime = departureTime,
                 destination = cityService.findByName(toLocation),
                 additionalDescription = description,
-                pricePerHead = pricePerHead)).let { convertToTripResponse(it) }
+                pricePerHead = pricePerHead)).let { it.mapToTripResponse() }
     }
 
     fun checkForFinishedTripsCronJob() {
@@ -84,21 +86,31 @@ class TripService(private val repository: RideRepository,
     }
 
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
-        val specification = createRideSpecification(fromAddress = fromAddress, toAddress = toAddress, departure = departure)
+        val specification = if (departureDate != null)
+            createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
+                                    departure = ZonedDateTime.of(
+                                            LocalDate.ofInstant(departureDate.toInstant(),
+                                                                ZoneId.systemDefault()), LocalTime.MIN,
+                                            ZoneId.systemDefault())) //TODO: refactor this
+
+        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
+                                     departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
+                                                                  ZoneId.systemDefault()))
+
         if (requestedSeats != null) {
             return repository.findAll(specification)
                     .filter { it.getAvailableSeats() >= requestedSeats }
-                    .map { convertToTripResponse(it) }
+                    .map { it.mapToTripResponse() }
         }
-        return repository.findAll(specification).map { convertToTripResponse(it) }
+        return repository.findAll(specification).map { it.mapToTripResponse() }
     }
 
-    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
+//    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
 
-    private fun createRideSpecification(fromAddress: String?, toAddress: String?, departure: ZonedDateTime?) =
+    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime) =
             listOfNotNull(
-                    evaluateSpecification(listOf("fromLocation", "name"), fromAddress, ::likeSpecification),
-                    evaluateSpecification(listOf("destination", "name"), toAddress, ::likeSpecification),
+                    evaluateSpecification(listOf("fromLocation", "id"), fromAddress.toString(), ::likeSpecification),
+                    evaluateSpecification(listOf("destination", "id"), toAddress.toString(), ::likeSpecification),
                     evaluateSpecification(listOf("departureTime"), departure, ::laterThanTime),
                     evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
             ).fold(whereTrue()) { first, second ->
@@ -108,8 +120,8 @@ class TripService(private val repository: RideRepository,
     private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
-                fromLocation = cityService.findByName(fromLocation),
-                destination = cityService.findByName(destination),
+                fromLocation = cityService.findById(fromLocation),
+                destination = cityService.findById(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
                 driver = userService.findUserById(driverId),
@@ -124,7 +136,10 @@ class TripService(private val repository: RideRepository,
     }
 
     private inline fun <reified T> evaluateSpecification(value: T?, fn: (T) -> Specification<Ride>) = value?.let(fn)
-    private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?, fn: (List<String>, T) -> Specification<Ride>) = value?.let { fn(properties, value) }
+    private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?,
+                                                         fn: (List<String>, T) -> Specification<Ride>) = value?.let {
+        fn(properties, value)
+    }
 
 
 //    @PostConstruct

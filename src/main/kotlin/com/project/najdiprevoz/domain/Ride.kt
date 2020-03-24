@@ -79,7 +79,9 @@ data class Ride(
                 departureTime = departureTime,
                 availableSeats = getAvailableSeats(),
                 pricePerHead = pricePerHead,
-                driver = driver.mapToUserShortResponse())
+                totalSeats = totalSeatsOffered,
+                driver = driver.mapToUserShortResponse(),
+                maxTwoBackSeat = maxTwoBackSeat)
     }
 
     @Override

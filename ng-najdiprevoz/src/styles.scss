@@ -1,0 +1,55 @@
+@import "najdi-prevoz-theme.scss";
+
+@include mat-core();
+@include angular-material-theme($najdi-prevoz-theme);
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+$primary-color: rgb(112, 140, 145);
+$primary-dark-color: rgb(5, 71, 82);
+
+html, body {
+	height: 100%;
+}
+
+.page > * {
+	margin: 1em 2em;
+}
+
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.small-icon-19px {
+	height: 19px;
+	width: 19px;
+}
+
+.text-bottom {
+	vertical-align: text-bottom;
+}
+
+mat-icon:not(.ignore-default-color) {
+	color: $primary-color !important;
+}
+
+.primary-dark-color {
+	color: $primary-dark-color;
+}
+
+.primary-dark-color-background {
+	background-color: $primary-dark-color;
+}
+
+.button-primary {
+	background-color: #00AFF5
+}
+
+.color-white {
+	color: white;
+}
+
