@@ -33,8 +33,12 @@ class TripService(private val repository: RideRepository,
     fun findAllActiveRides(): List<TripResponse> =
             repository.findAllByStatus(RideStatus.ACTIVE).map { it.mapToTripResponse() }
 
-    fun findAllActiveTripsWithAvailableSeats() =
-            findAllActiveRides().filter { it.availableSeats > 0 }
+    fun findAllActiveTripsForToday(): List<TripResponse> =
+            repository.findAllByStatusAndDepartureTimeIsAfterAndDepartureTimeIsBefore(
+                    ZonedDateTime.now(),
+                    ZonedDateTime.now().withHour(
+                            23).withMinute(
+                            59)).map { it.mapToTripResponse() }
 
     fun createNewTrip(createTripRequest: CreateTripRequest) {
         logger.info("[RideService - ADD RIDE] Creating new ride!")

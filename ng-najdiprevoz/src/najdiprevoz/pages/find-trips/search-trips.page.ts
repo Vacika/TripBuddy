@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { City } from '../../interfaces/city.interface';
 import { CityService } from '../../services/city.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
 	selector: 'search-trips-component',
@@ -18,6 +19,7 @@ export class SearchTripsPage implements OnInit {
 	allCities: City[] = [];
 	departureDateSearched: Date;
 	dateNow: Date = new Date();
+	minimumDate = new Date();
 
 	constructor(private _service: TripService,
 							private _route: ActivatedRoute,
@@ -28,7 +30,7 @@ export class SearchTripsPage implements OnInit {
 
 	ngOnInit(): void {
 		this._cityService.getAllCities().subscribe(it => this.allCities = it);
-		this.dateNow.setDate(this.dateNow.getDate()-1); //TODO: Fix this workaround
+		this.minimumDate.setDate(this.dateNow.getDate()-1); //TODO: Fix this workaround
 	}
 
 	private get searchFormDefinition() {
@@ -45,10 +47,6 @@ export class SearchTripsPage implements OnInit {
 		this.searchFormEmitter.emit(this.form.value);
 	}
 
-	get getDepartureDate() {
-		return this.form.controls.departureDate.value;
-	}
-
 	getTimeDateNow() {
 		return this.dateNow;
 	}
@@ -58,6 +56,6 @@ export class SearchTripsPage implements OnInit {
 	};
 
 	theTimeNow() {
-		return new Date();
+		return this.dateNow;
 	}
 }

@@ -16,7 +16,7 @@ export class TripListPage implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.data$ = this._service.getAllActiveTripsWithFreeSeats();// fetch all active rides
+		this.data$ = this._service.getAllTripsForToday();// fetch all active rides
 	}
 
 	onSearchEmit(formValue: any) {

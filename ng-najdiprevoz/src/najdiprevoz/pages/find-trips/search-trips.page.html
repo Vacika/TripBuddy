@@ -32,7 +32,7 @@
 		<button mat-raised-button type="submit"
 						[disabled]='form.invalid || form.pristine'
 						class='button-primary color-white button-form final-submit-button'>
-			{{'SEARCH' | translate}}
+			<span>{{'SEARCH' | translate}}</span>
 			<img src='assets/images/moving-car.gif' height="52px" width="52px">
 		</button>
 
@@ -52,7 +52,7 @@
 		<!-- Departure date -->
 		<mat-form-field class="form-field width-20" appearance="outline">
 			<input matInput class='border-top-0' formControlName='departureDate'
-						 [owlDateTime]="departureDate" [min]='getTimeDateNow()'
+						 [owlDateTime]="departureDate" [min]='minimumDate'
 						 [owlDateTimeFilter]='myDateTimeFilter'
 						 [owlDateTimeTrigger]="departureDate" placeholder="Departure date">
 			<owl-date-time [pickerType]='"calendar"'
