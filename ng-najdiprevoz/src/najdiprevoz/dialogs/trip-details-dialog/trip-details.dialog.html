@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Hi {{trip.departureTime}}</h1>
+<div mat-dialog-content>
+	{{trip.driver.name}}
+	{{trip.from}} --> {{trip.to}}
+</div>
+<div mat-dialog-actions>
+	<button mat-button (click)="onCancel()">{{'CLOSE'|translate}}</button>
+	<button mat-button>{{'RESERVE' | translate}}</button>
+</div>

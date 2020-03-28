@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TripService} from "../../services/trip.service";
 import {TripResponse} from "../../interfaces/trip-response.interface";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {TripDetailsDialog} from "../../dialogs/trip-details-dialog/trip-details.dialog";
 
 @Component({
 	selector: 'list-trips',
@@ -10,11 +12,24 @@ import {Router} from "@angular/router";
 })
 export class TripListView implements OnInit {
 	@Input() allTrips: TripResponse[] = [];
+
 	constructor(private _service: TripService,
-							private _router: Router) {
+							private _router: Router,
+							private _dialog: MatDialog) {
 	}
 
 	ngOnInit(): void {
+	}
+
+	onClickDetails(tripId: number) {
+		let data = this.allTrips.find(it => it.id == tripId);
+		const dialogRef = this._dialog.open(TripDetailsDialog, {
+			height:'500px',
+			width: '500px',
+			data: data
+		});
+
+		dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
 	}
 
 	convertToImage(image) {
@@ -32,7 +47,7 @@ export class TripListView implements OnInit {
 	}
 
 	getClassForPersonIcon(index: any, availableSeats: number) {
-		if (index  <= availableSeats)
+		if (index <= availableSeats)
 			return "width-21 font-26 color-green pointer ignore-default-color";
 
 		return "width-21 font-26 color-red pointer ignore-default-color";

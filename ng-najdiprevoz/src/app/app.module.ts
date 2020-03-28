@@ -21,8 +21,11 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { TripListView } from '../najdiprevoz/views/trip-list/trip-list.view';
 import { SearchTripsPage } from '../najdiprevoz/pages/find-trips/search-trips.page';
 import { HelperService } from '../najdiprevoz/services/helper.service';
+import {TripDetailsDialog} from "../najdiprevoz/dialogs/trip-details-dialog/trip-details.dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 
 const services = [TripService, CityService, HelperService];
+const DIALOGS = [TripDetailsDialog];
 
 @NgModule({
 	declarations: [
@@ -34,7 +37,8 @@ const services = [TripService, CityService, HelperService];
 		StarRatingComponent,
 		CreateTripPage,
 		TripListView,
-		SearchTripsPage
+		SearchTripsPage,
+		DIALOGS
 	],
 	imports: [
 		RouterModule.forRoot(appRoutes),
@@ -43,6 +47,7 @@ const services = [TripService, CityService, HelperService];
 		OwlNativeDateTimeModule,
 		HttpClientModule,
 		MaterialModules,
+		MatDialogModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
