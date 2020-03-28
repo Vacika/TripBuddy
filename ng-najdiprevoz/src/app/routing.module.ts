@@ -3,7 +3,7 @@ import { TripListPage } from '../najdiprevoz/pages/trip-list/trip-list.page';
 import { TripDetailsPage } from '../najdiprevoz/pages/trip-details/trip-details.page';
 import { LoginPage } from '../najdiprevoz/pages/login/login.page';
 import { CreateTripPage } from '../najdiprevoz/pages/create-trip/create-trip.page';
-import { SearchTripsPage } from '../najdiprevoz/pages/find-trips/search-trips-page.component';
+import { SearchTripsPage } from '../najdiprevoz/pages/find-trips/search-trips.page';
 
 export const appRoutes: Routes = [
 	{ path: 'trips/new', component: CreateTripPage },

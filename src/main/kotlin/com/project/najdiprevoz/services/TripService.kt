@@ -33,8 +33,9 @@ class TripService(private val repository: RideRepository,
     fun findAllActiveRides(): List<TripResponse> =
             repository.findAllByStatus(RideStatus.ACTIVE).map { it.mapToTripResponse() }
 
-    fun findAllActiveTripsWithAvailableSeats() =
-            findAllActiveRides().filter { it.availableSeats > 0 }
+    fun findAllActiveTripsForToday(): List<TripResponse> =
+            repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
+                    .map { it.mapToTripResponse() }
 
     fun createNewTrip(createTripRequest: CreateTripRequest) {
         logger.info("[RideService - ADD RIDE] Creating new ride!")
@@ -88,14 +89,14 @@ class TripService(private val repository: RideRepository,
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                                    departure = ZonedDateTime.of(
-                                            LocalDate.ofInstant(departureDate.toInstant(),
-                                                                ZoneId.systemDefault()), LocalTime.MIN,
-                                            ZoneId.systemDefault())) //TODO: refactor this
+                    departure = ZonedDateTime.of(
+                            LocalDate.ofInstant(departureDate.toInstant(),
+                                    ZoneId.systemDefault()), LocalTime.MIN,
+                            ZoneId.systemDefault())) //TODO: refactor this
 
         else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                                     departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
-                                                                  ZoneId.systemDefault()))
+                departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
+                        ZoneId.systemDefault()))
 
         if (requestedSeats != null) {
             return repository.findAll(specification)

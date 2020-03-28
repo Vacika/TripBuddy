@@ -69,4 +69,8 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.status='APPROVED' and count(rr)< r.totalSeatsOffered ")
     fun findAllActiveTripsWithAvailableSeats(): List<Ride>
+
+
+    @Query("SELECT r FROM Ride r where r.status='APPROVED' AND r.departureTime > :departureTime and r.departureTime < :midnight")
+    fun findAllForToday(@Param("departureTime") departureTime: ZonedDateTime, @Param("midnight") midnight: ZonedDateTime): List<Ride>
 }

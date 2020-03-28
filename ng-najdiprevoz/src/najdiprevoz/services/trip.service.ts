@@ -14,7 +14,7 @@ export class TripService {
 	constructor(private _http: HttpClient,
 							private _helper: HelperService) {}
 
-	getAllActiveTripsWithFreeSeats(): Observable<TripResponse[]> {
+	getAllTripsForToday(): Observable<TripResponse[]> {
 		return this._http.get<TripResponse[]>(`${this.path}`);
 	}
 
@@ -32,12 +32,12 @@ export class TripService {
 		map.set('toLocation', value['toLocation']);
 		if (value['departureDate']) {
 			var date = new Date(value['departureDate']);
-			var fullDate = (date.getMonth()+1).toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
+			var fullDate = (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
 			map.set('departureDate', fullDate);
 		}
 		if (value['requestedSeats']) {
 			map.set('requestedSeats', value['requestedSeats']);
 		}
-		return this._http.get<TripResponse[]>(`${this.path}/filter${this._helper.mapToQueryString(map)}`)
+		return this._http.get<TripResponse[]>(`${this.path}/filter${this._helper.mapToQueryString(map)}`);
 	}
 }

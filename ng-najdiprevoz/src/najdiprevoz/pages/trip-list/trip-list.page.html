@@ -1,3 +1,4 @@
-<list-trips [allTrips]='allTrips'>
+<search-trips-component (searchFormEmitter)='onSearchEmit($event)'></search-trips-component>
+<list-trips [allTrips]='data$|async'>
 
 </list-trips>

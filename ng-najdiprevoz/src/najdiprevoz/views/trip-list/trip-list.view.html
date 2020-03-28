@@ -3,7 +3,7 @@
 		<div mat-card-avatar class="card-header-image"
 				 style="background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg')"></div>
 		<mat-card-title class="margin-bottom-0 space-between flex">
-			<span class="font-18">{{trip.driver.name}}</span>
+			<span class="font-18 margin-right-10">{{trip.driver.name}}</span>
 			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}">
 					<mat-icon *ngFor="let index of getNumberAsArray(trip.totalSeats)"
 										[ngClass]="getClassForPersonIcon(index,trip.availableSeats)">
@@ -21,9 +21,9 @@
 
 	<mat-card-content>
 		<div class="flex space-between align-end primary-dark-color">
-			<span>{{trip.from}}</span>
+			<span class="text-bold">{{trip.from}}</span>
 			<img src='assets/images/moving-car.gif' height="52px" width="52px">
-			<span>{{trip.to}}</span>
+			<span class="text-bold">{{trip.to}}</span>
 		</div>
 		<div class="height-12 margin-top-minus-20px">
 			<mat-divider class="inline-block distance-divider"></mat-divider>
@@ -34,7 +34,7 @@
 				{{trip.departureTime|date: 'H:mm'}}</span>
 		</div>
 
-		<div class="flex space-between margin-top-20">
+		<div class="flex space-between margin-top-20 align-flex-end">
 			<span class="flex align-flex-end pointer primary-dark-color" matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
 				<mat-icon>monetization_on</mat-icon>{{trip.pricePerHead}}.00 MKD
 			</span>

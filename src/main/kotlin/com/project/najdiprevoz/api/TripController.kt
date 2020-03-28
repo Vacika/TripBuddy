@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 class TripController(private val service: TripService) {
 
     @GetMapping
-    fun getAllActiveTrips(): List<TripResponse> =
-            service.findAllActiveTripsWithAvailableSeats()
+    fun getAllForToday(): List<TripResponse> =
+            service.findAllActiveTripsForToday()
 
     @GetMapping("/filter")
     fun findAllFiltered(filterRequest: FilterTripRequest) =

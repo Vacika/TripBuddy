@@ -25,13 +25,13 @@ private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatu
                                       cb: CriteriaBuilder) =
         cb.equal(getPath(root, properties), value)
 
-fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus) =
+fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
         Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
 private fun valueLike(value: String, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)
 
-fun likeSpecification(properties: List<String>, value: String) =
+fun likeSpecification(properties: List<String>, value: String): Specification<Ride> =
         Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
 
 
@@ -45,8 +45,8 @@ fun greaterThanOrEquals(properties: List<String>, value: Int) =
 
 private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>,
                                    cb: CriteriaBuilder) =
-        cb.and(cb.greaterThanOrEqualTo(getPath(root,properties).`as`(ZonedDateTime::class.java), value),
-               cb.lessThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value.plusDays(1)))
+        cb.and(cb.greaterThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value),
+                cb.lessThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value.plusDays(1)))
 
 fun laterThanTime(properties: List<String>, value: ZonedDateTime) =
         Specification<Ride> { root, _, cb -> laterThanTimePredicate(value, properties, root, cb) }
