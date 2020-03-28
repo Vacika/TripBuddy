@@ -6,20 +6,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(service: UserDetailsServiceImpl) : WebSecurityConfigurerAdapter() {
-    private val service: UserDetailsServiceImpl = service
+class SecurityConfig(private val service: UserDetailsServiceImpl) : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService<UserDetailsService>(service)
+        auth.userDetailsService(service)
                 .passwordEncoder(encoder())
     }
 
@@ -27,7 +23,23 @@ class SecurityConfig(service: UserDetailsServiceImpl) : WebSecurityConfigurerAda
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
-//                .httpBasic()
+//                .authorizeRequests()
+//                    .antMatchers("/api/public/**").permitAll()
+//                    .anyRequest().authenticated()
+//                    .and()
+//                .formLogin()
+//                    .loginPage("/api/login")
+//                    .permitAll()
+//                    .and()
+//                .logout()
+//                    .permitAll()
+
+
+
+
+
+
+
 //                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
 //                .and()
 //                .authorizeRequests()
@@ -61,5 +73,4 @@ class SecurityConfig(service: UserDetailsServiceImpl) : WebSecurityConfigurerAda
     fun encoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
-
 }

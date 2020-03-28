@@ -2,11 +2,14 @@
 	background-size: cover;
 }
 
+.margin-right-10 {
+	margin-right: 10px;
+}
+
 .mat-card {
 	display: inline-block;
 	margin: 30px 30px;
-	width: 20%;
-	height: 24%;
+	min-width: 290px;
 }
 
 .margin-bottom-0 {

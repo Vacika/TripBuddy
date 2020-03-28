@@ -56,7 +56,7 @@
 						 [owlDateTimeFilter]='myDateTimeFilter'
 						 [owlDateTimeTrigger]="departureDate" placeholder="Departure date">
 			<owl-date-time [pickerType]='"calendar"'
-										 [startAt]='getTimeDateNow()'
+										 [startAt]='minimumDate'
 										 [stepMinute]='30'
 										 #departureDate></owl-date-time>
 			<mat-error

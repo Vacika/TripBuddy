@@ -47,12 +47,8 @@ export class SearchTripsPage implements OnInit {
 		this.searchFormEmitter.emit(this.form.value);
 	}
 
-	getTimeDateNow() {
-		return this.dateNow;
-	}
-
 	myDateTimeFilter = (d: Date): boolean => {
-		return this.dateNow <= d;
+		return this.minimumDate <= d;
 	};
 
 	theTimeNow() {

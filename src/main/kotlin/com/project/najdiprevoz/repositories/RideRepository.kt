@@ -3,7 +3,6 @@ package com.project.najdiprevoz.repositories
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
-import com.project.najdiprevoz.web.response.TripResponse
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
@@ -73,5 +72,5 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
 
     @Query("SELECT r FROM Ride r where r.status='APPROVED' AND r.departureTime > :departureTime and r.departureTime < :midnight")
-    fun findAllByStatusAndDepartureTimeIsAfterAndDepartureTimeIsBefore(@Param("departureTime")departureTime: ZonedDateTime,@Param("midnight") midnight:ZonedDateTime): List<Ride>
+    fun findAllForToday(@Param("departureTime") departureTime: ZonedDateTime, @Param("midnight") midnight: ZonedDateTime): List<Ride>
 }
