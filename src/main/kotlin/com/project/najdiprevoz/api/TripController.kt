@@ -4,6 +4,7 @@ import com.project.najdiprevoz.services.TripService
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.springframework.web.bind.annotation.*
 
@@ -22,6 +23,9 @@ class TripController(private val service: TripService) {
     @GetMapping("/{tripId}")
     fun getTrip(@PathVariable("tripId") tripId: Long) =
             service.findById(tripId)
+
+    @GetMapping("/{tripId}/additional-info")
+    fun getTripAdditionalInfo(@PathVariable("tripId") tripId: Long): TripDetailsResponse = service.getTripAdditionalInfo(tripId)
 
     @PutMapping("/add")
     fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest) =

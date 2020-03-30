@@ -38,7 +38,8 @@
 				<mat-icon>monetization_on</mat-icon>
 				{{trip.pricePerHead}}.00 MKD
 			</span>
-			<span class="pointer" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
+			<span class="pointer" *ngIf='trip.maxTwoBackseat'
+						matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 				<svg viewBox="0 0 24 24"
 						 xmlns="http://www.w3.org/2000/svg"
 						 class="kirk-icon sc-bZQynM ehECGS"

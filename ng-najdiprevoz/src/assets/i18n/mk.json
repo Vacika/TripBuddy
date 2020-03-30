@@ -65,7 +65,6 @@
 	"NEXT": "Продолжи",
 	"HAS_AIR_CONDITION": "Клима",
 	"MAX_TWO_BACKSEAT": "Max. 2 лица на задно седиште",
-	"TOTAL_SEATS_OFFERED": "Слободни седишта"
-
-
+	"TOTAL_SEATS_OFFERED": "Слободни седишта",
+	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "2 или повеќе лица на задно седиште"
 }

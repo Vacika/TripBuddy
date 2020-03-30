@@ -8,6 +8,7 @@ import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -142,6 +143,15 @@ class TripService(private val repository: RideRepository,
         fn(properties, value)
     }
 
+    fun getTripAdditionalInfo(tripId: Long): TripDetailsResponse {
+        return mapToTripDetailsResponse(findById(tripId))
+    }
+
+    private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
+        return TripDetailsResponse(isPetAllowed = isPetAllowed,
+                isSmokingAllowed = isSmokingAllowed,
+                hasAirCondition = hasAirCondition)
+    }
 
 //    @PostConstruct
 //    fun editRideTest() {

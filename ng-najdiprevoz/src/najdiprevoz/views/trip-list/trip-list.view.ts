@@ -22,14 +22,21 @@ export class TripListView implements OnInit {
 	}
 
 	onClickDetails(tripId: number) {
-		let data = this.allTrips.find(it => it.id == tripId);
-		const dialogRef = this._dialog.open(TripDetailsDialog, {
-			height:'500px',
-			width: '500px',
-			data: data
-		});
 
-		dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
+		this._service.getTripInformation(tripId).subscribe(tripDetailsResponse => {
+			let data = {
+				trip: this.allTrips.find(it => it.id == tripId),
+				tripDetails: tripDetailsResponse
+			};
+			const dialogRef = this._dialog.open(TripDetailsDialog, {
+				height: '500px',
+				width: '500px',
+				data: data
+			});
+
+			dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
+		})
+
 	}
 
 	convertToImage(image) {

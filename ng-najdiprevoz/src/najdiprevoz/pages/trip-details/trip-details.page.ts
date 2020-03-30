@@ -20,7 +20,6 @@ export class TripDetailsPage implements OnInit {
   ngOnInit(): void {
     if (this.tripId) {
       console.log('tripId:', this.tripId);
-      this._service.getTripInformation(this.tripId).subscribe(response => this.trip = response);
     }
   }
 

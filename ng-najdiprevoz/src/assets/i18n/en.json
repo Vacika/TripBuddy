@@ -62,5 +62,6 @@
 	"PRICE_PER_HEAD_TOOLTIP": "Price per person",
 	"FROM": "From",
 	"TO": "To",
-	"NEXT": "Next"
+	"NEXT": "Next",
+	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "There could be more than 2 persons in backseat"
 }
