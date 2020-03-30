@@ -1,5 +1,12 @@
 <h1 mat-dialog-title class="text-center">  {{trip.from}} --> {{trip.to}}</h1>
 <div mat-dialog-content>
+	<div><span class="text-bold">{{'ADDITIONAL_DESCRIPTION' |translate}}:</span> {{tripDetails.additionalDescription}}</div>
+	<div><span class="text-bold">{{'DEPARTURE_TIME'|translate}}: </span>{{trip.departureTime | date: 'HH:mm, EEEE, dd MMMM'}}</div>
+	<div><span class="text-bold">{{'AVAILABLE_SEATS'|translate}}: </span>{{trip.availableSeats}}</div>
+	<div><span class="text-bold">{{'PRICE_PER_HEAD'|translate}}: </span>{{trip.pricePerHead}}</div>
+	<div><span class="text-bold">{{'TOTAL_SEATS'|translate}}: </span>{{trip.totalSeats}}</div>
+	<div><span class="text-bold">{{'DRIVER'|translate}}:</span> {{trip.driver.name}}</div>
+	<div><span class="text-bold">{{'RATING'| translate}}:</span> {{trip.driver.rating}}</div>
 	<mat-icon *ngIf="tripDetails.isPetAllowed" class="success">pets</mat-icon>
 	<mat-icon *ngIf="!tripDetails.isPetAllowed" class="danger">pets</mat-icon>
 
@@ -49,6 +56,6 @@
 	</span>
 </div>
 <div mat-dialog-actions>
-	<button mat-button (click)="onCancel()">{{'CLOSE'|translate}}</button>
 	<button mat-button>{{'RESERVE' | translate}}</button>
+	<button mat-button (click)="onCancel()">{{'CLOSE'|translate}}</button>
 </div>

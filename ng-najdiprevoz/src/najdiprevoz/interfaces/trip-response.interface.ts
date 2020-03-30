@@ -16,4 +16,5 @@ export interface TripDetailsResponse {
 	isPetAllowed: boolean;
 	isSmokingAllowed: boolean;
 	hasAirCondition: boolean;
+	additionalDescription?: string;
 }

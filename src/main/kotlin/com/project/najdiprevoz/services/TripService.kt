@@ -150,7 +150,8 @@ class TripService(private val repository: RideRepository,
     private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
         return TripDetailsResponse(isPetAllowed = isPetAllowed,
                 isSmokingAllowed = isSmokingAllowed,
-                hasAirCondition = hasAirCondition)
+                hasAirCondition = hasAirCondition,
+                additionalDescription = trip.additionalDescription)
     }
 
 //    @PostConstruct

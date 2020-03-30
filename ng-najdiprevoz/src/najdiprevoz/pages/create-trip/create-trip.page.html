@@ -133,6 +133,12 @@
 					<span *ngIf="preferencesForm.controls.maxTwoBackseat.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</div>
+
+			<div class="form-container">
+				<textarea matInput formControlName="additionalDescription"></textarea>
+			</div>
+
+
 			<button mat-raised-button type="submit"
 							[hidden]='(currentStep|async) != 3'
 							[disabled]='preferencesForm.invalid || preferencesForm.pristine'

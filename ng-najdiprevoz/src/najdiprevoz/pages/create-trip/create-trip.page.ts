@@ -17,6 +17,7 @@ export class CreateTripPage implements OnInit {
 	preferencesForm: FormGroup;
 	allCities: City[] = [];
 	currentStep = new Observable<number>();
+	additionalDescription = new FormControl('');
 	dateNow: Date;
 
 	constructor(private _service: TripService,
@@ -64,6 +65,7 @@ export class CreateTripPage implements OnInit {
 			hasAirCondition: this.getHasAirCondition.value,
 			departureTime: this.getDepartureTime.value,
 			maxTwoBackseats: this.getMaxTwoBackseat.value,
+			additionalDescription: this.additionalDescription.value,
 			driverId: 1 //TODO: CHANGE THIS !!!!!! FETCH FROM LOGGED USER ID
 		};
 		this._service.addNewTrip(formValues).subscribe();
