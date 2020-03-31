@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {TripService} from "../../services/trip.service";
-import {TripResponse} from "../../interfaces/trip-response.interface";
-import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
-import {TripDetailsDialog} from "../../dialogs/trip-details-dialog/trip-details.dialog";
+import { Component, Input, OnInit } from '@angular/core';
+import { TripService } from '../../services/trip.service';
+import { TripResponse } from '../../interfaces/trip-response.interface';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { TripDetailsDialog } from '../../dialogs/trip-details-dialog/trip-details.dialog';
+import { RideRequestService } from '../../services/ride-request.service';
 
 @Component({
 	selector: 'list-trips',
@@ -15,7 +16,8 @@ export class TripListView implements OnInit {
 
 	constructor(private _service: TripService,
 							private _router: Router,
-							private _dialog: MatDialog) {
+							private _dialog: MatDialog,
+							private rideRequestService: RideRequestService) {
 	}
 
 	ngOnInit(): void {
@@ -29,21 +31,20 @@ export class TripListView implements OnInit {
 				tripDetails: tripDetailsResponse
 			};
 			const dialogRef = this._dialog.open(TripDetailsDialog, {
-				height: '500px',
+				minHeight: '384px',
 				width: '500px',
 				data: data
 			});
 
 			dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
-		})
+		});
 
 	}
 
 	convertToImage(image) {
 		let base64image = btoa(String.fromCharCode.apply(null, new Uint8Array(image)));
-		return 'data:image/jpeg;base64,' + image
+		return 'data:image/jpeg;base64,' + image;
 	}
-
 
 	getNumberAsArray(it: number) {
 		let array = [];
@@ -54,9 +55,14 @@ export class TripListView implements OnInit {
 	}
 
 	getClassForPersonIcon(index: any, availableSeats: number) {
-		if (index <= availableSeats)
-			return "width-21 font-26 color-green pointer ignore-default-color";
+		if (index <= availableSeats) {
+			return 'width-21 font-26 color-green pointer ignore-default-color';
+		}
 
-		return "width-21 font-26 color-red pointer ignore-default-color";
+		return 'width-21 font-26 color-red pointer ignore-default-color';
+	}
+
+	reserve(tripId: number) {
+		this.rideRequestService.newRideRequest(tripId).subscribe();
 	}
 }

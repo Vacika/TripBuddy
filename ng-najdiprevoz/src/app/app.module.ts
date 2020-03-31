@@ -21,10 +21,11 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { TripListView } from '../najdiprevoz/views/trip-list/trip-list.view';
 import { SearchTripsPage } from '../najdiprevoz/pages/find-trips/search-trips.page';
 import { HelperService } from '../najdiprevoz/services/helper.service';
-import {TripDetailsDialog} from "../najdiprevoz/dialogs/trip-details-dialog/trip-details.dialog";
-import {MatDialogModule} from "@angular/material/dialog";
+import { TripDetailsDialog } from '../najdiprevoz/dialogs/trip-details-dialog/trip-details.dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RideRequestService } from '../najdiprevoz/services/ride-request.service';
 
-const services = [TripService, CityService, HelperService];
+const services = [TripService, CityService, HelperService, RideRequestService];
 const DIALOGS = [TripDetailsDialog];
 
 @NgModule({

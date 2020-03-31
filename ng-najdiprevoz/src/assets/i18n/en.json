@@ -63,5 +63,12 @@
 	"FROM": "From",
 	"TO": "To",
 	"NEXT": "Next",
-	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "There could be more than 2 persons in backseat"
+	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "There could be more than 2 persons in backseat",
+	"IS_PET_ALLOWED_NEGATIVE": "Pets are not allowed",
+	"IS_SMOKING_ALLOWED_NEGATIVE": "Smoking is not allowed",
+	"HAS_AIR_CONDITION_NEGATIVE": "Car without AC unit",
+	"IS_PET_ALLOWED_POSITIVE": "Pets are allowed",
+	"IS_SMOKING_ALLOWED_POSITIVE": "Smoking is allowed",
+	"HAS_AIR_CONDITION_POSITIVE": "Car has AC unit"
+
 }

@@ -2,10 +2,9 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
-import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.response.RideRequestResponse
-import com.project.najdiprevoz.web.response.UserShortResponse
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
@@ -41,12 +40,28 @@ class RideRequestService(private val repository: RideRequestRepository,
         notificationService.markAsSeen(notificationId) // mark previous notification as SEEN
     }
 
-    fun addNewRideRequest(createRideRequestForTrip: CreateRequestForTrip, username: String) = with(createRideRequestForTrip) {
-        pushNotification(repository.save(RideRequest(
-                status = RequestStatus.PENDING,
-                ride = tripService.findById(rideId),
-                createdOn = ZonedDateTime.now(),
-                requester = userService.findUserByUsername(username))))
+    fun addNewRideRequest(tripId: Long, username: String) {
+        checkIfValidRequest(tripId, username)
+        pushNotification(
+                repository.save(RideRequest(
+                        status = RequestStatus.PENDING,
+                        ride = tripService.findById(tripId),
+                        createdOn = ZonedDateTime.now(),
+                        requester = userService.findUserByUsername(username)))
+        )
+    }
+
+    private fun checkIfValidRequest(tripId: Long, username: String) {
+        if(checkIfAppliedBefore(tripId, username)){
+            throw RuntimeException("User [$username] has already sent a ride request for Trip [$tripId]")
+        }
+        if (!isTripActive(tripId)) {
+            throw RuntimeException("Trip applied for seat is not ACTIVE! Trip ID: [$tripId]")
+        }
+    }
+
+    private fun checkIfAppliedBefore(tripId: Long, username: String):Boolean {
+       return repository.findByRideIdAndRequester_Username(tripId, username).isPresent
     }
 
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
@@ -57,6 +72,10 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun pushNotification(rideRequest: RideRequest) {
         notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest)
+    }
+
+    private fun isTripActive(tripId: Long): Boolean {
+        return this.tripService.findById(tripId).status == RideStatus.ACTIVE
     }
 
 

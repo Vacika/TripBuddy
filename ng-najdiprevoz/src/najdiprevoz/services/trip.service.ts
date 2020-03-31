@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {TripDetailsResponse, TripResponse} from '../interfaces/trip-response.interface';
+import { TripDetailsResponse, TripResponse } from '../interfaces/trip-response.interface';
 import { Observable } from 'rxjs';
-import { Trip } from '../interfaces/trip.interface';
 import { HelperService } from './helper.service';
 
 @Injectable({

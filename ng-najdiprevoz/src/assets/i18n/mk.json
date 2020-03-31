@@ -66,5 +66,11 @@
 	"HAS_AIR_CONDITION": "Клима",
 	"MAX_TWO_BACKSEAT": "Max. 2 лица на задно седиште",
 	"TOTAL_SEATS_OFFERED": "Слободни седишта",
-	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "2 или повеќе лица на задно седиште"
+	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "2 или повеќе лица на задно седиште",
+	"IS_PET_ALLOWED_NEGATIVE": "Миленици не се дозволени",
+	"IS_SMOKING_ALLOWED_NEGATIVE": "Пушење не е дозволено",
+	"HAS_AIR_CONDITION_NEGATIVE": "Кола без клима уред",
+	"IS_PET_ALLOWED_POSITIVE": "Миленици се дозволени",
+	"IS_SMOKING_ALLOWED_POSITIVE": "Пушење е дозволено",
+	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред"
 }

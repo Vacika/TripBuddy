@@ -33,7 +33,7 @@ class NotificationService(private val repository: NotificationRepository) {
         var notificationType: NotificationType
         when (rideRequest.status) {
             RequestStatus.APPROVED -> {
-                notificationActionsAllowed.plus(NotificationActions.CANCEL)
+                notificationActionsAllowed = notificationActionsAllowed.plus(NotificationActions.CANCEL)
                 from = driver
                 to = requester
                 notificationType = NotificationType.REQUEST_APPROVED
@@ -44,7 +44,7 @@ class NotificationService(private val repository: NotificationRepository) {
                 notificationType = NotificationType.REQUEST_DENIED
             }
             RequestStatus.PENDING -> {
-                notificationActionsAllowed.plus(NotificationActions.DENY).plus(NotificationActions.APPROVE)
+                notificationActionsAllowed = notificationActionsAllowed.plus(NotificationActions.DENY).plus(NotificationActions.APPROVE)
                 from = requester
                 to = driver
                 notificationType = NotificationType.REQUEST_SENT

@@ -10,9 +10,9 @@ import java.security.Principal
 @RequestMapping("/api/ride-requests")
 class RideRequestController(private val service: RideRequestService) {
 
-    @GetMapping("/new")
-    fun createNewRideRequest(@RequestBody req: CreateRequestForTrip, principal: Principal) =
-            service.addNewRideRequest(req, principal.name) // TODO: Does it have to be a requestbody?
+    @PutMapping("/new")
+    fun createNewRideRequest(@RequestBody tripId: Long) =
+            service.addNewRideRequest(tripId,"email@email.com") // TODO: Does it have to be a requestbody?
 
     @GetMapping("/ride/{rideId}")
     fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
