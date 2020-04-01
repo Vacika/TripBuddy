@@ -46,7 +46,7 @@ fun greaterThanOrEquals(properties: List<String>, value: Int) =
 private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>,
                                    cb: CriteriaBuilder) =
         cb.and(cb.greaterThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value),
-                cb.lessThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value.plusDays(1)))
+                cb.lessThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value.withHour(23).withMinute(59)))
 
 fun laterThanTime(properties: List<String>, value: ZonedDateTime) =
         Specification<Ride> { root, _, cb -> laterThanTimePredicate(value, properties, root, cb) }

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TripDetailsResponse, TripResponse } from '../../interfaces/trip-response.interface';
 import { RideRequestService } from '../../services/ride-request.service';
@@ -10,6 +10,7 @@ import { RideRequestService } from '../../services/ride-request.service';
 export class TripDetailsDialog {
 	trip: TripResponse;
 	tripDetails: TripDetailsResponse;
+	@Output() reserveEmit=  new EventEmitter<TripResponse>();
 
 	constructor(public dialogRef: MatDialogRef<TripDetailsDialog>,
 							@Inject(MAT_DIALOG_DATA) public data,
@@ -23,6 +24,6 @@ export class TripDetailsDialog {
 	}
 
 	reserve() {
-		this.rideRequestService.newRideRequest(this.trip.id);
+		this.reserveEmit.emit(this.trip)
 	}
 }

@@ -1,9 +1,13 @@
-.example-container {
-	text-align: center
+.component-wrapper {
+	justify-content: center;
+	text-align: center;
+	display: flex;
+	height: 90%;
+	align-items: center;
 }
 
 .form-container {
-	width: 100%;
+	width: 400px;
 	//margin: 200px auto 0px;
 }
 

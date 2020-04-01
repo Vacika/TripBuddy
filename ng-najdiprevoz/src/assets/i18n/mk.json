@@ -72,5 +72,7 @@
 	"HAS_AIR_CONDITION_NEGATIVE": "Кола без клима уред",
 	"IS_PET_ALLOWED_POSITIVE": "Миленици се дозволени",
 	"IS_SMOKING_ALLOWED_POSITIVE": "Пушење е дозволено",
-	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред"
+	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред",
+	"CONFIRM_RESERVATION": "Потврди резервација",
+	"REQUESTED_SEATS": "Одбери број на потребни седишта"
 }

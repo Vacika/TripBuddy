@@ -69,6 +69,8 @@
 	"HAS_AIR_CONDITION_NEGATIVE": "Car without AC unit",
 	"IS_PET_ALLOWED_POSITIVE": "Pets are allowed",
 	"IS_SMOKING_ALLOWED_POSITIVE": "Smoking is allowed",
-	"HAS_AIR_CONDITION_POSITIVE": "Car has AC unit"
+	"HAS_AIR_CONDITION_POSITIVE": "Car has AC unit",
+	"CONFIRM_RESERVATION": "Confirm reservation",
+	"REQUESTED_SEATS": "How many seats you need?"
 
 }

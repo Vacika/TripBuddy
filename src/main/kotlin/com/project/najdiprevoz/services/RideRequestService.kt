@@ -16,14 +16,14 @@ class RideRequestService(private val repository: RideRequestRepository,
                          private val userService: UserService,
                          private val notificationService: NotificationService) {
 
-    fun findRequestById(id: Long): RideRequestResponse = convertToRideRequestResponse(findById(id))
+    fun findRequestById(id: Long): RideRequestResponse = findById(id).mapToRideRequestResponse()
 
     fun findById(id: Long): RideRequest =
             repository.findById(id)
                     .orElseThrow { NotFoundException("Ride request not found!") }
 
     fun getAllRequestsByTripId(rideId: Long): List<RideRequestResponse> =
-            repository.findAllByRideId(rideId).map { convertToRideRequestResponse(it) }
+            repository.findAllByRideId(rideId).map { it.mapToRideRequestResponse() }
 
     fun getAllRequestsForUser(username: String) =
             repository.findAllByRequesterUsername(username = username)
@@ -34,7 +34,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     fun getRequestsForRideByStatus(rideId: Long, status: RequestStatus): List<RideRequestResponse> =
             getAll()
                     .filter { it.ride.id == rideId && it.status == status }
-                    .map { convertToRideRequestResponse(it) }
+                    .map { it.mapToRideRequestResponse() }
 
     fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus) {
         updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
@@ -107,7 +107,7 @@ class RideRequestService(private val repository: RideRequestRepository,
         return false
     }
 
-    private fun convertToRideRequestResponse(rr: RideRequest): RideRequestResponse = rr.mapToRideRequestResponse()
+//    private fun convertToRideRequestResponse(rr: RideRequest): RideRequestResponse = rr.mapToRideRequestResponse()
 
     fun rideRequestCronJob(rideRequest: RideRequest, status: RequestStatus) {
         val request = findById(rideRequest.id)
