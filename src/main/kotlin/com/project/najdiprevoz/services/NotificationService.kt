@@ -106,6 +106,10 @@ class NotificationService(private val repository: NotificationRepository) {
         repository.save(notification)
     }
 
+    fun markAsSeenByRequestId(id: Long) {
+      repository.findByRideRequestId(id).markAsSeen()
+    }
+
 //    @PostConstruct
 //    fun testMarkAsSeen() {
 //        markAsSeen(1)

@@ -36,9 +36,10 @@ class RideRequestService(private val repository: RideRequestRepository,
                     .filter { it.ride.id == rideId && it.status == status }
                     .map { convertToRideRequestResponse(it) }
 
-    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus, notificationId: Long) {
+    fun changeStatusByRideRequestId(id: Long, newStatus: RequestStatus) {
         updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
-        notificationService.markAsSeen(notificationId) // mark previous notification as SEEN
+        notificationService.markAsSeenByRequestId(id)
+//        notificationService.markAsSeen(notificationId) // mark previous notification as SEEN
     }
 
     fun addNewRideRequest(req: CreateRequestForTrip, username: String) = with(req) {
@@ -75,7 +76,12 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
         if (changeStatusActionAllowed(previousStatus, newStatus))
-            repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
+            if (newStatus == RequestStatus.APPROVED) {
+                val rideRequest = findById(requestId)
+                if (checkIfEnoughAvailableSeats(rideRequest.ride.id, rideRequest.requestedSeats)) {
+                    repository.updateRideRequestStatus(requestId = requestId, status = newStatus)
+                } else throw RuntimeException("Not enough seats available to approve RideRequest with ID: [$requestId]!")
+            }
         pushNotification(findById(requestId))
     }
 
@@ -87,16 +93,15 @@ class RideRequestService(private val repository: RideRequestRepository,
         return this.tripService.findById(tripId).status == RideStatus.ACTIVE
     }
 
-
     private fun changeStatusActionAllowed(previousStatus: RequestStatus, nextStatus: RequestStatus): Boolean {
         if (previousStatus != nextStatus) {
             return when (previousStatus) {
                 RequestStatus.APPROVED -> nextStatus == RequestStatus.CANCELLED
-                RequestStatus.PENDING -> true
-                RequestStatus.CANCELLED -> false
-                RequestStatus.DENIED -> false
-                RequestStatus.RIDE_CANCELLED -> true
-                RequestStatus.EXPIRED -> false
+                RequestStatus.PENDING -> TODO()
+                RequestStatus.CANCELLED -> TODO()
+                RequestStatus.DENIED -> TODO()
+                RequestStatus.RIDE_CANCELLED -> TODO()
+                RequestStatus.EXPIRED -> TODO()
             }
         }
         return false
