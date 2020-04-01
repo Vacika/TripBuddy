@@ -77,7 +77,9 @@ CREATE TABLE public.ride_requests
     created_on   timestamp without time zone,
     status       character varying(255),
     requester_id bigint,
-    ride_id      bigint                                           NOT NULL references public.rides (id)
+    ride_id      bigint                                           NOT NULL references public.rides (id),
+    additional_description TEXT,
+    requested_seats int NOT NULL
 );
 
 ALTER TABLE public.ride_requests

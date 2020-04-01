@@ -11,8 +11,8 @@ import java.security.Principal
 class RideRequestController(private val service: RideRequestService) {
 
     @PutMapping("/new")
-    fun createNewRideRequest(@RequestBody tripId: Long) =
-            service.addNewRideRequest(tripId,"email@email.com") // TODO: Does it have to be a requestbody?
+    fun createNewRideRequest(@RequestBody req: CreateRequestForTrip) =
+            service.addNewRideRequest(req,"email@email.com") // TODO: Does it have to be a requestbody?
 
     @GetMapping("/ride/{rideId}")
     fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =

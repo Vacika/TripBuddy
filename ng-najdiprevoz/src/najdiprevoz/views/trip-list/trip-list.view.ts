@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { TripService } from '../../services/trip.service';
-import { TripResponse } from '../../interfaces/trip-response.interface';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { TripDetailsDialog } from '../../dialogs/trip-details-dialog/trip-details.dialog';
-import { RideRequestService } from '../../services/ride-request.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {TripService} from '../../services/trip.service';
+import {TripResponse} from '../../interfaces/trip-response.interface';
+import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {TripDetailsDialog} from '../../dialogs/trip-details-dialog/trip-details.dialog';
+import {TripConfirmReservationDialog} from "../../dialogs/trip-confirm-reservation/trip-confirm-reservation.dialog";
 
 @Component({
 	selector: 'list-trips',
@@ -16,8 +16,7 @@ export class TripListView implements OnInit {
 
 	constructor(private _service: TripService,
 							private _router: Router,
-							private _dialog: MatDialog,
-							private rideRequestService: RideRequestService) {
+							private _dialog: MatDialog) {
 	}
 
 	ngOnInit(): void {
@@ -62,7 +61,15 @@ export class TripListView implements OnInit {
 		return 'width-21 font-26 color-red pointer ignore-default-color';
 	}
 
-	reserve(tripId: number) {
-		this.rideRequestService.newRideRequest(tripId).subscribe();
+	reserve(trip: TripResponse) {
+		let data = {
+			tripId: trip.id,
+			availableSeats: trip.availableSeats
+		};
+		this._dialog.open(TripConfirmReservationDialog, {
+			height: '400px',
+			width: '600px',
+			data: data
+		})
 	}
 }

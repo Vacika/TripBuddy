@@ -4,6 +4,7 @@ import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
+import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.response.RideRequestResponse
 import javassist.NotFoundException
 import org.springframework.stereotype.Service
@@ -40,28 +41,36 @@ class RideRequestService(private val repository: RideRequestRepository,
         notificationService.markAsSeen(notificationId) // mark previous notification as SEEN
     }
 
-    fun addNewRideRequest(tripId: Long, username: String) {
-        checkIfValidRequest(tripId, username)
+    fun addNewRideRequest(req: CreateRequestForTrip, username: String) = with(req) {
+        checkIfValidRequest(this, username)
         pushNotification(
                 repository.save(RideRequest(
                         status = RequestStatus.PENDING,
                         ride = tripService.findById(tripId),
                         createdOn = ZonedDateTime.now(),
-                        requester = userService.findUserByUsername(username)))
+                        requester = userService.findUserByUsername(username),
+                        additionalDescription = additionalDescription,
+                        requestedSeats = requestedSeats))
         )
     }
 
-    private fun checkIfValidRequest(tripId: Long, username: String) {
-        if(checkIfAppliedBefore(tripId, username)){
+    private fun checkIfValidRequest(req: CreateRequestForTrip, username: String) = with(req) {
+        if (checkIfAppliedBefore(tripId, username)) {
             throw RuntimeException("User [$username] has already sent a ride request for Trip [$tripId]")
         }
         if (!isTripActive(tripId)) {
             throw RuntimeException("Trip applied for seat is not ACTIVE! Trip ID: [$tripId]")
         }
+        if (!checkIfEnoughAvailableSeats(tripId, requestedSeats)) {
+            throw RuntimeException("Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
+        }
     }
 
-    private fun checkIfAppliedBefore(tripId: Long, username: String):Boolean {
-       return repository.findByRideIdAndRequester_Username(tripId, username).isPresent
+    private fun checkIfEnoughAvailableSeats(tripId: Long, requestedSeats: Int): Boolean =
+            this.tripService.findById(tripId).getAvailableSeats() >= requestedSeats
+
+    private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
+        return repository.findByRideIdAndRequester_Username(tripId, username).isPresent
     }
 
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
