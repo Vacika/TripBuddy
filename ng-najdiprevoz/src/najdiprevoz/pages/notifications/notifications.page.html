@@ -1,0 +1,22 @@
+<div class="component-wrapper">
+	<div class="form-container">
+		<div *ngFor="let notification of notifications">
+			Notification Id:{{notification.id}}
+			<!-- Request waiting to be approved -->
+			<div *ngIf="notification.type == 'REQUEST_SENT'">You have a pending request for a ride you published from
+				<b>{{notification.from.firstName}}</b></div>
+			<div *ngIf="notification.type == 'REQUEST_APPROVED'">Your request has been approved by
+				<b>{{notification.from.firstName}}</b></div>
+			<div *ngIf="notification.type == 'REQUEST_EXPIRED'"> Request expired for ride published by
+				<b>{{notification.from.firstName}}</b></div>
+			<div *ngIf="notification.type == 'RIDE_CANCELLED'"> Your request has been cancelled because the ride was cancelled
+				by <b>{{notification.from.firstName}}</b></div>
+			<div *ngIf="notification.type == 'REQUEST_DENIED'"> Your reservation request has been denied by
+				<b>{{notifications.from.firstName}}</b></div>
+			<div class="flex space-between">
+				<button *ngFor="let action of notification.actions"
+								(click)="takeAction(notification,action)">{{action}}</button>
+			</div>
+		</div>
+	</div>
+</div>

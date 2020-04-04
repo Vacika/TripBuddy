@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HelperService } from './helper.service';
 import { Observable } from 'rxjs';
+import {RideRequestResponse} from "../interfaces/ride-request.interface";
 
 @Injectable({
 	providedIn: 'root'

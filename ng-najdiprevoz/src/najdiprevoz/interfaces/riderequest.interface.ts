@@ -5,5 +5,6 @@ export interface RideRequest {
   createdOn: string,
   rating: Rating,
   status: string
-  requesterFullName: string
+  requesterFullName: string,
+	tripId: number;
 }

@@ -26,21 +26,24 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {RideRequestService} from '../najdiprevoz/services/ride-request.service';
 import {TripConfirmReservationDialog} from "../najdiprevoz/dialogs/trip-confirm-reservation/trip-confirm-reservation.dialog";
 import {MatRadioModule} from "@angular/material/radio";
+import {NotificationListPage} from "../najdiprevoz/pages/notifications/notifications.page";
+import {NotificationService} from "../najdiprevoz/services/notification.service";
 
-const services = [TripService, CityService, HelperService, RideRequestService];
+const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
+const PAGES = [NotificationListPage, TripListPage,
+	TripDetailsPage,
+	NavMenuComponent,
+	LoginPage,
+	StarRatingComponent,
+	CreateTripPage,
+	TripListView,
+	SearchTripsPage];
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		TripListPage,
-		TripDetailsPage,
-		NavMenuComponent,
-		LoginPage,
-		StarRatingComponent,
-		CreateTripPage,
-		TripListView,
-		SearchTripsPage,
+		PAGES,
 		DIALOGS
 	],
 	imports: [
@@ -62,7 +65,7 @@ const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
 		MatCheckboxModule,
 		MatRadioModule
 	],
-	providers: [...services],
+	providers: [...SERVICES],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

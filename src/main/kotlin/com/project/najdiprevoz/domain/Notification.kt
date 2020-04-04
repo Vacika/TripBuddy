@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.domain
 
-import com.project.najdiprevoz.enums.NotificationActions
+import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.NotificationType
 import java.time.ZonedDateTime
 import javax.persistence.*
@@ -24,8 +24,8 @@ data class Notification(
         val type: NotificationType,
 
         @Enumerated(EnumType.STRING)
-        @ElementCollection(targetClass = NotificationActions::class, fetch = FetchType.EAGER)
-        var actions: List<NotificationActions> = listOf(NotificationActions.MARK_AS_SEEN),
+        @ElementCollection(targetClass = NotificationAction::class, fetch = FetchType.EAGER)
+        var actions: List<NotificationAction> = listOf(NotificationAction.MARK_AS_SEEN),
 
         @ManyToOne
         @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
@@ -40,11 +40,11 @@ data class Notification(
 
     fun markAsSeen(): Notification {
         seen = true
-        removeAction(NotificationActions.MARK_AS_SEEN)
+        removeAction(NotificationAction.MARK_AS_SEEN)
         return this
     }
 
-    private fun removeAction(action: NotificationActions) {
+    private fun removeAction(action: NotificationAction) {
         actions = actions.minus(action)
     }
 }
