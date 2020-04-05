@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
@@ -54,7 +55,8 @@ class RideRequestService(private val repository: RideRequestRepository,
                         createdOn = ZonedDateTime.now(),
                         requester = userService.findUserByUsername(username),
                         additionalDescription = additionalDescription,
-                        requestedSeats = requestedSeats))
+                        requestedSeats = requestedSeats)),
+                NotificationType.REQUEST_SENT
         )
     }
 
@@ -86,12 +88,12 @@ class RideRequestService(private val repository: RideRequestRepository,
 //            repository.updateRideRequestStatus(requestId = requestId, status = RequestStatus.APPROVED)
             repository.flush()
         } else throw RuntimeException("Not enough seats available to approve RideRequest with ID: [$requestId]!")
-        pushNotification(rideRequest)
+        pushNotification(rideRequest, NotificationType.REQUEST_APPROVED)
     }
 
     private fun changeRequestToDenied(requestId: Long) {
         repository.updateRideRequestStatus(requestId = requestId, status = RequestStatus.DENIED)
-        pushNotification(findById(requestId))
+        pushNotification(findById(requestId), NotificationType.REQUEST_DENIED)
     }
 
     private fun changeRequestToCancelled(requestId: Long) {
@@ -101,17 +103,17 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun changeRequestToRideCancelled(requestId: Long) {
         repository.updateRideRequestStatus(requestId = requestId, status = RequestStatus.RIDE_CANCELLED)
-        pushNotification(findById(requestId))
+        pushNotification(findById(requestId), NotificationType.RIDE_CANCELLED)
     }
 
     private fun changeRequestToExpired(requestId: Long) {
         repository.updateRideRequestStatus(requestId = requestId, status = RequestStatus.EXPIRED)
-        pushNotification(findById(requestId))
+        pushNotification(findById(requestId), NotificationType.REQUEST_EXPIRED)
     }
 
     private fun changeRequestToPending(requestId: Long) {
         repository.updateRideRequestStatus(requestId = requestId, status = RequestStatus.PENDING)
-        pushNotification(findById(requestId))
+        pushNotification(findById(requestId), NotificationType.REQUEST_SENT)
     }
 
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RequestStatus, newStatus: RequestStatus) {
@@ -127,8 +129,8 @@ class RideRequestService(private val repository: RideRequestRepository,
         }
     }
 
-    private fun pushNotification(rideRequest: RideRequest) {
-        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest)
+    private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
+        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
     }
 
     private fun isTripActive(tripId: Long): Boolean {
@@ -149,10 +151,10 @@ class RideRequestService(private val repository: RideRequestRepository,
         return false
     }
 
-    fun rideRequestCronJob(rideRequest: RideRequest, status: RequestStatus) {
+    fun rideRequestCronJob(rideRequest: RideRequest) {
         val request = findById(rideRequest.id)
-        request.status = status
+        request.status = RequestStatus.EXPIRED
         repository.save(request)
-        pushNotification(request)
+        pushNotification(request, NotificationType.REQUEST_EXPIRED)
     }
 }

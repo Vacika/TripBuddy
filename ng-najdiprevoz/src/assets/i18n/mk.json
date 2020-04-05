@@ -74,5 +74,10 @@
 	"IS_SMOKING_ALLOWED_POSITIVE": "Пушење е дозволено",
 	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред",
 	"CONFIRM_RESERVATION": "Потврди резервација",
-	"REQUESTED_SEATS": "Одбери број на потребни седишта"
+	"REQUESTED_SEATS": "Одбери број на потребни седишта",
+	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a ride you published.",
+	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
+	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
+	"RIDE_CANCELLED_MESSAGE": "has cancelled the ride, your request is not valid anymore.",
+	"REQUEST_DENIED_MESSAGE": "has denied your reservation request."
 }

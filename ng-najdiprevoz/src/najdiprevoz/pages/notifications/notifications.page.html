@@ -1,22 +1,25 @@
 <div class="component-wrapper">
 	<div class="form-container">
-		<div *ngFor="let notification of notifications">
-			Notification Id:{{notification.id}}
+		<div *ngFor="let notification of notifications" class="notification">
 			<!-- Request waiting to be approved -->
-			<div *ngIf="notification.type == 'REQUEST_SENT'">You have a pending request for a ride you published from
-				<b>{{notification.from.firstName}}</b></div>
-			<div *ngIf="notification.type == 'REQUEST_APPROVED'">Your request has been approved by
-				<b>{{notification.from.firstName}}</b></div>
-			<div *ngIf="notification.type == 'REQUEST_EXPIRED'"> Request expired for ride published by
-				<b>{{notification.from.firstName}}</b></div>
-			<div *ngIf="notification.type == 'RIDE_CANCELLED'"> Your request has been cancelled because the ride was cancelled
-				by <b>{{notification.from.firstName}}</b></div>
-			<div *ngIf="notification.type == 'REQUEST_DENIED'"> Your reservation request has been denied by
-				<b>{{notifications.from.firstName}}</b></div>
-			<div class="flex space-between">
-				<button *ngFor="let action of notification.actions"
-								(click)="takeAction(notification,action)">{{action}}</button>
+			<img class=" card-header-image" src="https://material.angular.io/assets/img/examples/shiba1.jpg" style="border-radius:50%;width:52px;height:52px;">
+			<span *ngIf="notification.type == 'REQUEST_SENT'">
+				<b>{{notification.from.name}}</b> {{"REQUEST_SENT_MESSAGE"|translate}}
+			</span>
+			<span *ngIf="notification.type == 'REQUEST_APPROVED'">
+				<b>{{notification.from.name}}</b> {{"REQUEST_APPROVED_MESSAGE"|translate}}
+			</span>
+			<span *ngIf="notification.type == 'REQUEST_EXPIRED'"> {{"REQUEST_EXPIRED_MESSAGE"|translate}}
+				<b>{{notification.from.name}}</b></span>
+			<div *ngIf="notification.type == 'RIDE_CANCELLED'"><b>{{notification.from.name}}</b> {{"RIDE_CANCELLED_MESSAGE"|translate}}
 			</div>
+			<div *ngIf="notification.type == 'REQUEST_DENIED'"><b>{{notification.from.name}}</b> {{"REQUEST_DENIED_MESSAGE"|translate}}
+			</div>
+			<div class="flex space-between">
+				<button mat-raised-button *ngFor="let action of notification.actions" class="margin-right-5" [class]="getClassForAction(action)"
+								(click)="takeAction(notification,action)">{{action | translate}}</button>
+			</div>
+			<hr>
 		</div>
 	</div>
 </div>

@@ -27,8 +27,8 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
     """)
     fun findApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>?
 
-    @Modifying
     @Transactional
+    @Modifying
     @Query("""
         UPDATE RideRequest r
         SET r.status = :status
@@ -47,7 +47,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
 
     @Modifying
     @Transactional
-    @Query("""UPDATE RideRequest r set r.status='DENIED' where r.status='PENDING' and r.ride.status='FINISHED'""")
+    @Query("""UPDATE RideRequest r set r.status='RIDE_CANCELLED' where r.status='PENDING' and r.ride.status='FINISHED'""")
     fun updateRideRequestsCron(): Int
 
     fun findByRideIdAndRequester_Username(rideId: Long, username: String): Optional<RideRequest>

@@ -27,14 +27,15 @@ export class TripConfirmReservationDialog {
 	}
 
 	reserve() {
-		this.rideRequestService.newRideRequest(this.tripId,this.getRequestedSeats.value, this.getAdditionalDescription.value).subscribe();
+		this.rideRequestService.newRideRequest(this.tripId, this.getRequestedSeats.value, this.getAdditionalDescription.value)
+			.subscribe(() => this.onCancel());
 	}
 
-	private get getRequestedSeats(){
+	private get getRequestedSeats() {
 		return this.form.controls['requestedSeats']
 	}
 
-	private get getAdditionalDescription(){
+	private get getAdditionalDescription() {
 		return this.form.controls['additionalDescription']
 	}
 

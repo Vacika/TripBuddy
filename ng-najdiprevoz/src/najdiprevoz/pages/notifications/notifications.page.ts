@@ -18,4 +18,21 @@ export class NotificationListPage implements OnInit {
 	takeAction(notification: NotificationResponse, action: string) {
 		this.notificationService.takeAction(notification.id, action).subscribe(it=>console.log(it));
 	}
+
+	getClassForAction(action: string): string {
+		switch(action){
+			case "MARK_AS_SEEN": {
+				return "mat-primary";
+			}
+			case "APPROVE":{
+				return "success"
+			}
+			case "DENY":{
+				return "danger"
+			}
+			case "CANCEL":{
+				return "warn"
+			}
+		}
+	}
 }

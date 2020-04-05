@@ -71,6 +71,11 @@
 	"IS_SMOKING_ALLOWED_POSITIVE": "Smoking is allowed",
 	"HAS_AIR_CONDITION_POSITIVE": "Car has AC unit",
 	"CONFIRM_RESERVATION": "Confirm reservation",
-	"REQUESTED_SEATS": "How many seats you need?"
+	"REQUESTED_SEATS": "How many seats you need?",
+	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a ride you published.",
+	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
+	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
+	"RIDE_CANCELLED_MESSAGE": "has cancelled the ride, your request is not valid anymore.",
+	"REQUEST_DENIED_MESSAGE": "has denied your reservation request."
 
 }
