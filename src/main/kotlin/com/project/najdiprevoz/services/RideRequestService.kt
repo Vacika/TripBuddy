@@ -127,6 +127,7 @@ class RideRequestService(private val repository: RideRequestRepository,
                 RequestStatus.EXPIRED -> changeRequestToExpired(requestId)
             }
         }
+        else throw RuntimeException("Status change not allowed from $previousStatus to $newStatus for RideRequest ID: [$requestId]")
     }
 
     private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
