@@ -28,11 +28,11 @@ class CronJobService(private val rideRequestService: RideRequestService,
     private fun updateRideRequestCron() {
         rideRequestService.getAll()
                 .filter { it.status == RequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
-                .forEach { changeStatusByRideRequest(it, RequestStatus.EXPIRED) }
+                .forEach { changeRequestToExpired(it) }
     }
 
-    private fun changeStatusByRideRequest(rideRequest: RideRequest, status: RequestStatus) =
-            rideRequestService.rideRequestCronJob(rideRequest, status)
+    private fun changeRequestToExpired(rideRequest: RideRequest) =
+            rideRequestService.rideRequestCronJob(rideRequest)
 
     private fun updateRideCron() =
             tripService.checkForFinishedTripsCronJob()

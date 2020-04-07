@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
@@ -8,6 +9,7 @@ import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -52,7 +54,7 @@ class TripService(private val repository: RideRepository,
         val ride = findById(rideId)
         ride.status = RideStatus.CANCELLED
         ride.rideRequests = ride.rideRequests.map { it.copy(status = RequestStatus.RIDE_CANCELLED) }
-        ride.rideRequests.forEach { notificationService.pushRequestStatusChangeNotification(it) }
+        ride.rideRequests.forEach { notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED) }
         repository.save(ride)
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }
@@ -142,6 +144,16 @@ class TripService(private val repository: RideRepository,
         fn(properties, value)
     }
 
+    fun getTripAdditionalInfo(tripId: Long): TripDetailsResponse {
+        return mapToTripDetailsResponse(findById(tripId))
+    }
+
+    private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
+        return TripDetailsResponse(isPetAllowed = isPetAllowed,
+                isSmokingAllowed = isSmokingAllowed,
+                hasAirCondition = hasAirCondition,
+                additionalDescription = trip.additionalDescription)
+    }
 
 //    @PostConstruct
 //    fun editRideTest() {

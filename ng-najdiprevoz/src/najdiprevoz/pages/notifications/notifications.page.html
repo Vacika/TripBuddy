@@ -1,0 +1,25 @@
+<div class="component-wrapper">
+	<div class="form-container">
+		<div *ngFor="let notification of notifications" class="notification">
+			<!-- Request waiting to be approved -->
+			<img class=" card-header-image" src="https://material.angular.io/assets/img/examples/shiba1.jpg" style="border-radius:50%;width:52px;height:52px;">
+			<span *ngIf="notification.type == 'REQUEST_SENT'">
+				<b>{{notification.from.name}}</b> {{"REQUEST_SENT_MESSAGE"|translate}}
+			</span>
+			<span *ngIf="notification.type == 'REQUEST_APPROVED'">
+				<b>{{notification.from.name}}</b> {{"REQUEST_APPROVED_MESSAGE"|translate}}
+			</span>
+			<span *ngIf="notification.type == 'REQUEST_EXPIRED'"> {{"REQUEST_EXPIRED_MESSAGE"|translate}}
+				<b>{{notification.from.name}}</b></span>
+			<div *ngIf="notification.type == 'RIDE_CANCELLED'"><b>{{notification.from.name}}</b> {{"RIDE_CANCELLED_MESSAGE"|translate}}
+			</div>
+			<div *ngIf="notification.type == 'REQUEST_DENIED'"><b>{{notification.from.name}}</b> {{"REQUEST_DENIED_MESSAGE"|translate}}
+			</div>
+			<div class="flex space-between">
+				<button mat-raised-button *ngFor="let action of notification.actions" class="margin-right-5" [class]="getClassForAction(action)"
+								(click)="takeAction(notification,action)">{{action | translate}}</button>
+			</div>
+			<hr>
+		</div>
+	</div>
+</div>

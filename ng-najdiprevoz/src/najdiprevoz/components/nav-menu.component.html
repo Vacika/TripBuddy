@@ -29,9 +29,12 @@
           </mat-option>
         </mat-select>
       </span>
-			<button mat-icon-button>
-				<mat-icon>menu</mat-icon>
-			</button>
+			<a mat-icon-button [routerLink]="'/notifications'">
+				<mat-icon class='color-white ignore-default-color'>notifications</mat-icon>
+			</a>
+<!--			<button mat-icon-button>-->
+<!--				<mat-icon>menu</mat-icon>-->
+<!--			</button>-->
 		</div>
 	</mat-toolbar-row>
 </mat-toolbar>

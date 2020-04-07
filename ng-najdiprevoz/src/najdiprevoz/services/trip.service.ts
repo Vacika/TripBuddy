@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TripResponse } from '../interfaces/trip-response.interface';
+import { TripDetailsResponse, TripResponse } from '../interfaces/trip-response.interface';
 import { Observable } from 'rxjs';
-import { Trip } from '../interfaces/trip.interface';
 import { HelperService } from './helper.service';
 
 @Injectable({
@@ -18,8 +17,8 @@ export class TripService {
 		return this._http.get<TripResponse[]>(`${this.path}`);
 	}
 
-	getTripInformation(tripId: number): Observable<Trip> {
-		return this._http.get<Trip>(`${this.path}/${tripId}`);
+	getTripInformation(tripId: number): Observable<TripDetailsResponse> {
+		return this._http.get<TripDetailsResponse>(`${this.path}/${tripId}/additional-info`);
 	}
 
 	addNewTrip(formValues: any) {

@@ -65,7 +65,19 @@
 	"NEXT": "Продолжи",
 	"HAS_AIR_CONDITION": "Клима",
 	"MAX_TWO_BACKSEAT": "Max. 2 лица на задно седиште",
-	"TOTAL_SEATS_OFFERED": "Слободни седишта"
-
-
+	"TOTAL_SEATS_OFFERED": "Слободни седишта",
+	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "2 или повеќе лица на задно седиште",
+	"IS_PET_ALLOWED_NEGATIVE": "Миленици не се дозволени",
+	"IS_SMOKING_ALLOWED_NEGATIVE": "Пушење не е дозволено",
+	"HAS_AIR_CONDITION_NEGATIVE": "Кола без клима уред",
+	"IS_PET_ALLOWED_POSITIVE": "Миленици се дозволени",
+	"IS_SMOKING_ALLOWED_POSITIVE": "Пушење е дозволено",
+	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред",
+	"CONFIRM_RESERVATION": "Потврди резервација",
+	"REQUESTED_SEATS": "Одбери број на потребни седишта",
+	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a ride you published.",
+	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
+	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
+	"RIDE_CANCELLED_MESSAGE": "has cancelled the ride, your request is not valid anymore.",
+	"REQUEST_DENIED_MESSAGE": "has denied your reservation request."
 }

@@ -10,9 +10,9 @@ import java.security.Principal
 @RequestMapping("/api/ride-requests")
 class RideRequestController(private val service: RideRequestService) {
 
-    @GetMapping("/new")
-    fun createNewRideRequest(@RequestBody req: CreateRequestForTrip, principal: Principal) =
-            service.addNewRideRequest(req, principal.name) // TODO: Does it have to be a requestbody?
+    @PutMapping("/new")
+    fun createNewRideRequest(@RequestBody req: CreateRequestForTrip) =
+            service.addNewRideRequest(req,"email@email.com") // TODO: Does it have to be a requestbody?
 
     @GetMapping("/ride/{rideId}")
     fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
@@ -40,15 +40,15 @@ class RideRequestController(private val service: RideRequestService) {
 
     //Note: we need the notification id so we can set that notification as SEEN
     //TODO: Get notification id in the request body, not the url.
-    @GetMapping("/{notificationId}/{requestId}/approve")
-    fun changeStatusToApproved(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
-            service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED, notificationId)
+    @GetMapping("/{requestId}/approve")
+    fun changeStatusToApproved(@PathVariable("requestId") requestId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.APPROVED)
 
     @GetMapping("/{requestId}/deny")
-    fun changeStatusToDenied(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
-            service.changeStatusByRideRequestId(requestId, RequestStatus.DENIED, notificationId)
+    fun changeStatusToDenied(@PathVariable("requestId") requestId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.DENIED)
 
     @GetMapping("/{requestId}/cancel")
-    fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long, @PathVariable("notificationId") notificationId: Long) =
-            service.changeStatusByRideRequestId(requestId, RequestStatus.CANCELLED, notificationId)
+    fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
+            service.changeStatusByRideRequestId(requestId, RequestStatus.CANCELLED)
 }

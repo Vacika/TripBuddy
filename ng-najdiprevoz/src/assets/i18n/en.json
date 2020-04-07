@@ -62,5 +62,20 @@
 	"PRICE_PER_HEAD_TOOLTIP": "Price per person",
 	"FROM": "From",
 	"TO": "To",
-	"NEXT": "Next"
+	"NEXT": "Next",
+	"MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP": "There could be more than 2 persons in backseat",
+	"IS_PET_ALLOWED_NEGATIVE": "Pets are not allowed",
+	"IS_SMOKING_ALLOWED_NEGATIVE": "Smoking is not allowed",
+	"HAS_AIR_CONDITION_NEGATIVE": "Car without AC unit",
+	"IS_PET_ALLOWED_POSITIVE": "Pets are allowed",
+	"IS_SMOKING_ALLOWED_POSITIVE": "Smoking is allowed",
+	"HAS_AIR_CONDITION_POSITIVE": "Car has AC unit",
+	"CONFIRM_RESERVATION": "Confirm reservation",
+	"REQUESTED_SEATS": "How many seats you need?",
+	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a ride you published.",
+	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
+	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
+	"RIDE_CANCELLED_MESSAGE": "has cancelled the ride, your request is not valid anymore.",
+	"REQUEST_DENIED_MESSAGE": "has denied your reservation request."
+
 }
