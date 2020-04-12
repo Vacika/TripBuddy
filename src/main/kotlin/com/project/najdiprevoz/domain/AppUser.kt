@@ -13,7 +13,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User(
+data class AppUser(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false, unique = true)
@@ -109,7 +109,7 @@ data class User(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as User
+        other as AppUser
 
         if (id != other.id) return false
         if (username != other.username) return false

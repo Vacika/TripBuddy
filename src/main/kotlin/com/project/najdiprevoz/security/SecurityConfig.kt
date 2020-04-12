@@ -6,9 +6,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+
 
 @Configuration
 @EnableWebSecurity
@@ -23,50 +23,16 @@ class SecurityConfig(private val service: UserDetailsServiceImpl) : WebSecurityC
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
-//                .authorizeRequests()
-//                    .antMatchers("/api/public/**").permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                .formLogin()
-//                    .loginPage("/api/login")
-//                    .permitAll()
-//                    .and()
-//                .logout()
-//                    .permitAll()
-
-
-
-
-
-
-
-//                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
-//                .and()
-//                .authorizeRequests()
-////                .httpBasic()
-////                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
-////                .and()
-////                .authorizeRequests()
-//                //                .antMatchers("/api/auth/principal")
-////                    .hasAnyRole("USER", "ADMIN")
-////
-////                .antMatchers("/api/leases/my")
-////                    .hasRole("USER")
-////
-////                .antMatchers(HttpMethod.POST, "/api/leases")
-////                    .hasRole("USER")
-////
-////                .antMatchers("/api/leases/**")
-////                    .hasRole("ADMIN")
-//                .antMatchers("/api/**")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .logoutUrl("/api/auth/logout")
-//                .logoutSuccessHandler { request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication? ->
-//                    request.session.invalidate()
-//                    response.status = HttpServletResponse.SC_OK
-//                }
+                .authorizeRequests()
+                .antMatchers("/api/login").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/api/login")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
     }
 
     @Bean

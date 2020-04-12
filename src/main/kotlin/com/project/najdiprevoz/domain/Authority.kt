@@ -17,5 +17,5 @@ data class Authority(
         // Inverse
         @JsonIgnore
         @OneToMany(mappedBy = "authority")
-        var users: List<User> = ArrayList()
+        var users: List<AppUser> = ArrayList()
 )

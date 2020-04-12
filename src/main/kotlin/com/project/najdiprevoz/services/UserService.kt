@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.User
+import com.project.najdiprevoz.domain.AppUser
 import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
@@ -13,8 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.nio.charset.Charset
 import java.time.ZonedDateTime
 import java.util.*
+import javax.annotation.PostConstruct
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -24,8 +26,8 @@ fun passwordEncoder(): PasswordEncoder {
 @Service
 class UserService(private val repository: UserRepository,
                   private val authorityRepository: AuthorityRepository) {
-    fun createNewUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
-        repository.save(User(
+    fun createNewUser(createUserRequest: CreateUserRequest): AppUser = with(createUserRequest) {
+        repository.save(AppUser(
                 firstName = firstName,
                 lastName = lastName,
                 username = username,
@@ -37,12 +39,12 @@ class UserService(private val repository: UserRepository,
                 authority = authorityRepository.findByAuthority("ROLE_USER")!!))
     }
 
-    fun findUserByUsername(username: String): User =
+    fun findUserByUsername(username: String): AppUser =
             repository.findByUsername(username)
                     .orElseThrow { UsernameNotFoundException("User was not found") }
 
 
-    fun findUserById(userId: Long): User =
+    fun findUserById(userId: Long): AppUser =
             repository.findById(userId)
                     .orElseThrow { InvalidUserIdException(userId) }
 
@@ -52,7 +54,7 @@ class UserService(private val repository: UserRepository,
         mapToUserResponse(repository.save(member)) //TODO: Doesn't work, fix
     }
 
-    private fun mapToUserResponse(user: User): UserProfileResponse = user.mapToUserProfileResponse()
+    private fun mapToUserResponse(user: AppUser): UserProfileResponse = user.mapToUserProfileResponse()
 
     fun changePassword(newPassword: String, username: String) {
         repository.save(findUserByUsername(username)
@@ -60,16 +62,17 @@ class UserService(private val repository: UserRepository,
     }
 
 
-    //    @PostConstruct
+        @PostConstruct
     fun testCreateUser() {
-        repository.save(User(
-                username = "testuse1r",
-                password = "blabla",
+        repository.save(AppUser(
+                username = "vasko@vasko.com",
+                password = "123456789",
                 firstName = "blabla",
                 lastName = "blabla",
                 authority = authorityRepository.findById(1).get(),
                 gender = Gender.M,
                 phoneNumber = "071711033",
-                birthDate = Date.from(ZonedDateTime.now().toInstant())))
+                profilePhoto = "123sdaqweq".toByteArray(),
+                birthDate = Date.from(ZonedDateTime.now().toInstant())) )
     }
 }

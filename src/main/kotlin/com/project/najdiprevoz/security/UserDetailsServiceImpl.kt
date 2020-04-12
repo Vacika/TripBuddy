@@ -1,6 +1,9 @@
 package com.project.najdiprevoz.security
 
+import com.project.najdiprevoz.domain.AppUser
 import com.project.najdiprevoz.repositories.UserRepository
+import com.project.najdiprevoz.services.passwordEncoder
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

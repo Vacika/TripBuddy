@@ -29,12 +29,12 @@ data class Rating(
         @JsonBackReference
         @ManyToOne
         @JoinColumn(name = "rated_user")
-        val ratedUser: User = rideRequest.ride.driver) {
+        val ratedUser: AppUser = rideRequest.ride.driver) {
 
     @JsonIgnore
-    fun getAuthor(): User = rideRequest.requester
+    fun getAuthor(): AppUser = rideRequest.requester
     @JsonIgnore
-    fun getDriver(): User = rideRequest.ride.driver
+    fun getDriver(): AppUser = rideRequest.ride.driver
 
     override fun toString(): String = "Rating id:[${id}], Ride Request id:[${rideRequest.id}], rating: [$rating], date: [$dateSubmitted]"
 
