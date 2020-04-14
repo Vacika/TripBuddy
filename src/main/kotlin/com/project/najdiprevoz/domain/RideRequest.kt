@@ -17,7 +17,7 @@ data class RideRequest(
         @JsonBackReference
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "requester_id")
-        val requester: AppUser,
+        val requester: User,
 
         @JsonBackReference
         @ManyToOne

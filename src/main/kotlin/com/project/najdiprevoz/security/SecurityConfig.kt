@@ -15,8 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class SecurityConfig(private val service: UserDetailsServiceImpl) : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService(service)
-                .passwordEncoder(encoder())
+        auth.userDetailsService(service).passwordEncoder(encoder())
     }
 
     @Throws(Exception::class)
@@ -25,14 +24,9 @@ class SecurityConfig(private val service: UserDetailsServiceImpl) : WebSecurityC
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/trips").permitAll()
+                .antMatchers("/api/cities").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/api/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
     }
 
     @Bean

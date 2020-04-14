@@ -18,8 +18,8 @@ export class LoginService {
 	constructor(private httpClient: HttpClient,
 							private stateService: StateService,
 							private router: Router) {
-		this.fetchPrincipalObject().subscribe(this.setGlobalState,
-				() => this.router.navigateByUrl('login'));
+		this.fetchPrincipalObject().subscribe(user => this.currentUser.next(user),
+			() => this.router.navigateByUrl('login'));
 	}
 
 	login(username: string, password: string): Observable<boolean> {
@@ -43,12 +43,12 @@ export class LoginService {
 			.pipe(
 				filter((it: boolean) => it),
 				switchMap(() => this.fetchPrincipalObject()),
-				tap(this.setGlobalState)
+				tap(user => this.currentUser.next(user))
 			)
 	}
 
 	fetchPrincipalObject(): Observable<User | null> {
-		return this.httpClient.get<User>('/api/user/management/authenticated')
+		return this.httpClient.get<User>('/api/login/authenticated')
 	}
 
 	get currentUserObservable(): Observable<User | null> {
@@ -61,9 +61,5 @@ export class LoginService {
 	logout(): Observable<any> {
 		this.currentUser.next(null);
 		return this.httpClient.get('/api/logout')
-	}
-
-	private setGlobalState = (user: User) => {
-		this.currentUser.next(user);
 	}
 }

@@ -29,11 +29,11 @@ data class Notification(
 
         @ManyToOne
         @JoinColumn(name = "from_id", referencedColumnName = "id", nullable = true)
-        val from: AppUser,
+        val from: User,
 
         @ManyToOne
         @JoinColumn(name = "to_id", referencedColumnName = "id", nullable = true)
-        val to: AppUser,
+        val to: User,
 
         @Column(name = "seen")
         var seen: Boolean = false) {

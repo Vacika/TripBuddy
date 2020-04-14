@@ -35,7 +35,7 @@ data class User(
         @Column(name = "birth_date", nullable = false)
         var birthDate: Date,
 
-        @Lob
+//        @Lob
         @Column(name = "profile_photo", nullable = true)
         var profilePhoto: ByteArray? = null,
 
@@ -58,7 +58,8 @@ data class User(
         var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = Collections.singleton(SimpleGrantedAuthority(authority.authority))
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
+            Collections.singleton(SimpleGrantedAuthority(authority.authority))
 
     override fun isEnabled(): Boolean = true
 

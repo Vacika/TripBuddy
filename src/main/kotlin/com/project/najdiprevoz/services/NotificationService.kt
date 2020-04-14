@@ -3,7 +3,7 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.domain.Rating
 import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.domain.AppUser
+import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.RequestStatus
@@ -25,10 +25,10 @@ class NotificationService(private val repository: NotificationRepository) {
     @Modifying
     fun pushRequestStatusChangeNotification(rideRequest: RideRequest, notificationType: NotificationType) {
         var notificationActionAllowed: List<NotificationAction> = listOf(NotificationAction.MARK_AS_SEEN)
-        var to: AppUser
-        var from: AppUser
-        val driver: AppUser = rideRequest.ride.driver
-        val requester: AppUser = rideRequest.requester
+        var to: User
+        var from: User
+        val driver: User = rideRequest.ride.driver
+        val requester: User = rideRequest.requester
 //        var notificationType: NotificationType
         when (rideRequest.status) {
             RequestStatus.APPROVED -> {
@@ -84,7 +84,7 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun getUnreadNotifications(username: String) = repository.findAllByToUsernameAndSeenIsFalseOrderByCreatedOnDesc(username)
 
-    private fun pushNotification(from: AppUser, to: AppUser, notificationActionAllowed: List<NotificationAction>, type: NotificationType, rideRequest: RideRequest) {
+    private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>, type: NotificationType, rideRequest: RideRequest) {
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,

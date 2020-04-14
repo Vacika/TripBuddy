@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.Car
-import com.project.najdiprevoz.domain.AppUser
+import com.project.najdiprevoz.domain.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -10,6 +10,6 @@ import java.util.*
 interface CarRepository : JpaRepository<Car, Long> {
 
     fun findByOwnerId(ownerId: Long): Optional<Car>
-    fun findByOwner(owner: AppUser): Car?
+    fun findByOwner(owner: User): Car?
     fun deleteCarByOwnerId(ownerId: Long)
 }

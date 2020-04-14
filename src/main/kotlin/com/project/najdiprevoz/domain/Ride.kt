@@ -36,7 +36,7 @@ data class Ride(
         @JsonBackReference
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "driver_id")
-        var driver: AppUser,
+        var driver: User,
 
         @Column(name = "price_per_head")
         var pricePerHead: Int,

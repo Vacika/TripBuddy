@@ -23,7 +23,7 @@ data class Car(
 
         @ManyToOne(optional = true, fetch = FetchType.LAZY)
         @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-        val owner: AppUser
+        val owner: User
 ) {
     override fun toString(): String {
         return "Brand: $brand, Model: $model, Year: $yearOfManufacture, totalSeats: $seats, owner: $owner "
