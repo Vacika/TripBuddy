@@ -53,7 +53,6 @@ data class User(
         var phoneNumber: String? = null,
 
         @JsonIgnore
-        @JsonManagedReference
         @OneToMany(mappedBy = "ratedUser")
         var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
@@ -67,7 +66,7 @@ data class User(
 
     fun getFullName(): String = "$firstName $lastName"
 
-    fun getAverageRating(): Double = ratings.map { it.rating }.average()
+    private fun getAverageRating(): Double = ratings.map { it.rating }.average()
 
     override fun isCredentialsNonExpired(): Boolean = true
 

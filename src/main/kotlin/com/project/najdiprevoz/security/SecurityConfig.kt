@@ -47,8 +47,6 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/api/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
                 .successHandler(::loginSuccessHandler)
                 .failureHandler(::loginFailureHandler)
                 .and()
@@ -63,12 +61,12 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
 
     private fun loginSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
         response.status = HttpStatus.OK.value()
-        objectMapper.writeValue(response.writer, "Yayy you logged in!");
+        objectMapper.writeValue(response.writer, authentication.principal)
     }
 
     private fun loginFailureHandler(request: HttpServletRequest, response: HttpServletResponse, e: AuthenticationException) {
         response.status = HttpStatus.UNAUTHORIZED.value()
-        objectMapper.writeValue(response.writer, "You failed to log in!!");
+        objectMapper.writeValue(response.writer, "You failed to log in!!")
     }
 
     private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
