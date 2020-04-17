@@ -126,8 +126,7 @@ class RideRequestService(private val repository: RideRequestRepository,
                 RequestStatus.RIDE_CANCELLED -> changeRequestToRideCancelled(requestId)
                 RequestStatus.EXPIRED -> changeRequestToExpired(requestId)
             }
-        }
-        else throw RuntimeException("Status change not allowed from $previousStatus to $newStatus for RideRequest ID: [$requestId]")
+        } else throw RuntimeException("Status change not allowed from $previousStatus to $newStatus for RideRequest ID: [$requestId]")
     }
 
     private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {

@@ -29,22 +29,19 @@ export class LoginPage implements OnInit {
 			this.loginService.login(this.username.value, this.password.value).subscribe(response => {
 				if (response == true) {
 					this.router.navigate(['/trips'])
-				} else {
-					this.password.reset();
-					// this.notificationService.error("ERRORS.INVALID_LOGIN_INFO")
+					// this.notificationService.success("SUCCESS_LOGIN")
 				}
 			},
-				error => {
+				() => {
 					this.password.reset();
+					// this.notificationService.error("INVALID_LOGIN_INFO")
 				})
 		}
-		console.log(this.loginForm.value);
 	}
 
 	private get username(): AbstractControl {
 		return this.loginForm.controls['email']
 	}
-
 
 	private get password(): AbstractControl {
 		return this.loginForm.controls['password']

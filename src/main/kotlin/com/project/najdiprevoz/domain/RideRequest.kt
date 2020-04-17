@@ -27,10 +27,10 @@ data class RideRequest(
         @Column(name = "created_on", nullable = false)
         val createdOn: ZonedDateTime,
 
-        @Column(name="requested_seats",nullable = false)
+        @Column(name = "requested_seats", nullable = false)
         val requestedSeats: Int,
 
-        @Column(name="additional_description", nullable = true)
+        @Column(name = "additional_description", nullable = true)
         val additionalDescription: String?,
 
         @JsonManagedReference

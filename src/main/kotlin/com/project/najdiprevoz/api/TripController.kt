@@ -12,21 +12,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/trips")
 class TripController(private val service: TripService) {
 
-    @GetMapping
-    fun getAllForToday(): List<TripResponse> =
-            service.findAllActiveTripsForToday()
-
-    @GetMapping("/filter")
-    fun findAllFiltered(filterRequest: FilterTripRequest) =
-            service.findAllFiltered(filterRequest)
-
-    @GetMapping("/{tripId}")
-    fun getTrip(@PathVariable("tripId") tripId: Long) =
-            service.findById(tripId)
-
-    @GetMapping("/{tripId}/additional-info")
-    fun getTripAdditionalInfo(@PathVariable("tripId") tripId: Long): TripDetailsResponse = service.getTripAdditionalInfo(tripId)
-
     @PutMapping("/add")
     fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest) =
             service.createNewTrip(createTripRequest)
@@ -46,11 +31,6 @@ class TripController(private val service: TripService) {
     @GetMapping("/all/{userId}")
     fun getAllUserTrips(@PathVariable("userId") userId: Long) =
             service.getAllTripsForUser(userId)
-
-    @GetMapping("/{cityFrom}/{cityTo}")
-    fun getTripsForRelation(@PathVariable("cityFrom") cityFrom: String,
-                            @PathVariable("cityTo") cityTo: String) =
-            service.findRidesByFromLocationAndDestination(from = cityFrom, to = cityTo)
 
 //    @GetMapping("/finish/{tripId}")
 //    fun markAsFinished(@PathVariable("tripId") tripId: Long) =

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 interface RatingRepository : JpaRepository<Rating, Long> {
 
 
-    fun findAllByRatedUser_Username(username:String): List<Rating>
+    fun findAllByRatedUser_Username(username: String): List<Rating>
     fun findRatingsByRideRequestRide_Id(rideId: Long): List<Rating>
 
     fun findRatingByRideRequest(rideRequest: RideRequest): Rating?

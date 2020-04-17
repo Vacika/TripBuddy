@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import java.util.*
-import javax.annotation.PostConstruct
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -61,7 +60,7 @@ class UserService(private val repository: UserRepository,
     }
 
 
-//        @PostConstruct
+    //        @PostConstruct
     fun testCreateUser() {
         repository.save(User(
                 username = "rtrt@rtrt.com",
@@ -71,7 +70,7 @@ class UserService(private val repository: UserRepository,
                 authority = authorityRepository.findById(1).get(),
                 gender = Gender.M,
                 phoneNumber = "071711033",
-                birthDate = Date.from(ZonedDateTime.now().toInstant())) )
+                birthDate = Date.from(ZonedDateTime.now().toInstant())))
     }
 }
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class NotificationManagementService(private val notificationService: NotificationService,
                                     private val rideRequestService: RideRequestService) {
 
-    fun takeAction(notificationId: Long, action: NotificationAction):List<NotificationResponse> {
+    fun takeAction(notificationId: Long, action: NotificationAction): List<NotificationResponse> {
         val notification = notificationService.findById(notificationId)
         notificationService.markAsSeen(notificationId)
         notificationService.removeAllActionsForNotification(notificationId)
@@ -24,16 +24,16 @@ class NotificationManagementService(private val notificationService: Notificatio
     }
 
     fun getMyNotifications(name: String): List<NotificationResponse> {
-        return notificationService.getMyNotifications(name).map{mapToNotificationResponse(it)}
+        return notificationService.getMyNotifications(name).map { mapToNotificationResponse(it) }
     }
 
     fun getUnreadNotifications(name: String): List<NotificationResponse> {
-        return notificationService.getUnreadNotifications(name).map{mapToNotificationResponse(it)}
+        return notificationService.getUnreadNotifications(name).map { mapToNotificationResponse(it) }
     }
 
-    private fun mapToNotificationResponse(notification:Notification) = with(notification){
+    private fun mapToNotificationResponse(notification: Notification) = with(notification) {
         NotificationResponse(id = id,
-                from =from.mapToUserShortResponse(),
+                from = from.mapToUserShortResponse(),
                 rideRequestId = rideRequest.id,
                 type = type,
                 actions = actions,

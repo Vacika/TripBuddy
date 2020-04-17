@@ -56,7 +56,7 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(Http403ForbiddenEntryPoint())
+                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
     }
 
     private fun loginSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {

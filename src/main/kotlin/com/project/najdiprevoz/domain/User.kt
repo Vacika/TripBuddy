@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.web.response.UserProfileResponse
 import com.project.najdiprevoz.web.response.UserShortResponse

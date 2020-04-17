@@ -10,6 +10,6 @@ class CreateTripRequest(val fromLocation: Long,
                         val pricePerHead: Int,
                         val additionalDescription: String?,
                         val hasAirCondition: Boolean,
-                        val maxTwoBackseat:Boolean,
-                        val smokingAllowed:Boolean,
+                        val maxTwoBackseat: Boolean,
+                        val smokingAllowed: Boolean,
                         val petAllowed: Boolean)

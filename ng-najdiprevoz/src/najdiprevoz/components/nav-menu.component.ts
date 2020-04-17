@@ -31,6 +31,7 @@ export class NavMenuComponent implements OnInit {
 	}
 
 	private get authenticated(): boolean {
+		console.log( !!this.loginService.getLoggedUser());
 		return !!this.loginService.getLoggedUser()
 	}
 
