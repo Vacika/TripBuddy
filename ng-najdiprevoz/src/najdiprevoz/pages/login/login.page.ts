@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {emailRegex} from "../../contants";
-import {LoginService} from "../../services/login.service";
+import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
 
 	constructor(private formBuilder: FormBuilder,
 							private router: Router,
-							private loginService: LoginService) {
+							private loginService: AuthService) {
 	}
 
 	ngOnInit() {
@@ -26,23 +26,27 @@ export class LoginPage implements OnInit {
 
 	submit() {
 		if (this.loginForm.valid) {
-			this.loginService.login(this.username, this.password).subscribe(response => {
+			this.loginService.login(this.username.value, this.password.value).subscribe(response => {
 				if (response == true) {
 					this.router.navigate(['/trips'])
 				} else {
-					alert("Invalid login info..");
+					this.password.reset();
+					// this.notificationService.error("ERRORS.INVALID_LOGIN_INFO")
 				}
-			})
+			},
+				error => {
+					this.password.reset();
+				})
 		}
 		console.log(this.loginForm.value);
 	}
 
-	private get username(): string {
-		return this.loginForm.controls['email'].value
+	private get username(): AbstractControl {
+		return this.loginForm.controls['email']
 	}
 
 
-	private get password(): string {
-		return this.loginForm.controls['password'].value
+	private get password(): AbstractControl {
+		return this.loginForm.controls['password']
 	}
 }
