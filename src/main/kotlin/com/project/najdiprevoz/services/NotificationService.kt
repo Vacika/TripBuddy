@@ -88,7 +88,7 @@ class NotificationService(private val repository: NotificationRepository) {
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,
-                actions = notificationActionAllowed,
+                actions = notificationActionAllowed.toMutableList(),
                 type = type,
                 createdOn = ZonedDateTime.now(),
                 seen = false,
@@ -108,7 +108,7 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun removeAllActionsForNotification(notificationId: Long) {
         val notification = findById(notificationId)
-        notification.actions = listOf()
+        notification.actions = mutableListOf()
         repository.save(notification)
     }
 }

@@ -6,5 +6,7 @@ export interface NotificationResponse {
 	rideRequestId: number
 	type: string;
 	actions: string[];
-	from: UserShortInfo;
+	fromId: number;
+	fromName: string;
+	seen: boolean;
 }

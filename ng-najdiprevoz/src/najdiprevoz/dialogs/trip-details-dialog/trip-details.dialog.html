@@ -1,4 +1,5 @@
-<h1 mat-dialog-title class="text-center">  {{trip.from}} ➡️ {{trip.to}}</h1>
+<h1 mat-dialog-title class="text-center">
+	{{trip.from}}	<img src="../../assets/images/right-arrow.png" height="13px" width="29px">  {{trip.to}}</h1>
 <div mat-dialog-content class='mat-dialog-content'>
 
 	<div><span class="text-bold">{{'DEPARTURE_TIME'|translate}}
@@ -7,7 +8,7 @@
 	<div><span class="text-bold">{{'PRICE_PER_HEAD'|translate}}: </span>{{trip.pricePerHead}}</div>
 	<div><span class="text-bold">{{'TOTAL_SEATS'|translate}}: </span>{{trip.totalSeats}}</div>
 	<div><span class="text-bold">{{'DRIVER'|translate}}:</span> {{trip.driver.name}}</div>
-	<div><span class="text-bold">{{'RATING'| translate}}:</span> {{trip.driver.rating}}</div>
+	<div><span class="text-bold">{{'RATING'| translate}}:</span> {{trip.driver.rating.toString() != "NaN" ? trip.driver.rating : 'NO_RATINGS'|translate}}</div>
 	<div><span class="text-bold"
 						 *ngIf='tripDetails.additionalDescription?.trim().length>0'>{{'ADDITIONAL_DESCRIPTION' |translate}}
 		:</span> {{tripDetails.additionalDescription}}

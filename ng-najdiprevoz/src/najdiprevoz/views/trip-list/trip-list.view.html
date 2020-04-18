@@ -12,7 +12,7 @@
 			</span>
 		</mat-card-title>
 		<mat-card-subtitle>
-			<mat-star-rating [rating]="trip.driver.rating" [starCount]="5"></mat-star-rating>
+			<mat-star-rating [rating]="trip.driver.rating!= 'NaN'? trip.driver.rating : 0" [starCount]="5"></mat-star-rating>
 			<mat-divider></mat-divider>
 		</mat-card-subtitle>
 	</mat-card-header>
@@ -57,8 +57,10 @@
 	</mat-card-content>
 	<mat-divider></mat-divider>
 	<mat-card-actions class='flex space-between'>
-		<button mat-button class=" mat-primary width-50" [disabled]='trip.availableSeats<=0' (click)='reserve(trip)'>{{'REQUEST_RIDE'| translate}}</button>
-		<button mat-button class=" mat-primary width-50" (click)="onClickDetails(trip.id)">{{'SEE_DETAILS' | translate}}</button>
+		<button mat-button class=" mat-primary width-50" [disabled]='trip.availableSeats<=0'
+						(click)='reserve(trip)'>{{'REQUEST_RIDE'| translate}}</button>
+		<button mat-button class=" mat-primary width-50"
+						(click)="onClickDetails(trip.id)">{{'SEE_DETAILS' | translate}}</button>
 	</mat-card-actions>
 </mat-card>
 

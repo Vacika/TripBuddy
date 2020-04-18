@@ -65,11 +65,11 @@
 			</mat-form-field>
 
 			<!-- Gender -->
-			<div class="form-field flex-column">
+			<div class="form-field flex-column mb-10">
 				<mat-label> {{'GENDER' | translate}}:</mat-label>
 				<mat-radio-group formControlName='gender' class="radio-button">
-					<mat-radio-button value="M">Male</mat-radio-button>
-					<mat-radio-button value="F">Female</mat-radio-button>
+					<mat-radio-button value="M">{{'MALE'|translate}}</mat-radio-button>
+					<mat-radio-button value="F">{{'FEMALE'|translate}}</mat-radio-button>
 					<mat-error *ngIf="form.controls.gender.touched && form.controls.gender.invalid">
 						<span *ngIf="form.controls.gender.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 					</mat-error>

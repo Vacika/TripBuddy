@@ -75,9 +75,13 @@
 	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред",
 	"CONFIRM_RESERVATION": "Потврди резервација",
 	"REQUESTED_SEATS": "Одбери број на потребни седишта",
-	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a ride you published.",
-	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
-	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
-	"RIDE_CANCELLED_MESSAGE": "has cancelled the ride, your request is not valid anymore.",
-	"REQUEST_DENIED_MESSAGE": "has denied your reservation request."
+	"REQUEST_SENT_MESSAGE": "испрати барање за резервација.",
+	"REQUEST_APPROVED_MESSAGE": "го одобри твоето барање за резервација.",
+	"REQUEST_EXPIRED_MESSAGE": "Барањето за резервација истече за превозот објавен од",
+	"RIDE_CANCELLED_MESSAGE": "го откажа превозот, вашето барање за резервација сега е невалидно.",
+	"REQUEST_DENIED_MESSAGE": "го одби вашето барање за резервација.",
+	"NO_RATINGS": "Нема оцена",
+	"CLOSE": "Затвори",
+	"MALE": "Машко",
+	"FEMALE": "Женско"
 }

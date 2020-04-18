@@ -9,13 +9,13 @@ import java.security.Principal
 @RequestMapping("/api/notifications")
 class NotificationController(private val service: NotificationManagementService) {
 
-    @GetMapping("/all")
+    @GetMapping
     fun getMyNotifications(principal: Principal) =
             service.getMyNotifications(principal.name)
 
-    @GetMapping
-    fun getUnreadNotifications(principal: Principal) =
-            service.getUnreadNotifications(principal.name)
+//    @GetMapping
+//    fun getUnreadNotifications(principal: Principal) =
+//            service.getUnreadNotifications(principal.name)
 
     @PutMapping("/{notificationId}/action")
     fun takeAction(@PathVariable("notificationId") notificationId: Long, @RequestBody action: String) =
