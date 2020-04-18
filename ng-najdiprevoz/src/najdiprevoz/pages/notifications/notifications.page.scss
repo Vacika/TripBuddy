@@ -1,6 +1,6 @@
 .component-wrapper {
-	justify-content: center;
-	text-align: center;
+	justify-content: flex-start;
+	text-align: start;
 	display: flex;
 	width: 100%;
 	font-size: 24px;
@@ -13,6 +13,10 @@
 .notification {
 	padding: 20px 0px;
 	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+
 }
 
 .margin-right-5 {
@@ -43,4 +47,8 @@
 .danger {
 	color: white;
 	background-color: #e82828;
+}
+
+.inline-block {
+	display: inline-block;
 }

@@ -33,8 +33,8 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: 'notifications',
-		component: NotificationListPage
-		// canActivate: [AuthGuard]
+		component: NotificationListPage,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'register',

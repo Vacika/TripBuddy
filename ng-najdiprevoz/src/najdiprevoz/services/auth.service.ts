@@ -38,13 +38,16 @@ export class AuthService {
 	}
 
 	logout() {
-		console.log('logouting');
-		this.currentUser.next(null);
-		localStorage.removeItem('currentUser');
-		this.httpClient.post('/api/logout', {}).subscribe();
+		this.resetUserObservable();
+		return this.httpClient.post('/api/logout', {});
 	}
 
-	registerUser(formValues):Observable<void> {
+	registerUser(formValues): Observable<void> {
 		return this.httpClient.put<void>(`api/users/register`, formValues)
+	}
+
+	resetUserObservable() {
+		this.currentUser.next(null);
+		localStorage.removeItem('currentUser');
 	}
 }

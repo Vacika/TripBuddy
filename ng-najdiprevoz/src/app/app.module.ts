@@ -5,7 +5,7 @@ import {TripListPage} from '../najdiprevoz/pages/trip-list/trip-list.page';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './routing.module';
 import {TripService} from '../najdiprevoz/services/trip.service';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {TripDetailsPage} from '../najdiprevoz/pages/trip-details/trip-details.page';
 import {CityService} from '../najdiprevoz/services/city.service';
 import {NavMenuComponent} from '../najdiprevoz/components/nav-menu.component';
@@ -29,6 +29,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {NotificationListPage} from "../najdiprevoz/pages/notifications/notifications.page";
 import {NotificationService} from "../najdiprevoz/services/notification.service";
 import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
+import {ErrorInterceptor} from "../najdiprevoz/http.interceptor";
 
 const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
@@ -67,7 +68,11 @@ const PAGES = [NotificationListPage, TripListPage,
 		MatCheckboxModule,
 		MatRadioModule
 	],
-	providers: [...SERVICES],
+	providers: [...SERVICES, {
+		provide: HTTP_INTERCEPTORS,
+		useClass: ErrorInterceptor,
+		multi: true
+	}],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
