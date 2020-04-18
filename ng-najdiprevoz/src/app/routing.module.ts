@@ -6,6 +6,7 @@ import {CreateTripPage} from '../najdiprevoz/pages/create-trip/create-trip.page'
 import {SearchTripsPage} from '../najdiprevoz/pages/find-trips/search-trips.page';
 import {NotificationListPage} from "../najdiprevoz/pages/notifications/notifications.page";
 import {AuthGuard} from "../najdiprevoz/auth.guard";
+import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
 
 export const appRoutes: Routes = [
 	{
@@ -32,8 +33,12 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: 'notifications',
-		component: NotificationListPage,
-		canActivate: [AuthGuard]
+		component: NotificationListPage
+		// canActivate: [AuthGuard]
+	},
+	{
+		path: 'register',
+		component: RegisterPage
 	},
 	{
 		path: '',

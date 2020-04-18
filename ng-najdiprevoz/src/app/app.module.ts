@@ -28,6 +28,7 @@ import {TripConfirmReservationDialog} from "../najdiprevoz/dialogs/trip-confirm-
 import {MatRadioModule} from "@angular/material/radio";
 import {NotificationListPage} from "../najdiprevoz/pages/notifications/notifications.page";
 import {NotificationService} from "../najdiprevoz/services/notification.service";
+import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
 
 const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
@@ -38,7 +39,8 @@ const PAGES = [NotificationListPage, TripListPage,
 	StarRatingComponent,
 	CreateTripPage,
 	TripListView,
-	SearchTripsPage];
+	SearchTripsPage,
+	RegisterPage];
 
 @NgModule({
 	declarations: [

@@ -18,7 +18,7 @@ class UserController(private val userService: UserService) {
     fun findUserByUsername(username: String) =
             userService.findUserByUsername(username)
 
-    @PutMapping
+    @PutMapping("/register")
     fun createUser(@RequestBody request: CreateUserRequest) =
             userService.createNewUser(request)
 

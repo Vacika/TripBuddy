@@ -1,24 +1,26 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { TripDetailsResponse, TripResponse } from '../interfaces/trip-response.interface';
-import { Observable } from 'rxjs';
-import { HelperService } from './helper.service';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {TripDetailsResponse, TripResponse} from '../interfaces/trip-response.interface';
+import {Observable} from 'rxjs';
+import {HelperService} from './helper.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class TripService {
 	readonly path = 'api/trips';
+	readonly listpath = 'api/trips-list';
 
 	constructor(private _http: HttpClient,
-							private _helper: HelperService) {}
+							private _helper: HelperService) {
+	}
 
 	getAllTripsForToday(): Observable<TripResponse[]> {
-		return this._http.get<TripResponse[]>(`${this.path}`);
+		return this._http.get<TripResponse[]>(`${this.listpath}`);
 	}
 
 	getTripInformation(tripId: number): Observable<TripDetailsResponse> {
-		return this._http.get<TripDetailsResponse>(`${this.path}/${tripId}/additional-info`);
+		return this._http.get<TripDetailsResponse>(`${this.listpath}/${tripId}/info`);
 	}
 
 	addNewTrip(formValues: any) {
@@ -37,6 +39,6 @@ export class TripService {
 		if (value['requestedSeats']) {
 			map.set('requestedSeats', value['requestedSeats']);
 		}
-		return this._http.get<TripResponse[]>(`${this.path}/filter${this._helper.mapToQueryString(map)}`);
+		return this._http.get<TripResponse[]>(`${this.listpath}/filter${this._helper.mapToQueryString(map)}`);
 	}
 }

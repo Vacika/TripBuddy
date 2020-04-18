@@ -9,7 +9,7 @@ import com.project.najdiprevoz.web.response.TripResponse
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/trips")
+@RequestMapping("/api/trips-list")
 class TripViewController(private val service: TripService) {
 
     @GetMapping
@@ -24,7 +24,7 @@ class TripViewController(private val service: TripService) {
     fun getTrip(@PathVariable("tripId") tripId: Long) =
             service.findById(tripId)
 
-    @GetMapping("/{tripId}/additional-info")
+    @GetMapping("/{tripId}/info")
     fun getTripAdditionalInfo(@PathVariable("tripId") tripId: Long): TripDetailsResponse = service.getTripAdditionalInfo(tripId)
 
     @GetMapping("/{cityFrom}/{cityTo}")

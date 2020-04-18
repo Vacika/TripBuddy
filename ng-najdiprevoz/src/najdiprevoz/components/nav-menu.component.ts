@@ -30,8 +30,7 @@ export class NavMenuComponent implements OnInit {
 		this.languageSelect.toggle();
 	}
 
-	private get authenticated(): boolean {
-		console.log( !!this.loginService.getLoggedUser());
+	get authenticated(): boolean {
 		return !!this.loginService.getLoggedUser()
 	}
 

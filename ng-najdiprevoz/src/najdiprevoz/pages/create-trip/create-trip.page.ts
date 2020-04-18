@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { City } from '../../interfaces/city.interface';
 import { CityService } from '../../services/city.service';
 import { Observable } from 'rxjs';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
 	templateUrl: './create-trip.page.html',
@@ -21,6 +22,7 @@ export class CreateTripPage implements OnInit {
 	dateNow: Date;
 
 	constructor(private _service: TripService,
+							private _loginService: AuthService,
 							private _cityService: CityService,
 							private _route: ActivatedRoute,
 							private formBuilder: FormBuilder) {
@@ -66,7 +68,7 @@ export class CreateTripPage implements OnInit {
 			departureTime: this.getDepartureTime.value,
 			maxTwoBackseats: this.getMaxTwoBackseat.value,
 			additionalDescription: this.additionalDescription.value,
-			driverId: 1 //TODO: CHANGE THIS !!!!!! FETCH FROM LOGGED USER ID
+			driverId: this._loginService.getLoggedUser()
 		};
 		this._service.addNewTrip(formValues).subscribe();
 	}
