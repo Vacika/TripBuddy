@@ -43,7 +43,8 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: 'control-panel',
-		component: ControlPanelPage
+		component: ControlPanelPage,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: '',
