@@ -30,10 +30,14 @@ import {NotificationListPage} from "../najdiprevoz/pages/notifications/notificat
 import {NotificationService} from "../najdiprevoz/services/notification.service";
 import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
 import {ErrorInterceptor} from "../najdiprevoz/http.interceptor";
+import {ControlPanelPage} from "../najdiprevoz/pages/control-panel/control-panel.page";
+import {ProfileSettingsView} from "../najdiprevoz/views/profile-settings/profile-settings.view";
 
 const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
-const PAGES = [NotificationListPage, TripListPage,
+const PAGES = [
+	NotificationListPage,
+	TripListPage,
 	TripDetailsPage,
 	NavMenuComponent,
 	LoginPage,
@@ -41,7 +45,9 @@ const PAGES = [NotificationListPage, TripListPage,
 	CreateTripPage,
 	TripListView,
 	SearchTripsPage,
-	RegisterPage];
+	RegisterPage,
+	ControlPanelPage,
+	ProfileSettingsView];
 
 @NgModule({
 	declarations: [

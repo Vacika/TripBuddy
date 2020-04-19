@@ -1,0 +1,59 @@
+<mat-card class="example-card">
+	<mat-card-header>
+		<div mat-card-avatar>
+			<img src="../../../assets/images/default-profile-pic.svg" class="profile-pic">
+		</div>
+		<mat-card-title class="flex space-between">
+			<span>{{user?.firstName + ' ' + user?.lastName}}</span>
+			<span class="flex">
+						<mat-star-rating [rating]="user?.averageRating!= 'NaN'? user?.averageRating : 0"
+														 [starCount]="5"></mat-star-rating>
+				<button mat-icon-button (click)="toggleEdit()">
+				<mat-icon style="line-height:6px; color:#feae14!important;">edit</mat-icon>
+			</button>
+			</span>
+		</mat-card-title>
+
+	</mat-card-header>
+	<!--			<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+	<mat-card-content>
+		<form [formGroup]="form" class="flex-column">
+			<!-- PASSWORD-->
+			<mat-form-field>
+				<mat-label>{{"PASSWORD"|translate}}:</mat-label>
+				<input matInput type="password" formControlName="password" required>
+			</mat-form-field>
+
+			<!-- PHONE NUMBER -->
+			<mat-form-field>
+				<mat-label>{{"PHONE_NUMBER"|translate}}</mat-label>
+				<input type="text" matInput formControlName="phoneNumber" required>
+			</mat-form-field>
+
+			<!-- GENDER -->
+			<mat-form-field>
+				<mat-label>{{"GENDER"|translate}}</mat-label>
+				<mat-select formControlName="gender" required>
+					<mat-option value="M">{{"MALE"|translate}}</mat-option>
+					<mat-option value="F">{{"FEMALE"|translate}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<!-- BIRTHDATE -->
+			<mat-form-field class="form-field width-20 mt-5" appearance="outline">
+				<mat-label>{{"BIRTH_DATE"|translate}}:</mat-label>
+				<input matInput class='border-top-0' formControlName='birthDate' required
+							 [owlDateTime]="birthDate"
+							 [owlDateTimeTrigger]="birthDate">
+				<owl-date-time [pickerType]='"calendar"'
+											 #birthDate></owl-date-time>
+				<mat-error
+					*ngIf='form.controls.birthDate.touched && form.controls.birthDate.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
+			</mat-form-field>
+		</form>
+	</mat-card-content>
+	<mat-card-actions *ngIf="form.enabled">
+		<button mat-button>{{'SAVE'|translate}}</button>
+		<button mat-button (click)="onCancelEdit()">{{'CANCEL'|translate}}</button>
+	</mat-card-actions>
+</mat-card>

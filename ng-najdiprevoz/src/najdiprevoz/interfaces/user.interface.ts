@@ -6,6 +6,7 @@ export interface User{
   profilePhoto?: string
   phoneNumber?: string
   gender: string
-  averageRating: number
-
+  averageRating: number,
+	birthDate: string
+	password?: string
 }

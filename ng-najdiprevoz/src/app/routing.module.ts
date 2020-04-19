@@ -7,6 +7,7 @@ import {SearchTripsPage} from '../najdiprevoz/pages/find-trips/search-trips.page
 import {NotificationListPage} from "../najdiprevoz/pages/notifications/notifications.page";
 import {AuthGuard} from "../najdiprevoz/auth.guard";
 import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
+import {ControlPanelPage} from "../najdiprevoz/pages/control-panel/control-panel.page";
 
 export const appRoutes: Routes = [
 	{
@@ -39,6 +40,10 @@ export const appRoutes: Routes = [
 	{
 		path: 'register',
 		component: RegisterPage
+	},
+	{
+		path: 'control-panel',
+		component: ControlPanelPage
 	},
 	{
 		path: '',

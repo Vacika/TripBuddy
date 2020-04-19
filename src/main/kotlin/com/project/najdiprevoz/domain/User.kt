@@ -101,7 +101,8 @@ data class User(
                 gender = gender.name,
                 averageRating = getAverageRating(),
                 ratings = ratings,
-                id = id)
+                id = id,
+                birthDate = birthDate)
     }
 
     override fun equals(other: Any?): Boolean {
