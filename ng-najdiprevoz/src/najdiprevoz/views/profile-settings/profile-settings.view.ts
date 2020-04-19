@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {User} from "../../interfaces/user.interface";
-import {AbstractControl, FormBuilder, FormControl, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 
@@ -9,7 +9,7 @@ import {AuthService} from "../../services/auth.service";
 	templateUrl: './profile-settings.view.html',
 	styleUrls: ['./profile-settings.view.scss']
 })
-export class ProfileSettingsView implements OnInit {
+export class ProfileSettingsView {
 	form = this.formDefinition;
 	imgUrl: any;
 	user: User;
@@ -41,9 +41,6 @@ export class ProfileSettingsView implements OnInit {
 		}
 	}
 
-	ngOnInit() {
-	}
-
 	submit() {
 		if (this.password.value == 'empty-password') {
 			this.password.reset();
@@ -57,7 +54,8 @@ export class ProfileSettingsView implements OnInit {
 			phoneNumber: new FormControl(null, Validators.required),
 			password: new FormControl('empty-password', Validators.required),
 			gender: new FormControl(null, Validators.required),
-			profilePhoto: new FormControl(null)
+			profilePhoto: new FormControl(null),
+			defaultLanguage: new FormControl(null, Validators.required)
 		})
 	}
 
@@ -68,6 +66,11 @@ export class ProfileSettingsView implements OnInit {
 		this.gender.patchValue(user.gender);
 		this.phoneNumber.setValue(user.phoneNumber);
 		this.profilePhoto.setValue(user.profilePhoto);
+		this.defaultLanguage.setValue(user.defaultLanguage)
+	}
+
+	private get defaultLanguage(): AbstractControl {
+		return this.form.controls['defaultLanguage'];
 	}
 
 	private get profilePhoto(): AbstractControl {

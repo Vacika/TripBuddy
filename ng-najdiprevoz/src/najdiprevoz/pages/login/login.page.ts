@@ -3,6 +3,9 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/form
 import {emailRegex} from "../../contants";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
+import {User} from "../../interfaces/user.interface";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
 	templateUrl: './login.page.html',
@@ -14,7 +17,8 @@ export class LoginPage implements OnInit {
 
 	constructor(private formBuilder: FormBuilder,
 							private router: Router,
-							private loginService: AuthService) {
+							private loginService: AuthService,
+							private translate: TranslateService) {
 	}
 
 	ngOnInit() {
@@ -26,12 +30,12 @@ export class LoginPage implements OnInit {
 
 	submit() {
 		if (this.loginForm.valid) {
-			this.loginService.login(this.username.value, this.password.value).subscribe(response => {
-				if (response == true) {
-					this.router.navigate(['/trips'])
-					// this.notificationService.success("SUCCESS_LOGIN")
-				}
-			},
+			this.loginService.login(this.username.value, this.password.value).subscribe((user: User) => {
+					if (isNotNullOrUndefined(user)) {
+						this.router.navigate(['/trips']);
+						this.translate.use(user.defaultLanguage.toLowerCase());
+					}
+				},
 				() => {
 					this.password.reset();
 					// this.notificationService.error("INVALID_LOGIN_INFO")

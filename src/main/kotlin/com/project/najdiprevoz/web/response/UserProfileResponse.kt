@@ -12,4 +12,5 @@ class UserProfileResponse(val id: Long,
                           val gender: String,
                           val birthDate: Date,
                           val ratings: List<Rating>?,
-                          val averageRating: Double)
+                          val averageRating: Double,
+                          val defaultLanguage: String)

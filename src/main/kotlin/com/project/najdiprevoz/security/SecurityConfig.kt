@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.project.najdiprevoz.services.passwordEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -24,14 +25,14 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
 //        auth.authenticationProvider(authenticationProvider())
-        auth.userDetailsService(service).passwordEncoder(bCryptPasswordEncoder())
+        auth.userDetailsService(service).passwordEncoder(passwordEncoder())
     }
 
     @Bean
     fun authenticationProvider(): DaoAuthenticationProvider {
         val authProvider = DaoAuthenticationProvider()
         authProvider.setUserDetailsService(service)
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder())
+        authProvider.setPasswordEncoder(passwordEncoder())
         return authProvider
     }
 
@@ -73,10 +74,5 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
     private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
         response.status = HttpStatus.OK.value()
         objectMapper.writeValue(response.writer, "Pa-pa!!");
-    }
-
-    @Bean
-    fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
-        return BCryptPasswordEncoder()
     }
 }

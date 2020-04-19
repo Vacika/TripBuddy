@@ -2,12 +2,12 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.Gender
+import com.project.najdiprevoz.enums.Language
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
 import com.project.najdiprevoz.repositories.UserRepository
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
-import com.project.najdiprevoz.web.request.edit.ChangeProfilePhotoRequest
 import com.project.najdiprevoz.web.response.UserProfileResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -47,18 +47,22 @@ class UserService(private val repository: UserRepository,
             repository.findById(userId)
                     .orElseThrow { InvalidUserIdException(userId) }
 
-    fun editProfilePhoto(req: ChangeProfilePhotoRequest) = with(req) {
-        val member = findUserById(userId)
-        member.copy(profilePhoto = profilePhoto)
-        mapToUserResponse(repository.save(member)) //TODO: Doesn't work, fix
+    fun editUserProfile(req: EditUserProfileRequest, username: String): User = with(req) {
+        val user = findUserByUsername(username)
+        user.gender = gender
+        user.phoneNumber = phoneNumber
+        user.birthDate = birthDate
+        user.defaultLanguage = defaultLanguage
+        if (!password.isNullOrEmpty()) {
+            user.password = password
+        }
+        if (!profilePhoto.isNullOrEmpty()) {
+            user.profilePhoto = profilePhoto
+        }
+        return repository.save(user)
     }
 
     private fun mapToUserResponse(user: User): UserProfileResponse = user.mapToUserProfileResponse()
-
-    fun changePassword(newPassword: String, username: String) {
-        repository.save(findUserByUsername(username)
-                .setPassword(passwordEncoder().encode(newPassword)))
-    }
 
 
     //        @PostConstruct
@@ -72,17 +76,6 @@ class UserService(private val repository: UserRepository,
                 gender = Gender.M,
                 phoneNumber = "071711033",
                 birthDate = Date.from(ZonedDateTime.now().toInstant())))
-    }
-
-    fun editUserProfile(req: EditUserProfileRequest, username: String): Any = with(req){
-        val user = findUserByUsername(username)
-        user.gender=gender
-        user.phoneNumber=phoneNumber
-        user.birthDate=birthDate
-        if(password!=null) user.setPassword( passwordEncoder().encode(password))
-        if(!profilePhoto.isNullOrEmpty()) { user.profilePhoto = profilePhoto }
-        return repository.save(user)
-
     }
 }
 

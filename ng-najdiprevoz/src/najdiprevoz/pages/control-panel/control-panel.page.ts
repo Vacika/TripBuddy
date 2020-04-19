@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 import {AuthService} from "../../services/auth.service";
 
 @Component({
@@ -7,8 +7,13 @@ import {AuthService} from "../../services/auth.service";
 })
 export class ControlPanelPage {
 
-	constructor(private authService: AuthService){}
+	constructor(private authService: AuthService) {
+	}
+
 	submit(formValues: any) {
-		this.authService.editProfile(formValues).subscribe(it=>console.log(it))
+		this.authService.editProfile(formValues).subscribe(user => {
+			this.authService.resetUserObservable();
+			this.authService.setLoggedUser(user)
+		})
 	}
 }

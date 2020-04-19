@@ -27,7 +27,8 @@ CREATE TABLE public.users
     password      character varying(255)                           NOT NULL,
     phone_number  character varying(255)                           NOT NULL,
     authority_id  bigint                                           NOT NULL REFERENCES public.authorities (id),
-    profile_photo TEXT
+    profile_photo TEXT,
+    default_lang  TEXT
 );
 
 
@@ -123,3 +124,45 @@ create table notification_actions
 
 alter table notification_actions
     owner to najdiprevoz;
+
+INSERT INTO public.cities(name)
+VALUES ('Skopje'),
+       ('Struga'),
+       ('Strumica'),
+       ('Ohrid'),
+       ('Debar'),
+       ('Gostivar'),
+       ('Resen'),
+       ('Prilep'),
+       ('Bitola'),
+       ('Tetovo'),
+       ('Pehcevo'),
+       ('Kicevo'),
+       ('Mavrovo'),
+       ('Kumanovo'),
+       ('Veles'),
+       ('Gevgelija'),
+       ('Negotino'),
+       ('Kavadarci'),
+       ('Stip'),
+       ('Probistip'),
+       ('Kocani'),
+       ('Sveti Nikole'),
+       ('Delcevo'),
+       ('Makedonski brod'),
+       ('Makedonska Kamenica'),
+       ('Vinica'),
+       ('Valandovo'),
+       ('Krusevo'),
+       ('Radovish'),
+       ('Kriva Palanka'),
+       ('Berovo'),
+       ('Demir kapija'),
+       ('Kratovo'),
+       ('Demir hisar'),
+       ('Dojran');
+
+insert into public.authorities(authority)
+VALUES ('ROLE_USER');
+insert into public.authorities(authority)
+VALUES ('ROLE_ADMIN');

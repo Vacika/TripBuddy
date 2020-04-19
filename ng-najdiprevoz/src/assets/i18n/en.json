@@ -81,6 +81,9 @@
 	"FEMALE": "FEMALE",
 	"NO_RATINGS": "No ratings yet..",
 	"CLOSE": "Close",
-	"EDIT_PROFILE_PHOTO": "Edit profile picture"
-
+	"EDIT_PROFILE_PHOTO": "Edit profile picture",
+	"CONTROL_PANEL": "Control panel",
+	"MACEDONIAN": "Macedonian",
+	"ENGLISH": "English",
+	"ALBANIAN": "Albanian"
 }

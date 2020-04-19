@@ -9,4 +9,5 @@ export interface User{
   averageRating: number,
 	birthDate: string
 	password?: string
+	defaultLanguage: string;
 }

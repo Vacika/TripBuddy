@@ -21,7 +21,7 @@ export class AuthService {
 		return this.currentUser.value;
 	}
 
-	login(username: string, password: string): Observable<boolean> {
+	login(username: string, password: string): Observable<User | null> {
 		let params: URLSearchParams = new URLSearchParams();
 		let headers = new HttpHeaders()
 			.set('Content-Type', 'application/x-www-form-urlencoded');
@@ -32,8 +32,8 @@ export class AuthService {
 				if (isNotNullOrUndefined(user)) {
 					this.currentUser.next(user);
 					localStorage.setItem('currentUser', JSON.stringify(user));
-					return true;
 				}
+				return user
 			}));
 	}
 
@@ -51,8 +51,12 @@ export class AuthService {
 		localStorage.removeItem('currentUser');
 	}
 
-	editProfile(formValues: any) {
-		console.log("FORM VALUES:",formValues);
-		return this.httpClient.put<void>(`api/users/edit`, formValues)
+	editProfile(formValues: any): Observable<User> {
+		return this.httpClient.put<User>(`api/users/edit`, formValues)
+	}
+
+	setLoggedUser(user: User) {
+		this.currentUser.next(user);
+		localStorage.setItem('currentUser', JSON.stringify(user));
 	}
 }

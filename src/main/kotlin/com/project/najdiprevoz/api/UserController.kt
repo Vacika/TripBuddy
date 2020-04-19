@@ -23,14 +23,6 @@ class UserController(private val userService: UserService) {
     fun createUser(@RequestBody request: CreateUserRequest) =
             userService.createNewUser(request)
 
-    @PostMapping("/edit/profile-photo")
-    fun editProfilePhoto(@RequestBody request: ChangeProfilePhotoRequest) =
-            userService.editProfilePhoto(request)
-
-    @PutMapping("/edit/password")
-    fun changePassword(password: String, principal: Principal) =
-            userService.changePassword(password, principal.name)
-
     @PutMapping("/edit")
     fun editProfile(@RequestBody req: EditUserProfileRequest, principal: Principal) =
             userService.editUserProfile(req, principal.name)

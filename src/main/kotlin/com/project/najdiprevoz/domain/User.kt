@@ -2,6 +2,8 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.project.najdiprevoz.enums.Gender
+import com.project.najdiprevoz.enums.Language
+import com.project.najdiprevoz.services.passwordEncoder
 import com.project.najdiprevoz.web.response.UserProfileResponse
 import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.security.core.GrantedAuthority
@@ -51,6 +53,11 @@ data class User(
         @Column(name = "phone_number", nullable = true)
         var phoneNumber: String? = null,
 
+
+        @Column(name = "default_lang", nullable = true)
+        @Enumerated(EnumType.STRING)
+        var defaultLanguage: Language = Language.MK,
+
         @JsonIgnore
         @OneToMany(mappedBy = "ratedUser")
         var ratings: List<Rating> = listOf() //todo:remove this!!!
@@ -76,7 +83,10 @@ data class User(
 
     override fun getPassword(): String = password
 
-    fun setPassword(password: String) = this.copy(password = password) // TODO: check if this works
+    fun setPassword(password: String): User {
+        this.password = passwordEncoder().encode(password)
+        return this
+    } // TODO: check if this works
 
     override fun isAccountNonExpired(): Boolean = true
 
@@ -102,7 +112,8 @@ data class User(
                 averageRating = getAverageRating(),
                 ratings = ratings,
                 id = id,
-                birthDate = birthDate)
+                birthDate = birthDate,
+                defaultLanguage= defaultLanguage.toString())
     }
 
     override fun equals(other: Any?): Boolean {

@@ -12,10 +12,11 @@ export class AppComponent {
 							private titleService: Title) {
 		translate.addLangs(['mk', 'al', 'en']);
 		translate.setDefaultLang('mk');
+		translate.use('mk');
 	}
 
 	changeLang(lang: string) {
 		this.translate.use(lang);
-		this.translate.get('SITE_TITLE').subscribe(title=>this.titleService.setTitle(title));
+		this.translate.get('SITE_TITLE').subscribe(title => this.titleService.setTitle(title));
 	}
 }

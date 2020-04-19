@@ -32,6 +32,7 @@ import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
 import {ErrorInterceptor} from "../najdiprevoz/http.interceptor";
 import {ControlPanelPage} from "../najdiprevoz/pages/control-panel/control-panel.page";
 import {ProfileSettingsView} from "../najdiprevoz/views/profile-settings/profile-settings.view";
+import {MatMenuModule} from "@angular/material/menu";
 
 const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
@@ -55,25 +56,26 @@ const PAGES = [
 		PAGES,
 		DIALOGS
 	],
-	imports: [
-		RouterModule.forRoot(appRoutes),
-		BrowserModule,
-		OwlDateTimeModule,
-		OwlNativeDateTimeModule,
-		HttpClientModule,
-		MaterialModules,
-		MatDialogModule,
-		TranslateModule.forRoot({
-			loader: {
-				provide: TranslateLoader,
-				useFactory: (httpTranslateLoader),
-				deps: [HttpClient]
-			}
-		}),
-		MatTooltipModule,
-		MatCheckboxModule,
-		MatRadioModule
-	],
+    imports: [
+        RouterModule.forRoot(appRoutes),
+        BrowserModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        HttpClientModule,
+        MaterialModules,
+        MatDialogModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (httpTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        MatTooltipModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatMenuModule
+    ],
 	providers: [...SERVICES, {
 		provide: HTTP_INTERCEPTORS,
 		useClass: ErrorInterceptor,

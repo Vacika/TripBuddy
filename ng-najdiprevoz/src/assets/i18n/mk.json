@@ -84,5 +84,9 @@
 	"CLOSE": "Затвори",
 	"MALE": "Машко",
 	"FEMALE": "Женско",
-	"EDIT_PROFILE_PHOTO": "Промени профилна слика"
+	"EDIT_PROFILE_PHOTO": "Промени профилна слика",
+	"CONTROL_PANEL": "Контролна табла",
+	"MACEDONIAN": "Македонски",
+	"ENGLISH": "Англиски",
+	"ALBANIAN": "Албански"
 }

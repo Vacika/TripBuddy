@@ -32,14 +32,27 @@
         </mat-select>
       </span>
 
-			<a *ngIf="authenticated" mat-icon-button
-				 [matTooltip]="'LOGOUT'|translate"
-				 (click)="logout()">
-				<mat-icon class='color-white ignore-default-color'>logout</mat-icon>
-			</a>
-			<!--			<button mat-icon-button>-->
-			<!--				<mat-icon>menu</mat-icon>-->
-			<!--			</button>-->
+			<button mat-icon-button
+							class="link "
+							[matMenuTriggerFor]="menu"
+							*ngIf="authenticated">
+				<mat-icon class="color-white ignore-default-color">menu</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item
+								class="link"
+								[routerLink]="'/control-panel'">
+					<mat-icon>settings</mat-icon>
+					<span>{{"CONTROL_PANEL"| translate}}</span>
+				</button>
+
+				<button mat-menu-item
+								[matTooltip]="'LOGOUT'|translate"
+								(click)="logout()">
+					<mat-icon>logout</mat-icon>
+					<span>{{"LOGOUT"| translate}}</span>
+				</button>
+			</mat-menu>
 		</div>
 	</mat-toolbar-row>
 </mat-toolbar>

@@ -2,7 +2,8 @@
 	<mat-card-header>
 		<div mat-card-avatar>
 			<img [src]="imgUrl? imgUrl : '../../../assets/images/default-profile-pic.svg'" class="profile-pic">
-			<input id="profilePhoto" #profilePhoto type="file" accept="image/*" name="profilePhoto" class="hidden" (change)="onFileChange(profilePhoto.files)">
+			<input id="profilePhoto" #profilePhoto type="file" accept="image/*" name="profilePhoto" class="hidden"
+						 (change)="onFileChange(profilePhoto.files)">
 		</div>
 		<mat-card-title class="flex space-between">
 			<span>{{user?.firstName + ' ' + user?.lastName}}</span>
@@ -40,6 +41,16 @@
 				<mat-select formControlName="gender" required>
 					<mat-option value="M">{{"MALE"|translate}}</mat-option>
 					<mat-option value="F">{{"FEMALE"|translate}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<!-- DEFAULT LANGUAGE -->
+			<mat-form-field>
+				<mat-label>{{"LANGUAGE"|translate}}</mat-label>
+				<mat-select formControlName="defaultLanguage" required>
+					<mat-option value="MK">{{"MACEDONIAN"|translate}}</mat-option>
+					<mat-option value="EN">{{"ENGLISH"|translate}}</mat-option>
+					<mat-option value="AL">{{"ALBANIAN"|translate}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 
