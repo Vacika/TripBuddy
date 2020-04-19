@@ -76,6 +76,11 @@
 	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
 	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
 	"RIDE_CANCELLED_MESSAGE": "has cancelled the ride, your request is not valid anymore.",
-	"REQUEST_DENIED_MESSAGE": "has denied your reservation request."
+	"REQUEST_DENIED_MESSAGE": "has denied your reservation request.",
+	"MALE": "MALE",
+	"FEMALE": "FEMALE",
+	"NO_RATINGS": "No ratings yet..",
+	"CLOSE": "Close",
+	"EDIT_PROFILE_PHOTO": "Edit profile picture"
 
 }

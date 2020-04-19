@@ -6,7 +6,7 @@ import java.util.*
 class UserProfileResponse(val id: Long,
                           val firstName: String,
                           val lastName: String,
-                          val profilePhoto: ByteArray?,
+                          val profilePhoto: String?,
                           val username: String,
                           val phoneNumber: String?,
                           val gender: String,

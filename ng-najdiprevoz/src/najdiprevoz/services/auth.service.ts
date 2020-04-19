@@ -50,4 +50,9 @@ export class AuthService {
 		this.currentUser.next(null);
 		localStorage.removeItem('currentUser');
 	}
+
+	editProfile(formValues: any) {
+		console.log("FORM VALUES:",formValues);
+		return this.httpClient.put<void>(`api/users/edit`, formValues)
+	}
 }

@@ -12,6 +12,8 @@
 
 .profile-pic {
 	border-radius: 60%;
+	width: 48px;
+	height: 48px;
 }
 
 .ml-5 {
@@ -36,4 +38,21 @@
 .flex-column {
 	display: flex;
 	flex-direction: column;
+}
+
+.hidden {
+	display: none;
+}
+
+.mt-minus-27 {
+	margin-top: -27px !important;
+}
+
+a {
+	color: #00AFF5 !important;
+	cursor: pointer;
+}
+
+.text-end {
+	text-align: end;
 }

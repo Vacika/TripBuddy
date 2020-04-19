@@ -36,7 +36,7 @@ data class User(
 
 //        @Lob
         @Column(name = "profile_photo", nullable = true)
-        var profilePhoto: ByteArray? = null,
+        var profilePhoto: String? = null,
 
         // Owning
         @ManyToOne
@@ -46,7 +46,7 @@ data class User(
 
         @Column(name = "gender", nullable = false)
         @Enumerated(EnumType.STRING)
-        val gender: Gender,
+        var gender: Gender,
 
         @Column(name = "phone_number", nullable = true)
         var phoneNumber: String? = null,

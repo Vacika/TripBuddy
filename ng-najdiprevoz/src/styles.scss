@@ -50,7 +50,18 @@ mat-icon:not(.ignore-default-color) {
 }
 
 .button-primary {
-	background-color: #00AFF5
+	background-color: #00AFF5;
+	color: white;
+}
+
+.button-success {
+	background-color: forestgreen;
+	color: white;
+}
+
+.button-danger {
+	background-color: red;
+	color: white;
 }
 
 .color-white {

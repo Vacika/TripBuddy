@@ -1,7 +1,8 @@
 <mat-card class="example-card">
 	<mat-card-header>
 		<div mat-card-avatar>
-			<img src="../../../assets/images/default-profile-pic.svg" class="profile-pic">
+			<img [src]="imgUrl? imgUrl : '../../../assets/images/default-profile-pic.svg'" class="profile-pic">
+			<input id="profilePhoto" #profilePhoto type="file" accept="image/*" name="profilePhoto" class="hidden" (change)="onFileChange(profilePhoto.files)">
 		</div>
 		<mat-card-title class="flex space-between">
 			<span>{{user?.firstName + ' ' + user?.lastName}}</span>
@@ -13,6 +14,9 @@
 			</button>
 			</span>
 		</mat-card-title>
+		<mat-card-subtitle class="mt-minus-27" *ngIf="form.enabled">
+			<a (click)="openFileBrowser($event)">{{'EDIT_PROFILE_PHOTO'|translate}}</a>
+		</mat-card-subtitle>
 
 	</mat-card-header>
 	<!--			<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
@@ -52,8 +56,8 @@
 			</mat-form-field>
 		</form>
 	</mat-card-content>
-	<mat-card-actions *ngIf="form.enabled">
-		<button mat-button>{{'SAVE'|translate}}</button>
-		<button mat-button (click)="onCancelEdit()">{{'CANCEL'|translate}}</button>
+	<mat-card-actions *ngIf="form.enabled" class="text-end">
+		<button mat-button class="button-primary" (click)="submit()">{{'SAVE'|translate}}</button>
+		<button mat-stroked-button (click)="onCancelEdit()">{{'CANCEL'|translate}}</button>
 	</mat-card-actions>
 </mat-card>

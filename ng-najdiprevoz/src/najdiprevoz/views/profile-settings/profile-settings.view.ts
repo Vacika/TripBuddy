@@ -11,21 +11,43 @@ import {AuthService} from "../../services/auth.service";
 })
 export class ProfileSettingsView implements OnInit {
 	form = this.formDefinition;
+	imgUrl: any;
 	user: User;
 	@Output() submitEvent = new EventEmitter();
 
 	constructor(private formBuilder: FormBuilder,
 							private router: Router,
 							private loginService: AuthService) {
-	}
-
-	ngOnInit() {
 		this.user = this.loginService.getLoggedUser();
+		this.imgUrl = this.user.profilePhoto;
 		this.setProperties(this.user);
 		this.form.disable();
 	}
 
+	onFileChange(files) {
+		if (files.length === 0)
+			return;
+
+		var mimeType = files[0].type;
+		if (mimeType.match(/image\/*/) == null) {
+			alert("ONLY IMAGES ALLOWED!"); //TODO: Switch with notify service
+			return;
+		}
+		var reader = new FileReader();
+		reader.readAsDataURL(files[0]);
+		reader.onload = (_event) => {
+			this.imgUrl = reader.result;
+			this.profilePhoto.setValue(this.imgUrl);
+		}
+	}
+
+	ngOnInit() {
+	}
+
 	submit() {
+		if (this.password.value == 'empty-password') {
+			this.password.reset();
+		}
 		this.submitEvent.emit(this.form.value)
 	}
 
@@ -34,7 +56,8 @@ export class ProfileSettingsView implements OnInit {
 			birthDate: new FormControl(null, Validators.required),
 			phoneNumber: new FormControl(null, Validators.required),
 			password: new FormControl('empty-password', Validators.required),
-			gender: new FormControl(null, Validators.required)
+			gender: new FormControl(null, Validators.required),
+			profilePhoto: new FormControl(null)
 		})
 	}
 
@@ -44,6 +67,11 @@ export class ProfileSettingsView implements OnInit {
 		this.birthDate.setValue(t);
 		this.gender.patchValue(user.gender);
 		this.phoneNumber.setValue(user.phoneNumber);
+		this.profilePhoto.setValue(user.profilePhoto);
+	}
+
+	private get profilePhoto(): AbstractControl {
+		return this.form.controls['profilePhoto'];
 	}
 
 	private get birthDate(): AbstractControl {
@@ -69,5 +97,11 @@ export class ProfileSettingsView implements OnInit {
 	onCancelEdit() {
 		this.setProperties(this.user);
 		this.form.disable();
+	}
+
+	openFileBrowser(event: any) {
+		event.preventDefault();
+		let element: HTMLElement = document.getElementById('profilePhoto') as HTMLElement;
+		element.click();
 	}
 }
