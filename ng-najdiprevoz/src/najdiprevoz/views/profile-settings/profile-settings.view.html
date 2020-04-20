@@ -5,13 +5,13 @@
 			<input id="profilePhoto" #profilePhoto type="file" accept="image/*" name="profilePhoto" class="hidden"
 						 (change)="onFileChange(profilePhoto.files)">
 		</div>
-		<mat-card-title class="flex space-between">
+		<mat-card-title class="flex space-between align-center">
 			<span>{{user?.firstName + ' ' + user?.lastName}}</span>
-			<span class="flex">
+			<span class="flex align-center">
 						<mat-star-rating [rating]="user?.averageRating!= 'NaN'? user?.averageRating : 0"
 														 [starCount]="5"></mat-star-rating>
-				<button mat-icon-button (click)="toggleEdit()">
-				<mat-icon style="line-height:6px; color:#feae14!important;">edit</mat-icon>
+				<button mat-icon-button (click)="toggleEdit()" class="align-center">
+				<mat-icon style="line-height:15px; color:#feae14!important;">edit</mat-icon>
 			</button>
 			</span>
 		</mat-card-title>
@@ -57,11 +57,14 @@
 			<!-- BIRTHDATE -->
 			<mat-form-field class="form-field width-20 mt-5" appearance="outline">
 				<mat-label>{{"BIRTH_DATE"|translate}}:</mat-label>
-				<input matInput class='border-top-0' formControlName='birthDate' required
-							 [owlDateTime]="birthDate"
-							 [owlDateTimeTrigger]="birthDate">
-				<owl-date-time [pickerType]='"calendar"'
-											 #birthDate></owl-date-time>
+					<input matInput [matDatepicker]="birthDate" formControlName="birthDate" required>
+				<mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+				<mat-datepicker #birthDate></mat-datepicker>
+				<!--				<input matInput class='border-top-0' formControlName='birthDate' required-->
+<!--							 [owlDateTime]="birthDate"-->
+<!--							 [owlDateTimeTrigger]="birthDate">-->
+<!--				<owl-date-time [pickerType]='"calendar"'-->
+<!--											 #birthDate></owl-date-time>-->
 				<mat-error
 					*ngIf='form.controls.birthDate.touched && form.controls.birthDate.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
 			</mat-form-field>

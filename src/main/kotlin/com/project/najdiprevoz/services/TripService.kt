@@ -39,9 +39,9 @@ class TripService(private val repository: RideRepository,
             repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
                     .map { it.mapToTripResponse() }
 
-    fun createNewTrip(createTripRequest: CreateTripRequest) {
+    fun createNewTrip(createTripRequest: CreateTripRequest, username: String) {
         logger.info("[RideService - ADD RIDE] Creating new ride!")
-        repository.save(createRideObject(createTripRequest = createTripRequest))
+        repository.save(createRideObject(createTripRequest = createTripRequest, username = username))
     }
 
     fun getPastTripsForUser(userId: Long) =
@@ -120,14 +120,14 @@ class TripService(private val repository: RideRepository,
                 Specification.where(first).and(second)
             }
 
-    private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
+    private fun createRideObject(createTripRequest: CreateTripRequest, username: String) = with(createTripRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
                 fromLocation = cityService.findById(fromLocation),
                 destination = cityService.findById(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
-                driver = userService.findUserById(driverId),
+                driver = userService.findUserByUsername(username),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rideRequests = listOf(),

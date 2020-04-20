@@ -40,6 +40,8 @@ export class LoginPage implements OnInit {
 					if (isNotNullOrUndefined(user)) {
 						this.router.navigate([this.returnUrl]);
 						this.translate.use(user.defaultLanguage.toLowerCase());
+						localStorage.removeItem('lang');
+						localStorage.setItem('lang',user.defaultLanguage.toLowerCase());
 					}
 				},
 				() => {

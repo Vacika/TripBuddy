@@ -7,14 +7,15 @@ import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/trips")
 class TripController(private val service: TripService) {
 
     @PutMapping("/add")
-    fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest) =
-            service.createNewTrip(createTripRequest)
+    fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest, principal: Principal) =
+            service.createNewTrip(createTripRequest, principal.name)
 
     @PostMapping("/edit/{tripId}")
     fun editTrip(@PathVariable("tripId") tripId: Long, @RequestBody req: EditTripRequest) =

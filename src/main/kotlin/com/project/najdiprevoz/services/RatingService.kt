@@ -5,6 +5,7 @@ import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.exceptions.AddRatingFailedException
 import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.web.request.create.CreateRatingRequest
+import com.project.najdiprevoz.web.response.RatingResponse
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
@@ -17,7 +18,7 @@ class RatingService(private val repository: RatingRepository,
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
 
     fun getRatingsForUser(username: String) =
-            repository.findAllByRatedUser_Username(username)
+            repository.findAllByRatedUser_Username(username).map(::mapToRatingResponse)
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {
@@ -40,5 +41,20 @@ class RatingService(private val repository: RatingRepository,
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         val rideRequest = rideRequestService.findById(rideRequestId)
         rideRequest.status == RequestStatus.APPROVED && rideRequest.rating == null
+    }
+
+    private fun mapToRatingResponse(rating: Rating): RatingResponse {
+        return RatingResponse(
+                id = rating.id,
+                rating = rating.rating,
+                note = rating.note,
+                rideId = rating.rideRequest.ride.id,
+                fromFullName = rating.getAuthor().getFullName(),
+                fromId = rating.getAuthor().id,
+                fromProfilePic = rating.getAuthor().profilePhoto,
+                rideDate = rating.rideRequest.ride.departureTime,
+                rideFrom = rating.rideRequest.ride.fromLocation.name,
+                rideTo = rating.rideRequest.ride.destination.name
+        )
     }
 }

@@ -7,7 +7,8 @@
 }
 
 .w-65 {
-	width: 70%;
+	width: 68%;
+	margin-left: 2%;
 }
 
 .profile-pic {
@@ -40,4 +41,13 @@
 
 .h-100-percent {
 	height: 100%;
+}
+
+.w-100-percent {
+	width: 100%
+}
+
+.center {
+	align-items: center;
+	justify-content: center;
 }

@@ -33,8 +33,13 @@ import {ErrorInterceptor} from "../najdiprevoz/http.interceptor";
 import {ControlPanelPage} from "../najdiprevoz/pages/control-panel/control-panel.page";
 import {ProfileSettingsView} from "../najdiprevoz/views/profile-settings/profile-settings.view";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MyRatingsView} from "../najdiprevoz/views/my-ratings/my-ratings.view";
+import {RatingService} from "../najdiprevoz/services/rating.service";
 
-const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService];
+const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
 const PAGES = [
 	NotificationListPage,
@@ -48,7 +53,8 @@ const PAGES = [
 	SearchTripsPage,
 	RegisterPage,
 	ControlPanelPage,
-	ProfileSettingsView];
+	ProfileSettingsView,
+	MyRatingsView];
 
 @NgModule({
 	declarations: [
@@ -56,26 +62,29 @@ const PAGES = [
 		PAGES,
 		DIALOGS
 	],
-    imports: [
-        RouterModule.forRoot(appRoutes),
-        BrowserModule,
-        OwlDateTimeModule,
-        OwlNativeDateTimeModule,
-        HttpClientModule,
-        MaterialModules,
-        MatDialogModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (httpTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
-        MatTooltipModule,
-        MatCheckboxModule,
-        MatRadioModule,
-        MatMenuModule
-    ],
+	imports: [
+		RouterModule.forRoot(appRoutes),
+		BrowserModule,
+		OwlDateTimeModule,
+		OwlNativeDateTimeModule,
+		HttpClientModule,
+		MaterialModules,
+		MatDialogModule,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: (httpTranslateLoader),
+				deps: [HttpClient]
+			}
+		}),
+		MatTooltipModule,
+		MatCheckboxModule,
+		MatRadioModule,
+		MatMenuModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		MatTabsModule
+	],
 	providers: [...SERVICES, {
 		provide: HTTP_INTERCEPTORS,
 		useClass: ErrorInterceptor,
