@@ -51,4 +51,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
     fun updateRideRequestsCron(): Int
 
     fun findByRideIdAndRequester_Username(rideId: Long, username: String): Optional<RideRequest>
+
+
+    fun findAllByRequester_UsernameAndStatus(username: String, status: RequestStatus): List<RideRequest>
 }

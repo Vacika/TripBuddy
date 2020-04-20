@@ -1,5 +1,3 @@
-import {UserShortInfo} from "./user-short-info.interface";
-
 export interface NotificationResponse {
 	id: number;
 	createdOn: string;

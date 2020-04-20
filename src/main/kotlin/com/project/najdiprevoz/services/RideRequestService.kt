@@ -6,6 +6,7 @@ import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
+import com.project.najdiprevoz.web.response.PastTripResponse
 import com.project.najdiprevoz.web.response.RideRequestResponse
 import javassist.NotFoundException
 import org.springframework.data.jpa.repository.Modifying
@@ -70,7 +71,14 @@ class RideRequestService(private val repository: RideRequestRepository,
         if (!checkIfEnoughAvailableSeats(tripId, requestedSeats)) {
             throw RuntimeException("Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
         }
+        if (!isNotTheDriverItself(username, tripId)) {
+            throw RuntimeException("You can't create a ride request for a ride published by you! Username: [$username], TripID: [$tripId]")
+        }
     }
+
+    private fun isNotTheDriverItself(username: String, tripId: Long): Boolean =
+            this.tripService.findById(tripId).driver.username != username
+
 
     private fun checkIfEnoughAvailableSeats(tripId: Long, requestedSeats: Int): Boolean =
             this.tripService.findById(tripId).getAvailableSeats() >= requestedSeats
@@ -78,7 +86,6 @@ class RideRequestService(private val repository: RideRequestRepository,
     private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
         return repository.findByRideIdAndRequester_Username(tripId, username).isPresent
     }
-
 
     private fun changeRequestToApproved(requestId: Long) {
         val rideRequest = findById(requestId)

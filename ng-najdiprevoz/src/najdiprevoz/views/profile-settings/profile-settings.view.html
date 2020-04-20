@@ -10,7 +10,8 @@
 			<span class="flex align-center">
 						<mat-star-rating [rating]="user?.averageRating!= 'NaN'? user?.averageRating : 0"
 														 [starCount]="5"></mat-star-rating>
-				<button mat-icon-button (click)="toggleEdit()" class="align-center">
+				<button mat-icon-button (click)="toggleEdit()" class="align-center"
+				[matTooltip]="'EDIT'|translate">
 				<mat-icon style="line-height:15px; color:#feae14!important;">edit</mat-icon>
 			</button>
 			</span>

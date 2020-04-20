@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {TripDetailsResponse, TripResponse} from '../interfaces/trip-response.interface';
 import {Observable} from 'rxjs';
 import {HelperService} from './helper.service';
+import {PastTripsResponse} from "../interfaces/past-trips-response.interface";
 
 @Injectable({
 	providedIn: 'root'
@@ -40,5 +41,9 @@ export class TripService {
 			map.set('requestedSeats', value['requestedSeats']);
 		}
 		return this._http.get<TripResponse[]>(`${this.listpath}/filter${this._helper.mapToQueryString(map)}`);
+	}
+
+	getMyPastTrips(): Observable<PastTripsResponse[]> {
+		return this._http.get<PastTripsResponse[]>(`${this.path}/history/past-trips`)
 	}
 }

@@ -9,6 +9,7 @@ import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.PastTripResponse
 import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
@@ -44,9 +45,13 @@ class TripService(private val repository: RideRepository,
         repository.save(createRideObject(createTripRequest = createTripRequest, username = username))
     }
 
-    fun getPastTripsForUser(userId: Long) =
+    fun getPastPublishedTripsByUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
                     .map { it.mapToTripResponse() }
+
+    fun getMyPastTrips(username: String): List<PastTripResponse> {
+        return repository.findMyPastTrips(username).map { mapToPastTripResponse(it, username) }
+    }
 
     @Modifying
     @Transactional
@@ -153,6 +158,22 @@ class TripService(private val repository: RideRepository,
                 isSmokingAllowed = isSmokingAllowed,
                 hasAirCondition = hasAirCondition,
                 additionalDescription = trip.additionalDescription)
+    }
+
+    private fun mapToPastTripResponse(ride: Ride, username: String) = with(ride) {
+        PastTripResponse(
+                tripId = id,
+                from = fromLocation.name,
+                to = destination.name,
+                pricePerHead = pricePerHead,
+                driver = driver.mapToUserShortResponse(),
+                canSubmitRating = canSubmitRating(ride, username)
+
+        )
+    }
+
+    private fun canSubmitRating(ride: Ride, username: String): Boolean {
+        return repository.canSubmitRating(username, ride).isEmpty()
     }
 
 //    @PostConstruct

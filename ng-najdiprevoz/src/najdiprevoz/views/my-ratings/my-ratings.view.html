@@ -10,13 +10,15 @@
 									 style="border-radius:50%;width:52px;height:52px;">
 
 							<span class="flex-column ml-3">
-								<span class="text-bold">{{rating.fromFullName}}:</span>
+								<span class="text-bold no-wrap">{{rating.fromFullName}}:</span>
 								<div><mat-star-rating [rating]="rating.rating" [starCount]="5"></mat-star-rating> </div>
 							</span>
 						</span>
 
 						<span class="flex-column">
-							<span>{{rating.rideFrom}} - {{rating.rideTo}}</span>
+							<span>{{rating.rideFrom}}
+								<img src="../../../assets/images/car-moving2.gif" class="car-moving">
+								{{rating.rideTo}}</span>
 							<span>{{rating.rideDate| date:'medium'}}</span>
 						</span>
 
@@ -24,8 +26,13 @@
 					<div>
 						 <p>{{rating.note}}</p>
 					</div>
+					<div>
+						<button mat-stroked-button (click)="rideDetails(rating.rideId)"> See ride</button>
+					</div>
 				</div>
 				<hr>
+
+		<mat-divider></mat-divider>
 			</span>
 	</div>
 </div>

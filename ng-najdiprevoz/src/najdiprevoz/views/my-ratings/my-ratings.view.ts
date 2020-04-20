@@ -17,4 +17,8 @@ export class MyRatingsView implements OnInit {
 	ngOnInit() {
 		this.ratingService.getMyRatings().subscribe(response => this.ratings = response);
 	}
+
+	rideDetails(rideId: number) {
+		//TODO: Navigate to ride after implemented special page
+	}
 }

@@ -1,11 +1,9 @@
 package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.services.TripService
-import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
-import com.project.najdiprevoz.web.response.TripDetailsResponse
-import com.project.najdiprevoz.web.response.TripResponse
+import com.project.najdiprevoz.web.response.PastTripResponse
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
@@ -26,12 +24,17 @@ class TripController(private val service: TripService) {
             service.cancelTrip(tripId)
 
     @GetMapping("/history/{userId}")
-    fun getUserPastTrips(@PathVariable("userId") userId: Long) =
-            service.getPastTripsForUser(userId)
+    fun getUserTripsWhereHeIsDriver(@PathVariable("userId") userId: Long) =
+            service.getPastPublishedTripsByUser(userId)
 
     @GetMapping("/all/{userId}")
     fun getAllUserTrips(@PathVariable("userId") userId: Long) =
             service.getAllTripsForUser(userId)
+
+    @GetMapping("/history/past-trips")
+    fun getPastTrips(principal: Principal): List<PastTripResponse> {
+        return service.getMyPastTrips(username = principal.name)
+    }
 
 //    @GetMapping("/finish/{tripId}")
 //    fun markAsFinished(@PathVariable("tripId") tripId: Long) =
