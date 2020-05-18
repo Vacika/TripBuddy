@@ -16,7 +16,7 @@ import javax.transaction.Transactional
 interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecificationExecutor<RideRequest> {
     fun findAllByRideId(rideId: Long): List<RideRequest>
 
-    fun findAllByRequesterUsername(username: String): List<RideRequest>?
+    fun findAllByRequesterUsername(username: String): List<RideRequest>
 
     @Query("""
         SELECT rd from RideRequest rd 
@@ -25,7 +25,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         WHERE r.id = :rideId
         AND rd.status = 'APPROVED'
     """)
-    fun findApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>?
+    fun findApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>
 
     @Transactional
     @Modifying

@@ -6,7 +6,6 @@ import com.project.najdiprevoz.enums.RequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
-import com.project.najdiprevoz.web.response.PastTripResponse
 import com.project.najdiprevoz.web.response.RideRequestResponse
 import javassist.NotFoundException
 import org.springframework.data.jpa.repository.Modifying
@@ -30,7 +29,7 @@ class RideRequestService(private val repository: RideRequestRepository,
             repository.findAllByRideId(rideId).map { it.mapToRideRequestResponse() }
 
     fun getAllRequestsForUser(username: String) =
-            repository.findAllByRequesterUsername(username = username)
+            repository.findAllByRequesterUsername(username = username).map { it.mapToRideRequestResponse() }
 
     fun getAll(): List<RideRequest> =
             repository.findAll()
@@ -69,10 +68,12 @@ class RideRequestService(private val repository: RideRequestRepository,
             throw RuntimeException("Trip applied for seat is not ACTIVE! Trip ID: [$tripId]")
         }
         if (!checkIfEnoughAvailableSeats(tripId, requestedSeats)) {
-            throw RuntimeException("Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
+            throw RuntimeException(
+                    "Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
         }
         if (!isNotTheDriverItself(username, tripId)) {
-            throw RuntimeException("You can't create a ride request for a ride published by you! Username: [$username], TripID: [$tripId]")
+            throw RuntimeException(
+                    "You can't create a ride request for a ride published by you! Username: [$username], TripID: [$tripId]")
         }
     }
 
@@ -133,11 +134,28 @@ class RideRequestService(private val repository: RideRequestRepository,
                 RequestStatus.RIDE_CANCELLED -> changeRequestToRideCancelled(requestId)
                 RequestStatus.EXPIRED -> changeRequestToExpired(requestId)
             }
-        } else throw RuntimeException("Status change not allowed from $previousStatus to $newStatus for RideRequest ID: [$requestId]")
+        } else throw RuntimeException(
+                "Status change not allowed from $previousStatus to $newStatus for RideRequest ID: [$requestId]")
     }
 
+    private fun getAvailableActions(requestId: Long): List<String> {
+        val currentStatus = findById(requestId).status
+        var availableActions = listOf<String>()
+        if (changeStatusActionAllowed(currentStatus, RequestStatus.APPROVED)) availableActions = availableActions.plus(
+                "APPROVE")
+        if (changeStatusActionAllowed(currentStatus, RequestStatus.DENIED)) availableActions = availableActions.plus(
+                "DENY")
+        if (changeStatusActionAllowed(currentStatus, RequestStatus.PENDING)) availableActions = availableActions.plus(
+                "PENDING")
+        if (changeStatusActionAllowed(currentStatus, RequestStatus.CANCELLED)) availableActions = availableActions.plus(
+                "CANCEL")
+        return availableActions
+    }
+
+
     private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
-        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
+        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest,
+                                                                notificationType = notificationType)
     }
 
     private fun isTripActive(tripId: Long): Boolean {
