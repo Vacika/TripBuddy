@@ -49,6 +49,7 @@ class RideRequestService(private val repository: RideRequestRepository,
                     .map { it.mapToRideRequestResponse(getAvailableActions(it.id, true)) }
 
     @Modifying
+    @Transactional
     fun changeStatusByRideRequestId(id: Long, newStatus: RideRequestStatus) {
         updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
     }
@@ -117,7 +118,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     private fun changeRequestToCancelled(requestId: Long) {
         notificationService.removeAllNotificationsForRideRequest(requestId)
         repository.updateRideRequestStatus(requestId = requestId, status = RideRequestStatus.CANCELLED)
-        notificationService.pushRequestStatusChangeNotification(findById(requestId), NotificationType.RIDE_CANCELLED)
+        notificationService.pushRequestStatusChangeNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
     }
 
     private fun changeRequestToRideCancelled(requestId: Long) {

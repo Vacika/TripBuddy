@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import javax.transaction.Transactional
 
 @Service
 class NotificationService(private val repository: NotificationRepository) {
@@ -113,8 +114,10 @@ class NotificationService(private val repository: NotificationRepository) {
         repository.save(notification)
     }
 
+    @Modifying
     fun removeLastNotificationForRideRequest(requestId: Long) {
-        val notification = repository.findByRideRequestId(requestId).sortedByDescending { it.createdOn }.first()
-        return repository.delete(notification)
+        val notification = repository.findByRideRequestId(requestId).maxBy { it.createdOn }!!
+        repository.delete(notification)
+        repository.flush()
     }
 }
