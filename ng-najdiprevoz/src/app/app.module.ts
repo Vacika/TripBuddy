@@ -38,6 +38,15 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MyRatingsView} from "../najdiprevoz/views/my-ratings/my-ratings.view";
 import {RatingService} from "../najdiprevoz/services/rating.service";
+import {RideRequestsComponent} from "../najdiprevoz/components/ride-requests/ride-requests.component";
+import {RideRequestsTableComponent} from "../najdiprevoz/components/ride-request-table/ride-requests-table.component";
+import {MatTableModule} from "@angular/material/table";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSortModule} from "@angular/material/sort";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatInputModule} from "@angular/material/input";
 
 const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
@@ -54,7 +63,9 @@ const PAGES = [
 	RegisterPage,
 	ControlPanelPage,
 	ProfileSettingsView,
-	MyRatingsView];
+	MyRatingsView,
+	RideRequestsComponent,
+	RideRequestsTableComponent];
 
 @NgModule({
 	declarations: [
@@ -70,6 +81,9 @@ const PAGES = [
 		HttpClientModule,
 		MaterialModules,
 		MatDialogModule,
+		BrowserAnimationsModule,
+		MatPaginatorModule,
+		ReactiveFormsModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
@@ -83,7 +97,12 @@ const PAGES = [
 		MatMenuModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		MatTabsModule
+		MatTabsModule,
+		MatInputModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule,
+		MatProgressSpinnerModule
 	],
 	providers: [...SERVICES, {
 		provide: HTTP_INTERCEPTORS,

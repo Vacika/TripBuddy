@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -27,7 +27,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     private fun updateRideRequestCron() {
         rideRequestService.getAll()
-                .filter { it.status == RequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
+                .filter { it.status == RideRequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
                 .forEach { changeRequestToExpired(it) }
     }
 

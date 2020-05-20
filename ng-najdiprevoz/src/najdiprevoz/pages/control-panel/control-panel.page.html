@@ -7,8 +7,14 @@
 	<div class="w-65 mat-card mt-5">
 		<mat-tab-group mat-stretch-tabs dynamicHeight class="set-width">
 			<mat-tab label="Profile"></mat-tab>
-			<mat-tab label="My Rides">{{'MY_RIDES'|translate}}</mat-tab>
-			<mat-tab label="Ratings"><my-ratings></my-ratings></mat-tab>
+			<mat-tab label="Ride Requests">
+				<ride-requests-component [sentRideRequests]="sentRideRequests$|async"
+																 [receivedRideRequests]="receivedRideRequests$|async"
+																	(onActionTaken)="takeAction($event)"></ride-requests-component>
+			</mat-tab>
+			<mat-tab label="Ratings">
+				<my-ratings></my-ratings>
+			</mat-tab>
 		</mat-tab-group>
 	</div>
 </div>

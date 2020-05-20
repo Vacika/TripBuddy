@@ -2,7 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.enums.NotificationAction
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.web.response.NotificationResponse
 import org.springframework.stereotype.Service
 
@@ -14,10 +14,10 @@ class NotificationManagementService(private val notificationService: Notificatio
         val notification = notificationService.findById(notificationId)
         notificationService.markAsSeen(notificationId)
         when (action) {
-            NotificationAction.APPROVE -> rideRequestService.changeStatusByRideRequestId(notification.rideRequest.id, RequestStatus.APPROVED) //driver approves
-            NotificationAction.CANCEL -> rideRequestService.changeStatusByRideRequestId(notification.rideRequest.id, RequestStatus.CANCELLED)//this is when the requester decides to cancel their request
+            NotificationAction.APPROVE -> rideRequestService.changeStatusByRideRequestId(notification.rideRequest.id, RideRequestStatus.APPROVED) //driver approves
+            NotificationAction.CANCEL -> rideRequestService.changeStatusByRideRequestId(notification.rideRequest.id, RideRequestStatus.CANCELLED)//this is when the requester decides to cancel their request
             NotificationAction.MARK_AS_SEEN -> notificationService.markAsSeen(notificationId) // just mark seen
-            NotificationAction.DENY -> rideRequestService.changeStatusByRideRequestId(notification.rideRequest.id, RequestStatus.DENIED) // driver denies request
+            NotificationAction.DENY -> rideRequestService.changeStatusByRideRequestId(notification.rideRequest.id, RideRequestStatus.DENIED) // driver denies request
         }
         if (action != NotificationAction.MARK_AS_SEEN) {
             notificationService.removeAllActionsForNotification(notificationId)
@@ -32,6 +32,8 @@ class NotificationManagementService(private val notificationService: Notificatio
     fun getUnreadNotifications(name: String): List<NotificationResponse> {
         return notificationService.getUnreadNotifications(name).map { mapToNotificationResponse(it) }
     }
+
+    fun removeLastNotificationForRideRequest(requestId: Long): Any = removeLastNotificationForRideRequest(requestId)
 
     private fun mapToNotificationResponse(notification: Notification) = with(notification) {
         NotificationResponse(id = id,

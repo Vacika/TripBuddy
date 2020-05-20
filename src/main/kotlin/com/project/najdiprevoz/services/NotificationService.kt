@@ -6,7 +6,7 @@ import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.exceptions.NotificationNotFoundException
 import com.project.najdiprevoz.repositories.NotificationRepository
 import org.slf4j.Logger
@@ -22,6 +22,7 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun findById(id: Long) = repository.findById(id).orElseThrow { NotificationNotFoundException(id) }
 
+    //TODO: Remove all previous notifications with same requestId when pushing new notification (if it is not first)
     @Modifying
     fun pushRequestStatusChangeNotification(rideRequest: RideRequest, notificationType: NotificationType) {
         var notificationActionAllowed: List<NotificationAction> = listOf(NotificationAction.MARK_AS_SEEN)
@@ -31,34 +32,34 @@ class NotificationService(private val repository: NotificationRepository) {
         val requester: User = rideRequest.requester
 //        var notificationType: NotificationType
         when (rideRequest.status) {
-            RequestStatus.APPROVED -> {
+            RideRequestStatus.APPROVED -> {
                 notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.CANCEL)
                 from = driver
                 to = requester
 //                notificationType = NotificationType.REQUEST_APPROVED
             }
-            RequestStatus.DENIED -> {
+            RideRequestStatus.DENIED -> {
                 from = driver
                 to = requester
 //                notificationType = NotificationType.REQUEST_DENIED
             }
-            RequestStatus.PENDING -> {
+            RideRequestStatus.PENDING -> {
                 notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.DENY).plus(NotificationAction.APPROVE)
                 from = requester
                 to = driver
 //                notificationType = NotificationType.REQUEST_SENT
             }
-            RequestStatus.CANCELLED -> {
+            RideRequestStatus.CANCELLED -> {
                 from = requester
                 to = driver
 //                notificationType = NotificationType.REQUEST_CANCELLED
             }
-            RequestStatus.RIDE_CANCELLED -> {
+            RideRequestStatus.RIDE_CANCELLED -> {
                 from = driver
                 to = requester
 //                notificationType = NotificationType.RIDE_CANCELLED
             }
-            RequestStatus.EXPIRED -> {
+            RideRequestStatus.EXPIRED -> {
                 from = driver
                 to = requester
 //                notificationType = NotificationType.REQUEST_EXPIRED
@@ -110,5 +111,10 @@ class NotificationService(private val repository: NotificationRepository) {
         val notification = findById(notificationId)
         notification.actions = mutableListOf()
         repository.save(notification)
+    }
+
+    fun removeLastNotificationForRideRequest(requestId: Long) {
+        val notification = repository.findByRideRequestId(requestId).sortedByDescending { it.createdOn }.first()
+        return repository.delete(notification)
     }
 }

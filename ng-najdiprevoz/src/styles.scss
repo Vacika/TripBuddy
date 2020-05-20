@@ -2,6 +2,7 @@
 
 @include mat-core();
 @include angular-material-theme($najdi-prevoz-theme);
+//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
 $primary-color: rgb(112, 140, 145);

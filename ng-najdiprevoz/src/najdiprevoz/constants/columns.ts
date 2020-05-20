@@ -1,0 +1,10 @@
+export const columnPrettyName = new Map();
+columnPrettyName.set("allowedActions", "Actions");
+columnPrettyName.set("requesterName", "Requester");
+columnPrettyName.set("fromLocation", "From");
+columnPrettyName.set("toLocation", "To");
+columnPrettyName.set("departureTime", "Departure");
+columnPrettyName.set("requestStatus", "Request Status");
+columnPrettyName.set("driverName", "Driver");
+columnPrettyName.set("tripId", "Trip ID");
+columnPrettyName.set("rideStatus", "Ride Status");

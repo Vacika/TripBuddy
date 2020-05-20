@@ -2,7 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
@@ -58,7 +58,7 @@ class TripService(private val repository: RideRepository,
     fun cancelTrip(rideId: Long) {
         val ride = findById(rideId)
         ride.status = RideStatus.CANCELLED
-        ride.rideRequests = ride.rideRequests.map { it.copy(status = RequestStatus.RIDE_CANCELLED) }
+        ride.rideRequests = ride.rideRequests.map { it.copy(status = RideRequestStatus.RIDE_CANCELLED) }
         ride.rideRequests.forEach { notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED) }
         repository.save(ride)
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")

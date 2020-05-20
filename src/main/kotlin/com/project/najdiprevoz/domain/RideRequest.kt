@@ -2,7 +2,7 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.web.response.RideRequestResponse
 import java.time.ZonedDateTime
 import javax.persistence.*
@@ -39,16 +39,16 @@ data class RideRequest(
 
         @Enumerated(EnumType.STRING)
         @Column(name = "status", nullable = false)
-        var status: RequestStatus = RequestStatus.PENDING
+        var status: RideRequestStatus = RideRequestStatus.PENDING
 ) {
     fun getRequesterFullName() = requester.getFullName()
 
-    fun mapToRideRequestResponse(): RideRequestResponse {
+    fun mapToRideRequestResponse(allowedActions: List<String>?): RideRequestResponse {
         return RideRequestResponse(
                 id = id,
-                profilePhoto = requester.profilePhoto,
                 requester = requester.mapToUserShortResponse(),
-                tripId = ride.id
+                tripId = ride.id,
+                allowedActions = allowedActions
         )
     }
 }

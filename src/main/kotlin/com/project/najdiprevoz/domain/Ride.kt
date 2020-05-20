@@ -2,7 +2,7 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.web.response.TripResponse
 import java.time.ZonedDateTime
@@ -64,7 +64,7 @@ data class Ride(
         @Column(name = "has_air_condition")
         val hasAirCondition: Boolean = false) {
 
-    fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RequestStatus.APPROVED }.sumBy { it.requestedSeats }
+    fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RideRequestStatus.APPROVED }.sumBy { it.requestedSeats }
 
     fun canApproveRideRequest(): Boolean = this.getAvailableSeats() > 0
 

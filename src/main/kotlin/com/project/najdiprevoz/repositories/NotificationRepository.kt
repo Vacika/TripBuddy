@@ -12,7 +12,6 @@ interface NotificationRepository : JpaRepository<Notification, Long> {
     fun findAllByToUsernameOrderByCreatedOnDesc(username: String): List<Notification>
     fun findAllByToUsernameAndSeenIsFalseOrderByCreatedOnDesc(username: String): List<Notification>
     fun findByRideRequestId(rideRequestId: Long): List<Notification>
-
     @Modifying
     @Query("UPDATE Notification SET seen = true where id = :notificationId")
     fun markAsSeen(@Param("notificationId") notificationId: Long)
