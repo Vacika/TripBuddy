@@ -49,8 +49,9 @@ class TripService(private val repository: RideRepository,
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
                     .map { it.mapToTripResponse() }
 
-    fun getMyPastTrips(username: String): List<PastTripResponse> {
-        return repository.findMyPastTrips(username).map { mapToPastTripResponse(it, username) }
+
+    fun findMyPastTripsAsPassenger(username: String): List<PastTripResponse> {
+        return repository.findMyPastTripsAsPassenger(username).map { mapToPastTripResponse(it, username) }
     }
 
     @Modifying
@@ -107,9 +108,7 @@ class TripService(private val repository: RideRepository,
                                                                 ZoneId.systemDefault()), LocalTime.MIN,
                                             ZoneId.systemDefault())) //TODO: refactor this
 
-        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                                     departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
-                                                                  ZoneId.systemDefault()))
+        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = null)
 
         if (requestedSeats != null) {
             return repository.findAll(specification)
@@ -119,7 +118,7 @@ class TripService(private val repository: RideRepository,
         return repository.findAll(specification).map { it.mapToTripResponse() }
     }
 
-    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime) =
+    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
             listOfNotNull(
                     evaluateSpecification(listOf("fromLocation", "id"), fromAddress.toString(), ::likeSpecification),
                     evaluateSpecification(listOf("destination", "id"), toAddress.toString(), ::likeSpecification),
@@ -178,6 +177,14 @@ class TripService(private val repository: RideRepository,
 
     private fun canSubmitRating(ride: Ride, username: String): Boolean {
         return repository.canSubmitRating(username, ride).isEmpty()
+    }
+
+    fun getMyTripsAsDriver(username: String): List<TripResponse> {
+        return repository.findAllByDriverUsername(username).map { it.mapToTripResponse() }
+    }
+
+    fun getMyTripsAsPassenger(username: String): List<TripResponse> {
+        return repository.findAllMyTripsAsPassenger(username).map { it.mapToTripResponse() }
     }
 }
 

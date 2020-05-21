@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class NotificationManagementService(private val notificationService: NotificationService,
-                                    private val rideRequestService: RideRequestService,
-                                    private val ratingService: RatingService) {
+                                    private val rideRequestService: RideRequestService) {
 
     fun takeAction(notificationId: Long, action: NotificationAction): List<NotificationResponse> {
         val notification = notificationService.findById(notificationId)
@@ -35,7 +34,6 @@ class NotificationManagementService(private val notificationService: Notificatio
         return notificationService.getUnreadNotifications(name).map { mapToNotificationResponse(it) }
     }
 
-    fun removeLastNotificationForRideRequest(requestId: Long): Any = removeLastNotificationForRideRequest(requestId)
 
     private fun mapToNotificationResponse(notification: Notification) = with(notification) {
         NotificationResponse(id = id,

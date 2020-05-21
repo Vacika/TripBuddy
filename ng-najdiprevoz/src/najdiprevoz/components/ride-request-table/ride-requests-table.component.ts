@@ -1,24 +1,24 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {columnPrettyName} from "../../constants/columns";
-import {RideRequestFullResponse} from "../../interfaces/ride-request.interface";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { columnPrettyName } from '../../constants/columns';
+import { RideRequestFullResponse } from '../../interfaces/ride-request.interface';
 
 @Component({
 	selector: 'ride-requests-table',
 	templateUrl: './ride-requests-table.component.html',
-	styleUrls: ['./ride-requests-table.component.scss'],
+	styleUrls: ['./ride-requests-table.component.scss']
 })
 export class RideRequestsTableComponent implements OnInit {
 
 	@Input() displayedColumns = [
-		"allowedActions",
-		"requesterName",
-		"fromLocation",
-		"toLocation",
-		"departureTime",
-		"requestStatus",
-		"driverName",
-		"tripId",
-		"rideStatus"
+		'fromLocation',
+		'toLocation',
+		'departureTime',
+		'requesterName',
+		'requestStatus',
+		'driverName',
+		'tripId',
+		'rideStatus',
+		'allowedActions'
 	];
 	@Input() dataSource: any[] = [];
 
@@ -32,37 +32,55 @@ export class RideRequestsTableComponent implements OnInit {
 	}
 
 	takeAction(actionName: string, requestId: number) {
-		this.onActionTaken.emit({action: actionName, id: requestId});
+		this.onActionTaken.emit({ action: actionName, id: requestId });
 	}
 
 	getSpanClass(column: string, element: RideRequestFullResponse, indicator: boolean) {
 		let classes = [];
-		if (column == "requestStatus") {
+		if (column == 'requestStatus') {
 
 			switch (element.requestStatus) {
 				case 'PENDING':
-					if(!indicator) classes.push('text-light-blue');
-					else classes.push('background-light-blue');
+					if (!indicator) {
+						classes.push('text-light-blue');
+					} else {
+						classes.push('background-light-blue');
+					}
 					break;
 				case 'APPROVED':
-					if(!indicator) classes.push('text-success');
-					else classes.push('background-success');
+					if (!indicator) {
+						classes.push('text-success');
+					} else {
+						classes.push('background-success');
+					}
 					break;
 				case 'DENIED':
-					if(!indicator) classes.push('text-fail');
-					else classes.push('background-fail');
+					if (!indicator) {
+						classes.push('text-fail');
+					} else {
+						classes.push('background-fail');
+					}
 					break;
 				case 'EXPIRED':
-					if(!indicator) classes.push('text-warn');
-					else classes.push('background-warn');
+					if (!indicator) {
+						classes.push('text-warn');
+					} else {
+						classes.push('background-warn');
+					}
 					break;
 				case 'RIDE_CANCELLED':
-					if(!indicator) classes.push('text-fail');
-					else classes.push('background-fail');
+					if (!indicator) {
+						classes.push('text-fail');
+					} else {
+						classes.push('background-fail');
+					}
 					break;
 				case 'CANCELLED':
-					if(!indicator) classes.push('text-fail');
-					else classes.push('background-fail');
+					if (!indicator) {
+						classes.push('text-fail');
+					} else {
+						classes.push('background-fail');
+					}
 					break;
 			}
 		}

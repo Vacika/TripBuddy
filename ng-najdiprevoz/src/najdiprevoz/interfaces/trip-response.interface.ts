@@ -9,7 +9,7 @@ export interface TripResponse {
 	totalSeats: number,
 	pricePerHead: number
 	driver: UserShortInfo;
-	maxTwoBackseat: boolean;
+	maxTwoBackSeat: boolean;
 	status: string;
 }
 

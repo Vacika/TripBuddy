@@ -23,16 +23,24 @@ class TripController(private val service: TripService) {
     fun cancelTrip(@PathVariable("tripId") tripId: Long) =
             service.cancelTrip(tripId)
 
-    @GetMapping("/history/{userId}")
-    fun getUserTripsWhereHeIsDriver(@PathVariable("userId") userId: Long) =
-            service.getPastPublishedTripsByUser(userId)
+    @GetMapping("/driver/my")
+    fun getMyTripsAsDriver(principal: Principal) =
+            service.getMyTripsAsDriver(principal.name)
+
+    @GetMapping("/passenger/my")
+    fun getMyTripsAsPassenger(principal: Principal) =
+            service.getMyTripsAsPassenger(principal.name)
 
     @GetMapping("/all/{userId}")
     fun getAllUserTrips(@PathVariable("userId") userId: Long) =
             service.getAllTripsForUser(userId)
 
-    @GetMapping("/history/past-trips")
-    fun getPastTrips(principal: Principal): List<PastTripResponse> {
-        return service.getMyPastTrips(username = principal.name)
+    @GetMapping("/history/passenger/past-trips")
+    fun findMyPastTripsAsPassenger(principal: Principal): List<PastTripResponse> {
+        return service.findMyPastTripsAsPassenger(username = principal.name)
     }
+
+    @GetMapping("/history/driver/{userId}")
+    fun findMyPastTripsAsDriver(@PathVariable("userId") userId: Long) =
+            service.getPastPublishedTripsByUser(userId)
 }
