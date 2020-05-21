@@ -2,6 +2,7 @@
 
 @include mat-core();
 @include angular-material-theme($najdi-prevoz-theme);
+//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
 $primary-color: rgb(112, 140, 145);
@@ -18,6 +19,10 @@ html, body {
 body {
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
+	//color: white !important;
+	//background: #2193b0;
+	//background: -webkit-gradient(linear, right top, left bottom, from(#054752), to(#2193b0));
+	//background: linear-gradient(to bottom left, #054752, #2193b0);
 }
 
 .inline-block {
@@ -46,7 +51,18 @@ mat-icon:not(.ignore-default-color) {
 }
 
 .button-primary {
-	background-color: #00AFF5
+	background-color: #00AFF5;
+	color: white;
+}
+
+.button-success {
+	background-color: forestgreen;
+	color: white;
+}
+
+.button-danger {
+	background-color: red;
+	color: white;
 }
 
 .color-white {

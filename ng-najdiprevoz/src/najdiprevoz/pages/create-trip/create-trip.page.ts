@@ -1,10 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { TripService } from '../../services/trip.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { City } from '../../interfaces/city.interface';
 import { CityService } from '../../services/city.service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	templateUrl: './create-trip.page.html',
@@ -17,12 +18,14 @@ export class CreateTripPage implements OnInit {
 	preferencesForm: FormGroup;
 	allCities: City[] = [];
 	currentStep = new Observable<number>();
-	additionalDescription = new FormControl('');
+	additionalDescription = new FormControl(null);
 	dateNow: Date;
 
 	constructor(private _service: TripService,
+							private _loginService: AuthService,
 							private _cityService: CityService,
 							private _route: ActivatedRoute,
+							private _router: Router,
 							private formBuilder: FormBuilder) {
 
 	};
@@ -52,9 +55,6 @@ export class CreateTripPage implements OnInit {
 	}
 
 	submitPreferences() {
-		console.log(this.fromToForm.getRawValue());
-		console.log(this.passengerInfoForm.getRawValue());
-		console.log(this.preferencesForm.getRawValue());
 		const formValues = {
 			fromLocation: this.getFromLocation.value,
 			destination: this.getToLocation.value,
@@ -66,9 +66,9 @@ export class CreateTripPage implements OnInit {
 			departureTime: this.getDepartureTime.value,
 			maxTwoBackseats: this.getMaxTwoBackseat.value,
 			additionalDescription: this.additionalDescription.value,
-			driverId: 1 //TODO: CHANGE THIS !!!!!! FETCH FROM LOGGED USER ID
+			driverId: this._loginService.getLoggedUser()
 		};
-		this._service.addNewTrip(formValues).subscribe();
+		this._service.addNewTrip(formValues).subscribe(() => this._router.navigate(['trips']));
 	}
 
 	get getFromLocation() {

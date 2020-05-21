@@ -1,4 +1,4 @@
-<mat-toolbar class="primary-dark-color-background color-white" >
+<mat-toolbar class="primary-dark-color-background color-white">
 	<mat-toolbar-row class='menu'>
 		<div class='link' [routerLink]='"/"'>
 			<h1 class='inline-block'>{{'SITE_TITLE'|translate}}</h1>
@@ -6,16 +6,18 @@
 			<span class="menu-spacer"></span>
 		</div>
 		<div>
-			<a mat-button [routerLink]="'/trips/search'">
+			<a mat-button [routerLink]="'/trips'">
 				<mat-icon>search</mat-icon>
 				{{'FIND_TRIPS'|translate}} </a>
 			<a mat-button [routerLink]="'/trips/new'">
 				<mat-icon>add_circle_outline</mat-icon>
 				{{'PUBLISH_TRIP'|translate}} </a>
 
-			<a mat-button [routerLink]="'/register'"> {{'REGISTER'|translate}} </a>
-			<a mat-button [routerLink]="'/login'"> {{'LOGIN'|translate}} </a>
-
+			<a *ngIf="!authenticated" mat-button [routerLink]="'/register'"> {{'REGISTER'|translate}} </a>
+			<a *ngIf="!authenticated" mat-button [routerLink]="'/login'"> {{'LOGIN'|translate}} </a>
+			<a *ngIf="authenticated" mat-icon-button [routerLink]="'/notifications'">
+				<mat-icon class='color-white ignore-default-color'>notifications</mat-icon>
+			</a>
 			<span mat-button class="mat-button">
        <img src="../../assets/images/{{selectedLangControl.value}}.png"
 						(click)="onFlagClick()"
@@ -29,12 +31,28 @@
           </mat-option>
         </mat-select>
       </span>
-			<a mat-icon-button [routerLink]="'/notifications'">
-				<mat-icon class='color-white ignore-default-color'>notifications</mat-icon>
-			</a>
-<!--			<button mat-icon-button>-->
-<!--				<mat-icon>menu</mat-icon>-->
-<!--			</button>-->
+
+			<button mat-icon-button
+							class="link "
+							[matMenuTriggerFor]="menu"
+							*ngIf="authenticated">
+				<mat-icon class="color-white ignore-default-color">menu</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item
+								class="link"
+								[routerLink]="'/control-panel'">
+					<mat-icon>settings</mat-icon>
+					<span>{{"CONTROL_PANEL"| translate}}</span>
+				</button>
+
+				<button mat-menu-item
+								[matTooltip]="'LOGOUT'|translate"
+								(click)="logout()">
+					<mat-icon>logout</mat-icon>
+					<span>{{"LOGOUT"| translate}}</span>
+				</button>
+			</mat-menu>
 		</div>
 	</mat-toolbar-row>
 </mat-toolbar>

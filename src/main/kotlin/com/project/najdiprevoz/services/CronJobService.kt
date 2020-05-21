@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -12,11 +12,12 @@ import javax.transaction.Transactional
 
 @Service
 class CronJobService(private val rideRequestService: RideRequestService,
-                     private val tripService: TripService) {
+                     private val tripService: TripService,
+                     private val ratingService: RatingService) {
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
-    @Scheduled(cron = "0 0/20 * * * *")
+    @Scheduled(fixedRate = 1000000)
     @Modifying
     @Transactional
     fun updateRidesAndRequestsJob() {
@@ -26,9 +27,23 @@ class CronJobService(private val rideRequestService: RideRequestService,
     }
 
     private fun updateRideRequestCron() {
-        rideRequestService.getAll()
-                .filter { it.status == RequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
+        val allRideRequests = rideRequestService.findAll()
+
+        allRideRequests
+                .filter { it.status == RideRequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
                 .forEach { changeRequestToExpired(it) }
+
+        allRideRequests
+                .filter {
+                    it.status == RideRequestStatus.APPROVED && it.ride.status == RideStatus.FINISHED && !checkIfHasRatingAllowedNotification(
+                            it)
+                }
+                .forEach { sendRatingNotification(it) }
+
+    }
+
+    private fun sendRatingNotification(it: RideRequest) {
+        ratingService.pushRatingAllowedNotification(it)
     }
 
     private fun changeRequestToExpired(rideRequest: RideRequest) =
@@ -36,4 +51,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     private fun updateRideCron() =
             tripService.checkForFinishedTripsCronJob()
+
+    private fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest): Boolean =
+            ratingService.checkIfHasRatingAllowedNotification(rideRequest)
 }

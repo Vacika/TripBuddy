@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.web.request
 
 import org.springframework.format.annotation.DateTimeFormat
-import java.time.LocalDate
 import java.util.*
 
 class FilterTripRequest(

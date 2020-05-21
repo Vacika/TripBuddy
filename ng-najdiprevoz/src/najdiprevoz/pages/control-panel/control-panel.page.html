@@ -1,0 +1,22 @@
+<div class="flex h-100-percent">
+	<!-- USER DETAILS -->
+	<div class="w-35 ml-5 mt-5">
+		<profile-settings (submitEvent)="submit($event)"></profile-settings>
+	</div>
+
+	<div class="w-65 mat-card mt-5">
+		<mat-tab-group mat-stretch-tabs dynamicHeight class="set-width">
+			<mat-tab label="Ride Requests">
+				<ride-requests-component [sentRideRequests]="sentRideRequests$|async"
+																 [receivedRideRequests]="receivedRideRequests$|async"
+																 (onActionTaken)="takeAction($event)"></ride-requests-component>
+			</mat-tab>
+			<mat-tab label="Trips">
+				<trips-component></trips-component>
+			</mat-tab>
+			<mat-tab label="Ratings">
+				<my-ratings></my-ratings>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+</div>

@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.repositories
 
+import com.project.najdiprevoz.domain.Rating
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
@@ -31,10 +32,12 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
 
     fun findAllByStatus(status: RideStatus): List<Ride>
-//
-//    fun findAllByFromLocationName(fromLocationName: String): List<Ride>?
-//
-//    fun findAllByDestinationName(destination: String): List<Ride>?
+
+    @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.requester.username=:username and rr.status='APPROVED' and r.status='FINISHED'")
+    fun findMyPastTripsAsPassenger(@Param("username") username: String): List<Ride>
+
+    @Query("SELECT r FROM Rating r JOIN RideRequest rr ON r.rideRequest=rr WHERE rr.requester.username=:username and rr.ride=:ride")
+    fun canSubmitRating(@Param("username") username: String, @Param("ride") ride: Ride): List<Rating>
 
     @Modifying
     @Transactional
@@ -73,4 +76,10 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     @Query("SELECT r FROM Ride r where r.status='APPROVED' AND r.departureTime > :departureTime and r.departureTime < :midnight")
     fun findAllForToday(@Param("departureTime") departureTime: ZonedDateTime, @Param("midnight") midnight: ZonedDateTime): List<Ride>
+
+    fun findAllByDriverUsername(username: String): List<Ride>
+
+    @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.requester.username=:username and rr.status='APPROVED'")
+    fun findAllMyTripsAsPassenger(@Param("username") username: String): List<Ride>
+
 }

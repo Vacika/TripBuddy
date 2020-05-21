@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.repositories
 
 import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
@@ -16,7 +16,10 @@ import javax.transaction.Transactional
 interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecificationExecutor<RideRequest> {
     fun findAllByRideId(rideId: Long): List<RideRequest>
 
-    fun findAllByRequesterUsername(username: String): List<RideRequest>?
+    fun findAllByRequesterUsername(username: String): List<RideRequest>
+
+    @Query("SELECT r from RideRequest r where r.ride.driver.username = :username")
+    fun findReceivedRequests(@Param("username") username:String): List<RideRequest>
 
     @Query("""
         SELECT rd from RideRequest rd 
@@ -25,7 +28,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         WHERE r.id = :rideId
         AND rd.status = 'APPROVED'
     """)
-    fun findApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>?
+    fun findApprovedRequestsForRide(@Param("rideId") rideId: Long): List<RideRequest>
 
     @Transactional
     @Modifying
@@ -34,7 +37,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
         SET r.status = :status
         WHERE r.id = :requestId
     """)
-    fun updateRideRequestStatus(@Param("requestId") requestId: Long, @Param("status") status: RequestStatus): Int
+    fun updateRideRequestStatus(@Param("requestId") requestId: Long, @Param("status") status: RideRequestStatus): Int
 
 
     @Query("""
@@ -51,4 +54,9 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
     fun updateRideRequestsCron(): Int
 
     fun findByRideIdAndRequester_Username(rideId: Long, username: String): Optional<RideRequest>
+
+
+    fun findAllByRequester_UsernameAndStatus(username: String, status: RideRequestStatus): List<RideRequest>
+
+    fun findAllByStatusAndRideId(status: RideRequestStatus,rideId:Long): List<RideRequest>
 }

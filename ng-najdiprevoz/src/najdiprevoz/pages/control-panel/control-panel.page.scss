@@ -1,0 +1,53 @@
+.flex {
+	display: flex;
+}
+
+.w-35 {
+	width: 30%;
+}
+
+.w-65 {
+	width: 68%;
+	margin-left: 2%;
+}
+
+.profile-pic {
+	border-radius: 60%;
+}
+
+.ml-5 {
+	margin-left: 5px;
+}
+
+.mt-5 {
+	margin-top: 5px;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+:host ::ng-deep {
+	& .mat-card-header-text {
+		width: 100%;
+		margin-right: 0;
+	}
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.h-100-percent {
+	height: 100%;
+}
+
+.w-100-percent {
+	width: 100%
+}
+
+.center {
+	align-items: center;
+	justify-content: center;
+}

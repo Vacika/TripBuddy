@@ -8,6 +8,11 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/ratings")
 class RatingController(private val service: RatingService) {
+
+    @GetMapping
+    fun getMyRatings(principal: Principal) =
+            service.getRatingsForUser(principal.name)
+
     @GetMapping("/user") // TODO: should this be path variable or requestbody?
     fun getRatingsForUser(@RequestBody username: String) =
             service.getRatingsForUser(username)
@@ -15,10 +20,6 @@ class RatingController(private val service: RatingService) {
     @PostMapping("/add")
     fun createNewRating(@RequestBody createRatingRequest: CreateRatingRequest) =
             service.addRating(createRatingRequest)
-
-    @GetMapping
-    fun getMyRatings(principal: Principal) =
-            service.getRatingsForUser(principal.name)
 
     @GetMapping("/trip/{tripId}")
     fun getRatingsForRide(@PathVariable("tripId") tripId: Long) =

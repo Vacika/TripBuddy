@@ -1,0 +1,12 @@
+<mat-tab-group dynamicHeight>
+	<mat-tab label="Driver">
+		<ride-requests-table class='margin-top-10' [dataSource]="tripsAsDriver$|async"
+												 [displayedColumns]="tableColumnsAsDriver"
+												 (onActionTaken)="takeAction($event)"></ride-requests-table>
+	</mat-tab>
+	<mat-tab label="Passenger">
+		<ride-requests-table [dataSource]="tripsAsPassenger$|async"
+												 [displayedColumns]="tableColumnsAsPassenger"
+												 (onActionTaken)="takeAction($event)"></ride-requests-table>
+	</mat-tab>
+</mat-tab-group>

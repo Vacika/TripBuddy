@@ -2,13 +2,14 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.RequestStatus
+import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.PastTripResponse
 import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
@@ -39,22 +40,30 @@ class TripService(private val repository: RideRepository,
             repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
                     .map { it.mapToTripResponse() }
 
-    fun createNewTrip(createTripRequest: CreateTripRequest) {
+    fun createNewTrip(createTripRequest: CreateTripRequest, username: String) {
         logger.info("[RideService - ADD RIDE] Creating new ride!")
-        repository.save(createRideObject(createTripRequest = createTripRequest))
+        repository.save(createRideObject(createTripRequest = createTripRequest, username = username))
     }
 
-    fun getPastTripsForUser(userId: Long) =
+    fun getPastPublishedTripsByUser(userId: Long) =
             repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
                     .map { it.mapToTripResponse() }
 
+
+    fun findMyPastTripsAsPassenger(username: String): List<PastTripResponse> {
+        return repository.findMyPastTripsAsPassenger(username).map { mapToPastTripResponse(it, username) }
+    }
+
     @Modifying
-    @Transactional
     fun cancelTrip(rideId: Long) {
         val ride = findById(rideId)
         ride.status = RideStatus.CANCELLED
-        ride.rideRequests = ride.rideRequests.map { it.copy(status = RequestStatus.RIDE_CANCELLED) }
-        ride.rideRequests.forEach { notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED) }
+        ride.rideRequests = ride.rideRequests.map { it.changeStatus(RideRequestStatus.RIDE_CANCELLED) }
+        ride.rideRequests.forEach {
+            //            notificationService.removeAllNotificationsForRideRequest(it.id)
+
+            notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
+        }
         repository.save(ride)
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }
@@ -62,8 +71,11 @@ class TripService(private val repository: RideRepository,
     fun findById(id: Long): Ride =
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
+    fun findTripById(id: Long): TripResponse =
+            findById(id).mapToTripResponse()
+
     fun getAllTripsForUser(userId: Long) =
-            repository.findAllByDriverId(driverId = userId)?.map { it.mapToTripResponse() }
+            repository.findAllByDriverId(driverId = userId).map { it.mapToTripResponse() }
 
 
     fun findRidesByFromLocationAndDestination(from: String, to: String): List<TripResponse> =
@@ -80,7 +92,7 @@ class TripService(private val repository: RideRepository,
                 departureTime = departureTime,
                 destination = cityService.findByName(toLocation),
                 additionalDescription = description,
-                pricePerHead = pricePerHead)).let { it.mapToTripResponse() }
+                pricePerHead = pricePerHead)).mapToTripResponse()
     }
 
     fun checkForFinishedTripsCronJob() {
@@ -91,14 +103,12 @@ class TripService(private val repository: RideRepository,
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                    departure = ZonedDateTime.of(
-                            LocalDate.ofInstant(departureDate.toInstant(),
-                                    ZoneId.systemDefault()), LocalTime.MIN,
-                            ZoneId.systemDefault())) //TODO: refactor this
+                                    departure = ZonedDateTime.of(
+                                            LocalDate.ofInstant(departureDate.toInstant(),
+                                                                ZoneId.systemDefault()), LocalTime.MIN,
+                                            ZoneId.systemDefault())) //TODO: refactor this
 
-        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
-                        ZoneId.systemDefault()))
+        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = null)
 
         if (requestedSeats != null) {
             return repository.findAll(specification)
@@ -108,9 +118,7 @@ class TripService(private val repository: RideRepository,
         return repository.findAll(specification).map { it.mapToTripResponse() }
     }
 
-//    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
-
-    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime) =
+    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
             listOfNotNull(
                     evaluateSpecification(listOf("fromLocation", "id"), fromAddress.toString(), ::likeSpecification),
                     evaluateSpecification(listOf("destination", "id"), toAddress.toString(), ::likeSpecification),
@@ -120,14 +128,14 @@ class TripService(private val repository: RideRepository,
                 Specification.where(first).and(second)
             }
 
-    private fun createRideObject(createTripRequest: CreateTripRequest) = with(createTripRequest) {
+    private fun createRideObject(createTripRequest: CreateTripRequest, username: String) = with(createTripRequest) {
         Ride(
                 createdOn = ZonedDateTime.now(),
                 fromLocation = cityService.findById(fromLocation),
                 destination = cityService.findById(destination),
                 departureTime = departureTime,
                 totalSeatsOffered = totalSeats,
-                driver = userService.findUserById(driverId),
+                driver = userService.findUserByUsername(username),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
                 rideRequests = listOf(),
@@ -150,23 +158,38 @@ class TripService(private val repository: RideRepository,
 
     private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
         return TripDetailsResponse(isPetAllowed = isPetAllowed,
-                isSmokingAllowed = isSmokingAllowed,
-                hasAirCondition = hasAirCondition,
-                additionalDescription = trip.additionalDescription)
+                                   isSmokingAllowed = isSmokingAllowed,
+                                   hasAirCondition = hasAirCondition,
+                                   additionalDescription = trip.additionalDescription)
     }
 
-//    @PostConstruct
-//    fun editRideTest() {
-//        val t = EditTripRequest(fromLocation = "Valandovo", toLocation = "Kumanovo",
-//                pricePerHead = 12500, departureTime = ZonedDateTime.now(), description = "ahaaa")
-//        this.editRide(1, t)
-//        val p = findById(1)
-//        logger.warn("P$p")
-//    }
+    private fun mapToPastTripResponse(ride: Ride, username: String) = with(ride) {
+        PastTripResponse(
+                tripId = id,
+                from = fromLocation.name,
+                to = destination.name,
+                pricePerHead = pricePerHead,
+                driver = driver.mapToUserShortResponse(),
+                canSubmitRating = canSubmitRating(ride, username)
+        )
+    }
 
-//    @PostConstruct
-//    fun cancelRideTest() {
-//        val t = cancelTrip(1L)
-//    }
+    private fun getAllowedActions(ride: Ride): List<String> {
+        var allowedActions = emptyList<String>()
+        if (ride.status == RideStatus.ACTIVE) allowedActions = allowedActions.plus("CANCEL_RIDE")
+        return allowedActions
+    }
+
+    private fun canSubmitRating(ride: Ride, username: String): Boolean {
+        return repository.canSubmitRating(username, ride).isEmpty()
+    }
+
+    fun getMyTripsAsDriver(username: String): List<TripResponse> {
+        return repository.findAllByDriverUsername(username).map { it.mapToTripResponse() }
+    }
+
+    fun getMyTripsAsPassenger(username: String): List<TripResponse> {
+        return repository.findAllMyTripsAsPassenger(username).map { it.mapToTripResponse() }
+    }
 }
 

@@ -1,13 +1,16 @@
-<h1 mat-dialog-title class="text-center">  {{trip.from}} ➡️ {{trip.to}}</h1>
+<h1 mat-dialog-title class="text-center">
+	{{trip.from}}  <img src="../../assets/images/right-arrow.png" height="13px" width="29px">  {{trip.to}}</h1>
 <div mat-dialog-content class='mat-dialog-content'>
 
+	<div><span class="text-bold">{{'STATUS'|translate}}: </span>{{trip.status}}</div>
 	<div><span class="text-bold">{{'DEPARTURE_TIME'|translate}}
 		: </span>{{trip.departureTime | date: 'HH:mm, EEEE, dd MMMM'}}</div>
 	<div><span class="text-bold">{{'AVAILABLE_SEATS'|translate}}: </span>{{trip.availableSeats}}</div>
 	<div><span class="text-bold">{{'PRICE_PER_HEAD'|translate}}: </span>{{trip.pricePerHead}}</div>
 	<div><span class="text-bold">{{'TOTAL_SEATS'|translate}}: </span>{{trip.totalSeats}}</div>
 	<div><span class="text-bold">{{'DRIVER'|translate}}:</span> {{trip.driver.name}}</div>
-	<div><span class="text-bold">{{'RATING'| translate}}:</span> {{trip.driver.rating}}</div>
+	<div><span class="text-bold">{{'RATING'| translate}}:</span> {{trip.driver.rating.toString()
+	!= "NaN" ? trip.driver.rating : 'NO_RATINGS'|translate}}</div>
 	<div><span class="text-bold"
 						 *ngIf='tripDetails.additionalDescription?.trim().length>0'>{{'ADDITIONAL_DESCRIPTION' |translate}}
 		:</span> {{tripDetails.additionalDescription}}
@@ -36,7 +39,7 @@
 							matTooltip='{{"HAS_AIR_CONDITION_NEGATIVE"|translate}}'>ac_unit
 		</mat-icon>
 
-		<span class='icons' *ngIf="trip.maxTwoBackseat" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
+		<span class='icons' *ngIf="trip.maxTwoBackSeat" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 		<svg viewBox="0 0 24 24"
 				 xmlns="http://www.w3.org/2000/svg"
 				 width="24" height="24"
@@ -55,7 +58,7 @@
 			</g>
 		</svg>
 	</span>
-		<span class='icons' *ngIf="!trip.maxTwoBackseat" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP' | translate}}">
+		<span class='icons' *ngIf="!trip.maxTwoBackSeat" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP' | translate}}">
 		<svg viewBox="0 0 24 24"
 				 xmlns="http://www.w3.org/2000/svg"
 				 width="24" height="24"
@@ -77,7 +80,7 @@
 	</div>
 </div>
 <div mat-dialog-actions>
-	<button mat-button class='width-49-percent mat-stroked-button mat-primary'
+	<button mat-button class='width-49-percent mat-stroked-button mat-primary' *ngIf='trip.status == "ACTIVE"'
 					[disabled]='trip.availableSeats<=0'
 					(click)='reserve()'>{{'REQUEST_RIDE' | translate}}</button>
 	<button mat-button class='width-49-percent mat-stroked-button mat-primary'

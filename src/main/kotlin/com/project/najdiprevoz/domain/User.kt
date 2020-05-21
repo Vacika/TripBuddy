@@ -1,8 +1,9 @@
 package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.Gender
+import com.project.najdiprevoz.enums.Language
+import com.project.najdiprevoz.services.passwordEncoder
 import com.project.najdiprevoz.web.response.UserProfileResponse
 import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.security.core.GrantedAuthority
@@ -35,9 +36,9 @@ data class User(
         @Column(name = "birth_date", nullable = false)
         var birthDate: Date,
 
-        @Lob
+//        @Lob
         @Column(name = "profile_photo", nullable = true)
-        var profilePhoto: ByteArray? = null,
+        var profilePhoto: String? = null,
 
         // Owning
         @ManyToOne
@@ -47,18 +48,23 @@ data class User(
 
         @Column(name = "gender", nullable = false)
         @Enumerated(EnumType.STRING)
-        val gender: Gender,
+        var gender: Gender,
 
         @Column(name = "phone_number", nullable = true)
         var phoneNumber: String? = null,
 
+
+        @Column(name = "default_lang", nullable = true)
+        @Enumerated(EnumType.STRING)
+        var defaultLanguage: Language = Language.MK,
+
         @JsonIgnore
-        @JsonManagedReference
         @OneToMany(mappedBy = "ratedUser")
         var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = Collections.singleton(SimpleGrantedAuthority(authority.authority))
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
+            Collections.singleton(SimpleGrantedAuthority(authority.authority))
 
     override fun isEnabled(): Boolean = true
 
@@ -66,7 +72,7 @@ data class User(
 
     fun getFullName(): String = "$firstName $lastName"
 
-    fun getAverageRating(): Double = ratings.map { it.rating }.average()
+    private fun getAverageRating(): Double = ratings.map { it.rating }.average()
 
     override fun isCredentialsNonExpired(): Boolean = true
 
@@ -77,7 +83,10 @@ data class User(
 
     override fun getPassword(): String = password
 
-    fun setPassword(password: String) = this.copy(password = password) // TODO: check if this works
+    fun setPassword(password: String): User {
+        this.password = passwordEncoder().encode(password)
+        return this
+    } // TODO: check if this works
 
     override fun isAccountNonExpired(): Boolean = true
 
@@ -102,7 +111,9 @@ data class User(
                 gender = gender.name,
                 averageRating = getAverageRating(),
                 ratings = ratings,
-                id = id)
+                id = id,
+                birthDate = birthDate,
+                defaultLanguage= defaultLanguage.toString())
     }
 
     override fun equals(other: Any?): Boolean {

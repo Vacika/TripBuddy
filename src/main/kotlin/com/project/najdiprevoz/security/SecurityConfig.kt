@@ -1,76 +1,78 @@
 package com.project.najdiprevoz.security
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.project.najdiprevoz.services.passwordEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.AuthenticationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(private val service: UserDetailsServiceImpl) : WebSecurityConfigurerAdapter() {
+class SecurityConfig(private val service: UserDetailsServiceImpl,
+                     private val objectMapper: ObjectMapper) : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService(service)
-                .passwordEncoder(encoder())
+//        auth.authenticationProvider(authenticationProvider())
+        auth.userDetailsService(service).passwordEncoder(passwordEncoder())
+    }
+
+    @Bean
+    fun authenticationProvider(): DaoAuthenticationProvider {
+        val authProvider = DaoAuthenticationProvider()
+        authProvider.setUserDetailsService(service)
+        authProvider.setPasswordEncoder(passwordEncoder())
+        return authProvider
     }
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
-//                .authorizeRequests()
-//                    .antMatchers("/api/public/**").permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                .formLogin()
-//                    .loginPage("/api/login")
-//                    .permitAll()
-//                    .and()
-//                .logout()
-//                    .permitAll()
-
-
-
-
-
-
-
-//                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
-//                .and()
-//                .authorizeRequests()
-////                .httpBasic()
-////                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
-////                .and()
-////                .authorizeRequests()
-//                //                .antMatchers("/api/auth/principal")
-////                    .hasAnyRole("USER", "ADMIN")
-////
-////                .antMatchers("/api/leases/my")
-////                    .hasRole("USER")
-////
-////                .antMatchers(HttpMethod.POST, "/api/leases")
-////                    .hasRole("USER")
-////
-////                .antMatchers("/api/leases/**")
-////                    .hasRole("ADMIN")
-//                .antMatchers("/api/**")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .logoutUrl("/api/auth/logout")
-//                .logoutSuccessHandler { request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication? ->
-//                    request.session.invalidate()
-//                    response.status = HttpServletResponse.SC_OK
-//                }
+                .authorizeRequests()
+                .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/trips-list").permitAll()
+                .antMatchers("/api/cities").permitAll()
+                .antMatchers("/api/users/register").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/api/login")
+                .successHandler(::loginSuccessHandler)
+                .failureHandler(::loginFailureHandler)
+                .and()
+                .logout()
+                .logoutUrl("/api/logout")
+                .logoutSuccessHandler(::logoutSuccessHandler)
+                .invalidateHttpSession(true)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
     }
 
-    @Bean
-    fun encoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
+    private fun loginSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+        response.status = HttpStatus.OK.value()
+        objectMapper.writeValue(response.writer, authentication.principal)
+    }
+
+    private fun loginFailureHandler(request: HttpServletRequest, response: HttpServletResponse, e: AuthenticationException) {
+        response.status = HttpStatus.UNAUTHORIZED.value()
+        objectMapper.writeValue(response.writer, "You failed to log in!!")
+    }
+
+    private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+        response.status = HttpStatus.OK.value()
+        objectMapper.writeValue(response.writer, "Pa-pa!!");
     }
 }

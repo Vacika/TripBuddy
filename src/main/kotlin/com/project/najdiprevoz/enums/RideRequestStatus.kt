@@ -1,9 +1,9 @@
 package com.project.najdiprevoz.enums
 
-enum class RequestStatus(private val status: String) {
+enum class RideRequestStatus(private val status: String) {
+    PENDING("Pending"),
     APPROVED("Approved"),
     DENIED("Denied"),
-    PENDING("Pending"),
     CANCELLED("Cancelled"),
     RIDE_CANCELLED("Ride Cancelled"),
     EXPIRED("Expired")

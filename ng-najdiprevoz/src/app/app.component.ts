@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {Title} from "@angular/platform-browser";
+import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 @Component({
 	selector: 'app-root',
@@ -12,10 +13,15 @@ export class AppComponent {
 							private titleService: Title) {
 		translate.addLangs(['mk', 'al', 'en']);
 		translate.setDefaultLang('mk');
+		if (isNotNullOrUndefined(localStorage.getItem('lang'))) {
+			this.changeLang(localStorage.getItem('lang'));
+		} else {
+			this.changeLang('mk');
+		}
 	}
 
 	changeLang(lang: string) {
 		this.translate.use(lang);
-		this.translate.get('SITE_TITLE').subscribe(title=>this.titleService.setTitle(title));
+		this.translate.get('SITE_TITLE').subscribe(title => this.titleService.setTitle(title));
 	}
 }

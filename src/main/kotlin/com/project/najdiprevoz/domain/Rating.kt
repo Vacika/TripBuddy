@@ -33,6 +33,7 @@ data class Rating(
 
     @JsonIgnore
     fun getAuthor(): User = rideRequest.requester
+
     @JsonIgnore
     fun getDriver(): User = rideRequest.ride.driver
 
