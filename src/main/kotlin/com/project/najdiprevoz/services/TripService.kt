@@ -60,6 +60,7 @@ class TripService(private val repository: RideRepository,
         ride.status = RideStatus.CANCELLED
         ride.rideRequests = ride.rideRequests.map { it.copy(status = RideRequestStatus.RIDE_CANCELLED) }
         ride.rideRequests.forEach {
+            notificationService.removeAllNotificationsForRideRequest(it.id)
             notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
         }
         repository.save(ride)
@@ -117,8 +118,6 @@ class TripService(private val repository: RideRepository,
         }
         return repository.findAll(specification).map { it.mapToTripResponse() }
     }
-
-//    private fun convertToTripResponse(ride: Ride): TripResponse = ride.mapToTripResponse()
 
     private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime) =
             listOfNotNull(
@@ -180,19 +179,5 @@ class TripService(private val repository: RideRepository,
     private fun canSubmitRating(ride: Ride, username: String): Boolean {
         return repository.canSubmitRating(username, ride).isEmpty()
     }
-
-//    @PostConstruct
-//    fun editRideTest() {
-//        val t = EditTripRequest(fromLocation = "Valandovo", toLocation = "Kumanovo",
-//                pricePerHead = 12500, departureTime = ZonedDateTime.now(), description = "ahaaa")
-//        this.editRide(1, t)
-//        val p = findById(1)
-//        logger.warn("P$p")
-//    }
-
-//    @PostConstruct
-//    fun cancelRideTest() {
-//        val t = cancelTrip(1L)
-//    }
 }
 

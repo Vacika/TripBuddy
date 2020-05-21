@@ -27,7 +27,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
     }
 
     private fun updateRideRequestCron() {
-        val allRideRequests = rideRequestService.getAll()
+        val allRideRequests = rideRequestService.findAll()
 
         allRideRequests
                 .filter { it.status == RideRequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }

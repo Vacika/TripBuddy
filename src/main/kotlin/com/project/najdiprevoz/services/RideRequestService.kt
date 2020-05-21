@@ -9,6 +9,8 @@ import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.response.RideRequestFullResponse
 import com.project.najdiprevoz.web.response.RideRequestResponse
 import javassist.NotFoundException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
@@ -21,21 +23,27 @@ class RideRequestService(private val repository: RideRequestRepository,
                          private val userService: UserService,
                          private val notificationService: NotificationService) {
 
-    fun getAll(): List<RideRequest> =
-            repository.findAll()
+    val logger: Logger = LoggerFactory.getLogger(RideRequestService::class.java)
 
-    fun findRequestById(id: Long): RideRequestResponse = findById(id).mapToRideRequestResponse(getAvailableActions(id, true))
+    fun findAll(): List<RideRequest> =
+            repository.findAll()
 
     fun findById(id: Long): RideRequest =
             repository.findById(id)
                     .orElseThrow { NotFoundException("Ride request not found!") }
 
+    fun findByIdMappedToResponse(id: Long): RideRequestResponse =
+            findById(id).mapToRideRequestResponse(getAvailableActions(id, true))
+
+
     fun getAllRequestsByTripId(rideId: Long): List<RideRequestResponse> =
-            repository.findAllByRideId(rideId).map { it.mapToRideRequestResponse(getAvailableActions(it.id, false)) }
+            repository.findAllByRideId(rideId)
+                    .map { it.mapToRideRequestResponse(getAvailableActions(it.id, false)) }
 
     //Gets request sent from the user
     fun getSentRideRequests(username: String) =
             repository.findAllByRequesterUsername(username = username)
+                    .sortedBy { it.status.ordinal }
                     .map { mapToRideRequestFullResponse(it, getAvailableActions(it.id, true)) }
 
     //Gets received requests for user
@@ -46,6 +54,7 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     fun getRequestsForRideByStatus(rideId: Long, status: RideRequestStatus): List<RideRequestResponse> =
             repository.findAllByStatusAndRideId(status, rideId)
+                    .sortedBy { it.status.ordinal }
                     .map { it.mapToRideRequestResponse(getAvailableActions(it.id, true)) }
 
     @Modifying
@@ -68,9 +77,11 @@ class RideRequestService(private val repository: RideRequestRepository,
                         requestedSeats = requestedSeats)),
                 NotificationType.REQUEST_SENT
         )
+        logger.debug("[RideRequestService] Sucessfully added new RideRequest")
     }
 
     private fun validateRequest(req: CreateRequestForTrip, username: String) = with(req) {
+        logger.debug("[RideRequestService] Validating new RideRequest..")
         if (checkIfAppliedBefore(tripId, username)) {
             throw RuntimeException("User [$username] has already sent a ride request for Trip [$tripId]")
         }
@@ -85,11 +96,12 @@ class RideRequestService(private val repository: RideRequestRepository,
             throw RuntimeException(
                     "You can't create a ride request for a ride published by you! Username: [$username], TripID: [$tripId]")
         }
+        logger.debug("[RideRequestService] New RideRequest is successfully validated..")
+
     }
 
     private fun checkIfNotDriverItself(username: String, tripId: Long): Boolean =
             this.tripService.findById(tripId).driver.username != username
-
 
     private fun checkIfEnoughAvailableSeats(tripId: Long, requestedSeats: Int): Boolean =
             this.tripService.findById(tripId).getAvailableSeats() >= requestedSeats
@@ -101,9 +113,9 @@ class RideRequestService(private val repository: RideRequestRepository,
     private fun changeRequestToApproved(requestId: Long) {
         val rideRequest = findById(requestId)
         if (checkIfEnoughAvailableSeats(rideRequest.ride.id, rideRequest.requestedSeats)) {
+            logger
             repository.updateRideRequestStatus(requestId = requestId, status = RideRequestStatus.APPROVED)
         } else throw RuntimeException("Not enough seats available to approve RideRequest with ID: [$requestId]!")
-        notificationService.removeLastNotificationForRideRequest(requestId)
         pushNotification(rideRequest, NotificationType.REQUEST_APPROVED)
     }
 
@@ -114,7 +126,7 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun changeRequestToCancelled(requestId: Long) {
         repository.updateRideRequestStatus(requestId = requestId, status = RideRequestStatus.CANCELLED)
-        notificationService.pushRequestStatusChangeNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
+        pushNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
     }
 
     private fun changeRequestToRideCancelled(requestId: Long) {
@@ -133,7 +145,10 @@ class RideRequestService(private val repository: RideRequestRepository,
     }
 
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RideRequestStatus, newStatus: RideRequestStatus) {
+        logger.debug("[RideRequestService] Checking if ride request status transition is valid..")
+
         if (changeStatusActionAllowed(previousStatus, newStatus)) {
+            logger.debug("[RideRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
             when (newStatus) {
                 RideRequestStatus.APPROVED -> changeRequestToApproved(requestId)
                 RideRequestStatus.DENIED -> changeRequestToDenied(requestId)
@@ -162,6 +177,8 @@ class RideRequestService(private val repository: RideRequestRepository,
 
 
     private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
+        logger.debug("[RideRequestService] Pushing RideRequest Status Notification..")
+
         notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest,
                 notificationType = notificationType)
     }
@@ -200,6 +217,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     }
 
     fun rideRequestCronJob(rideRequest: RideRequest) {
+        logger.debug("[RideRequestService] Updating RideRequest ${rideRequest.id} to EXPIRED..")
         val request = findById(rideRequest.id)
         request.status = RideRequestStatus.EXPIRED
         repository.save(request)

@@ -8,6 +8,8 @@ import com.project.najdiprevoz.exceptions.AddRatingFailedException
 import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.web.request.create.CreateRatingRequest
 import com.project.najdiprevoz.web.response.RatingResponse
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
@@ -15,6 +17,8 @@ import java.time.ZonedDateTime
 class RatingService(private val repository: RatingRepository,
                     private val rideRequestService: RideRequestService,
                     private val notificationService: NotificationService) {
+
+    val logger: Logger = LoggerFactory.getLogger(RatingService::class.java)
 
     fun getRatingsForTrip(rideId: Long) =
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
@@ -30,6 +34,7 @@ class RatingService(private val repository: RatingRepository,
     }
 
     private fun pushRatingNotification(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
+        logger.debug("[RatingService] Adding new rating for RideRequest with ID: [${rideRequestId}")
         notificationService.removeLastNotificationForRideRequest(rideRequestId)
         notificationService.pushRatingNotification(
                 repository.save(Rating(
@@ -41,6 +46,7 @@ class RatingService(private val repository: RatingRepository,
     }
 
     fun pushRatingAllowedNotification(rideRequest: RideRequest){
+        logger.debug("[RatingService] Pushing RatingNotification for RideRequest with ID: [${rideRequest.id}")
         notificationService.pushRatingAllowedNotification(rideRequest = rideRequest)
     }
 
@@ -49,6 +55,7 @@ class RatingService(private val repository: RatingRepository,
 
     // Return true if the request has been approved and the member has not submitted rating for this ride previously!
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
+        logger.debug("[RatingService] Checking if there is already submitted rating for RideRequest with ID: $rideRequestId")
         val rideRequest = rideRequestService.findById(rideRequestId)
         rideRequest.status == RideRequestStatus.APPROVED && rideRequest.rating == null && rideRequest.ride.status == RideStatus.FINISHED
     }

@@ -20,7 +20,7 @@ export class SubmitRatingDialog {
 	}
 
 	submit() {
-		this.ratingService.submit(this.rideRequestId, this.getRating.value, this.getNote.value).subscribe();
+		this.ratingService.submit(this.rideRequestId, this.getRating.value, this.getNote.value).subscribe(() => this.onCancel());
 	}
 
 	onCancel(): void {
@@ -41,5 +41,4 @@ export class SubmitRatingDialog {
 			note: new FormControl(null)
 		});
 	}
-
 }

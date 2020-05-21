@@ -35,12 +35,4 @@ class TripController(private val service: TripService) {
     fun getPastTrips(principal: Principal): List<PastTripResponse> {
         return service.getMyPastTrips(username = principal.name)
     }
-
-//    @GetMapping("/finish/{tripId}")
-//    fun markAsFinished(@PathVariable("tripId") tripId: Long) =
-//            service.setRideFinished(tripId)
-
-//    @GetMapping("/edit-seats/{tripId}")
-//    fun decreaseAvailableSeats(@PathVariable("tripId") tripId: Long, minusSeats: Int) =
-//            service.decreaseSeatsOffered(tripId, minusSeats)
 }

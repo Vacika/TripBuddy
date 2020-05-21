@@ -61,21 +61,5 @@ class UserService(private val repository: UserRepository,
         }
         return repository.save(user)
     }
-
-    private fun mapToUserResponse(user: User): UserProfileResponse = user.mapToUserProfileResponse()
-
-
-    //        @PostConstruct
-    fun testCreateUser() {
-        repository.save(User(
-                username = "rtrt@rtrt.com",
-                password = passwordEncoder().encode("123456789"),
-                firstName = "blabla",
-                lastName = "blabla",
-                authority = authorityRepository.findById(1).get(),
-                gender = Gender.M,
-                phoneNumber = "071711033",
-                birthDate = Date.from(ZonedDateTime.now().toInstant())))
-    }
 }
 

@@ -22,7 +22,7 @@ class RideRequestController(private val service: RideRequestService) {
 
     @GetMapping("/{requestId}")
     fun getRequestById(@PathVariable("requestId") requestId: Long) =
-            service.findRequestById(requestId)
+            service.findByIdMappedToResponse(requestId)
 
 
     @GetMapping("/received")

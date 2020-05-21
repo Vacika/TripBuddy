@@ -13,10 +13,6 @@ class NotificationController(private val service: NotificationManagementService)
     fun getMyNotifications(principal: Principal) =
             service.getMyNotifications(principal.name)
 
-//    @GetMapping
-//    fun getUnreadNotifications(principal: Principal) =
-//            service.getUnreadNotifications(principal.name)
-
     @PutMapping("/{notificationId}/action")
     fun takeAction(@PathVariable("notificationId") notificationId: Long, @RequestBody action: String) =
             service.takeAction(notificationId, NotificationAction.valueOf(action))
