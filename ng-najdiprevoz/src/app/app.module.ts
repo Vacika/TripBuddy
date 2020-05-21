@@ -49,8 +49,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { SubmitRatingDialog } from '../najdiprevoz/dialogs/submit-rating/submit-rating.dialog';
 import { TripsComponent } from '../najdiprevoz/components/trips/trips.component';
+import { ToastrModule } from 'ngx-toastr';
+import { UINotificationsService } from '../najdiprevoz/services/ui-notifications-service';
 
-const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService];
+const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService, UINotificationsService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog];
 const PAGES = [
 	NotificationListPage,
@@ -94,6 +96,7 @@ const PAGES = [
 				deps: [HttpClient]
 			}
 		}),
+		ToastrModule.forRoot(),
 		MatTooltipModule,
 		MatCheckboxModule,
 		MatRadioModule,
