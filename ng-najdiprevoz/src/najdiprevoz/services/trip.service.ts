@@ -28,6 +28,10 @@ export class TripService {
 		return this._http.put(`${this.path}/add`, formValues);
 	}
 
+	cancelTrip(tripId: number):Observable<void>{
+		return this._http.get<void>(`${this.path}/cancel/${tripId}`)
+	}
+
 	findAllFiltered(value: any): Observable<TripResponse[]> {
 		const map = new Map();
 		map.set('fromLocation', value['fromLocation']);

@@ -19,7 +19,8 @@ export class TripsComponent implements OnInit {
 		'totalSeats',
 		'pricePerHead',
 		'driver',
-		'status'
+		'status',
+		'allowedActions'
 	];
 
 	tableColumnsAsPassenger = [
@@ -40,5 +41,8 @@ export class TripsComponent implements OnInit {
 	}
 
 	takeAction(actionEvent) {
+		if (actionEvent.action == 'CANCEL_RIDE') {
+			this._service.cancelTrip(actionEvent.id).subscribe();
+		}
 	}
 }

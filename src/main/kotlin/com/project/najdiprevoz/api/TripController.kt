@@ -6,6 +6,7 @@ import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import com.project.najdiprevoz.web.response.PastTripResponse
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
+import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/api/trips")
@@ -19,6 +20,7 @@ class TripController(private val service: TripService) {
     fun editTrip(@PathVariable("tripId") tripId: Long, @RequestBody req: EditTripRequest) =
             service.editTrip(tripId, req)
 
+    @Transactional
     @GetMapping("/cancel/{tripId}")
     fun cancelTrip(@PathVariable("tripId") tripId: Long) =
             service.cancelTrip(tripId)

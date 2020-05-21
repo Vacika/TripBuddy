@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "ride_requests")
-data class RideRequest(
+class RideRequest(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0L,
@@ -50,5 +50,9 @@ data class RideRequest(
                 tripId = ride.id,
                 allowedActions = allowedActions
         )
+    }
+    fun changeStatus(newStatus: RideRequestStatus): RideRequest {
+        this.status = newStatus
+        return this
     }
 }

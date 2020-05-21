@@ -6,7 +6,7 @@
 			<!-- Allowed Actions -->
 			<span *ngIf="column=='allowedActions'">
 				<button [disabled]='element[column]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
-								aria-label="Request Actions">
+								aria-label="Actions">
 					<mat-icon>more_vert</mat-icon>
 				</button>
 			 	<mat-menu #menu="matMenu">

@@ -83,7 +83,8 @@ data class Ride(
                             totalSeats = totalSeatsOffered,
                             driver = driver.mapToUserShortResponse(),
                             maxTwoBackSeat = maxTwoBackSeat,
-                            status = status.name)
+                            status = status.name,
+                            allowedActions = if (status == RideStatus.ACTIVE) listOf("CANCEL_RIDE") else emptyList())
     }
 
     @Override

@@ -11,6 +11,7 @@ export interface TripResponse {
 	driver: UserShortInfo;
 	maxTwoBackSeat: boolean;
 	status: string;
+	allowedActions?: string[];
 }
 
 export interface TripDetailsResponse {

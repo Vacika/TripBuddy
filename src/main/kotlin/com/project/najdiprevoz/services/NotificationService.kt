@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import javax.transaction.Transactional
 
 @Service
 class NotificationService(private val repository: NotificationRepository) {
@@ -91,7 +92,8 @@ class NotificationService(private val repository: NotificationRepository) {
 
     private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>,
                                  type: NotificationType, rideRequest: RideRequest) {
-        logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
+        logger.info(
+                "[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,
@@ -112,7 +114,7 @@ class NotificationService(private val repository: NotificationRepository) {
     @Modifying
     fun removeAllNotificationsForRideRequest(requestId: Long) {
         logger.debug("[NOTIFICATIONS] Removing all notifications associated with RideRequest with ID: [$requestId]")
-        repository.findByRideRequestId(requestId).forEach { repository.delete(it) }
+        repository.deleteAll(repository.findAllByRideRequest_Id(requestId))
     }
 
     fun removeAllActionsForNotification(notificationId: Long) {
@@ -122,12 +124,14 @@ class NotificationService(private val repository: NotificationRepository) {
         repository.save(notification)
     }
 
+    @Transactional
     @Modifying
     fun removeLastNotificationForRideRequest(requestId: Long) {
-        val notification = repository.findByRideRequestId(requestId).maxBy { it.createdOn }
-        if(notification!=null) {
+        var notification = repository.findAllByRideRequest_Id(requestId)
+        if (notification.isNotEmpty()) {
+           val deleteNotification = notification.maxBy { it.createdOn }
             logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
-            repository.delete(notification)
+            repository.delete(deleteNotification)
             repository.flush()
         }
     }

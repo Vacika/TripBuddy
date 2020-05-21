@@ -11,7 +11,8 @@ class TripResponse(val id: Long,
                    val totalSeats: Int,
                    val departureTime: ZonedDateTime,
                    val pricePerHead: Int,
-                   val maxTwoBackSeat: Boolean) {
+                   val maxTwoBackSeat: Boolean,
+                   val allowedActions: List<String>?) {
 }
 
 class PastTripResponse(

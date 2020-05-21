@@ -55,13 +55,13 @@ class TripService(private val repository: RideRepository,
     }
 
     @Modifying
-    @Transactional
     fun cancelTrip(rideId: Long) {
         val ride = findById(rideId)
         ride.status = RideStatus.CANCELLED
-        ride.rideRequests = ride.rideRequests.map { it.copy(status = RideRequestStatus.RIDE_CANCELLED) }
+        ride.rideRequests = ride.rideRequests.map { it.changeStatus(RideRequestStatus.RIDE_CANCELLED) }
         ride.rideRequests.forEach {
-            notificationService.removeAllNotificationsForRideRequest(it.id)
+            //            notificationService.removeAllNotificationsForRideRequest(it.id)
+
             notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
         }
         repository.save(ride)
@@ -171,8 +171,13 @@ class TripService(private val repository: RideRepository,
                 pricePerHead = pricePerHead,
                 driver = driver.mapToUserShortResponse(),
                 canSubmitRating = canSubmitRating(ride, username)
-
         )
+    }
+
+    private fun getAllowedActions(ride: Ride): List<String> {
+        var allowedActions = emptyList<String>()
+        if (ride.status == RideStatus.ACTIVE) allowedActions = allowedActions.plus("CANCEL_RIDE")
+        return allowedActions
     }
 
     private fun canSubmitRating(ride: Ride, username: String): Boolean {
