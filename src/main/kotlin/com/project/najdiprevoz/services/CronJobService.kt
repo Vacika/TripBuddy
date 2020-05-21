@@ -17,7 +17,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 1000000)
     @Modifying
     @Transactional
     fun updateRidesAndRequestsJob() {

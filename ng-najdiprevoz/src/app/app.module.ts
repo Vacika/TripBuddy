@@ -47,9 +47,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatInputModule} from "@angular/material/input";
+import { SubmitRatingDialog } from '../najdiprevoz/dialogs/submit-rating/submit-rating.dialog';
 
 const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService];
-const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog];
+const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog];
 const PAGES = [
 	NotificationListPage,
 	TripListPage,

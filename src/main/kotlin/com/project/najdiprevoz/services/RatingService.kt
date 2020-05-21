@@ -30,6 +30,7 @@ class RatingService(private val repository: RatingRepository,
     }
 
     private fun pushRatingNotification(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
+        notificationService.removeLastNotificationForRideRequest(rideRequestId)
         notificationService.pushRatingNotification(
                 repository.save(Rating(
                         rideRequest = rideRequestService.findById(rideRequestId),
