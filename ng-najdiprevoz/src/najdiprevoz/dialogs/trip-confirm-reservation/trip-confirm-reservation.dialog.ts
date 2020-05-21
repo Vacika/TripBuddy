@@ -33,6 +33,8 @@ export class TripConfirmReservationDialog {
 			.subscribe(() => {
 				this.notificationService.success('RIDE_REQUEST_ADD_SUCCESS', 'ACTION_SUCCESS');
 				this.onCancel();
+			},()=>{
+				this.notificationService.error('RIDE_REQUEST_ADD_FAIL', 'ACTION_FAIL');
 			});
 	}
 

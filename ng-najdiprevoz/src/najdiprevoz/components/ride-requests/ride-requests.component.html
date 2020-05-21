@@ -1,12 +1,12 @@
 <mat-tab-group dynamicHeight>
 	<mat-tab label="Sent">
-		<ride-requests-table class='margin-top-10' [dataSource]="sentRideRequests"
-												 [displayedColumns]="tableColumnsForSent"
-												 (onActionTaken)="takeAction($event)"></ride-requests-table>
+		<data-table class='margin-top-10' [dataSource]="sentRideRequests"
+								[displayedColumns]="tableColumnsForSent"
+								(onActionTaken)="takeAction($event)"></data-table>
 	</mat-tab>
 	<mat-tab label="Received">
-		<ride-requests-table [dataSource]="receivedRideRequests"
-												 [displayedColumns]="tableColumnsForReceived"
-												 (onActionTaken)="takeAction($event)"></ride-requests-table>
+		<data-table [dataSource]="receivedRideRequests"
+								[displayedColumns]="tableColumnsForReceived"
+								(onActionTaken)="takeAction($event)"></data-table>
 	</mat-tab>
 </mat-tab-group>

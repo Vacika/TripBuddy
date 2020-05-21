@@ -56,10 +56,10 @@ export class TripService {
 	}
 
 	getMyTripsAsPassenger(): Observable<TripResponse[]> {
-		return this._http.get<TripResponse[]>(`${this.path}/passenger/my`);
+		return this._http.get<TripResponse[]>(`${this.path}/my/passenger`);
 	}
 
 	getMyTripsAsDriver(): Observable<TripResponse[]> {
-		return this._http.get<TripResponse[]>(`${this.path}/driver/my`);
+		return this._http.get<TripResponse[]>(`${this.path}/my/driver`);
 	}
 }

@@ -99,6 +99,7 @@
 	"ACTION_SUCCESS": "Action succeeded",
 	"SUCCESS_LOGIN": "Logged in successfully",
 	"RIDE_REQUEST_ADD_SUCCESS": "Reservation request sent successfully",
+	"RIDE_REQUEST_ADD_FAIL": "Reservation proccess failed..",
 	"RIDE_REQUEST_STATUS_CHANGE_SUCCESS": "Request status changed successfully",
 	"RIDE_REQUEST_STATUS_CHANGE_FAIL": "Request status change failed..",
 	"TRIP_CREATE_SUCCESS": "Trip published successfully",
