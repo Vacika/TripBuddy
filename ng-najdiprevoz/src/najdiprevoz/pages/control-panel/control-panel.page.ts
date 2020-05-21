@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RideRequestService } from '../../services/ride-request.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SubmitRatingDialog } from '../../dialogs/submit-rating/submit-rating.dialog';
+import { UINotificationsService } from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: './control-panel.page.html',
@@ -15,8 +16,9 @@ export class ControlPanelPage implements OnInit {
 	receivedRideRequests$: Observable<RideRequestFullResponse[]>;
 
 	constructor(private authService: AuthService,
-				private rideRequestService: RideRequestService,
-				private _dialog: MatDialog) {
+							private rideRequestService: RideRequestService,
+							private _notificationService: UINotificationsService,
+							private _dialog: MatDialog) {
 	}
 
 	submit(formValues: any) {
@@ -33,7 +35,12 @@ export class ControlPanelPage implements OnInit {
 
 	takeAction(event: any) {
 		if (event.action != 'SUBMIT_RATING') {
-			this.rideRequestService.changeRequestStatus(event.id, event.action).subscribe(it => console.log(it));
+			this.rideRequestService.changeRequestStatus(event.id, event.action).subscribe(() => {
+				this.sentRideRequests$ = this.rideRequestService.getSentRequests();
+				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS', 'ACTION_SUCCESS');
+			}, () => {
+				this._notificationService.error('RIDE_REQUEST_STATUS_CHANGE_FAIL', 'ACTION_FAIL');
+			});
 		} else {
 			this._dialog.open(SubmitRatingDialog, {
 				data: event.id,

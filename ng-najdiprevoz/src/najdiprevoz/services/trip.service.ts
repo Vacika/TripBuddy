@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TripDetailsResponse, TripResponse} from '../interfaces/trip-response.interface';
-import {Observable} from 'rxjs';
-import {HelperService} from './helper.service';
-import {PastTripsResponse} from "../interfaces/past-trips-response.interface";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TripDetailsResponse, TripResponse } from '../interfaces/trip-response.interface';
+import { Observable } from 'rxjs';
+import { HelperService } from './helper.service';
+import { PastTripsResponse } from '../interfaces/past-trips-response.interface';
 
 @Injectable({
 	providedIn: 'root'
@@ -28,8 +28,8 @@ export class TripService {
 		return this._http.put(`${this.path}/add`, formValues);
 	}
 
-	cancelTrip(tripId: number):Observable<void>{
-		return this._http.get<void>(`${this.path}/cancel/${tripId}`)
+	cancelTrip(tripId: number): Observable<void> {
+		return this._http.get<void>(`${this.path}/cancel/${tripId}`);
 	}
 
 	findAllFiltered(value: any): Observable<TripResponse[]> {
@@ -48,18 +48,18 @@ export class TripService {
 	}
 
 	getMyPastTrips(): Observable<PastTripsResponse[]> {
-		return this._http.get<PastTripsResponse[]>(`${this.path}/history/passenger/past-trips`)
+		return this._http.get<PastTripsResponse[]>(`${this.path}/history/passenger/past-trips`);
 	}
 
-	findById(tripId:number):Observable<TripResponse> {
-		return this._http.get<TripResponse>(`${this.listpath}/${tripId}`)
+	findById(tripId: number): Observable<TripResponse> {
+		return this._http.get<TripResponse>(`${this.listpath}/${tripId}`);
 	}
 
-	getMyTripsAsPassenger(): Observable<TripResponse[]>{
-		return this._http.get<TripResponse[]>(`${this.path}/passenger/my`)
+	getMyTripsAsPassenger(): Observable<TripResponse[]> {
+		return this._http.get<TripResponse[]>(`${this.path}/my/passenger`);
 	}
 
-	getMyTripsAsDriver(): Observable<TripResponse[]>{
-		return this._http.get<TripResponse[]>(`${this.path}/driver/my`)
+	getMyTripsAsDriver(): Observable<TripResponse[]> {
+		return this._http.get<TripResponse[]>(`${this.path}/my/driver`);
 	}
 }

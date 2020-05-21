@@ -1,8 +1,9 @@
 import {Component, OnInit} from "@angular/core";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {emailRegex} from "../../contants";
+import {emailRegex} from "../../constants/regex.constants";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import { UINotificationsService } from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: './register.page.html',
@@ -14,6 +15,7 @@ export class RegisterPage implements OnInit {
 
 	constructor(private formBuilder: FormBuilder,
 							private router: Router,
+							private notificationService: UINotificationsService,
 							private loginService: AuthService) {
 	}
 
@@ -31,10 +33,12 @@ export class RegisterPage implements OnInit {
 
 	submit() {
 		if (this.form.valid) {
-			this.loginService.registerUser(this.form.value).subscribe(response =>
-					this.router.navigate(['/login']),
-				() => {
-					// this.notificationService.error("SOMETHING_WENT_WRONG")
+			this.loginService.registerUser(this.form.value).subscribe(response =>{
+				this.notificationService.success('SUCCESS_REGISTER', 'SUCCESS_ACTION');
+
+			this.router.navigate(['/login'])},
+				(err) => {
+					this.notificationService.success('ERROR_REGISTER', 'ERROR_ACTION');
 				})
 		}
 	}

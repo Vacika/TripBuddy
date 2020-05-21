@@ -6,6 +6,7 @@ import { City } from '../../interfaces/city.interface';
 import { CityService } from '../../services/city.service';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { UINotificationsService } from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: './create-trip.page.html',
@@ -25,6 +26,7 @@ export class CreateTripPage implements OnInit {
 							private _loginService: AuthService,
 							private _cityService: CityService,
 							private _route: ActivatedRoute,
+							private _notificationService: UINotificationsService,
 							private _router: Router,
 							private formBuilder: FormBuilder) {
 
@@ -68,7 +70,10 @@ export class CreateTripPage implements OnInit {
 			additionalDescription: this.additionalDescription.value,
 			driverId: this._loginService.getLoggedUser()
 		};
-		this._service.addNewTrip(formValues).subscribe(() => this._router.navigate(['trips']));
+		this._service.addNewTrip(formValues).subscribe(() => {
+			this._notificationService.success('TRIP_CREATE_SUCCESS', 'ACTION_SUCCESS');
+			this._router.navigate(['trips']);
+		}, () => this._notificationService.success('TRIP_CREATE_FAIL', 'ACTION_FAIL'));
 	}
 
 	get getFromLocation() {

@@ -3,11 +3,11 @@ import { columnPrettyName } from '../../constants/columns';
 import { RideRequestFullResponse } from '../../interfaces/ride-request.interface';
 
 @Component({
-	selector: 'ride-requests-table',
-	templateUrl: './ride-requests-table.component.html',
-	styleUrls: ['./ride-requests-table.component.scss']
+	selector: 'data-table',
+	templateUrl: './data-table.component.html',
+	styleUrls: ['./data-table.component.scss']
 })
-export class RideRequestsTableComponent implements OnInit {
+export class DataTableComponent implements OnInit {
 
 	@Input() displayedColumns = [
 		'fromLocation',

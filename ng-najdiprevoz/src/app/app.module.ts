@@ -39,7 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MyRatingsView } from '../najdiprevoz/views/my-ratings/my-ratings.view';
 import { RatingService } from '../najdiprevoz/services/rating.service';
 import { RideRequestsComponent } from '../najdiprevoz/components/ride-requests/ride-requests.component';
-import { RideRequestsTableComponent } from '../najdiprevoz/components/ride-request-table/ride-requests-table.component';
+import { DataTableComponent } from '../najdiprevoz/components/data-table/data-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -49,8 +49,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { SubmitRatingDialog } from '../najdiprevoz/dialogs/submit-rating/submit-rating.dialog';
 import { TripsComponent } from '../najdiprevoz/components/trips/trips.component';
+import { ToastrModule } from 'ngx-toastr';
+import { UINotificationsService } from '../najdiprevoz/services/ui-notifications-service';
 
-const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService];
+const SERVICES = [TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService, UINotificationsService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog];
 const PAGES = [
 	NotificationListPage,
@@ -67,7 +69,7 @@ const PAGES = [
 	ProfileSettingsView,
 	MyRatingsView,
 	RideRequestsComponent,
-	RideRequestsTableComponent,
+	DataTableComponent,
 	TripsComponent];
 
 @NgModule({
@@ -94,6 +96,7 @@ const PAGES = [
 				deps: [HttpClient]
 			}
 		}),
+		ToastrModule.forRoot(),
 		MatTooltipModule,
 		MatCheckboxModule,
 		MatRadioModule,

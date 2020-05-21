@@ -25,11 +25,11 @@ class TripController(private val service: TripService) {
     fun cancelTrip(@PathVariable("tripId") tripId: Long) =
             service.cancelTrip(tripId)
 
-    @GetMapping("/driver/my")
+    @GetMapping("/my/driver")
     fun getMyTripsAsDriver(principal: Principal) =
             service.getMyTripsAsDriver(principal.name)
 
-    @GetMapping("/passenger/my")
+    @GetMapping("/my/passenger")
     fun getMyTripsAsPassenger(principal: Principal) =
             service.getMyTripsAsPassenger(principal.name)
 
