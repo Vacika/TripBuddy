@@ -31,7 +31,7 @@ export class TripConfirmReservationDialog {
 	reserve() {
 		this.rideRequestService.newRideRequest(this.tripId, this.getRequestedSeats.value, this.getAdditionalDescription.value)
 			.subscribe(() => {
-				this.notificationService.success('SUCCESS', 'SUCCESS');
+				this.notificationService.success('RIDE_REQUEST_ADD_SUCCESS', 'ACTION_SUCCESS');
 				this.onCancel();
 			});
 	}

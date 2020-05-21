@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { RatingService } from '../../services/rating.service';
+import { UINotificationsService } from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: 'submit-rating.dialog.html',
@@ -15,12 +16,18 @@ export class SubmitRatingDialog {
 	constructor(public dialogRef: MatDialogRef<SubmitRatingDialog>,
 							@Inject(MAT_DIALOG_DATA) public data: number,
 							private ratingService: RatingService,
+							private _notificationService: UINotificationsService,
 							private _formBuilder: FormBuilder) {
 		this.rideRequestId = data;
 	}
 
 	submit() {
-		this.ratingService.submit(this.rideRequestId, this.getRating.value, this.getNote.value).subscribe(() => this.onCancel());
+		this.ratingService.submitRating(this.rideRequestId, this.getRating.value, this.getNote.value).subscribe(() => {
+			this.onCancel()
+			this._notificationService.success("RATING_SUBMITTED_SUCCESS","ACTION_SUCCESS")
+		},()=>{
+			this._notificationService.error("RATING_SUBMITTED_FAIL","ACTION_FAIL")
+		});
 	}
 
 	onCancel(): void {

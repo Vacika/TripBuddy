@@ -93,6 +93,16 @@
 	"EDIT": "Измени",
 	"RATING_ALLOWED": "Please submit your rating for the ride from ",
 	"RATING_SUBMITTED": "has submitted rating for a ride you published",
-	"STATUS": "Status"
-
+	"STATUS": "Status",
+	"RATING_SUBMITTED_FAIL": "Rating submission failed",
+	"ACTION_FAIL": "Action failed!",
+	"ACTION_SUCCESS": "Action succeeded",
+	"SUCCESS_LOGIN": "Logged in successfully",
+	"RIDE_REQUEST_ADD_SUCCESS": "Reservation request sent successfully",
+	"RIDE_REQUEST_STATUS_CHANGE_SUCCESS": "Request status changed successfully",
+	"RIDE_REQUEST_STATUS_CHANGE_FAIL": "Request status change failed..",
+	"TRIP_CREATE_SUCCESS": "Trip published successfully",
+	"TRIP_CREATE_FAIL": "Trip publishing failed..",
+	"CANCEL_RIDE_SUCCESS": "Trip cancelled successfully",
+	"CANCEL_RIDE_FAIL": "Trip cancellation did not pass successfully.."
 }

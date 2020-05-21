@@ -16,7 +16,7 @@ export class RatingService {
 		return this._http.get<RatingCustomResponse[]>(this.path);
 	}
 
-	submit(rideRequestId: number, rating: number, note?: string): Observable<void> {
+	submitRating(rideRequestId: number, rating: number, note?: string): Observable<void> {
 		const body = {
 			rideRequestId: rideRequestId,
 			rating: rating,
