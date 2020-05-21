@@ -89,5 +89,6 @@
 	"LANGUAGE": "Language",
 	"EDIT": "Edit",
 	"RATING_ALLOWED": "Please submit your rating for the ride from ",
-	"RATING_SUBMITTED": "has submitted rating for a ride you published"
+	"RATING_SUBMITTED": "has submitted rating for a ride you published",
+	"STATUS": "Status"
 }

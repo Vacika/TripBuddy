@@ -59,13 +59,18 @@ class TripService(private val repository: RideRepository,
         val ride = findById(rideId)
         ride.status = RideStatus.CANCELLED
         ride.rideRequests = ride.rideRequests.map { it.copy(status = RideRequestStatus.RIDE_CANCELLED) }
-        ride.rideRequests.forEach { notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED) }
+        ride.rideRequests.forEach {
+            notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
+        }
         repository.save(ride)
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }
 
     fun findById(id: Long): Ride =
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
+
+    fun findTripById(id: Long): TripResponse =
+            findById(id).mapToTripResponse()
 
     fun getAllTripsForUser(userId: Long) =
             repository.findAllByDriverId(driverId = userId).map { it.mapToTripResponse() }
@@ -96,14 +101,14 @@ class TripService(private val repository: RideRepository,
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                    departure = ZonedDateTime.of(
-                            LocalDate.ofInstant(departureDate.toInstant(),
-                                    ZoneId.systemDefault()), LocalTime.MIN,
-                            ZoneId.systemDefault())) //TODO: refactor this
+                                    departure = ZonedDateTime.of(
+                                            LocalDate.ofInstant(departureDate.toInstant(),
+                                                                ZoneId.systemDefault()), LocalTime.MIN,
+                                            ZoneId.systemDefault())) //TODO: refactor this
 
         else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
-                        ZoneId.systemDefault()))
+                                     departure = ZonedDateTime.of(LocalDate.now(), LocalTime.MIN,
+                                                                  ZoneId.systemDefault()))
 
         if (requestedSeats != null) {
             return repository.findAll(specification)
@@ -155,9 +160,9 @@ class TripService(private val repository: RideRepository,
 
     private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
         return TripDetailsResponse(isPetAllowed = isPetAllowed,
-                isSmokingAllowed = isSmokingAllowed,
-                hasAirCondition = hasAirCondition,
-                additionalDescription = trip.additionalDescription)
+                                   isSmokingAllowed = isSmokingAllowed,
+                                   hasAirCondition = hasAirCondition,
+                                   additionalDescription = trip.additionalDescription)
     }
 
     private fun mapToPastTripResponse(ride: Ride, username: String) = with(ride) {

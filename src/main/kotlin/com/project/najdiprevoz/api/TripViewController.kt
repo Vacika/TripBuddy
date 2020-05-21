@@ -22,7 +22,7 @@ class TripViewController(private val service: TripService) {
 
     @GetMapping("/{tripId}")
     fun getTrip(@PathVariable("tripId") tripId: Long) =
-            service.findById(tripId)
+            service.findTripById(tripId)
 
     @GetMapping("/{tripId}/info")
     fun getTripAdditionalInfo(@PathVariable("tripId") tripId: Long): TripDetailsResponse = service.getTripAdditionalInfo(tripId)

@@ -45,7 +45,8 @@ data class Ride(
         var additionalDescription: String?,
 
         @JsonManagedReference
-        @OneToMany(mappedBy = "ride", targetEntity = RideRequest::class, fetch = FetchType.EAGER, cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
+        @OneToMany(mappedBy = "ride", targetEntity = RideRequest::class, fetch = FetchType.EAGER,
+                   cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
         var rideRequests: List<RideRequest> = listOf(),
 
         @Enumerated(EnumType.STRING)
@@ -74,14 +75,15 @@ data class Ride(
 
     fun mapToTripResponse(): TripResponse {
         return TripResponse(id = id,
-                from = fromLocation.name,
-                to = destination.name,
-                departureTime = departureTime,
-                availableSeats = getAvailableSeats(),
-                pricePerHead = pricePerHead,
-                totalSeats = totalSeatsOffered,
-                driver = driver.mapToUserShortResponse(),
-                maxTwoBackSeat = maxTwoBackSeat)
+                            from = fromLocation.name,
+                            to = destination.name,
+                            departureTime = departureTime,
+                            availableSeats = getAvailableSeats(),
+                            pricePerHead = pricePerHead,
+                            totalSeats = totalSeatsOffered,
+                            driver = driver.mapToUserShortResponse(),
+                            maxTwoBackSeat = maxTwoBackSeat,
+                            status = status.name)
     }
 
     @Override

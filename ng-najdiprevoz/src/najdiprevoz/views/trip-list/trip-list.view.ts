@@ -24,15 +24,15 @@ export class TripListView implements OnInit {
 
 	onClickDetails(tripId: number) {
 
-		this._service.getTripInformation(tripId).subscribe(tripDetailsResponse => {
-			let data = {
-				trip: this.allTrips.find(it => it.id == tripId),
-				tripDetails: tripDetailsResponse
-			};
+		// this._service.getTripInformation(tripId).subscribe(tripDetailsResponse => {
+		// 	let data = {
+		// 		trip: this.allTrips.find(it => it.id == tripId),
+		// 		tripDetails: tripDetailsResponse
+		// 	};
 			const dialogRef = this._dialog.open(TripDetailsDialog, {
 				minHeight: '384px',
 				width: '500px',
-				data: data
+				data: tripId
 			});
 
 			dialogRef.componentInstance.reserveEmit.subscribe(trip =>
@@ -40,7 +40,6 @@ export class TripListView implements OnInit {
 			);
 
 			dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
-		});
 	}
 
 	convertToImage(image) {

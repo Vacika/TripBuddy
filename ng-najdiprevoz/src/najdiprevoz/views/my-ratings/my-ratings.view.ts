@@ -1,6 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {RatingService} from "../../services/rating.service";
 import {RatingCustomResponse} from "../../interfaces/rating.interface";
+import { MatDialog } from '@angular/material/dialog';
+import { TripDetailsDialog } from '../../dialogs/trip-details-dialog/trip-details.dialog';
 
 @Component({
 	selector: 'my-ratings',
@@ -10,7 +12,8 @@ import {RatingCustomResponse} from "../../interfaces/rating.interface";
 export class MyRatingsView implements OnInit {
 	ratings: RatingCustomResponse[] = [];
 
-	constructor(private ratingService: RatingService) {
+	constructor(private ratingService: RatingService,
+							private _dialog:MatDialog) {
 
 	}
 
@@ -18,7 +21,11 @@ export class MyRatingsView implements OnInit {
 		this.ratingService.getMyRatings().subscribe(response => this.ratings = response);
 	}
 
-	rideDetails(rideId: number) {
-		//TODO: Navigate to ride after implemented special page
+	rideDetails(tripId: number) {
+		const dialogRef = this._dialog.open(TripDetailsDialog, {
+			minHeight: '384px',
+			width: '500px',
+			data: tripId
+		});
 	}
 }

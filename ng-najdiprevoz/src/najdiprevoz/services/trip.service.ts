@@ -46,4 +46,8 @@ export class TripService {
 	getMyPastTrips(): Observable<PastTripsResponse[]> {
 		return this._http.get<PastTripsResponse[]>(`${this.path}/history/past-trips`)
 	}
+
+	findById(tripId:number):Observable<TripResponse> {
+		return this._http.get<TripResponse>(`${this.listpath}/${tripId}`)
+	}
 }
