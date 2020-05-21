@@ -14,6 +14,8 @@ class RideRequestController(private val service: RideRequestService) {
     fun createNewRideRequest(@RequestBody req: CreateRequestForTrip, principal: Principal) =
             service.addNewRideRequest(req, principal.name)
 
+
+
     @GetMapping("/ride/{rideId}")
     fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getAllRequestsByTripId(rideId)
@@ -21,6 +23,18 @@ class RideRequestController(private val service: RideRequestService) {
     @GetMapping("/{requestId}")
     fun getRequestById(@PathVariable("requestId") requestId: Long) =
             service.findRequestById(requestId)
+
+
+    @GetMapping("/received")
+    fun getReceivedRideRequests(principal: Principal) =
+            service.getReceivedRideRequests(principal.name)
+
+    @GetMapping("/sent")
+    fun getSentRideRequests(principal: Principal) =
+            service.getSentRideRequests(principal.name)
+
+
+
 
     @GetMapping("/ride/{rideId}/pending")
     fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
@@ -34,24 +48,18 @@ class RideRequestController(private val service: RideRequestService) {
     fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
             service.getRequestsForRideByStatus(rideId, RideRequestStatus.DENIED)
 
-    @GetMapping("/received")
-    fun findReceivedRideRequests(principal: Principal) =
-            service.getReceivedRideRequests(principal.name)
 
-    @GetMapping("/sent")
-    fun findSentRideRequests(principal: Principal) =
-            service.getSentRideRequests(principal.name)
 
-    //Note: we need the notification id so we can set that notification as SEEN
+
     @GetMapping("/{requestId}/approve")
     fun changeStatusToApproved(@PathVariable("requestId") requestId: Long) =
-            service.changeStatusByRideRequestId(requestId, RideRequestStatus.APPROVED)
+            service.changeStatus(requestId, RideRequestStatus.APPROVED)
 
     @GetMapping("/{requestId}/deny")
     fun changeStatusToDenied(@PathVariable("requestId") requestId: Long) =
-            service.changeStatusByRideRequestId(requestId, RideRequestStatus.DENIED)
+            service.changeStatus(requestId, RideRequestStatus.DENIED)
 
     @GetMapping("/{requestId}/cancel")
     fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
-            service.changeStatusByRideRequestId(requestId, RideRequestStatus.CANCELLED)
+            service.changeStatus(requestId, RideRequestStatus.CANCELLED)
 }

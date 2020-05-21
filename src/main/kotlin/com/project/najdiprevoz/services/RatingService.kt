@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Rating
+import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.AddRatingFailedException
@@ -37,6 +38,13 @@ class RatingService(private val repository: RatingRepository,
                         rating = rating
                 )))
     }
+
+    fun pushRatingAllowedNotification(rideRequest: RideRequest){
+        notificationService.pushRatingAllowedNotification(rideRequest = rideRequest)
+    }
+
+    fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest) =
+        notificationService.checkIfHasRatingAllowedNotification(rideRequest)
 
     // Return true if the request has been approved and the member has not submitted rating for this ride previously!
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {

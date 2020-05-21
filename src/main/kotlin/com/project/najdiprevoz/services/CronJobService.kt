@@ -12,11 +12,12 @@ import javax.transaction.Transactional
 
 @Service
 class CronJobService(private val rideRequestService: RideRequestService,
-                     private val tripService: TripService) {
+                     private val tripService: TripService,
+                     private val ratingService: RatingService) {
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
-    @Scheduled(cron = "0 0/20 * * * *")
+    @Scheduled(fixedRate = 10000)
     @Modifying
     @Transactional
     fun updateRidesAndRequestsJob() {
@@ -26,9 +27,23 @@ class CronJobService(private val rideRequestService: RideRequestService,
     }
 
     private fun updateRideRequestCron() {
-        rideRequestService.getAll()
+        val allRideRequests = rideRequestService.getAll()
+
+        allRideRequests
                 .filter { it.status == RideRequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
                 .forEach { changeRequestToExpired(it) }
+
+        allRideRequests
+                .filter {
+                    it.status == RideRequestStatus.APPROVED && it.ride.status == RideStatus.FINISHED && !checkIfHasRatingAllowedNotification(
+                            it)
+                }
+                .forEach { sendRatingNotification(it) }
+
+    }
+
+    private fun sendRatingNotification(it: RideRequest) {
+        ratingService.pushRatingAllowedNotification(it)
     }
 
     private fun changeRequestToExpired(rideRequest: RideRequest) =
@@ -36,4 +51,7 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
     private fun updateRideCron() =
             tripService.checkForFinishedTripsCronJob()
+
+    private fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest): Boolean =
+            ratingService.checkIfHasRatingAllowedNotification(rideRequest)
 }

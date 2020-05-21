@@ -57,4 +57,6 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
 
 
     fun findAllByRequester_UsernameAndStatus(username: String, status: RideRequestStatus): List<RideRequest>
+
+    fun findAllByStatusAndRideId(status: RideRequestStatus,rideId:Long): List<RideRequest>
 }

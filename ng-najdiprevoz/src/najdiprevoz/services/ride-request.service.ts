@@ -26,6 +26,7 @@ export class RideRequestService {
 	getSentRequests(): Observable<RideRequestFullResponse[]> {
 		return this._http.get<RideRequestFullResponse[]>(`${this.path}/sent`)
 	}
+
 	getReceivedRequests(): Observable<RideRequestFullResponse[]> {
 		return this._http.get<RideRequestFullResponse[]>(`${this.path}/received`)
 	}

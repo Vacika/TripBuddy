@@ -21,6 +21,10 @@
 						<span
 							*ngIf="notification.type == 'REQUEST_DENIED'"><b>{{notification.fromName}}</b> {{"REQUEST_DENIED_MESSAGE"|translate}}
 						</span>
+
+						<span
+							*ngIf="notification.type == 'RATING_ALLOWED'"> {{"RATING_ALLOWED"|translate}} <b>{{notification.fromName}}</b>
+						</span>
 					</span>
 					<span class="flex space-between inline-block">
 						<button mat-raised-button *ngFor="let action of notification.actions" class="margin-right-5"

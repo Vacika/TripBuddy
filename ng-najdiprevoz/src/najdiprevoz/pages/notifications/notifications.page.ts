@@ -27,6 +27,9 @@ export class NotificationListPage implements OnInit {
 			case "APPROVE":{
 				return "success"
 			}
+			case "RATING_ALLOWED":{
+				return "success"
+			}
 			case "DENY":{
 				return "danger"
 			}

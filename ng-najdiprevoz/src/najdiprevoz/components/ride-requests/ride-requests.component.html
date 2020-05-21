@@ -1,6 +1,6 @@
 <mat-tab-group dynamicHeight>
 	<mat-tab label="Sent">
-		<ride-requests-table [dataSource]="sentRideRequests"
+		<ride-requests-table class='margin-top-10' [dataSource]="sentRideRequests"
 												 [displayedColumns]="tableColumnsForSent"
 												 (onActionTaken)="takeAction($event)"></ride-requests-table>
 	</mat-tab>

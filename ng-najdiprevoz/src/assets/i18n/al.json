@@ -31,7 +31,6 @@
   "IS_PET_ALLOWED": "TEST",
   "IS_SMOKING_ALLOWED": "TEST",
   "HAS_AIR_CONDITIONER": "TEST",
-  "PRICE_PER_HEAD": "TEST",
   "SUBMIT": "TEST",
   "SAVE": "TEST",
   "USERNAME": "TEST",
@@ -52,5 +51,6 @@
   "AUTHOR": "",
   "NOTE": "",
   "ADDITIONAL_DESCRIPTION": "",
-	"PRICE_PER_HEAD": "Pare per .."
+	"PRICE_PER_HEAD": "Pare per ..",
+	"RATING_ALLOWED": "Please submit your rating for the ride from "
 }
