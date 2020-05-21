@@ -16,9 +16,9 @@ export class ControlPanelPage implements OnInit {
 	receivedRideRequests$: Observable<RideRequestFullResponse[]>;
 
 	constructor(private authService: AuthService,
-				private rideRequestService: RideRequestService,
-				private _notificationService: UINotificationsService,
-				private _dialog: MatDialog) {
+							private rideRequestService: RideRequestService,
+							private _notificationService: UINotificationsService,
+							private _dialog: MatDialog) {
 	}
 
 	submit(formValues: any) {
@@ -35,10 +35,11 @@ export class ControlPanelPage implements OnInit {
 
 	takeAction(event: any) {
 		if (event.action != 'SUBMIT_RATING') {
-			this.rideRequestService.changeRequestStatus(event.id, event.action).subscribe(()=>{
-				this._notificationService.success("RIDE_REQUEST_STATUS_CHANGE_SUCCESS","ACTION_SUCCESS")
-			},()=>{
-				this._notificationService.success("RIDE_REQUEST_STATUS_CHANGE_FAIL","ACTION_FAIL")
+			this.rideRequestService.changeRequestStatus(event.id, event.action).subscribe(() => {
+				this.sentRideRequests$ = this.rideRequestService.getSentRequests();
+				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS', 'ACTION_SUCCESS');
+			}, () => {
+				this._notificationService.error('RIDE_REQUEST_STATUS_CHANGE_FAIL', 'ACTION_FAIL');
 			});
 		} else {
 			this._dialog.open(SubmitRatingDialog, {

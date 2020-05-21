@@ -46,7 +46,7 @@ export class TripsComponent implements OnInit {
 		if (actionEvent.action == 'CANCEL_RIDE') {
 			this._service.cancelTrip(actionEvent.id).subscribe(() => {
 				this._notificationService.success('CANCEL_RIDE_SUCCESS', 'ACTION_SUCCESS');
-
+				this.tripsAsDriver$ = this._service.getMyTripsAsDriver();
 			}, () => {
 				this._notificationService.error('CANCEL_RIDE_FAIL', 'ACTION_FAIL');
 			});
