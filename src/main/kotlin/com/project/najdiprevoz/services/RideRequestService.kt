@@ -144,11 +144,13 @@ class RideRequestService(private val repository: RideRequestRepository,
         pushNotification(findById(requestId), NotificationType.REQUEST_SENT)
     }
 
-    private fun updateStatusIfPossible(requestId: Long, previousStatus: RideRequestStatus, newStatus: RideRequestStatus) {
+    private fun updateStatusIfPossible(requestId: Long, previousStatus: RideRequestStatus,
+                                       newStatus: RideRequestStatus) {
         logger.debug("[RideRequestService] Checking if ride request status transition is valid..")
 
         if (changeStatusActionAllowed(previousStatus, newStatus)) {
-            logger.debug("[RideRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
+            logger.debug(
+                    "[RideRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
             when (newStatus) {
                 RideRequestStatus.APPROVED -> changeRequestToApproved(requestId)
                 RideRequestStatus.DENIED -> changeRequestToDenied(requestId)
@@ -162,16 +164,26 @@ class RideRequestService(private val repository: RideRequestRepository,
     }
 
     private fun getAvailableActions(requestId: Long, forRequester: Boolean): List<String> {
-        val currentStatus = findById(requestId).status
+        val rideRequest = findById(requestId)
+        val currentStatus = rideRequest.status
         var availableActions = listOf<String>()
-        if (!forRequester) {
-            if (changeStatusActionAllowed(currentStatus, RideRequestStatus.APPROVED)) availableActions = availableActions.plus(
+        if (!forRequester && rideRequest.ride.status == RideStatus.ACTIVE) {
+            if (changeStatusActionAllowed(currentStatus,
+                                          RideRequestStatus.APPROVED)) availableActions = availableActions.plus(
                     "APPROVE")
-            if (changeStatusActionAllowed(currentStatus, RideRequestStatus.DENIED)) availableActions = availableActions.plus(
+            if (changeStatusActionAllowed(currentStatus,
+                                          RideRequestStatus.DENIED)) availableActions = availableActions.plus(
                     "DENY")
+        } else if(forRequester) {
+            if (rideRequest.ride.status == RideStatus.FINISHED
+                    && rideRequest.status == RideRequestStatus.APPROVED
+                    && notificationService.checkIfHasRatingAllowedNotification(rideRequest)) availableActions = availableActions.plus(
+                    "SUBMIT_RATING")
+            if (changeStatusActionAllowed(currentStatus,
+                                          RideRequestStatus.CANCELLED)) availableActions = availableActions.plus(
+                    "CANCEL")
         }
-        if (changeStatusActionAllowed(currentStatus, RideRequestStatus.CANCELLED) && forRequester) availableActions = availableActions.plus(
-                "CANCEL")
+
         return availableActions
     }
 
@@ -180,7 +192,7 @@ class RideRequestService(private val repository: RideRequestRepository,
         logger.debug("[RideRequestService] Pushing RideRequest Status Notification..")
 
         notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest,
-                notificationType = notificationType)
+                                                                notificationType = notificationType)
     }
 
     private fun checkIsTripActive(tripId: Long): Boolean {
@@ -201,7 +213,9 @@ class RideRequestService(private val repository: RideRequestRepository,
         return false
     }
 
-    private fun mapToRideRequestFullResponse(rideRequest: RideRequest, allowedActions: List<String>?): RideRequestFullResponse = with(rideRequest) {
+    private fun mapToRideRequestFullResponse(rideRequest: RideRequest,
+                                             allowedActions: List<String>?): RideRequestFullResponse = with(
+            rideRequest) {
         RideRequestFullResponse(
                 id = id,
                 allowedActions = allowedActions,

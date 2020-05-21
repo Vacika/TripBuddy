@@ -124,10 +124,12 @@ class NotificationService(private val repository: NotificationRepository) {
 
     @Modifying
     fun removeLastNotificationForRideRequest(requestId: Long) {
-        val notification = repository.findByRideRequestId(requestId).maxBy { it.createdOn }!!
-        logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
-        repository.delete(notification)
-        repository.flush()
+        val notification = repository.findByRideRequestId(requestId).maxBy { it.createdOn }
+        if(notification!=null) {
+            logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
+            repository.delete(notification)
+            repository.flush()
+        }
     }
 
     fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest): Boolean =
