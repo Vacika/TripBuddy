@@ -56,15 +56,6 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
     @Transactional
     @Query("""
         UPDATE Ride r
-        SET r.status = 'FINISHED'
-        where r.id = :rideId
-    """)
-    fun setRideToFinished(@Param("rideId") rideId: Long): Int
-
-    @Modifying
-    @Transactional
-    @Query("""
-        UPDATE Ride r
         SET r.departureTime = :newTime
         where r.id = :rideId
     """)

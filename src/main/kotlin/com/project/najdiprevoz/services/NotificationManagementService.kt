@@ -31,8 +31,7 @@ class NotificationManagementService(private val notificationService: Notificatio
     fun getUnreadNotifications(name: String): List<NotificationResponse> {
         return notificationService.getUnreadNotifications(name).map { mapToNotificationResponse(it) }
     }
-
-
+    
     private fun mapToNotificationResponse(notification: Notification) = with(notification) {
         NotificationResponse(id = id,
                 fromId = from.id,

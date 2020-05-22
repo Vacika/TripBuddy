@@ -6,7 +6,6 @@ import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.exceptions.NotificationNotFoundException
 import com.project.najdiprevoz.repositories.NotificationRepository
 import org.slf4j.Logger
@@ -64,27 +63,26 @@ class NotificationService(private val repository: NotificationRepository) {
         }
         removeLastNotificationForRideRequest(rideRequest.id)
         pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType,
-                         notificationActionAllowed = notificationActionAllowed)
+                notificationActionAllowed = notificationActionAllowed)
     }
 
     @Modifying
     fun pushRatingNotification(rating: Rating) = with(rating) {
         pushNotification(
-                from = rating.getAuthor(),
-                to = rating.getDriver(),
+                from = getAuthor(),
+                to = getDriver(),
                 type = NotificationType.RATING_SUBMITTED,
-                rideRequest = rating.rideRequest,
+                rideRequest = rideRequest,
                 notificationActionAllowed = listOf(NotificationAction.MARK_AS_SEEN))
     }
 
     @Modifying
     fun pushRatingAllowedNotification(rideRequest: RideRequest) = with(rideRequest) {
         pushNotification(from = ride.driver,
-                         to = requester,
-                         notificationActionAllowed = listOf(NotificationAction.SUBMIT_RATING,
-                                                            NotificationAction.MARK_AS_SEEN),
-                         rideRequest = this,
-                         type = NotificationType.RATING_ALLOWED)
+                to = requester,
+                notificationActionAllowed = listOf(NotificationAction.SUBMIT_RATING, NotificationAction.MARK_AS_SEEN),
+                rideRequest = this,
+                type = NotificationType.RATING_ALLOWED)
     }
 
     fun getMyNotifications(username: String) = repository.findAllByToUsernameOrderByCreatedOnDesc(username)
@@ -94,8 +92,7 @@ class NotificationService(private val repository: NotificationRepository) {
 
     private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>,
                                  type: NotificationType, rideRequest: RideRequest) {
-        logger.info(
-                "[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
+        logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,
@@ -131,7 +128,7 @@ class NotificationService(private val repository: NotificationRepository) {
     fun removeLastNotificationForRideRequest(requestId: Long) {
         var notification = repository.findAllByRideRequest_Id(requestId)
         if (notification.isNotEmpty()) {
-           val deleteNotification = notification.maxBy { it.createdOn }
+            val deleteNotification = notification.maxBy { it.createdOn }
             logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
             repository.delete(deleteNotification)
             repository.flush()
