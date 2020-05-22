@@ -19,9 +19,7 @@ class NotificationManagementService(private val notificationService: Notificatio
             NotificationAction.CANCEL -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.CANCELLED)//this is when the requester decides to cancel their request
             NotificationAction.MARK_AS_SEEN -> notificationService.markAsSeen(notificationId) // just mark seen
             NotificationAction.DENY -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.DENIED) // driver denies request
-        }
-        if (action != NotificationAction.MARK_AS_SEEN) {
-            notificationService.removeAllActionsForNotification(notificationId)
+            NotificationAction.SUBMIT_RATING -> TODO()
         }
         return getUnreadNotifications(notification.to.username)
     }

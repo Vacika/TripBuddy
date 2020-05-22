@@ -21,7 +21,7 @@ class NotificationService(private val repository: NotificationRepository) {
 
     val logger: Logger = LoggerFactory.getLogger(NotificationService::class.java)
 
-    fun findById(id: Long) = repository.findById(id).orElseThrow { NotificationNotFoundException(id) }
+    fun findById(id: Long): Notification = repository.findById(id).orElseThrow { NotificationNotFoundException(id) }
 
     //TODO: Remove all previous/last notifications with same requestId when pushing new notification (if it is not first)
     @Modifying
@@ -31,34 +31,36 @@ class NotificationService(private val repository: NotificationRepository) {
         var from: User
         val driver: User = rideRequest.ride.driver
         val requester: User = rideRequest.requester
-        when (rideRequest.status) {
-            RideRequestStatus.APPROVED -> {
+        when (notificationType) {
+            NotificationType.REQUEST_APPROVED -> {
                 notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.CANCEL)
                 from = driver
                 to = requester
             }
-            RideRequestStatus.DENIED -> {
+            NotificationType.REQUEST_DENIED -> {
                 from = driver
                 to = requester
             }
-            RideRequestStatus.PENDING -> {
+            NotificationType.REQUEST_SENT -> {
                 notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.DENY).plus(
                         NotificationAction.APPROVE)
                 from = requester
                 to = driver
             }
-            RideRequestStatus.CANCELLED -> {
+            NotificationType.REQUEST_CANCELLED -> {
                 from = requester
                 to = driver
             }
-            RideRequestStatus.RIDE_CANCELLED -> {
+            NotificationType.RIDE_CANCELLED -> {
                 from = driver
                 to = requester
             }
-            RideRequestStatus.EXPIRED -> {
+            NotificationType.REQUEST_EXPIRED -> {
                 from = driver
                 to = requester
             }
+            NotificationType.RATING_SUBMITTED -> TODO()
+            NotificationType.RATING_ALLOWED -> TODO()
         }
         removeLastNotificationForRideRequest(rideRequest.id)
         pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType,

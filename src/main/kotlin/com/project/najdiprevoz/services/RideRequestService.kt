@@ -175,6 +175,7 @@ class RideRequestService(private val repository: RideRequestRepository,
                                           RideRequestStatus.DENIED)) availableActions = availableActions.plus(
                     "DENY")
         } else if(forRequester) {
+            //If has ratingAllowed Notification <-- then it can submit rating
             if (rideRequest.ride.status == RideStatus.FINISHED
                     && rideRequest.status == RideRequestStatus.APPROVED
                     && notificationService.checkIfHasRatingAllowedNotification(rideRequest)) availableActions = availableActions.plus(
@@ -202,7 +203,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     private fun changeStatusActionAllowed(previousStatus: RideRequestStatus, nextStatus: RideRequestStatus): Boolean {
         if (previousStatus != nextStatus) {
             return when (previousStatus) {
-                RideRequestStatus.APPROVED -> nextStatus == RideRequestStatus.DENIED
+                RideRequestStatus.APPROVED -> nextStatus == RideRequestStatus.CANCELLED
                 RideRequestStatus.PENDING -> nextStatus != RideRequestStatus.PENDING
                 RideRequestStatus.CANCELLED -> false
                 RideRequestStatus.DENIED -> false

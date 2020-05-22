@@ -9,6 +9,10 @@
 						<span *ngIf="notification.type == 'REQUEST_SENT'">
 							<b>{{notification.fromName}}</b> {{"REQUEST_SENT_MESSAGE"|translate}}
 						</span>
+
+						<span *ngIf="notification.type == 'REQUEST_CANCELLED'">
+							<b>{{notification.fromName}}</b> {{"REQUEST_CANCELLED_MESSAGE"|translate}}
+						</span>
 						<span *ngIf="notification.type == 'REQUEST_APPROVED'">
 							<b>{{notification.fromName}}</b> {{"REQUEST_APPROVED_MESSAGE"|translate}}
 						</span>
