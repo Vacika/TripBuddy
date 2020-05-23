@@ -1,5 +1,7 @@
-<div [class.hidden]="!show">
-	<div class="loader-overlay">
-		<div *ngIf="show" class="loader"></div>
+<div [class.hidden]="!show" class="center">
+	<div class="overlay">
+		<div *ngIf="show" >
+			<mat-spinner ></mat-spinner>
+		</div>
 	</div>
 </div>

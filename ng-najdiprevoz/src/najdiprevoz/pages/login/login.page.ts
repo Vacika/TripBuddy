@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
 		if (this.loginForm.valid) {
 			this.loginService.login(this.username.value, this.password.value).subscribe((user: User) => {
 					if (isNotNullOrUndefined(user)) {
-						this.notificationService.success('SUCCESS_LOGIN', 'SUCCESS_ACTION');
+						this.notificationService.success('SUCCESS_LOGIN', 'ACTION_SUCCESS');
 						this.router.navigate([this.returnUrl]);
 						this.translate.use(user.defaultLanguage.toLowerCase());
 						localStorage.removeItem('lang');
