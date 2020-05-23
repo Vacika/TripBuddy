@@ -25,7 +25,7 @@ export class NotificationListPage implements OnInit {
 	takeAction(notification: NotificationResponse, action: string) {
 		if (action != 'SUBMIT_RATING') {
 			this._notificationService.takeAction(notification.id, action).subscribe(() => {
-				this._uiNotificationsService.success( 'SUCCESS_ACTION')
+				this._uiNotificationsService.success( 'ACTION_SUCCESS')
 			},()=>{
 				this._uiNotificationsService.error('FAIL_ACTION')
 			});

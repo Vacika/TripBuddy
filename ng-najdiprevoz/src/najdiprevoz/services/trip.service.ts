@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { TripDetailsResponse, TripResponse } from '../interfaces/trip-response.interface';
-import { Observable } from 'rxjs';
-import { HelperService } from './helper.service';
-import { PastTripsResponse } from '../interfaces/past-trips-response.interface';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {TripDetailsResponse, TripResponse} from '../interfaces/trip-response.interface';
+import {Observable} from 'rxjs';
+import {HelperService} from './helper.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,6 +13,10 @@ export class TripService {
 
 	constructor(private _http: HttpClient,
 							private _helper: HelperService) {
+	}
+
+	findById(tripId: number): Observable<TripResponse> {
+		return this._http.get<TripResponse>(`${this.listpath}/${tripId}`);
 	}
 
 	getAllTripsForToday(): Observable<TripResponse[]> {
@@ -45,14 +48,6 @@ export class TripService {
 			map.set('requestedSeats', value['requestedSeats']);
 		}
 		return this._http.get<TripResponse[]>(`${this.listpath}/filter${this._helper.mapToQueryString(map)}`);
-	}
-
-	getMyPastTrips(): Observable<PastTripsResponse[]> {
-		return this._http.get<PastTripsResponse[]>(`${this.path}/history/passenger/past-trips`);
-	}
-
-	findById(tripId: number): Observable<TripResponse> {
-		return this._http.get<TripResponse>(`${this.listpath}/${tripId}`);
 	}
 
 	getMyTripsAsPassenger(): Observable<TripResponse[]> {

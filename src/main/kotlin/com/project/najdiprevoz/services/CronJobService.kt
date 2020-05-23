@@ -35,16 +35,13 @@ class CronJobService(private val rideRequestService: RideRequestService,
 
         allRideRequests
                 .filter {
-                    it.status == RideRequestStatus.APPROVED && it.ride.status == RideStatus.FINISHED && !checkIfHasRatingAllowedNotification(
-                            it)
+                    it.status == RideRequestStatus.APPROVED && it.ride.status == RideStatus.FINISHED && !checkIfHasRatingAllowedNotification(it)
                 }
                 .forEach { sendRatingNotification(it) }
-
     }
 
-    private fun sendRatingNotification(it: RideRequest) {
-        ratingService.pushRatingAllowedNotification(it)
-    }
+    private fun sendRatingNotification(it: RideRequest) =
+            ratingService.pushRatingAllowedNotification(it)
 
     private fun changeRequestToExpired(rideRequest: RideRequest) =
             rideRequestService.rideRequestCronJob(rideRequest)

@@ -33,12 +33,12 @@ class TripService(private val repository: RideRepository,
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
-    fun findAllActiveRides(): List<TripResponse> =
-            repository.findAllByStatus(RideStatus.ACTIVE).map { it.mapToTripResponse() }
+    fun findAllActiveTripsForToday(): List<TripResponse> {
+        Thread.sleep(10000)
 
-    fun findAllActiveTripsForToday(): List<TripResponse> =
-            repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
-                    .map { it.mapToTripResponse() }
+        return repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
+                .map { it.mapToTripResponse() }
+    }
 
     fun createNewTrip(createTripRequest: CreateTripRequest, username: String) {
         logger.info("[RideService - ADD RIDE] Creating new ride!")
@@ -54,34 +54,26 @@ class TripService(private val repository: RideRepository,
         return repository.findMyPastTripsAsPassenger(username).map { mapToPastTripResponse(it, username) }
     }
 
+    @Transactional
     @Modifying
     fun cancelTrip(rideId: Long) {
+        repository.changeRideStatus(rideId, RideStatus.CANCELLED)
         val ride = findById(rideId)
-        ride.status = RideStatus.CANCELLED
         ride.rideRequests = ride.rideRequests.map { it.changeStatus(RideRequestStatus.RIDE_CANCELLED) }
         ride.rideRequests.forEach {
-            //            notificationService.removeAllNotificationsForRideRequest(it.id)
-
             notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
         }
-        repository.save(ride)
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }
 
     fun findById(id: Long): Ride =
             repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
-    fun findTripById(id: Long): TripResponse =
+    fun findByIdMapped(id: Long): TripResponse =
             findById(id).mapToTripResponse()
 
-    fun getAllTripsForUser(userId: Long) =
-            repository.findAllByDriverId(driverId = userId).map { it.mapToTripResponse() }
-
-
-    fun findRidesByFromLocationAndDestination(from: String, to: String): List<TripResponse> =
-            repository.findAllByFromLocationNameAndDestinationName(from, to)
-                    .filter { it.status == RideStatus.ACTIVE && it.getAvailableSeats() > 0 }
-                    .map { it.mapToTripResponse() }
+    fun findAllTripsByDriverId(driverId: Long) =
+            repository.findAllByDriverId(driverId = driverId).map { it.mapToTripResponse() }
 
     @Modifying
     @Transactional
@@ -95,18 +87,13 @@ class TripService(private val repository: RideRepository,
                 pricePerHead = pricePerHead)).mapToTripResponse()
     }
 
-    fun checkForFinishedTripsCronJob() {
-        logger.info("[CRONJOB] Checking for finished rides..")
-        logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
-    }
-
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                                    departure = ZonedDateTime.of(
-                                            LocalDate.ofInstant(departureDate.toInstant(),
-                                                                ZoneId.systemDefault()), LocalTime.MIN,
-                                            ZoneId.systemDefault())) //TODO: refactor this
+                    departure = ZonedDateTime.of(
+                            LocalDate.ofInstant(departureDate.toInstant(),
+                                    ZoneId.systemDefault()), LocalTime.MIN,
+                            ZoneId.systemDefault())) //TODO: refactor this
 
         else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = null)
 
@@ -116,6 +103,14 @@ class TripService(private val repository: RideRepository,
                     .map { it.mapToTripResponse() }
         }
         return repository.findAll(specification).map { it.mapToTripResponse() }
+    }
+
+    fun getMyTripsAsDriver(username: String): List<TripResponse> {
+        return repository.findAllByDriverUsername(username).map { it.mapToTripResponse() }
+    }
+
+    fun getMyTripsAsPassenger(username: String): List<TripResponse> {
+        return repository.findAllMyTripsAsPassenger(username).map { it.mapToTripResponse() }
     }
 
     private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
@@ -146,7 +141,6 @@ class TripService(private val repository: RideRepository,
                 maxTwoBackSeat = maxTwoBackseat)
     }
 
-    private inline fun <reified T> evaluateSpecification(value: T?, fn: (T) -> Specification<Ride>) = value?.let(fn)
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?,
                                                          fn: (List<String>, T) -> Specification<Ride>) = value?.let {
         fn(properties, value)
@@ -158,9 +152,9 @@ class TripService(private val repository: RideRepository,
 
     private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
         return TripDetailsResponse(isPetAllowed = isPetAllowed,
-                                   isSmokingAllowed = isSmokingAllowed,
-                                   hasAirCondition = hasAirCondition,
-                                   additionalDescription = trip.additionalDescription)
+                isSmokingAllowed = isSmokingAllowed,
+                hasAirCondition = hasAirCondition,
+                additionalDescription = trip.additionalDescription)
     }
 
     private fun mapToPastTripResponse(ride: Ride, username: String) = with(ride) {
@@ -174,22 +168,13 @@ class TripService(private val repository: RideRepository,
         )
     }
 
-    private fun getAllowedActions(ride: Ride): List<String> {
-        var allowedActions = emptyList<String>()
-        if (ride.status == RideStatus.ACTIVE) allowedActions = allowedActions.plus("CANCEL_RIDE")
-        return allowedActions
-    }
-
     private fun canSubmitRating(ride: Ride, username: String): Boolean {
         return repository.canSubmitRating(username, ride).isEmpty()
     }
 
-    fun getMyTripsAsDriver(username: String): List<TripResponse> {
-        return repository.findAllByDriverUsername(username).map { it.mapToTripResponse() }
-    }
-
-    fun getMyTripsAsPassenger(username: String): List<TripResponse> {
-        return repository.findAllMyTripsAsPassenger(username).map { it.mapToTripResponse() }
+    fun checkForFinishedTripsCronJob() {
+        logger.info("[CRONJOB] Checking for finished rides..")
+        logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
     }
 }
 

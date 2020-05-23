@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -42,7 +40,7 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/trips-list").permitAll()
+                .antMatchers("/api/trips-list/**").permitAll()
                 .antMatchers("/api/cities").permitAll()
                 .antMatchers("/api/users/register").permitAll()
                 .anyRequest().authenticated()

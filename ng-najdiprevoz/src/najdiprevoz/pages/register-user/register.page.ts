@@ -34,7 +34,7 @@ export class RegisterPage implements OnInit {
 	submit() {
 		if (this.form.valid) {
 			this.loginService.registerUser(this.form.value).subscribe(response =>{
-				this.notificationService.success('SUCCESS_REGISTER', 'SUCCESS_ACTION');
+				this.notificationService.success('SUCCESS_REGISTER', 'ACTION_SUCCESS');
 
 			this.router.navigate(['/login'])},
 				(err) => {

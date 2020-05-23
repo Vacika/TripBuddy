@@ -59,25 +59,23 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     @Modifying
     @Transactional
-    fun changeStatus(id: Long, newStatus: RideRequestStatus) {
+    fun changeStatus(id: Long, newStatus: RideRequestStatus) =
         updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
-    }
 
     @Modifying
     @Transactional
     fun addNewRideRequest(req: CreateRequestForTrip, username: String) = with(req) {
         validateRequest(this, username)
-        pushNotification(
-                repository.save(RideRequest(
-                        status = RideRequestStatus.PENDING,
-                        ride = tripService.findById(tripId),
-                        createdOn = ZonedDateTime.now(),
-                        requester = userService.findUserByUsername(username),
-                        additionalDescription = additionalDescription,
-                        requestedSeats = requestedSeats)),
-                NotificationType.REQUEST_SENT
-        )
+        val savedRequest =  repository.save(RideRequest(
+                status = RideRequestStatus.PENDING,
+                ride = tripService.findById(tripId),
+                createdOn = ZonedDateTime.now(),
+                requester = userService.findUserByUsername(username),
+                additionalDescription = additionalDescription,
+                requestedSeats = requestedSeats))
+
         logger.debug("[RideRequestService] Sucessfully added new RideRequest")
+        pushNotification(savedRequest, NotificationType.REQUEST_SENT)
     }
 
     private fun validateRequest(req: CreateRequestForTrip, username: String) = with(req) {
@@ -107,7 +105,11 @@ class RideRequestService(private val repository: RideRequestRepository,
             this.tripService.findById(tripId).getAvailableSeats() >= requestedSeats
 
     private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
-        return repository.findByRideIdAndRequester_Username(tripId, username).isPresent
+        val rideRequest=repository.findByRideIdAndRequester_Username(tripId, username)
+        if(rideRequest.isPresent && rideRequest.get().status!=RideRequestStatus.CANCELLED ){
+            return false
+        }
+        return true
     }
 
     private fun changeRequestToApproved(requestId: Long) {
@@ -149,8 +151,7 @@ class RideRequestService(private val repository: RideRequestRepository,
         logger.debug("[RideRequestService] Checking if ride request status transition is valid..")
 
         if (changeStatusActionAllowed(previousStatus, newStatus)) {
-            logger.debug(
-                    "[RideRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
+            logger.debug("[RideRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
             when (newStatus) {
                 RideRequestStatus.APPROVED -> changeRequestToApproved(requestId)
                 RideRequestStatus.DENIED -> changeRequestToDenied(requestId)
@@ -163,36 +164,26 @@ class RideRequestService(private val repository: RideRequestRepository,
                 "Status change not allowed from $previousStatus to $newStatus for RideRequest ID: [$requestId]")
     }
 
+    private fun canSubmitRating(rideRequest: RideRequest): Boolean =
+            rideRequest.rating != null && rideRequest.ride.status == RideStatus.FINISHED
+                    && rideRequest.status == RideRequestStatus.APPROVED
+
     private fun getAvailableActions(requestId: Long, forRequester: Boolean): List<String> {
         val rideRequest = findById(requestId)
         val currentStatus = rideRequest.status
         var availableActions = listOf<String>()
         if (!forRequester && rideRequest.ride.status == RideStatus.ACTIVE) {
-            if (changeStatusActionAllowed(currentStatus,
-                                          RideRequestStatus.APPROVED)) availableActions = availableActions.plus(
-                    "APPROVE")
-            if (changeStatusActionAllowed(currentStatus,
-                                          RideRequestStatus.DENIED)) availableActions = availableActions.plus(
-                    "DENY")
-        } else if(forRequester) {
-            if (rideRequest.ride.status == RideStatus.FINISHED
-                    && rideRequest.status == RideRequestStatus.APPROVED
-                    && notificationService.checkIfHasRatingAllowedNotification(rideRequest)) availableActions = availableActions.plus(
-                    "SUBMIT_RATING")
-            if (changeStatusActionAllowed(currentStatus,
-                                          RideRequestStatus.CANCELLED)) availableActions = availableActions.plus(
-                    "CANCEL")
+            if (changeStatusActionAllowed(currentStatus, RideRequestStatus.APPROVED))
+                availableActions = availableActions.plus("APPROVE")
+            if (changeStatusActionAllowed(currentStatus, RideRequestStatus.DENIED))
+                availableActions = availableActions.plus("DENY")
+        } else if (forRequester) {
+            if (canSubmitRating(rideRequest))
+                availableActions = availableActions.plus("SUBMIT_RATING")
+            if (changeStatusActionAllowed(currentStatus, RideRequestStatus.CANCELLED))
+                availableActions = availableActions.plus("CANCEL")
         }
-
         return availableActions
-    }
-
-
-    private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
-        logger.debug("[RideRequestService] Pushing RideRequest Status Notification..")
-
-        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest,
-                                                                notificationType = notificationType)
     }
 
     private fun checkIsTripActive(tripId: Long): Boolean {
@@ -202,7 +193,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     private fun changeStatusActionAllowed(previousStatus: RideRequestStatus, nextStatus: RideRequestStatus): Boolean {
         if (previousStatus != nextStatus) {
             return when (previousStatus) {
-                RideRequestStatus.APPROVED -> nextStatus == RideRequestStatus.DENIED
+                RideRequestStatus.APPROVED -> nextStatus == RideRequestStatus.CANCELLED
                 RideRequestStatus.PENDING -> nextStatus != RideRequestStatus.PENDING
                 RideRequestStatus.CANCELLED -> false
                 RideRequestStatus.DENIED -> false
@@ -214,8 +205,7 @@ class RideRequestService(private val repository: RideRequestRepository,
     }
 
     private fun mapToRideRequestFullResponse(rideRequest: RideRequest,
-                                             allowedActions: List<String>?): RideRequestFullResponse = with(
-            rideRequest) {
+                                             allowedActions: List<String>?): RideRequestFullResponse = with(rideRequest) {
         RideRequestFullResponse(
                 id = id,
                 allowedActions = allowedActions,
@@ -228,6 +218,11 @@ class RideRequestService(private val repository: RideRequestRepository,
                 requestStatus = status.toString(),
                 rideStatus = ride.status.toString()
         )
+    }
+
+    private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
+        logger.debug("[RideRequestService] Pushing RideRequest Status Notification..")
+        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
     }
 
     fun rideRequestCronJob(rideRequest: RideRequest) {

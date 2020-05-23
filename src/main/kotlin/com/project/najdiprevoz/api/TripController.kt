@@ -35,7 +35,7 @@ class TripController(private val service: TripService) {
 
     @GetMapping("/all/{userId}")
     fun getAllUserTrips(@PathVariable("userId") userId: Long) =
-            service.getAllTripsForUser(userId)
+            service.findAllTripsByDriverId(userId)
 
     @GetMapping("/history/passenger/past-trips")
     fun findMyPastTripsAsPassenger(principal: Principal): List<PastTripResponse> {

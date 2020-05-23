@@ -34,19 +34,17 @@ class RideRequestController(private val service: RideRequestService) {
             service.getSentRideRequests(principal.name)
 
 
-
-
-    @GetMapping("/ride/{rideId}/pending")
-    fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getRequestsForRideByStatus(rideId, RideRequestStatus.PENDING)
-
-    @GetMapping("/ride/{rideId}/approved")
-    fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getRequestsForRideByStatus(rideId, RideRequestStatus.APPROVED)
-
-    @GetMapping("/ride/{rideId}/denied")
-    fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-            service.getRequestsForRideByStatus(rideId, RideRequestStatus.DENIED)
+//    @GetMapping("/ride/{rideId}/pending")
+//    fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
+//            service.getRequestsForRideByStatus(rideId, RideRequestStatus.PENDING)
+//
+//    @GetMapping("/ride/{rideId}/approved")
+//    fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
+//            service.getRequestsForRideByStatus(rideId, RideRequestStatus.APPROVED)
+//
+//    @GetMapping("/ride/{rideId}/denied")
+//    fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
+//            service.getRequestsForRideByStatus(rideId, RideRequestStatus.DENIED)
 
 
 
