@@ -11,7 +11,7 @@
 				</button>
 			 	<mat-menu #menu="matMenu">
 					<button mat-menu-item *ngFor="let action of element[column]" (click)="takeAction(action, element.id)">
-						{{action}}
+						{{action | translate}}
 					</button>
 				</mat-menu>
 			</span>
@@ -26,14 +26,16 @@
 				<span>{{element.departureTime}}</span>
 			</span>
 
-
 			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime'"
 					 style="display: flex; align-items: center;">
+
+				<!-- STATUS -->
 				<span *ngIf='column == "requestStatus"'
 							style="border:1px solid; border-radius:50%;width:10px; height: 10px;"
 							[classList]="getSpanClass(column,element,true)">
-				</span>
-				<span>
+					</span>
+				<span *ngIf='column == "requestStatus" || column == "status"'>{{element[column] | translate}} </span>
+				<span *ngIf='column != "requestStatus" && column != "status" '>
 					{{element[column]}}
 				</span>
 			</div>

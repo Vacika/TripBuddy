@@ -108,5 +108,8 @@
 	"CANCEL_RIDE_FAIL": "Trip cancellation did not pass successfully..",
 	"REQUEST_CANCELLED_MESSAGE": "ја откажа својата резервација!",
 	"SUCCESS_REGISTER": "Registration successful",
-	"ACTIVE": "Активен"
+	"ACTIVE": "Активен",
+	"CANCELLED": "Откажано",
+	"FINISHED": "Завршено"
+
 }

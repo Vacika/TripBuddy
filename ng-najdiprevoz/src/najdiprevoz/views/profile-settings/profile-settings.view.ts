@@ -1,8 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from "@angular/core";
-import {User} from "../../interfaces/user.interface";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthService} from "../../services/auth.service";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { User } from '../../interfaces/user.interface';
+import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'profile-settings',
@@ -25,12 +25,13 @@ export class ProfileSettingsView {
 	}
 
 	onFileChange(files) {
-		if (files.length === 0)
+		if (files.length === 0) {
 			return;
+		}
 
 		var mimeType = files[0].type;
 		if (mimeType.match(/image\/*/) == null) {
-			alert("ONLY IMAGES ALLOWED!"); //TODO: Switch with notify service
+			alert('ONLY IMAGES ALLOWED!'); //TODO: Switch with notify service
 			return;
 		}
 		var reader = new FileReader();
@@ -38,14 +39,15 @@ export class ProfileSettingsView {
 		reader.onload = (_event) => {
 			this.imgUrl = reader.result;
 			this.profilePhoto.setValue(this.imgUrl);
-		}
+		};
 	}
 
 	submit() {
 		if (this.password.value == 'empty-password') {
 			this.password.reset();
 		}
-		this.submitEvent.emit(this.form.value)
+		this.toggleEdit();
+		this.submitEvent.emit(this.form.value);
 	}
 
 	private get formDefinition() {
@@ -56,7 +58,7 @@ export class ProfileSettingsView {
 			gender: new FormControl(null, Validators.required),
 			profilePhoto: new FormControl(null),
 			defaultLanguage: new FormControl(null, Validators.required)
-		})
+		});
 	}
 
 	private setProperties(user: User) {
@@ -66,7 +68,7 @@ export class ProfileSettingsView {
 		this.gender.patchValue(user.gender);
 		this.phoneNumber.setValue(user.phoneNumber);
 		this.profilePhoto.setValue(user.profilePhoto);
-		this.defaultLanguage.setValue(user.defaultLanguage)
+		this.defaultLanguage.setValue(user.defaultLanguage);
 	}
 
 	private get defaultLanguage(): AbstractControl {
@@ -78,19 +80,19 @@ export class ProfileSettingsView {
 	}
 
 	private get birthDate(): AbstractControl {
-		return this.form.controls['birthDate']
+		return this.form.controls['birthDate'];
 	}
 
 	private get phoneNumber(): AbstractControl {
-		return this.form.controls['phoneNumber']
+		return this.form.controls['phoneNumber'];
 	}
 
 	private get password(): AbstractControl {
-		return this.form.controls['password']
+		return this.form.controls['password'];
 	}
 
 	private get gender(): AbstractControl {
-		return this.form.controls['gender']
+		return this.form.controls['gender'];
 	}
 
 	toggleEdit() {
