@@ -95,18 +95,9 @@
 			<div class='flex space-between align-baseline'>
 				<mat-checkbox class="form-field width-12"
 											formControlName='isSmokingAllowed'>{{'IS_SMOKING_ALLOWED' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.isSmokingAllowed.touched && preferencesForm.controls.isSmokingAllowed.invalid">
-					<span
-						*ngIf="preferencesForm.controls.isSmokingAllowed.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 
 				<mat-checkbox class="form-field width-12"
 											formControlName='isPetAllowed'>{{'IS_PET_ALLOWED' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.isPetAllowed.touched && preferencesForm.controls.isPetAllowed.invalid">
-					<span *ngIf="preferencesForm.controls.isPetAllowed.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 
 				<mat-form-field class="form-field width-12" appearance="outline">
 					<input matInput class='border-top-0' formControlName='departureTime'
@@ -120,18 +111,9 @@
 
 				<mat-checkbox class="form-field width-12"
 											formControlName='hasAirCondition'>{{'HAS_AIR_CONDITION' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.hasAirCondition.touched && preferencesForm.controls.hasAirCondition.invalid">
-					<span
-						*ngIf="preferencesForm.controls.hasAirCondition.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 
 				<mat-checkbox class="form-field width-12"
 											formControlName='maxTwoBackseat'>{{'MAX_TWO_BACKSEAT' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.maxTwoBackseat.touched && preferencesForm.controls.maxTwoBackseat.invalid">
-					<span *ngIf="preferencesForm.controls.maxTwoBackseat.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 			</div>
 
 			<div class="form-container">

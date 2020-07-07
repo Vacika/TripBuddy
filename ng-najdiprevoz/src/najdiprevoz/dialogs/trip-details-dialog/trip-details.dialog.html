@@ -2,7 +2,7 @@
 	{{trip.from}}  <img src="../../assets/images/right-arrow.png" height="13px" width="29px">  {{trip.to}}</h1>
 <div mat-dialog-content class='mat-dialog-content'>
 
-	<div><span class="text-bold">{{'STATUS'|translate}}: </span>{{trip.status}}</div>
+	<div><span class="text-bold">{{'STATUS'|translate}}: </span> {{ trip.status | translate }}</div>
 	<div><span class="text-bold">{{'DEPARTURE_TIME'|translate}}
 		: </span>{{trip.departureTime | date: 'HH:mm, EEEE, dd MMMM'}}</div>
 	<div><span class="text-bold">{{'AVAILABLE_SEATS'|translate}}: </span>{{trip.availableSeats}}</div>

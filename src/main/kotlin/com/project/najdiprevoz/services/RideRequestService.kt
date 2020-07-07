@@ -222,7 +222,7 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
         logger.debug("[RideRequestService] Pushing RideRequest Status Notification..")
-        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
+        notificationService.pushRideRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
     }
 
     fun rideRequestCronJob(rideRequest: RideRequest) {

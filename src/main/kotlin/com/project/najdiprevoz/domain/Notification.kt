@@ -48,5 +48,10 @@ data class Notification(
     private fun removeAction(action: NotificationAction) {
         actions.removeIf { it.name == action.name }
     }
+
+    fun removeAllActions(): Notification {
+        this.actions = mutableListOf()
+        return this
+    }
 }
 

@@ -59,7 +59,7 @@ class TripService(private val repository: RideRepository,
         val ride = findById(rideId)
         ride.rideRequests = ride.rideRequests.map { it.changeStatus(RideRequestStatus.RIDE_CANCELLED) }
         ride.rideRequests.forEach {
-            notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
+            notificationService.pushRideRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
         }
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }

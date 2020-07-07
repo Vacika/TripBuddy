@@ -41,8 +41,9 @@
 
 			</span>
 			<span class='flex align-flex-end pointer primary-dark-color'>
-				<!-- MAX TWO BACKSEAT -->
-				<span class="pointer" *ngIf='trip.maxTwoBackSeat'
+
+					<!-- MAX TWO BACKSEAT -->
+				<span class="pointer flex" *ngIf='trip.maxTwoBackSeat'
 							matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 					<svg viewBox="0 0 24 24"
 							 xmlns="http://www.w3.org/2000/svg"
@@ -60,14 +61,16 @@
 				<!-- PRICE PER HEAD -->
 				<mat-icon>monetization_on</mat-icon>
 				{{trip.pricePerHead}}.00 MKD
+
+
 			</span>
 		</div>
 	</mat-card-content>
 	<mat-divider></mat-divider>
 	<mat-card-actions class='flex space-between'>
-		<button mat-button class=" mat-primary width-50" [disabled]='trip.availableSeats<=0'
+		<button mat-button class=" mat-primary width-50 background-green color-white" [disabled]='trip.availableSeats<=0'
 						(click)='reserve(trip)'>{{'REQUEST_RIDE'| translate}}</button>
-		<button mat-button class=" mat-primary width-50"
+		<button mat-button class=" mat-primary width-50 background-green color-white"
 						(click)="onClickDetails(trip.id)">{{'SEE_DETAILS' | translate}}</button>
 	</mat-card-actions>
 </mat-card>
