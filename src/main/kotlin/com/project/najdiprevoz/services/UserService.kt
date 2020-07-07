@@ -38,6 +38,19 @@ class UserService(private val repository: UserRepository,
                 authority = authorityRepository.findByAuthority("ROLE_USER")!!))
     }
 
+    fun createAdminUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
+        repository.save(User(
+                firstName = firstName,
+                lastName = lastName,
+                username = username,
+                password = passwordEncoder().encode(password),
+                birthDate = birthDate,
+                gender = gender,
+                phoneNumber = phoneNumber,
+                profilePhoto = null,
+                authority = authorityRepository.findByAuthority("ROLE_ADMIN")!!))
+    }
+
     fun findUserByUsername(username: String): User =
             repository.findByUsername(username)
                     .orElseThrow { UsernameNotFoundException("User was not found") }
@@ -61,5 +74,9 @@ class UserService(private val repository: UserRepository,
         }
         return repository.save(user)
     }
+
+    fun getUserInfo(username: String): UserProfileResponse =
+        findUserByUsername(username).mapToUserProfileResponse()
+
 }
 

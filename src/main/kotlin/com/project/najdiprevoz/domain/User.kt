@@ -36,7 +36,7 @@ data class User(
         @Column(name = "birth_date", nullable = false)
         var birthDate: Date,
 
-//        @Lob
+        // @Lob
         @Column(name = "profile_photo", nullable = true)
         var profilePhoto: String? = null,
 

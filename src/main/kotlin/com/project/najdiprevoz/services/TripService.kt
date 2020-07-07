@@ -34,8 +34,6 @@ class TripService(private val repository: RideRepository,
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
     fun findAllActiveTripsForToday(): List<TripResponse> {
-        Thread.sleep(10000)
-
         return repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
                 .map { it.mapToTripResponse() }
     }

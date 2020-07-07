@@ -106,5 +106,6 @@
 	"TRIP_CREATE_FAIL": "Trip publishing failed..",
 	"CANCEL_RIDE_SUCCESS": "Trip cancelled successfully",
 	"CANCEL_RIDE_FAIL": "Trip cancellation did not pass successfully..",
-	"REQUEST_CANCELLED_MESSAGE": "ја откажа својата резервација!"
+	"REQUEST_CANCELLED_MESSAGE": "ја откажа својата резервација!",
+	"SUCCESS_REGISTER": "Registration successful"
 }

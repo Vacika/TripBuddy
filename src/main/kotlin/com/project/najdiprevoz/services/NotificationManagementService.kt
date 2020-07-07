@@ -21,7 +21,7 @@ class NotificationManagementService(private val notificationService: Notificatio
             NotificationAction.DENY -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.DENIED) // driver denies request
             NotificationAction.SUBMIT_RATING -> TODO()
         }
-        return getUnreadNotifications(notification.to.username)
+        return getMyNotifications(notification.to.username)
     }
 
     fun getMyNotifications(name: String): List<NotificationResponse> {

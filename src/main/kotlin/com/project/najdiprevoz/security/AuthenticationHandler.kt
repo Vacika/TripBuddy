@@ -22,9 +22,6 @@ class AuthenticationHandler {
             /**
              * Always returns a 401 error code to the client.
              */
-            /**
-             * Always returns a 401 error code to the client.
-             */
             logger.debug("Pre-authenticated entry point called. Rejecting access")
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied")
         }

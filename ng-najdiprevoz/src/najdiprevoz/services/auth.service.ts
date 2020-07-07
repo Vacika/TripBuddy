@@ -13,6 +13,8 @@ const apiURI = "/api/login";
 export class AuthService {
 	private currentUser: BehaviorSubject<User | null>;
 
+	readonly path = "/api/users";
+
 	constructor(private httpClient: HttpClient) {
 		this.currentUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
 	}
@@ -43,7 +45,7 @@ export class AuthService {
 	}
 
 	registerUser(formValues): Observable<void> {
-		return this.httpClient.put<void>(`api/users/register`, formValues)
+		return this.httpClient.put<void>(`${this.path}/register`, formValues)
 	}
 
 	resetUserObservable() {
@@ -52,11 +54,15 @@ export class AuthService {
 	}
 
 	editProfile(formValues: any): Observable<User> {
-		return this.httpClient.put<User>(`api/users/edit`, formValues)
+		return this.httpClient.put<User>(`${this.path}/edit`, formValues)
 	}
 
 	setLoggedUser(user: User) {
 		this.currentUser.next(user);
 		localStorage.setItem('currentUser', JSON.stringify(user));
+	}
+
+	getUserDetails(username: string){
+		return this.httpClient.get(`${this.path}/user/${username}`);
 	}
 }

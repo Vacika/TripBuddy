@@ -61,7 +61,7 @@ class NotificationService(private val repository: NotificationRepository) {
             NotificationType.RATING_SUBMITTED -> TODO()
             NotificationType.RATING_ALLOWED -> TODO()
         }
-        removeLastNotificationForRideRequest(rideRequest.id)
+        removeLastNotificationForRideRequest(rideRequest.id) // this could be removeActionsForLastNotificationForRideRequest
         pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType,
                 notificationActionAllowed = notificationActionAllowed)
     }
@@ -128,7 +128,7 @@ class NotificationService(private val repository: NotificationRepository) {
     fun removeLastNotificationForRideRequest(requestId: Long) {
         var notification = repository.findAllByRideRequest_Id(requestId)
         if (notification.isNotEmpty()) {
-            val deleteNotification = notification.maxBy { it.createdOn }
+            val deleteNotification = notification.maxBy { it.createdOn }!!
             logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
             repository.delete(deleteNotification)
             repository.flush()
