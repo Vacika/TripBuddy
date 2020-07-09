@@ -13,9 +13,9 @@ class RatingController(private val service: RatingService) {
     fun getMyRatings(principal: Principal) =
             service.getRatingsForUser(principal.name)
 
-    @GetMapping("/user") // TODO: should this be path variable or requestbody?
-    fun getRatingsForUser(@RequestBody username: String) =
-            service.getRatingsForUser(username)
+    @GetMapping("/user/{userId}")
+    fun getRatingsForUser(@PathVariable("userId") userId: String) =
+            service.getRatingsForUserById(userId)
 
     @PostMapping("/add")
     fun createNewRating(@RequestBody createRatingRequest: CreateRatingRequest) =

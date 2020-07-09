@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {User} from "../interfaces/user.interface";
+import {User, UserProfileDetails} from "../interfaces/user.interface";
 import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 const apiURI = "/api/login";
@@ -62,7 +62,7 @@ export class AuthService {
 		localStorage.setItem('currentUser', JSON.stringify(user));
 	}
 
-	getUserDetails(username: string){
-		return this.httpClient.get(`${this.path}/user/${username}`);
+	getUserDetails(userId: string): Observable<UserProfileDetails> {
+		return this.httpClient.get<UserProfileDetails>(`${this.path}/details/user/${userId}`);
 	}
 }

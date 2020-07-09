@@ -1,0 +1,35 @@
+<div class="component-wrapper">
+	<div class="form-container">
+			<span *ngFor="let rating of ratings">
+				<div class="flex-column">
+
+					<span class="flex space-between">
+						<span class="flex">
+							<img class="card-header-image"
+									 [src]="rating.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
+									 style="border-radius:50%;width:52px;height:52px;">
+
+							<span class="flex-column ml-3">
+								<span class="text-bold no-wrap">{{rating.fromFullName}}:</span>
+								<div style='width:85px'><mat-star-rating [rating]="rating.rating" [starCount]="5"></mat-star-rating> </div>
+							</span>
+						</span>
+
+						<span class="flex-column">
+							<span>{{rating.rideFrom}}
+								<img src="../../../assets/images/car-moving2.gif" class="car-moving">
+								{{rating.rideTo}}</span>
+							<span>{{rating.rideDate| date:'medium'}}</span>
+						</span>
+
+					</span>
+					<div>
+						 <p>{{rating.note}}</p>
+					</div>
+				</div>
+				<hr>
+
+		<mat-divider></mat-divider>
+			</span>
+	</div>
+</div>

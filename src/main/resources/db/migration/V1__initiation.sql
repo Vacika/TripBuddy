@@ -28,7 +28,8 @@ CREATE TABLE public.users
     phone_number  character varying(255)                           NOT NULL,
     authority_id  bigint                                           NOT NULL REFERENCES public.authorities (id),
     profile_photo TEXT,
-    default_lang  TEXT
+    default_lang  TEXT,
+    registered_on timestamp with time zone NOT NULL
 );
 
 

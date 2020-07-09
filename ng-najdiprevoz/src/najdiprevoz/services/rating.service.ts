@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { RatingCustomResponse } from '../interfaces/rating.interface';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {RatingCustomResponse} from '../interfaces/rating.interface';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,5 +23,9 @@ export class RatingService {
 			note: note
 		};
 		return this._http.post<void>(`${this.path}/add`, body);
+	}
+
+	getRatingsForUser(userId: any): Observable<RatingCustomResponse[]> {
+		return of([]);
 	}
 }

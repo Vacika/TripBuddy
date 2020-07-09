@@ -45,13 +45,13 @@ class RatingService(private val repository: RatingRepository,
                 )))
     }
 
-    fun pushRatingAllowedNotification(rideRequest: RideRequest){
+    fun pushRatingAllowedNotification(rideRequest: RideRequest) {
         logger.debug("[RatingService] Pushing RatingNotification for RideRequest with ID: [${rideRequest.id}")
         notificationService.pushRatingAllowedNotification(rideRequest = rideRequest)
     }
 
     fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest) =
-        notificationService.checkIfHasRatingAllowedNotification(rideRequest)
+            notificationService.checkIfHasRatingAllowedNotification(rideRequest)
 
     // Return true if the request has been approved and the member has not submitted rating for this ride previously!
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
@@ -73,5 +73,9 @@ class RatingService(private val repository: RatingRepository,
                 rideFrom = rating.rideRequest.ride.fromLocation.name,
                 rideTo = rating.rideRequest.ride.destination.name
         )
+    }
+
+    fun getRatingsForUserById(userId: String): List<RatingResponse> {
+        return repository.findAllByRatedUser_Id(userId).map { mapToRatingResponse(it) }
     }
 }

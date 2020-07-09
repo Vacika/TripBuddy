@@ -4,8 +4,8 @@ import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.services.UserService
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
-import com.project.najdiprevoz.web.request.edit.ChangeProfilePhotoRequest
 import com.project.najdiprevoz.web.response.UserProfileResponse
+import com.project.najdiprevoz.web.response.UserResponse
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
@@ -13,13 +13,9 @@ import java.security.Principal
 @RequestMapping("/api/users")
 class UserController(private val userService: UserService) {
 
-    @GetMapping("/{userId}")
-    fun findUserById(@PathVariable("userId") userId: Long): User =
-            userService.findUserById(userId)
-
-    @GetMapping("/user/{username}")
-    fun findUserByUsername(@PathVariable username: String): UserProfileResponse =
-            userService.getUserInfo(username)
+    @GetMapping("/details/{userId}")
+    fun getUserInfo(@PathVariable("userId") userId: Long): UserProfileResponse =
+            userService.getUserInfo(userId)
 
     @PutMapping("/register")
     fun createUser(@RequestBody request: CreateUserRequest): User =
