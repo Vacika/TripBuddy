@@ -79,11 +79,11 @@ class UserService(private val repository: UserRepository,
     }
 
     fun getUserInfo(userId: Long): UserProfileResponse = with(findUserById(userId)) {
-        UserProfileResponse(id, firstName, lastName,
-                profilePhoto, username, phoneNumber,
-                lastName, birthDate, ratings,
-                getAverageRating(), defaultLanguage.longName,
-                tripRepository.findAllByDriverId(userId).size, registeredOn)
+        UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
+                profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
+                gender = gender.gender, birthDate = birthDate, ratings = ratings,
+                averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
+                publishedRides = tripRepository.findAllByDriverId(userId).size, memberSince = registeredOn)
     }
 }
 

@@ -10,28 +10,34 @@
 		<div class="basic-info">
 			<div class="rating">
 				<mat-icon>star</mat-icon>
-				{{user.averageRating}} / 5  {{"TOTAL_RATINGS"|translate}} {{user.ratings.length}}
+				{{user.averageRating != 'NaN' ? user.averageRating : 0}} / 5
+				({{"TOTAL_RATINGS"|translate}} {{user.ratings.length}})
 				<mat-icon (click)="navigateToRatings()">keyboard_arrow_right</mat-icon>
 			</div>
 
 			<div class="gender">
-				<mat-icon>gender</mat-icon>: {{user.gender}}
+				<mat-icon>gender</mat-icon>
+				: {{user.gender}}
 			</div>
 
 			<div class="birthdate">
-				<mat-icon>cake</mat-icon>: {{user.birthDate | date:"mediumDate"}}
+				<mat-icon>cake</mat-icon>
+				: {{user.birthDate | date:"mediumDate"}}
 			</div>
 
 			<div class="mail">
-				<mat-icon>mail</mat-icon>: {{user.username}}
+				<mat-icon>mail</mat-icon>
+				: {{user.username}}
 			</div>
 
 			<div class="phone">
-				<mat-icon>phone</mat-icon>: {{user.phoneNumber}}
+				<mat-icon>phone</mat-icon>
+				: {{user.phoneNumber}}
 			</div>
 
 			<div class="default-lang">
-				<mat-icon>lang</mat-icon>: {{user.defaultLanguage}}
+				<mat-icon>lang</mat-icon>
+				: {{user.defaultLanguage}}
 			</div>
 		</div>
 
