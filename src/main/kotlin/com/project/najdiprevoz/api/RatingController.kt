@@ -14,8 +14,8 @@ class RatingController(private val service: RatingService) {
             service.getRatingsForUser(principal.name)
 
     @GetMapping("/user/{userId}")
-    fun getRatingsForUser(@PathVariable("userId") userId: String) =
-            service.getRatingsForUserById(userId)
+    fun getRatingsForUser(@PathVariable("userId") userId: Long) =
+            service.getRatingsForUserById(userId).map { it.mapToRatingResponse() }
 
     @PostMapping("/add")
     fun createNewRating(@RequestBody createRatingRequest: CreateRatingRequest) =

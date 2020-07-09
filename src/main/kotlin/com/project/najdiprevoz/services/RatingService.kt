@@ -7,7 +7,6 @@ import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.AddRatingFailedException
 import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.web.request.create.CreateRatingRequest
-import com.project.najdiprevoz.web.response.RatingResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -24,7 +23,7 @@ class RatingService(private val repository: RatingRepository,
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
 
     fun getRatingsForUser(username: String) =
-            repository.findAllByRatedUser_Username(username).map(::mapToRatingResponse)
+            repository.findAllByRatedUser_Username(username).map { it.mapToRatingResponse() }
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {
@@ -60,22 +59,7 @@ class RatingService(private val repository: RatingRepository,
         rideRequest.status == RideRequestStatus.APPROVED && rideRequest.rating == null && rideRequest.ride.status == RideStatus.FINISHED
     }
 
-    private fun mapToRatingResponse(rating: Rating): RatingResponse {
-        return RatingResponse(
-                id = rating.id,
-                rating = rating.rating,
-                note = rating.note,
-                rideId = rating.rideRequest.ride.id,
-                fromFullName = rating.getAuthor().getFullName(),
-                fromId = rating.getAuthor().id,
-                fromProfilePic = rating.getAuthor().profilePhoto,
-                rideDate = rating.rideRequest.ride.departureTime,
-                rideFrom = rating.rideRequest.ride.fromLocation.name,
-                rideTo = rating.rideRequest.ride.destination.name
-        )
-    }
-
-    fun getRatingsForUserById(userId: String): List<RatingResponse> {
-        return repository.findAllByRatedUser_Id(userId).map { mapToRatingResponse(it) }
+    fun getRatingsForUserById(userId: Long): List<Rating> {
+        return repository.findAllByRatedUser_Id(userId)
     }
 }

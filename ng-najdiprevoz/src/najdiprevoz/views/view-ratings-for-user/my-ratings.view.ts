@@ -17,8 +17,7 @@ export class UserRatingsView implements OnInit {
 
 	ngOnInit() {
 		let userId = this._route.snapshot.params.id;
-		if (userId) {
-			this.ratingService.getRatingsForUser(userId).subscribe(response => this.ratings = response);
-		}
+		console.log("USERID:", userId);
+		this.ratingService.getRatingsForUser(userId).subscribe(response => this.ratings = response);
 	}
 }

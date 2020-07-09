@@ -63,6 +63,6 @@ export class AuthService {
 	}
 
 	getUserDetails(userId: string): Observable<UserProfileDetails> {
-		return this.httpClient.get<UserProfileDetails>(`${this.path}/details/user/${userId}`);
+		return this.httpClient.get<UserProfileDetails>(`${this.path}/details/${userId}`);
 	}
 }

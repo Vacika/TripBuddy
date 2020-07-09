@@ -3,6 +3,7 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
+import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.repositories.UserRepository
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
@@ -22,6 +23,7 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
+                  private val ratingRepository: RatingRepository,
                   private val tripRepository: RideRepository,
                   private val authorityRepository: AuthorityRepository) {
     fun createNewUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {

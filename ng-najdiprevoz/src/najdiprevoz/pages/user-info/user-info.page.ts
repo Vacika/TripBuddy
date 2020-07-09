@@ -12,7 +12,8 @@ export class UserInfoPage implements OnInit {
 
 	constructor(private _service: AuthService,
 							private _router: Router,
-							private _route: ActivatedRoute) {};
+							private _route: ActivatedRoute) {
+	};
 
 	ngOnInit(): void {
 		let userId = this._route.snapshot.params.id;
@@ -22,6 +23,6 @@ export class UserInfoPage implements OnInit {
 	}
 
 	navigateToRatings() {
-		this._router.navigate(['/ratings'])
+		this._router.navigate(['ratings'], {relativeTo: this._route})
 	}
 }

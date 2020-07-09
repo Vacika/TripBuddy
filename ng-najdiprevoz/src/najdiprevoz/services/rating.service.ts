@@ -26,6 +26,6 @@ export class RatingService {
 	}
 
 	getRatingsForUser(userId: any): Observable<RatingCustomResponse[]> {
-		return of([]);
+		return this._http.get<RatingCustomResponse[]>(`${this.path}/user/${userId}`);
 	}
 }
