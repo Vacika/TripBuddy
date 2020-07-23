@@ -25,7 +25,7 @@ data class Notification(
         val type: NotificationType,
 
         @Enumerated(EnumType.STRING)
-        @ElementCollection(targetClass = NotificationAction::class, fetch = FetchType.EAGER)
+        @ElementCollection(targetClass = NotificationAction::class, fetch = FetchType.LAZY)
         var actions: MutableList<NotificationAction> = mutableListOf(NotificationAction.MARK_AS_SEEN),
 
         @ManyToOne

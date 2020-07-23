@@ -63,7 +63,7 @@ data class User(
         val registeredOn: ZonedDateTime,
 
         @JsonIgnore
-        @OneToMany(mappedBy = "ratedUser")
+        @OneToMany(mappedBy = "ratedUser", fetch = FetchType.EAGER)
         var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
 

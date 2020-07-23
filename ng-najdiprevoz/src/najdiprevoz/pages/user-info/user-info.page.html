@@ -10,7 +10,7 @@
 		<div class="basic-info">
 			<div class="rating">
 				<mat-icon>star</mat-icon>
-				{{user.averageRating != 'NaN' ? user.averageRating : 0}} / 5
+				{{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
 				({{"TOTAL_RATINGS"|translate}} {{user.ratings.length}})
 				<mat-icon (click)="navigateToRatings()">keyboard_arrow_right</mat-icon>
 			</div>
