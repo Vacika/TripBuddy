@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
-import {TripListPage} from "../trip-list/trip-list.page";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './home-page.component.html',
@@ -12,9 +11,13 @@ export class HomePage {
 	}
 
 	onSearch(formValues: any) {
-		this._router.navigate([TripListPage],{queryParams:{
-			fromLocation: formValues['fromLocation'],
+		this._router.navigate(['trips'], {
+			queryParams: {
+				fromLocation: formValues['fromLocation'],
+				departureDate: formValues['departureDate'] ? formValues['departureDate'] : null,
+				requestedSeats: formValues['requestedSeats'] ? formValues['requestedSeats'] : null,
 				toLocation: formValues['toLocation']
-			}})
+			}
+		});
 	}
 }

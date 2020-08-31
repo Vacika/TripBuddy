@@ -23,10 +23,6 @@ body {
 	background: rgb(136, 136, 136) url("assets/images/landing_page_bg.jpg") no-repeat center;
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
-	//color: white !important;
-	//background: #2193b0;
-	//background: -webkit-gradient(linear, right top, left bottom, from(#054752), to(#2193b0));
-	//background: linear-gradient(to bottom left, #054752, #2193b0);
 }
 
 .inline-block {
@@ -119,4 +115,8 @@ a:not(.mat-icon-button):after {
 .my-form-field.mat-form-field-appearance-legacy .mat-input-element {
 	caret-color: white;
 	color: white;
+}
+
+input {
+	color: white !important;
 }

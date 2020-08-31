@@ -1,9 +1,9 @@
-import {Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {TripService} from '../../services/trip.service';
-import {ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {City} from '../../interfaces/city.interface';
-import {CityService} from '../../services/city.service';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { TripService } from '../../services/trip.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { City } from '../../interfaces/city.interface';
+import { CityService } from '../../services/city.service';
 
 @Component({
 	selector: 'search-trips-component',
@@ -14,7 +14,19 @@ import {CityService} from '../../services/city.service';
 export class SearchTripsPage implements OnInit {
 	@HostBinding('class') classes = 'page';
 	@Output() searchFormEmitter = new EventEmitter();
-  @Input() textColor: string = 'color-black';
+	@Input() textColor: string = 'color-black';
+
+	@Input() set patchFormValues(newValues: any) {
+		let newFormControlValues = {
+			fromLocation: newValues.fromLocation ? +newValues.fromLocation : null,
+			toLocation: newValues.toLocation? +newValues.toLocation : null,
+			requestedSeats: newValues.requestedSeats? +newValues.requestedSeats : null,
+			departureDate: newValues.departureDate? newValues.departureDate : null
+		};
+		this.form.setValue(newFormControlValues);
+		console.log("THIS FORM VALUES:",this.form.value);
+	}
+
 	form: FormGroup = this.searchFormDefinition;
 	allCities: City[] = [];
 	departureDateSearched: Date;
