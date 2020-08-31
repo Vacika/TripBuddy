@@ -117,6 +117,15 @@ a:not(.mat-icon-button):after {
 	color: white;
 }
 
-input {
+/** Overrides checkbox color **/
+.mat-checkbox-frame {
+	border-color: white !important;
+}
+
+input:not(.owl-dt-timer-input) {
 	color: white !important;
+}
+
+.owl-dt-timer {
+	color: black !important;
 }

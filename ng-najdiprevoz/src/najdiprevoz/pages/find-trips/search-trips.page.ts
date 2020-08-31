@@ -17,14 +17,15 @@ export class SearchTripsPage implements OnInit {
 	@Input() textColor: string = 'color-black';
 
 	@Input() set patchFormValues(newValues: any) {
-		let newFormControlValues = {
-			fromLocation: newValues.fromLocation ? +newValues.fromLocation : null,
-			toLocation: newValues.toLocation? +newValues.toLocation : null,
-			requestedSeats: newValues.requestedSeats? +newValues.requestedSeats : null,
-			departureDate: newValues.departureDate? newValues.departureDate : null
-		};
-		this.form.setValue(newFormControlValues);
-		console.log("THIS FORM VALUES:",this.form.value);
+		if (newValues) {
+			let newFormControlValues = {
+				fromLocation: newValues.fromLocation ? +newValues.fromLocation : null,
+				toLocation: newValues.toLocation ? +newValues.toLocation : null,
+				requestedSeats: newValues.requestedSeats ? +newValues.requestedSeats : null,
+				departureDate: newValues.departureDate ? newValues.departureDate : null
+			};
+			this.form.setValue(newFormControlValues);
+		}
 	}
 
 	form: FormGroup = this.searchFormDefinition;

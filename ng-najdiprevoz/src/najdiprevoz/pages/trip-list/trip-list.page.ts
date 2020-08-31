@@ -11,9 +11,17 @@ import { Observable } from 'rxjs';
 export class TripListPage implements OnInit {
 	data$ = new Observable<TripResponse[]>();
 	formValues: any;
+
 	constructor(private _service: TripService,
 							private _route: ActivatedRoute,
 							private _router: Router) {
+	}
+
+	navigateWithQueryParams(formValue: any) {
+		this._router.navigate([], {
+			relativeTo: this._route,
+			queryParams: formValue
+		});
 	}
 
 	onSearchEmit(formValue: any) {
@@ -24,8 +32,9 @@ export class TripListPage implements OnInit {
 	ngOnInit(): void {
 		this.data$ = this._service.getAllTripsForToday();// fetch all active rides
 		this._route.queryParams.subscribe(params => {
-			console.log('params:', params);
-			this.onSearchEmit(params);
+			if (params && params.fromLocation && params.toLocation) {
+				this.onSearchEmit(params);
+			}
 		});
 	}
 }

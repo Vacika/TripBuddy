@@ -12,12 +12,7 @@ export class HomePage {
 
 	onSearch(formValues: any) {
 		this._router.navigate(['trips'], {
-			queryParams: {
-				fromLocation: formValues['fromLocation'],
-				departureDate: formValues['departureDate'] ? formValues['departureDate'] : null,
-				requestedSeats: formValues['requestedSeats'] ? formValues['requestedSeats'] : null,
-				toLocation: formValues['toLocation']
-			}
+			queryParams: formValues
 		});
 	}
 }
