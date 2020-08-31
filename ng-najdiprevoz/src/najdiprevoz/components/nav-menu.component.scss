@@ -4,6 +4,9 @@
 	justify-content: space-between;
 }
 
+.nav-menu{
+	background:rgb(0,0,0,0.6)
+}
 :host ::ng-deep {
 	& .mat-select {
 		width: auto !important;

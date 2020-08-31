@@ -1,20 +1,20 @@
-import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
-import { TripService } from '../../services/trip.service';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { City } from '../../interfaces/city.interface';
-import { CityService } from '../../services/city.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {TripService} from '../../services/trip.service';
+import {ActivatedRoute} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {City} from '../../interfaces/city.interface';
+import {CityService} from '../../services/city.service';
 
 @Component({
 	selector: 'search-trips-component',
 	templateUrl: './search-trips.page.html',
-	styleUrls: ['./search-trips.page.scss']
+	styleUrls: ['./search-trips.page.scss'],
+	encapsulation: ViewEncapsulation.None
 })
 export class SearchTripsPage implements OnInit {
 	@HostBinding('class') classes = 'page';
 	@Output() searchFormEmitter = new EventEmitter();
-
+  @Input() textColor: string = 'color-black';
 	form: FormGroup = this.searchFormDefinition;
 	allCities: City[] = [];
 	departureDateSearched: Date;
@@ -30,7 +30,7 @@ export class SearchTripsPage implements OnInit {
 
 	ngOnInit(): void {
 		this._cityService.getAllCities().subscribe(it => this.allCities = it);
-		this.minimumDate.setDate(this.dateNow.getDate()-1); //TODO: Fix this workaround
+		this.minimumDate.setDate(this.dateNow.getDate() - 1); //TODO: Fix this workaround
 	}
 
 	private get searchFormDefinition() {

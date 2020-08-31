@@ -107,5 +107,7 @@
 	"SUCCESS_REGISTER": "Registration successful",
 	"ACTIVE": "Active",
 	"CANCELLED": "Cancelled",
-	"FINISHED": "Finished"
+	"FINISHED": "Finished",
+	"DEPARTURE_DATE": "Departure Date",
+	"SITE_INTRO": "Whether you're looking for a ride or passengers, you are on the right spot!"
 }

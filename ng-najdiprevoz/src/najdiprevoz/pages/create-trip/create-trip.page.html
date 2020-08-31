@@ -100,10 +100,11 @@
 											formControlName='isPetAllowed'>{{'IS_PET_ALLOWED' | translate}} </mat-checkbox>
 
 				<mat-form-field class="form-field width-12" appearance="outline">
+					<mat-label>{{"DEPARTURE_DATE" | translate}}</mat-label>
 					<input matInput class='border-top-0' formControlName='departureTime'
 								 [owlDateTime]="departureTime" [min]='getTimeDateNow()'
 								 [owlDateTimeFilter]='myDateTimeFilter'
-								 [owlDateTimeTrigger]="departureTime" placeholder="Departure time">
+								 [owlDateTimeTrigger]="departureTime" >
 					<owl-date-time [stepMinute]='30' #departureTime></owl-date-time>
 					<mat-error
 						*ngIf='preferencesForm.controls.departureTime.touched && preferencesForm.controls.departureTime.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>

@@ -1,0 +1,29 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	//margin:0 5%;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.bold {
+	font-weight: bolder;
+}
+
+.title {
+	font: 400 45px/48px Roboto, Helvetica Neue, sans-serif;
+	letter-spacing: -.005em;
+	margin: 0 0 34px;
+}
+
+.subtitle {
+	font: 400 16px/28px Roboto, Helvetica Neue, sans-serif;
+	letter-spacing: normal;
+	margin: 0 0 16px;
+}

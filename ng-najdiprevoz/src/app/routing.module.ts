@@ -10,6 +10,7 @@ import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
 import {ControlPanelPage} from "../najdiprevoz/pages/control-panel/control-panel.page";
 import {UserInfoPage} from "../najdiprevoz/pages/user-info/user-info.page";
 import {UserRatingsView} from "../najdiprevoz/views/view-ratings-for-user/my-ratings.view";
+import {HomePage} from "../najdiprevoz/pages/landing-page/home-page.component";
 
 export const appRoutes: Routes = [
 	{
@@ -60,6 +61,6 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: '',
-		redirectTo: '/trips',
+		component: HomePage,
 		pathMatch: 'full'
 	}];

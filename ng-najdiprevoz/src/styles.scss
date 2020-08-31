@@ -7,9 +7,11 @@
 
 $primary-color: rgb(112, 140, 145);
 $primary-dark-color: rgb(5, 71, 82);
+$primary-light-color: #52dcff;
 
 html, body {
 	height: 100%;
+	color: white !important;
 }
 
 .page > * {
@@ -17,6 +19,8 @@ html, body {
 }
 
 body {
+	background-size: cover;
+	background: rgb(136, 136, 136) url("assets/images/landing_page_bg.jpg") no-repeat center;
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 	//color: white !important;
@@ -47,12 +51,12 @@ mat-icon:not(.ignore-default-color) {
 }
 
 .primary-dark-color-background {
-	background-color: $primary-dark-color;
+	background-color: $primary-dark-color !important;
 }
 
 .button-primary {
-	background-color: #00AFF5;
-	color: white;
+	background-color: #00AFF5 !important;
+	color: white !important;
 }
 
 .button-success {
@@ -80,4 +84,39 @@ a:not(.mat-icon-button):after {
 	width: 0;
 	-webkit-transition: width .3s;
 	transition: width .3s;
+}
+
+//Radio buttons circle border white
+.mat-radio-outer-circle {
+	background-color: white !important;
+}
+
+.mat-select-arrow, .mat-select, .mat-select-value, .mat-select-placeholder, .mat-form-field-label, .mat-form-field-ripple, .mat-form-field-underline {
+	color: white !important;
+}
+
+//Borders of mat fields on HOVER
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+	color: $primary-light-color;
+}
+
+// BORDERS OF MATFORMFIELDS when they are not touched/hovered
+.mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
+	color: white;
+}
+
+/** Overrides underline color **/
+.my-form-field.mat-form-field-appearance-legacy .mat-form-field-underline, .my-form-field.mat-form-field-appearance-legacy .mat-form-field-ripple, .my-form-field.mat-form-field-appearance-legacy.mat-focused .mat-form-field-underline, .my-form-field.mat-form-field-appearance-legacy.mat-focused .mat-form-field-ripple {
+	background-color: white;
+}
+
+/** Overrides label color **/
+.my-form-field.mat-form-field-appearance-legacy .mat-form-field-label, .my-form-field.mat-form-field-appearance-legacy.mat-focused .mat-form-field-label {
+	color: white;
+}
+
+/** Overrides caret & text color **/
+.my-form-field.mat-form-field-appearance-legacy .mat-input-element {
+	caret-color: white;
+	color: white;
 }
