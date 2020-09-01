@@ -6,15 +6,15 @@
 			<span class="menu-spacer"></span>
 		</div>
 		<div>
-			<a mat-button [routerLink]="'/trips'">
+			<a mat-button [routerLink]="'/trips'" class="hide-on-mobile">
 				<mat-icon>search</mat-icon>
 				{{'FIND_TRIPS'|translate}} </a>
-			<a mat-button [routerLink]="'/trips/new'">
+			<a mat-button [routerLink]="'/trips/new'" class="hide-on-mobile">
 				<mat-icon>add_circle_outline</mat-icon>
 				{{'PUBLISH_TRIP'|translate}} </a>
 
-			<a *ngIf="!authenticated" mat-button [routerLink]="'/register'"> {{'REGISTER'|translate}} </a>
-			<a *ngIf="!authenticated" mat-button [routerLink]="'/login'"> {{'LOGIN'|translate}} </a>
+<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/register'" class="hide-on-mobile"> {{'REGISTER'|translate}} </a>-->
+<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/login'" class="hide-on-mobile"> {{'LOGIN'|translate}} </a>-->
 			<a *ngIf="authenticated" mat-icon-button [routerLink]="'/notifications'">
 				<mat-icon class='color-white ignore-default-color'>notifications</mat-icon>
 			</a>
@@ -34,20 +34,58 @@
 
 			<button mat-icon-button
 							class="link "
-							[matMenuTriggerFor]="menu"
-							*ngIf="authenticated">
+							[matMenuTriggerFor]="menu">
 				<mat-icon class="color-white ignore-default-color">menu</mat-icon>
 			</button>
-			<mat-menu #menu="matMenu">
+			<mat-menu #menu="matMenu" class="primary-dark-color-background">
+
+				<!-- Search Trips -->
+				<button mat-menu-item
+								class="link show-on-mobile-only"
+								[routerLink]="'/trips'">
+					<mat-icon>search</mat-icon>
+					<span>{{"FIND_TRIPS"| translate}}</span>
+				</button>
+
+				<!-- Publish Trip -->
+				<button mat-menu-item
+								class="link show-on-mobile-only"
+								[routerLink]="'/trips/new'">
+					<mat-icon>add_circle_outline</mat-icon>
+					<span>{{"PUBLISH_TRIP"| translate}}</span>
+				</button>
+
+				<!-- Register -->
+				<button mat-menu-item
+								*ngIf="!authenticated"
+								class="link"
+								[routerLink]="'/register'">
+					<mat-icon>create</mat-icon>
+					<span>{{"REGISTER"| translate}}</span>
+				</button>
+
+				<!-- Login -->
+				<button mat-menu-item
+								*ngIf="!authenticated"
+								class="link"
+								[routerLink]="'/login'">
+					<mat-icon>login</mat-icon>
+					<span>{{"LOGIN"| translate}}</span>
+				</button>
+
+				<!-- Control Panel -->
 				<button mat-menu-item
 								class="link"
+								*ngIf="authenticated"
 								[routerLink]="'/control-panel'">
 					<mat-icon>settings</mat-icon>
 					<span>{{"CONTROL_PANEL"| translate}}</span>
 				</button>
 
+				<!-- Logout -->
 				<button mat-menu-item
 								[matTooltip]="'LOGOUT'|translate"
+								*ngIf="authenticated"
 								(click)="logout()">
 					<mat-icon>logout</mat-icon>
 					<span>{{"LOGOUT"| translate}}</span>

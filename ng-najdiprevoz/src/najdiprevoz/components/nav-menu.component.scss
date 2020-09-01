@@ -28,6 +28,10 @@
 	cursor: pointer;
 }
 
+.color-black {
+	color: black !important;
+}
+
 .color-white {
 	color: white;
 }
@@ -35,4 +39,24 @@
 .rounded {
 	padding: 5px;
 	outline: -webkit-focus-ring-color auto 1px;
+}
+
+// MOBILE
+@media only screen and (max-width: 768px) {
+	.hide-on-mobile {
+		display: none;
+	}
+	.show-on-mobile-only {
+		display: inline-block;
+	}
+}
+
+// NOT MOBILE
+@media only screen and (min-width: 769px) {
+	.hide-on-mobile {
+		display: inline-block;
+	}
+	.show-on-mobile-only {
+		display: none;
+	}
 }

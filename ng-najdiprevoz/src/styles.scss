@@ -6,7 +6,7 @@
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
 $primary-color: white;
-$primary-dark-color: rgb(5, 71, 82);
+$primary-dark-color: rgb(0, 0, 0, 0.8);
 $primary-light-color: #2979ff;
 
 html, body {
@@ -142,4 +142,8 @@ input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, 
 
 .mat-card {
 	background: rgb(0, 0, 0, 0.8);
+}
+
+.mat-menu-item {
+	color: white !important;
 }
