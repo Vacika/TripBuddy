@@ -107,7 +107,7 @@
 	"CANCEL_RIDE_SUCCESS": "Превозот е успешно откажан",
 	"CANCEL_RIDE_FAIL": "Откажувањето на превозот не е успешно завршена..",
 	"REQUEST_CANCELLED_MESSAGE": "ја откажа својата резервација!",
-	"SUCCESS_REGISTER": "Registration successful",
+	"SUCCESS_REGISTER": "Успешно се регистриравте",
 	"ACTIVE": "Активен",
 	"CANCELLED": "Откажано",
 	"FINISHED": "Завршено",
@@ -127,5 +127,9 @@
 	"ACTIVE:": "Активен",
 	"APPROVED": "Одобрена",
 	"ACTIONS": "Акции",
-	"REQUESTER": "Резервирал"
+	"REQUESTER": "Резервирал",
+	"SUBMIT_RATING": "Оцени",
+	"SUBMIT_RATING_DIALOG_TITLE": "Остави оцена",
+	"RATING_SUBMITTED_SUCCESS": "Успешно оставена оцена",
+	"SEE_RIDE": "Карактеристики на превозот"
 }

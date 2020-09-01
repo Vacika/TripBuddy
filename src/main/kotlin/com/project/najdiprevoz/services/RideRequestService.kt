@@ -149,8 +149,8 @@ class RideRequestService(private val repository: RideRequestRepository,
     private fun updateStatusIfPossible(requestId: Long, previousStatus: RideRequestStatus,
                                        newStatus: RideRequestStatus) {
         logger.debug("[RideRequestService] Checking if ride request status transition is valid..")
-
-        if (changeStatusActionAllowed(previousStatus, newStatus)) {
+        val request = repository.findById(requestId)
+        if (changeStatusActionAllowed(previousStatus, newStatus) && request.get().ride.status == RideStatus.ACTIVE) {
             logger.debug("[RideRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
             when (newStatus) {
                 RideRequestStatus.APPROVED -> changeRequestToApproved(requestId)

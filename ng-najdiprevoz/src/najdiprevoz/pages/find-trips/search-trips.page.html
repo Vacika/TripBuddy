@@ -64,7 +64,7 @@
 				*ngIf='form.controls.departureDate.touched && form.controls.departureDate.invalid'>{{'INVALID_INPUT' | translate}}</mat-error>
 		</mat-form-field>
 	</div>
-	<div class='date color-white' *ngIf='!departureDateSearched && displayDate'>{{theTimeNow().toISOString() | date: 'fullDate'}}</div>
+	<div class='date color-white' *ngIf='!departureDateSearched && displayDate'>{{theTimeNow().toISOString() | date: 'dd/MM/yyyy'}}</div>
 	<div class='date color-white' *ngIf='departureDateSearched && displayDate'>{{departureDateSearched.toISOString() | date: 'fullDate'}}</div>
 
 </form>

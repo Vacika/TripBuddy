@@ -19,7 +19,7 @@
 							<span>{{rating.rideFrom}}
 								<img src="../../../assets/images/car-moving2.gif" class="car-moving">
 								{{rating.rideTo}}</span>
-							<span>{{rating.rideDate| date:'medium'}}</span>
+							<span>{{rating.rideDate| date:'dd/MM/yyyy hh:mm'}}</span>
 						</span>
 
 					</span>
@@ -27,7 +27,7 @@
 						 <p>{{rating.note}}</p>
 					</div>
 					<div>
-						<button mat-stroked-button (click)="rideDetails(rating.rideId)"> See ride</button>
+						<button mat-stroked-button (click)="rideDetails(rating.rideId)" class='button-primary'> {{"SEE_RIDE"|translate}}</button>
 					</div>
 				</div>
 				<hr>

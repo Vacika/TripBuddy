@@ -140,6 +140,10 @@ input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, 
 	color: black !important;
 }
 
+.mat-menu-panel {
+	background: rgb(0, 0, 0, 0.8);
+}
+
 .mat-card {
 	background: rgb(0, 0, 0, 0.8);
 }
