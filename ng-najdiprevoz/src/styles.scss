@@ -5,7 +5,7 @@
 //@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
-$primary-color: rgb(112, 140, 145);
+$primary-color: white;
 $primary-dark-color: rgb(5, 71, 82);
 $primary-light-color: #2979ff;
 
@@ -132,7 +132,7 @@ a:not(.mat-icon-button):after {
 	border-color: white !important;
 }
 
-input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon {
+input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, .mat-card {
 	color: white !important;
 }
 
@@ -142,5 +142,4 @@ input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon {
 
 .mat-card {
 	background: rgb(0, 0, 0, 0.8);
-	color: white;
 }
