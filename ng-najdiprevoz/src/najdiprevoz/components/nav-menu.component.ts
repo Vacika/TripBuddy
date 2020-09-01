@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import {FormControl} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
+import { Router } from '@angular/router';
+import { HomePage } from '../pages/landing-page/home-page.component';
 
 @Component({
 	selector: 'nav-menu',
@@ -18,7 +20,8 @@ export class NavMenuComponent implements OnInit {
 	@Output() switchLangEmitter = new EventEmitter<string>();
 	@ViewChild('languageSelect') languageSelect;
 
-	constructor(private loginService: AuthService) {
+	constructor(private loginService: AuthService,
+							private _router: Router) {
 	}
 
 	ngOnInit(): void {
@@ -35,6 +38,7 @@ export class NavMenuComponent implements OnInit {
 	}
 
 	logout() {
+		this._router.navigate(['/'], {}).then();
 		this.loginService.logout();
 	}
 }

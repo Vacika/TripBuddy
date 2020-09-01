@@ -1,0 +1,55 @@
+<div class='container width-100 flex center'>
+	<div class="width-60">
+		<!--Header ( Profile Pic & Full Name ) -->
+		<div class="header-info center">
+			<div class="profile-photo"><img src=""></div>
+			<div class="full-name"> {{user.firstName }} {{user.lastName}}</div>
+		</div>
+
+		<!--Basic Info -->
+		<div class="basic-info">
+			<div class="rating">
+				<mat-icon>star</mat-icon>
+				{{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
+				({{"TOTAL_RATINGS"|translate}} {{user.ratings.length}})
+				<mat-icon (click)="navigateToRatings()">keyboard_arrow_right</mat-icon>
+			</div>
+
+			<div class="gender">
+				<mat-icon>gender</mat-icon>
+				: {{user.gender}}
+			</div>
+
+			<div class="birthdate">
+				<mat-icon>cake</mat-icon>
+				: {{user.birthDate | date:"mediumDate"}}
+			</div>
+
+			<div class="mail">
+				<mat-icon>mail</mat-icon>
+				: {{user.username}}
+			</div>
+
+			<div class="phone">
+				<mat-icon>phone</mat-icon>
+				: {{user.phoneNumber}}
+			</div>
+
+			<div class="default-lang">
+				<mat-icon>lang</mat-icon>
+				: {{user.defaultLanguage}}
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- FOOTER (Published rides, member since) -->
+		<div class="footer">
+			<div class="published-rides">{{'PUBLISHED_RIDES_TOTAL' | translate}}: {{user.publishedRides}}</div>
+		</div>l
+
+
+	</div>
+
+
+</div>

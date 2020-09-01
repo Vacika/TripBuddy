@@ -18,7 +18,7 @@
 					<span *ngIf="loginForm.controls.password.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
-			<button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || loginForm.pristine">
+			<button mat-raised-button class="button-primary" type="submit" [disabled]="loginForm.invalid || loginForm.pristine">
 				{{'LOG_IN' | translate}}
 			</button>
 		</form>

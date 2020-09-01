@@ -25,7 +25,7 @@ data class Notification(
         val type: NotificationType,
 
         @Enumerated(EnumType.STRING)
-        @ElementCollection(targetClass = NotificationAction::class, fetch = FetchType.EAGER)
+        @ElementCollection(targetClass = NotificationAction::class, fetch = FetchType.LAZY)
         var actions: MutableList<NotificationAction> = mutableListOf(NotificationAction.MARK_AS_SEEN),
 
         @ManyToOne
@@ -47,6 +47,11 @@ data class Notification(
 
     private fun removeAction(action: NotificationAction) {
         actions.removeIf { it.name == action.name }
+    }
+
+    fun removeAllActions(): Notification {
+        this.actions = mutableListOf()
+        return this
     }
 }
 

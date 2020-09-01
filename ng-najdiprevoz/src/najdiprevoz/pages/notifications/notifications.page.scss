@@ -5,9 +5,9 @@
 	width: 100%;
 	font-size: 24px;
 	height: 90%;
-	background: #2193b0; /* fallback for old browsers */
-	background: -webkit-linear-gradient(to bottom right, #054752, #2193b0); /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to bottom left, #054752, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	//background: #2193b0; /* fallback for old browsers */
+	//background: -webkit-linear-gradient(to bottom right, #054752, #2193b0); /* Chrome 10-25, Safari 5.1-6 */
+	//background: linear-gradient(to bottom left, #054752, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .notification {
@@ -17,6 +17,12 @@
 	justify-content: space-between;
 	align-items: baseline;
 
+}
+
+.left-side {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .margin-right-5 {

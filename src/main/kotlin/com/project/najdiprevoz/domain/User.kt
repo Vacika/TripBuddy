@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.project.najdiprevoz.enums.Gender
 import com.project.najdiprevoz.enums.Language
 import com.project.najdiprevoz.services.passwordEncoder
-import com.project.najdiprevoz.web.response.UserProfileResponse
+import com.project.najdiprevoz.web.response.UserResponse
 import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.ZonedDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -36,7 +37,7 @@ data class User(
         @Column(name = "birth_date", nullable = false)
         var birthDate: Date,
 
-//        @Lob
+        // @Lob
         @Column(name = "profile_photo", nullable = true)
         var profilePhoto: String? = null,
 
@@ -58,8 +59,11 @@ data class User(
         @Enumerated(EnumType.STRING)
         var defaultLanguage: Language = Language.MK,
 
+        @Column(name = "registered_on", nullable = false)
+        val registeredOn: ZonedDateTime,
+
         @JsonIgnore
-        @OneToMany(mappedBy = "ratedUser")
+        @OneToMany(mappedBy = "ratedUser", fetch = FetchType.EAGER)
         var ratings: List<Rating> = listOf() //todo:remove this!!!
 ) : UserDetails {
 
@@ -69,10 +73,6 @@ data class User(
     override fun isEnabled(): Boolean = true
 
     override fun getUsername(): String = username
-
-    fun getFullName(): String = "$firstName $lastName"
-
-    private fun getAverageRating(): Double = ratings.map { it.rating }.average()
 
     override fun isCredentialsNonExpired(): Boolean = true
 
@@ -95,6 +95,10 @@ data class User(
     @Override
     override fun toString(): String = ""
 
+    fun getFullName(): String = "$firstName $lastName"
+
+    fun getAverageRating(): Double = ratings.map { it.rating }.average()
+
     fun mapToUserShortResponse(): UserShortResponse {
         return UserShortResponse(id = id,
                 rating = this.getAverageRating(),
@@ -102,8 +106,8 @@ data class User(
                 profilePhoto = this.profilePhoto)
     }
 
-    fun mapToUserProfileResponse(): UserProfileResponse {
-        return UserProfileResponse(firstName = firstName,
+    fun mapToUserProfileResponse(): UserResponse {
+        return UserResponse(firstName = firstName,
                 lastName = lastName,
                 username = username,
                 profilePhoto = profilePhoto,

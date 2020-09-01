@@ -2,6 +2,7 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.project.najdiprevoz.web.response.RatingResponse
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -39,4 +40,16 @@ data class Rating(
 
     override fun toString(): String = "Rating id:[${id}], Ride Request id:[${rideRequest.id}], rating: [$rating], date: [$dateSubmitted]"
 
+    fun mapToRatingResponse(): RatingResponse = RatingResponse(
+                id = id,
+                rating = rating,
+                note = note,
+                rideId = rideRequest.ride.id,
+                fromFullName = getAuthor().getFullName(),
+                fromId = getAuthor().id,
+                fromProfilePic = getAuthor().profilePhoto,
+                rideDate = rideRequest.ride.departureTime,
+                rideFrom = rideRequest.ride.fromLocation.name,
+                rideTo = rideRequest.ride.destination.name
+        )
 }

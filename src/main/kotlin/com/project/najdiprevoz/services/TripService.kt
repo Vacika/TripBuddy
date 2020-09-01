@@ -34,8 +34,6 @@ class TripService(private val repository: RideRepository,
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
     fun findAllActiveTripsForToday(): List<TripResponse> {
-        Thread.sleep(10000)
-
         return repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
                 .map { it.mapToTripResponse() }
     }
@@ -61,7 +59,7 @@ class TripService(private val repository: RideRepository,
         val ride = findById(rideId)
         ride.rideRequests = ride.rideRequests.map { it.changeStatus(RideRequestStatus.RIDE_CANCELLED) }
         ride.rideRequests.forEach {
-            notificationService.pushRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
+            notificationService.pushRideRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
         }
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }

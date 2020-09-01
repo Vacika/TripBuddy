@@ -105,11 +105,11 @@ class RideRequestService(private val repository: RideRequestRepository,
             this.tripService.findById(tripId).getAvailableSeats() >= requestedSeats
 
     private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
-        val rideRequest=repository.findByRideIdAndRequester_Username(tripId, username)
+        val rideRequest = repository.findByRideIdAndRequester_Username(tripId, username)
         if(rideRequest.isPresent && rideRequest.get().status!=RideRequestStatus.CANCELLED ){
-            return false
+            return true
         }
-        return true
+        return false
     }
 
     private fun changeRequestToApproved(requestId: Long) {
@@ -222,7 +222,7 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun pushNotification(rideRequest: RideRequest, notificationType: NotificationType) {
         logger.debug("[RideRequestService] Pushing RideRequest Status Notification..")
-        notificationService.pushRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
+        notificationService.pushRideRequestStatusChangeNotification(rideRequest = rideRequest, notificationType = notificationType)
     }
 
     fun rideRequestCronJob(rideRequest: RideRequest) {

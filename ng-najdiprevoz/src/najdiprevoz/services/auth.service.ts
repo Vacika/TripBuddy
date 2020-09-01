@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {User} from "../interfaces/user.interface";
+import {User, UserProfileDetails} from "../interfaces/user.interface";
 import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 const apiURI = "/api/login";
@@ -12,6 +12,8 @@ const apiURI = "/api/login";
 })
 export class AuthService {
 	private currentUser: BehaviorSubject<User | null>;
+
+	readonly path = "/api/users";
 
 	constructor(private httpClient: HttpClient) {
 		this.currentUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -43,7 +45,7 @@ export class AuthService {
 	}
 
 	registerUser(formValues): Observable<void> {
-		return this.httpClient.put<void>(`api/users/register`, formValues)
+		return this.httpClient.put<void>(`${this.path}/register`, formValues)
 	}
 
 	resetUserObservable() {
@@ -52,11 +54,15 @@ export class AuthService {
 	}
 
 	editProfile(formValues: any): Observable<User> {
-		return this.httpClient.put<User>(`api/users/edit`, formValues)
+		return this.httpClient.put<User>(`${this.path}/edit`, formValues)
 	}
 
 	setLoggedUser(user: User) {
 		this.currentUser.next(user);
 		localStorage.setItem('currentUser', JSON.stringify(user));
+	}
+
+	getUserDetails(userId: string): Observable<UserProfileDetails> {
+		return this.httpClient.get<UserProfileDetails>(`${this.path}/details/${userId}`);
 	}
 }

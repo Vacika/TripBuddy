@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../services/notification.service';
 import { NotificationResponse } from '../../interfaces/notification.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { TripConfirmReservationDialog } from '../../dialogs/trip-confirm-reservation/trip-confirm-reservation.dialog';
 import { SubmitRatingDialog } from '../../dialogs/submit-rating/submit-rating.dialog';
 import { UINotificationsService } from '../../services/ui-notifications-service';
 
@@ -24,8 +23,9 @@ export class NotificationListPage implements OnInit {
 
 	takeAction(notification: NotificationResponse, action: string) {
 		if (action != 'SUBMIT_RATING') {
-			this._notificationService.takeAction(notification.id, action).subscribe(() => {
+			this._notificationService.takeAction(notification.id, action).subscribe(response => {
 				this._uiNotificationsService.success( 'ACTION_SUCCESS')
+				this.notifications = response;
 			},()=>{
 				this._uiNotificationsService.error('FAIL_ACTION')
 			});

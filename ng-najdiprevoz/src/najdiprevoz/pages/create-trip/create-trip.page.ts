@@ -66,7 +66,7 @@ export class CreateTripPage implements OnInit {
 			petAllowed: this.getIsPetAllowed.value,
 			hasAirCondition: this.getHasAirCondition.value,
 			departureTime: this.getDepartureTime.value,
-			maxTwoBackseats: this.getMaxTwoBackseat.value,
+			maxTwoBackseat: this.getMaxTwoBackseat.value,
 			additionalDescription: this.additionalDescription.value,
 			driverId: this._loginService.getLoggedUser()
 		};

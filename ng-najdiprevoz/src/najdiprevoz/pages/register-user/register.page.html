@@ -48,7 +48,7 @@
 
 				<input matInput class='border-top-0' formControlName='birthDate'
 							 [owlDateTime]="birthDate"
-							 [owlDateTimeTrigger]="birthDate" placeholder="Birth date">
+							 [owlDateTimeTrigger]="birthDate">
 				<owl-date-time [pickerType]="'calendar'" #birthDate></owl-date-time>
 				<mat-error *ngIf="form.controls.birthDate.touched && form.controls.birthDate.invalid">
 					<span *ngIf="form.controls.birthDate.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
@@ -77,7 +77,7 @@
 			</div>
 
 			<!-- Register -->
-			<button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || form.pristine">
+			<button mat-raised-button class="button-primary" type="submit" [disabled]="form.invalid || form.pristine">
 				{{'REGISTER' | translate}}
 			</button>
 		</form>

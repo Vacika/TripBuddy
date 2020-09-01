@@ -1,10 +1,10 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.User
-import com.project.najdiprevoz.enums.Gender
-import com.project.najdiprevoz.enums.Language
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
+import com.project.najdiprevoz.repositories.RatingRepository
+import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.repositories.UserRepository
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
-import java.util.*
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -24,6 +23,8 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
+                  private val ratingRepository: RatingRepository,
+                  private val tripRepository: RideRepository,
                   private val authorityRepository: AuthorityRepository) {
     fun createNewUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
         repository.save(User(
@@ -35,7 +36,22 @@ class UserService(private val repository: UserRepository,
                 gender = gender,
                 phoneNumber = phoneNumber,
                 profilePhoto = null,
-                authority = authorityRepository.findByAuthority("ROLE_USER")!!))
+                authority = authorityRepository.findByAuthority("ROLE_USER")!!,
+                registeredOn = ZonedDateTime.now()))
+    }
+
+    fun createAdminUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
+        repository.save(User(
+                firstName = firstName,
+                lastName = lastName,
+                username = username,
+                password = passwordEncoder().encode(password),
+                birthDate = birthDate,
+                gender = gender,
+                phoneNumber = phoneNumber,
+                profilePhoto = null,
+                authority = authorityRepository.findByAuthority("ROLE_ADMIN")!!,
+                registeredOn = ZonedDateTime.now()))
     }
 
     fun findUserByUsername(username: String): User =
@@ -60,6 +76,14 @@ class UserService(private val repository: UserRepository,
             user.profilePhoto = profilePhoto
         }
         return repository.save(user)
+    }
+
+    fun getUserInfo(userId: Long): UserProfileResponse = with(findUserById(userId)) {
+        UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
+                profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
+                gender = gender.gender, birthDate = birthDate, ratings = ratings,
+                averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
+                publishedRides = tripRepository.findAllByDriverId(userId).size, memberSince = registeredOn)
     }
 }
 

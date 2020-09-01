@@ -1,3 +1,5 @@
+
+
 --
 --
 -- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,

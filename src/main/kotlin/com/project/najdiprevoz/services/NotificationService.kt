@@ -24,7 +24,7 @@ class NotificationService(private val repository: NotificationRepository) {
 
     //TODO: Remove all previous/last notifications with same requestId when pushing new notification (if it is not first)
     @Modifying
-    fun pushRequestStatusChangeNotification(rideRequest: RideRequest, notificationType: NotificationType) {
+    fun pushRideRequestStatusChangeNotification(rideRequest: RideRequest, notificationType: NotificationType) {
         var notificationActionAllowed: List<NotificationAction> = listOf(NotificationAction.MARK_AS_SEEN)
         var to: User
         var from: User
@@ -61,9 +61,9 @@ class NotificationService(private val repository: NotificationRepository) {
             NotificationType.RATING_SUBMITTED -> TODO()
             NotificationType.RATING_ALLOWED -> TODO()
         }
-        removeLastNotificationForRideRequest(rideRequest.id)
+        removeOldNotificationsActions(rideRequest.id)
         pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType,
-                notificationActionAllowed = notificationActionAllowed)
+                         notificationActionAllowed = notificationActionAllowed)
     }
 
     @Modifying
@@ -79,10 +79,11 @@ class NotificationService(private val repository: NotificationRepository) {
     @Modifying
     fun pushRatingAllowedNotification(rideRequest: RideRequest) = with(rideRequest) {
         pushNotification(from = ride.driver,
-                to = requester,
-                notificationActionAllowed = listOf(NotificationAction.SUBMIT_RATING, NotificationAction.MARK_AS_SEEN),
-                rideRequest = this,
-                type = NotificationType.RATING_ALLOWED)
+                         to = requester,
+                         notificationActionAllowed = listOf(NotificationAction.SUBMIT_RATING,
+                                                            NotificationAction.MARK_AS_SEEN),
+                         rideRequest = this,
+                         type = NotificationType.RATING_ALLOWED)
     }
 
     fun getMyNotifications(username: String) = repository.findAllByToUsernameOrderByCreatedOnDesc(username)
@@ -92,7 +93,8 @@ class NotificationService(private val repository: NotificationRepository) {
 
     private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>,
                                  type: NotificationType, rideRequest: RideRequest) {
-        logger.info("[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
+        logger.info(
+                "[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,
@@ -110,28 +112,25 @@ class NotificationService(private val repository: NotificationRepository) {
         repository.save(findById(notificationId).markAsSeen())
     }
 
-    @Modifying
-    fun removeAllNotificationsForRideRequest(requestId: Long) {
-        logger.debug("[NOTIFICATIONS] Removing all notifications associated with RideRequest with ID: [$requestId]")
-        repository.deleteAll(repository.findAllByRideRequest_Id(requestId))
-    }
-
-    fun removeAllActionsForNotification(notificationId: Long) {
-        val notification = findById(notificationId)
-        notification.actions = mutableListOf()
-        logger.debug("[NOTIFICATIONS] Removing all actions associated with notification with ID: [$notificationId]")
-        repository.save(notification)
-    }
-
     @Transactional
     @Modifying
     fun removeLastNotificationForRideRequest(requestId: Long) {
         var notification = repository.findAllByRideRequest_Id(requestId)
         if (notification.isNotEmpty()) {
-            val deleteNotification = notification.maxBy { it.createdOn }
+            val deleteNotification = notification.maxBy { it.createdOn }!!
             logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
             repository.delete(deleteNotification)
             repository.flush()
+        }
+    }
+
+    @Transactional
+    @Modifying
+    fun removeOldNotificationsActions(requestId: Long) {
+        repository.findAllByRideRequest_Id(requestId).forEach { notification ->
+            logger.debug(
+                    "[NOTIFICATIONS] Removing ACTIONS for last notification associated with RideRequest with ID: [$requestId]")
+            repository.save(notification.removeAllActions())
         }
     }
 

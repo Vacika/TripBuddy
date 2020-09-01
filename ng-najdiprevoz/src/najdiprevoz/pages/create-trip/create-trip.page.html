@@ -65,8 +65,8 @@
 												 class="top-align width-30 height-30"
 												 width="52" height="52"
 												 aria-hidden="true"
-												 fill="#708C91"><g
-											fill="none" stroke="#708C91" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+												 fill="#FFFFF"><g
+											fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
 											stroke-miterlimit="10"><path
 											d="M9.22618069 9.0429408l-.00028462-.00007396C7.82743395 8.67899715 6.7546224 8.5 5.57615516 8.5c-1.20731888 0-2.51302356.20463937-3.81321944.5429408-.74874646.19434829-1.26113536.83740338-1.26113536 1.5649162 0 .8614291 0 .8614291-.00005576 1.3996098-.04579034 3.0659186.80767638 5.4432745 2.56126466 7.1880948 1.77599725 1.7671173 3.62950633 2.8975921 5.56078302 3.4005323.45618092.1187979 1.04453239.2272721 1.76281212.3242675.054739.0073909.1051053-.0309924.1124962-.0857314A.1000144.1000144 0 0 0 10.5 22.8212476l9e-7-12.2143318c.0013584-.72163072-.51999668-1.36830888-1.27382021-1.563975z"></path><path
 											transform="matrix(-1 0 0 1 37.000004 0)"
@@ -95,24 +95,16 @@
 			<div class='flex space-between align-baseline'>
 				<mat-checkbox class="form-field width-12"
 											formControlName='isSmokingAllowed'>{{'IS_SMOKING_ALLOWED' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.isSmokingAllowed.touched && preferencesForm.controls.isSmokingAllowed.invalid">
-					<span
-						*ngIf="preferencesForm.controls.isSmokingAllowed.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 
 				<mat-checkbox class="form-field width-12"
 											formControlName='isPetAllowed'>{{'IS_PET_ALLOWED' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.isPetAllowed.touched && preferencesForm.controls.isPetAllowed.invalid">
-					<span *ngIf="preferencesForm.controls.isPetAllowed.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 
 				<mat-form-field class="form-field width-12" appearance="outline">
+					<mat-label>{{"DEPARTURE_DATE" | translate}}</mat-label>
 					<input matInput class='border-top-0' formControlName='departureTime'
 								 [owlDateTime]="departureTime" [min]='getTimeDateNow()'
 								 [owlDateTimeFilter]='myDateTimeFilter'
-								 [owlDateTimeTrigger]="departureTime" placeholder="Departure time">
+								 [owlDateTimeTrigger]="departureTime" >
 					<owl-date-time [stepMinute]='30' #departureTime></owl-date-time>
 					<mat-error
 						*ngIf='preferencesForm.controls.departureTime.touched && preferencesForm.controls.departureTime.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
@@ -120,18 +112,9 @@
 
 				<mat-checkbox class="form-field width-12"
 											formControlName='hasAirCondition'>{{'HAS_AIR_CONDITION' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.hasAirCondition.touched && preferencesForm.controls.hasAirCondition.invalid">
-					<span
-						*ngIf="preferencesForm.controls.hasAirCondition.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 
 				<mat-checkbox class="form-field width-12"
 											formControlName='maxTwoBackseat'>{{'MAX_TWO_BACKSEAT' | translate}} </mat-checkbox>
-				<mat-error
-					*ngIf="preferencesForm.controls.maxTwoBackseat.touched && preferencesForm.controls.maxTwoBackseat.invalid">
-					<span *ngIf="preferencesForm.controls.maxTwoBackseat.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
 			</div>
 
 			<div class="form-container">

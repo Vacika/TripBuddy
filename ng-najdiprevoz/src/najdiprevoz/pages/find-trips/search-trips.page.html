@@ -1,8 +1,8 @@
-<form [formGroup]="form" (submit)="submit()" class='flex flex-column'>
+<form [formGroup]="form" (submit)="submit()" class='flex flex-column' [ngClass]="textColor">
 	<div class='flex space-between'>
 
 		<!-- From Location -->
-		<mat-form-field class="form-field width-20" appearance="outline">
+		<mat-form-field class="form-field width-20" appearance="outline" color="primary">
 			<mat-label> {{'FROM' | translate}}</mat-label>
 			<mat-select formControlName="fromLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -51,10 +51,11 @@
 
 		<!-- Departure date -->
 		<mat-form-field class="form-field width-20" appearance="outline">
-			<input matInput class='border-top-0' formControlName='departureDate'
+			<input matInput class='border-top-0' formControlName='departureDate' style="color:white!important"
 						 [owlDateTime]="departureDate" [min]='minimumDate'
 						 [owlDateTimeFilter]='myDateTimeFilter'
-						 [owlDateTimeTrigger]="departureDate" placeholder="Departure date">
+						 [owlDateTimeTrigger]="departureDate">
+			<mat-label>{{"DEPARTURE_DATE"|translate}}</mat-label>
 			<owl-date-time [pickerType]='"calendar"'
 										 [startAt]='minimumDate'
 										 [stepMinute]='30'
@@ -63,8 +64,8 @@
 				*ngIf='form.controls.departureDate.touched && form.controls.departureDate.invalid'>{{'INVALID_INPUT' | translate}}</mat-error>
 		</mat-form-field>
 	</div>
-	<div class='date' *ngIf='!departureDateSearched'>{{theTimeNow().toISOString() | date: 'fullDate'}}</div>
-	<div class='date' *ngIf='departureDateSearched'>{{departureDateSearched.toISOString() | date: 'fullDate'}}</div>
+	<div class='date color-white' *ngIf='!departureDateSearched && displayDate'>{{theTimeNow().toISOString() | date: 'fullDate'}}</div>
+	<div class='date color-white' *ngIf='departureDateSearched && displayDate'>{{departureDateSearched.toISOString() | date: 'fullDate'}}</div>
 
 </form>
 

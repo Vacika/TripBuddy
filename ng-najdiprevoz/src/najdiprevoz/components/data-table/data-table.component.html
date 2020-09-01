@@ -1,6 +1,6 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 background-black">
 	<ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979'> {{prettyName(column)}} </th>
+		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979'> {{prettyName(column) | translate}} </th>
 		<td mat-cell *matCellDef="let element" [ngClass]="getSpanClass(column,element,false)">
 
 			<!-- Allowed Actions -->
@@ -11,7 +11,7 @@
 				</button>
 			 	<mat-menu #menu="matMenu">
 					<button mat-menu-item *ngFor="let action of element[column]" (click)="takeAction(action, element.id)">
-						{{action}}
+						{{action | translate}}
 					</button>
 				</mat-menu>
 			</span>
@@ -23,18 +23,20 @@
 
 			<!-- Departure Time -->
 			<span *ngIf="column=='departureTime'">
-				<span>{{element.departureTime}}</span>
+				<span>{{element.departureTime | date:'MM.dd.yyyy HH:mm'}}</span>
 			</span>
-
 
 			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime'"
 					 style="display: flex; align-items: center;">
+
+				<!-- STATUS -->
 				<span *ngIf='column == "requestStatus"'
-							style="border:1px solid; border-radius:50%;width:10px; height: 10px;"
+							style="border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;"
 							[classList]="getSpanClass(column,element,true)">
-				</span>
-				<span>
-					{{element[column]}}
+					</span>
+				<span *ngIf='column == "requestStatus" || column == "status"'>{{element[column] | translate}} </span>
+				<span *ngIf='column != "requestStatus" && column != "status" '>
+					{{element[column] |translate}}
 				</span>
 			</div>
 		</td>

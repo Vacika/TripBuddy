@@ -16,8 +16,8 @@ export class NotificationService {
 		return this._http.get<NotificationResponse[]>(`${this.path}`);
 	}
 
-	takeAction(notificationId: number, action: string) {
-		return this._http.put(`${this.path}/${notificationId}/action`, action);
+	takeAction(notificationId: number, action: string):Observable<NotificationResponse[]> {
+		return this._http.put<NotificationResponse[]>(`${this.path}/${notificationId}/action`, action);
 	}
 }
 

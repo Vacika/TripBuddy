@@ -8,6 +8,9 @@ import {NotificationListPage} from "../najdiprevoz/pages/notifications/notificat
 import {AuthGuard} from "../najdiprevoz/auth.guard";
 import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";
 import {ControlPanelPage} from "../najdiprevoz/pages/control-panel/control-panel.page";
+import {UserInfoPage} from "../najdiprevoz/pages/user-info/user-info.page";
+import {UserRatingsView} from "../najdiprevoz/views/view-ratings-for-user/user-ratings.view";
+import {HomePage} from "../najdiprevoz/pages/landing-page/home-page.component";
 
 export const appRoutes: Routes = [
 	{
@@ -47,7 +50,17 @@ export const appRoutes: Routes = [
 		canActivate: [AuthGuard]
 	},
 	{
+		path: 'user/:id',
+		component: UserInfoPage,
+		canActivate: [AuthGuard]
+	},
+	{
+		path: 'user/:id/ratings',
+		component: UserRatingsView,
+		canActivate: [AuthGuard]
+	},
+	{
 		path: '',
-		redirectTo: '/trips',
+		component: HomePage,
 		pathMatch: 'full'
 	}];

@@ -1,0 +1,39 @@
+.rating {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.component-wrapper {
+	margin-top: 3%;
+}
+
+.ml-3 {
+	margin-left: 2%;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+.car-moving {
+	height: 40px;
+	width: 50px;
+	margin-bottom: -16px;
+}
