@@ -15,7 +15,7 @@ export class SearchTripsPage implements OnInit {
 	@HostBinding('class') classes = 'page';
 	@Output() searchFormEmitter = new EventEmitter();
 	@Input() textColor: string = 'color-black';
-
+	@Input() displayDate: boolean = true;
 	@Input() set patchFormValues(newValues: any) {
 		if (newValues) {
 			let newFormControlValues = {

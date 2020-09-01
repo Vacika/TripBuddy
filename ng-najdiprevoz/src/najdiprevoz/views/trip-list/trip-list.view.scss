@@ -10,6 +10,8 @@
 	display: inline-block;
 	margin: 30px 30px;
 	min-width: 290px;
+	background: rgb(0, 0, 0, 0.8);
+	color: #2979ff !important;
 }
 
 .margin-bottom-0 {
@@ -69,6 +71,13 @@
 
 .height-12 {
 	height: 12px;
+}
+
+.road {
+	background: rgb(255, 255, 255, 0.3);
+	width: 100%;
+	margin-left: -14px;
+	padding-right: 30px;
 }
 
 .distance-divider {

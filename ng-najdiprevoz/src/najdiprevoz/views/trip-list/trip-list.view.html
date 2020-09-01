@@ -18,29 +18,29 @@
 	</mat-card-header>
 
 	<mat-card-content>
-		<div class="flex space-between align-end primary-dark-color">
+		<div class="flex space-between align-end color-white">
 			<span class="text-bold">{{trip.from}}</span>
 			<img src='assets/images/moving-car.gif' height="52px" width="52px">
 			<span class="text-bold">{{trip.to}}</span>
 		</div>
-		<div class="height-12 margin-top-minus-20px">
+		<div class="height-12 margin-top-minus-20px road">
 			<mat-divider class="inline-block distance-divider"></mat-divider>
 		</div>
 		<div class="width-100-percent flex center">
 			<span matTooltip="{{'DEPARTURE_TIME'|translate}}"
-						class="flex align-flex-end pointer margin-left-minus-29 primary-dark-color">
+						class="flex align-flex-end pointer margin-left-minus-29 color-white">
 				<mat-icon>alarm</mat-icon>
 				{{trip.departureTime|date: 'H:mm'}}</span>
 		</div>
 
 		<div class="flex space-between margin-top-20 align-flex-end">
-			<span class="flex align-flex-end pointer primary-dark-color" matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
+			<span class="flex align-flex-end pointer color-white" matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
 				<span>
 					{{trip.departureTime | date:"dd MMM"}}
 				</span>
 
 			</span>
-			<span class='flex align-flex-end pointer primary-dark-color'>
+			<span class='flex align-flex-end pointer color-white'>
 
 					<!-- MAX TWO BACKSEAT -->
 				<span class="pointer flex" *ngIf='trip.maxTwoBackSeat'

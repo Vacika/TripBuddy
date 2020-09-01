@@ -1,11 +1,11 @@
 <div class="component-wrapper">
 	<div class="form-container">
-			<span *ngFor="let notification of notifications">
+			<span *ngFor="let notification of notifications" class='container'>
 				<div class="notification">
-					<span>
+					<span class='left-side'>
 						<img src="../../../assets/images/red-dot.gif" height="30px" width="60px" *ngIf="!notification.seen">
 						<img class=" card-header-image" src="https://material.angular.io/assets/img/examples/shiba1.jpg"
-								 style="border-radius:50%;width:52px;height:52px;">
+								 style="border-radius:50%;width:52px;height:52px; padding-right:10px;">
 						<span *ngIf="notification.type == 'REQUEST_SENT'">
 							<b>{{notification.fromName}}</b> {{"REQUEST_SENT_MESSAGE"|translate}}
 						</span>
