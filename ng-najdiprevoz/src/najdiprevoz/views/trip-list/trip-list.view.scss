@@ -58,7 +58,7 @@
 }
 
 .color-green {
-	color: rgb(93, 209, 103);
+	color: rgb(93, 209, 103) !important;
 }
 
 .color-red {
@@ -102,21 +102,20 @@
 }
 
 .align-flex-end {
-	align-items: flex-end;
+	align-items: center;
 }
 
 .margin-top-20 {
 	margin-top: 20px;
 }
 
-.margin-left-minus-29 {
-	margin-left: -29px;
+.margin-left-minus-14 {
+	margin-left: -14px;
 }
 
 .background-green {
 	background-color: #00b712;
 	background-image: linear-gradient(315deg, #00b712 0%, #5dd38d 60%);
-	//background-color: #5dd38d;
 }
 
 .color-white {
