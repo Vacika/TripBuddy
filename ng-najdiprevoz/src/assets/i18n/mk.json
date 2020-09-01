@@ -113,5 +113,17 @@
 	"FINISHED": "Завршено",
 	"DEPARTURE_DATE": "Поаѓање",
 	"SITE_INTRO": "Барате превоз или патници? На вистинско место сте!",
-	"PUBLISHED_RIDES_TOTAL": "Вкупно објавени огласи за превоз: "
+	"PUBLISHED_RIDES_TOTAL": "Вкупно објавени огласи за превоз: ",
+	"TRIPS": "Превоз",
+	"RATINGS": "Рејтинг",
+	"RIDE_REQUESTS": "Резервации",
+	"SENT": "Испратени",
+	"RECEIVED": "Примени",
+	"PASSENGER": "Патник",
+	"DEPARTURE": "Поаѓање",
+	"REQUEST_STATUS": "Статус на резервација",
+	"TRIP_ID": "ID",
+	"RIDE_STATUS": "Статус на превоз",
+	"ACTIVE:": "Активен",
+	"APPROVED": "Одобрена"
 }

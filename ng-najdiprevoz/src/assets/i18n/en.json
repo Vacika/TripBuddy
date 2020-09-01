@@ -111,5 +111,17 @@
 	"FINISHED": "Finished",
 	"PUBLISHED_RIDES_TOTAL": "Total published rides: ",
 	"DEPARTURE_DATE": "Departure Date",
-	"SITE_INTRO": "Whether you're looking for a ride or passengers, you are on the right spot!"
+	"SITE_INTRO": "Whether you're looking for a ride or passengers, you are on the right spot!",
+	"TRIPS": "Trips",
+	"RATINGS": "Ratings",
+	"RIDE_REQUESTS": "Ride Requests",
+	"SENT": "Sent",
+	"RECEIVED": "Received",
+	"PASSENGER": "Passenger",
+	"DEPARTURE": "Departure",
+	"REQUEST_STATUS": "Request Status",
+	"TRIP_ID": "ID",
+	"RIDE_STATUS": "Trip Status",
+	"ACTIVE:": "Active",
+	"APPROVED": "Approved"
 }

@@ -54,7 +54,7 @@ import {UINotificationsService} from '../najdiprevoz/services/ui-notifications-s
 import {LoaderService} from "../najdiprevoz/services/loader.service";
 import {LoaderComponent} from "../najdiprevoz/components/loader/loader.component";
 import {UserInfoPage} from "../najdiprevoz/pages/user-info/user-info.page";
-import {UserRatingsView} from "../najdiprevoz/views/view-ratings-for-user/my-ratings.view";
+import {UserRatingsView} from "../najdiprevoz/views/view-ratings-for-user/user-ratings.view";
 import {HomePage} from "../najdiprevoz/pages/landing-page/home-page.component";
 
 const SERVICES = [LoaderService, TripService, CityService, HelperService, RideRequestService, NotificationService, RatingService, UINotificationsService];

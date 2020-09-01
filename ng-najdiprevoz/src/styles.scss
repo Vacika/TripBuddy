@@ -95,6 +95,12 @@ a:not(.mat-icon-button):after {
 	color: white !important;
 }
 
+
+//underline of input boxes is white now
+.mat-form-field-underline {
+	background-color: white !important;
+}
+
 //Borders of mat fields on HOVER
 .mat-form-field-appearance-outline .mat-form-field-outline-thick {
 	color: $primary-light-color;
@@ -126,10 +132,15 @@ a:not(.mat-icon-button):after {
 	border-color: white !important;
 }
 
-input:not(.owl-dt-timer-input) {
+input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon {
 	color: white !important;
 }
 
 .owl-dt-timer {
 	color: black !important;
+}
+
+.mat-card {
+	background: rgb(0, 0, 0, 0.8);
+	color: white;
 }

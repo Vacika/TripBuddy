@@ -29,7 +29,7 @@ export class ProfileSettingsView {
 			return;
 		}
 
-		var mimeType = files[0].type;
+		const mimeType = files[0].type;
 		if (mimeType.match(/image\/*/) == null) {
 			alert('ONLY IMAGES ALLOWED!'); //TODO: Switch with notify service
 			return;

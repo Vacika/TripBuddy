@@ -4,9 +4,9 @@ import {RatingCustomResponse} from "../../interfaces/rating.interface";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-	selector: 'my-ratings',
-	templateUrl: './my-ratings.view.html',
-	styleUrls: ['./my-ratings.view.scss']
+	selector: 'user-ratings',
+	templateUrl: './user-ratings.view.html',
+	styleUrls: ['./user-ratings.view.scss']
 })
 export class UserRatingsView implements OnInit {
 	ratings: RatingCustomResponse[] = [];

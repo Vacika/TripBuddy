@@ -5,16 +5,16 @@
 	</div>
 
 	<div class="w-65 mat-card mt-5">
-		<mat-tab-group mat-stretch-tabs dynamicHeight class="set-width">
-			<mat-tab label="Ride Requests">
+		<mat-tab-group mat-stretch-tabs dynamicHeight class="set-width color-white">
+			<mat-tab label="{{'RIDE_REQUESTS'|translate}}" class='color-white'>
 				<ride-requests-component [sentRideRequests]="sentRideRequests$|async"
 																 [receivedRideRequests]="receivedRideRequests$|async"
 																 (onActionTaken)="takeAction($event)"></ride-requests-component>
 			</mat-tab>
-			<mat-tab label="Trips">
+			<mat-tab label="{{'TRIPS'|translate}}">
 				<trips-component></trips-component>
 			</mat-tab>
-			<mat-tab label="Ratings">
+			<mat-tab label="{{'RATINGS'|translate}}">
 				<my-ratings></my-ratings>
 			</mat-tab>
 		</mat-tab-group>
