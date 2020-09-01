@@ -18,11 +18,12 @@ export class SearchTripsPage implements OnInit {
 	@Input() displayDate: boolean = true;
 	@Input() set patchFormValues(newValues: any) {
 		if (newValues) {
+			console.log("NEW VALUES:", newValues);
 			let newFormControlValues = {
 				fromLocation: newValues.fromLocation ? +newValues.fromLocation : null,
 				toLocation: newValues.toLocation ? +newValues.toLocation : null,
 				requestedSeats: newValues.requestedSeats ? +newValues.requestedSeats : null,
-				departureDate: newValues.departureDate ? newValues.departureDate : null
+				departureDate: newValues.departureDate ? new Date(newValues.departureDate) : null
 			};
 			this.form.setValue(newFormControlValues);
 		}
@@ -56,8 +57,12 @@ export class SearchTripsPage implements OnInit {
 	}
 
 	submit() {
+		let formValuesForEmit = this.form.value;
+		var date = new Date(formValuesForEmit['departureDate']);
+		var fullDate = (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
+		formValuesForEmit['departureDate']= fullDate;
 		this.departureDateSearched = this.form.value['departureDate'];
-		this.searchFormEmitter.emit(this.form.value);
+		this.searchFormEmitter.emit(formValuesForEmit);
 	}
 
 	myDateTimeFilter = (d: Date): boolean => {

@@ -43,6 +43,14 @@ fun greaterThanOrEquals(properties: List<String>, value: Int) =
         Specification<Ride> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
 
 
+private fun equalsPredicate(value: Long, properties: List<String>, root: Root<Ride>,
+                                         cb: CriteriaBuilder) = cb.equal(
+        getPath(root, properties).`as`(Long::class.java), value)
+
+fun equalSpecification(properties: List<String>, value: Long) =
+        Specification<Ride> { root, _, cb -> equalsPredicate(value, properties, root, cb) }
+
+
 private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>,
                                    cb: CriteriaBuilder) =
         cb.and(cb.greaterThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value),

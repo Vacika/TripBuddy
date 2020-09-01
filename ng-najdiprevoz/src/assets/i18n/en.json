@@ -125,5 +125,10 @@
 	"ACTIVE:": "Active",
 	"APPROVED": "Approved",
 	"ACTIONS": "Actions",
-	"REQUESTER": "Requester"
+	"REQUESTER": "Requester",
+	"SUBMIT_RATING": "Submit Review",
+	"SUBMIT_RATING_DIALOG_TITLE": "Leave a review",
+	"RATING_SUBMITTED_SUCCESS": "Successfully submitted review",
+	"SEE_RIDE": "See Ride",
+	"INVALID_INPUT": "Invalid input"
 }
