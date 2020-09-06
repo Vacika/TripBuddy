@@ -130,5 +130,6 @@
 	"SUBMIT_RATING_DIALOG_TITLE": "Leave a review",
 	"RATING_SUBMITTED_SUCCESS": "Successfully submitted review",
 	"SEE_RIDE": "See Ride",
-	"INVALID_INPUT": "Invalid input"
+	"INVALID_INPUT": "Invalid input",
+	"PUBLISH": "Publish"
 }

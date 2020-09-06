@@ -48,8 +48,10 @@
 
 				<input matInput class='border-top-0' formControlName='birthDate'
 							 [owlDateTime]="birthDate"
-							 [owlDateTimeTrigger]="birthDate">
-				<owl-date-time [pickerType]="'calendar'" #birthDate></owl-date-time>
+							 [min]="minDate"
+							 [owlDateTimeTrigger]="birthDate"
+				[rangeSeparator]="'-'">
+				<owl-date-time [pickerType]="'calendar'" #birthDate [startView]="'year'"></owl-date-time>
 				<mat-error *ngIf="form.controls.birthDate.touched && form.controls.birthDate.invalid">
 					<span *ngIf="form.controls.birthDate.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>

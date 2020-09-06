@@ -1,9 +1,9 @@
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { TripService } from '../../services/trip.service';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { City } from '../../interfaces/city.interface';
-import { CityService } from '../../services/city.service';
+import {Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {TripService} from '../../services/trip.service';
+import {ActivatedRoute} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {City} from '../../interfaces/city.interface';
+import {CityService} from '../../services/city.service';
 
 @Component({
 	selector: 'search-trips-component',
@@ -16,6 +16,7 @@ export class SearchTripsPage implements OnInit {
 	@Output() searchFormEmitter = new EventEmitter();
 	@Input() textColor: string = 'color-black';
 	@Input() displayDate: boolean = true;
+
 	@Input() set patchFormValues(newValues: any) {
 		if (newValues) {
 			console.log("NEW VALUES:", newValues);
@@ -31,7 +32,6 @@ export class SearchTripsPage implements OnInit {
 
 	form: FormGroup = this.searchFormDefinition;
 	allCities: City[] = [];
-	departureDateSearched: Date;
 	dateNow: Date = new Date();
 	minimumDate = new Date();
 
@@ -59,9 +59,10 @@ export class SearchTripsPage implements OnInit {
 	submit() {
 		let formValuesForEmit = this.form.value;
 		var date = new Date(formValuesForEmit['departureDate']);
-		var fullDate = (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
-		formValuesForEmit['departureDate']= fullDate;
-		this.departureDateSearched = this.form.value['departureDate'];
+		if (this.form.value['departureDate']) {
+			var fullDate = (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + '-' + date.getFullYear().toString();
+			formValuesForEmit['departureDate'] = fullDate;
+		}
 		this.searchFormEmitter.emit(formValuesForEmit);
 	}
 

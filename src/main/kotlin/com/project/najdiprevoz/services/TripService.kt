@@ -88,8 +88,7 @@ class TripService(private val repository: RideRepository,
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                    departure = ZonedDateTime.of(
-                            LocalDate.ofInstant(departureDate.toInstant(),
+                    departure = ZonedDateTime.of(LocalDate.ofInstant(departureDate.toInstant(),
                                     ZoneId.systemDefault()), LocalTime.MIN,
                             ZoneId.systemDefault())) //TODO: refactor this
 

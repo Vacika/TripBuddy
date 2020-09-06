@@ -11,6 +11,7 @@ import { UINotificationsService } from '../../services/ui-notifications-service'
 })
 export class RegisterPage implements OnInit {
 	form: FormGroup;
+	minDate: Date = new Date(1960, 1, 1, 0, 0, 0);
 
 
 	constructor(private formBuilder: FormBuilder,
