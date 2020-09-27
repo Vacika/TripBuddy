@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
+import java.util.*
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -37,7 +38,8 @@ class UserService(private val repository: UserRepository,
                 phoneNumber = phoneNumber,
                 profilePhoto = null,
                 authority = authorityRepository.findByAuthority("ROLE_USER")!!,
-                registeredOn = ZonedDateTime.now()))
+                registeredOn = ZonedDateTime.now(),
+                forgetPasswordUUID = null))
     }
 
     fun createAdminUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
@@ -51,13 +53,17 @@ class UserService(private val repository: UserRepository,
                 phoneNumber = phoneNumber,
                 profilePhoto = null,
                 authority = authorityRepository.findByAuthority("ROLE_ADMIN")!!,
-                registeredOn = ZonedDateTime.now()))
+                registeredOn = ZonedDateTime.now(),
+                forgetPasswordUUID = null))
     }
 
     fun findUserByUsername(username: String): User =
             repository.findByUsername(username)
                     .orElseThrow { UsernameNotFoundException("User was not found") }
 
+    fun findUserByForgetPasswordUUID(uuid: UUID) =
+            repository.findByForgetPasswordUUID(uuid)
+                    .orElseThrow { UsernameNotFoundException("User with forget PW UUID $uuid was not found") }
 
     fun findUserById(userId: Long): User =
             repository.findById(userId)
@@ -78,12 +84,32 @@ class UserService(private val repository: UserRepository,
         return repository.save(user)
     }
 
+    fun createForgetPasswordUUID(username: String) {
+        val user = findUserByUsername(username)
+        if (user.forgetPasswordUUID == null) {
+            user.forgetPasswordUUID = UUID.randomUUID()
+            repository.save(user)
+        }
+    }
+
+    fun validateForgetPasswordUUID(token: UUID) {
+        val user = findUserByForgetPasswordUUID(token)
+        user.forgetPasswordUUID = null
+        repository.save(user)
+    }
+
     fun getUserInfo(userId: Long): UserProfileResponse = with(findUserById(userId)) {
         UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
                 profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
                 gender = gender.gender, birthDate = birthDate, ratings = ratings,
                 averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
                 publishedRides = tripRepository.findAllByDriverId(userId).size, memberSince = registeredOn)
+    }
+
+    fun updatePassword(updatedPassword: String, id: Long) {
+        val user = findUserById(id)
+        user.password = passwordEncoder().encode(updatedPassword)
+        repository.save(user)
     }
 }
 

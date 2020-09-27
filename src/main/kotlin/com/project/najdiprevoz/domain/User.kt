@@ -60,7 +60,10 @@ data class User(
         var defaultLanguage: Language = Language.MK,
 
         @Column(name = "registered_on", nullable = false)
-        val registeredOn: ZonedDateTime,
+        var registeredOn: ZonedDateTime,
+
+        @Column(name = "forget_password_uuid", nullable = true)
+        var forgetPasswordUUID: UUID?,
 
         @JsonIgnore
         @OneToMany(mappedBy = "ratedUser", fetch = FetchType.EAGER)
