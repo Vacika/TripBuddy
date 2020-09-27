@@ -1,42 +1,49 @@
 <div class='container width-100 flex center'>
-	<div class="width-60">
+	<div class="width-40 card mat-card">
 		<!--Header ( Profile Pic & Full Name ) -->
 		<div class="header-info center">
-			<div class="profile-photo"><img src=""></div>
-			<div class="full-name"> {{user.firstName }} {{user.lastName}}</div>
+			<div class="profile-photo">
+				<img [src]="user.profilePhoto? user.profilePhoto : '../../../assets/images/default-profile-pic.jpeg'"
+						 class="profile-pic">
+			</div>
+			<div class="full-name"> <h1><b>{{user.firstName }} {{user.lastName}}</b></h1></div>
 		</div>
 
 		<!--Basic Info -->
 		<div class="basic-info">
 			<div class="rating">
 				<mat-icon>star</mat-icon>
-				{{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
-				({{"TOTAL_RATINGS"|translate}} {{user.ratings.length}})
-				<mat-icon (click)="navigateToRatings()">keyboard_arrow_right</mat-icon>
+				<span class="primary-light-color bold">{{"RATING"|translate}}</span>: {{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
+				(Total ratings submitted: {{user.ratings.length}})
+				<mat-icon (click)="navigateToRatings()" *ngIf="user.ratings?.length > 0" class="link">keyboard_arrow_right</mat-icon>
 			</div>
 
 			<div class="gender">
-				<mat-icon>gender</mat-icon>
-				: {{user.gender}}
+				<mat-icon>accessibility</mat-icon>
+				<span class="primary-light-color bold">{{"GENDER"|translate}}</span>: {{user.gender}}
 			</div>
 
 			<div class="birthdate">
 				<mat-icon>cake</mat-icon>
+				<span class="primary-light-color bold">{{"BIRTH_DATE"|translate}}</span>
 				: {{user.birthDate | date:"mediumDate"}}
 			</div>
 
 			<div class="mail">
 				<mat-icon>mail</mat-icon>
+				<span class="primary-light-color bold">{{"EMAIL"|translate}}</span>
 				: {{user.username}}
 			</div>
 
 			<div class="phone">
 				<mat-icon>phone</mat-icon>
+				<span class="primary-light-color bold">{{"PHONE_NUMBER"|translate}}</span>
 				: {{user.phoneNumber}}
 			</div>
 
 			<div class="default-lang">
-				<mat-icon>lang</mat-icon>
+				<mat-icon>language</mat-icon>
+				<span class="primary-light-color bold">{{"PRIMARY_LANG"|translate}}</span>
 				: {{user.defaultLanguage}}
 			</div>
 		</div>
@@ -44,9 +51,21 @@
 		<hr>
 
 		<!-- FOOTER (Published rides, member since) -->
-		<div class="footer">
-			<div class="published-rides">{{'PUBLISHED_RIDES_TOTAL' | translate}}: {{user.publishedRides}}</div>
-		</div>l
+			<div class="footer">
+			<div class="published-rides">
+				<mat-icon>local_taxi</mat-icon>
+				<span class="primary-light-color bold">{{'PUBLISHED_RIDES_TOTAL' | translate}}</span> {{user.publishedRides}}
+			</div>
+
+			<!-- Member Since -->
+			<div class="member-since">
+				<mat-icon>member</mat-icon>
+				<span class="primary-light-color bold">{{"MEMBER_SINCE"|translate}}</span>: {{user.memberSince | date}}
+			</div>
+
+		</div>
+		<br/>
+		<br/>
 
 
 	</div>

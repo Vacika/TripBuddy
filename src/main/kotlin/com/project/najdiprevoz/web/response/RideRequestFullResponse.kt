@@ -12,5 +12,6 @@ class RideRequestFullResponse(
         val departureTime: String,
         val driverName: String,
         val requestStatus: String,
-        val rideStatus: String
+        val rideStatus: String,
+        val requestedSeats: Int
 )

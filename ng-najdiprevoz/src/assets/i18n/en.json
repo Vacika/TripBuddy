@@ -131,5 +131,11 @@
 	"RATING_SUBMITTED_SUCCESS": "Successfully submitted review",
 	"SEE_RIDE": "See Ride",
 	"INVALID_INPUT": "Invalid input",
-	"PUBLISH": "Publish"
+	"PUBLISH": "Publish",
+	"REQUEST_SEATS": "Choose number of requested seats",
+	"PENDING": "On Hold",
+	"EMAIL": "E-Mail Address",
+	"PRIMARY_LANG": "Primary Language",
+	"MEMBER_SINCE": "Member since",
+	"TOTAL_RATINGS_SUBMITTED": "Total Ratings Submitted"
 }

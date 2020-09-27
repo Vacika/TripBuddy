@@ -23,7 +23,7 @@
 
 			<!-- Departure Time -->
 			<span *ngIf="column=='departureTime'">
-				<span>{{element.departureTime | date:'MM.dd.yyyy HH:mm'}}</span>
+				<span>{{element.departureTime }}</span>
 			</span>
 
 			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime'"

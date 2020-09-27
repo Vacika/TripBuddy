@@ -27,6 +27,7 @@ export class RideRequestsComponent implements OnInit {
 		"requesterName",
 		"fromLocation",
 		"toLocation",
+		// "requestedSeats",
 		"departureTime",
 		"requestStatus",
 		"tripId",

@@ -74,7 +74,7 @@
 	"IS_SMOKING_ALLOWED_POSITIVE": "Пушење е дозволено",
 	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред",
 	"CONFIRM_RESERVATION": "Потврди резервација",
-	"REQUESTED_SEATS": "Одбери број на потребни седишта",
+	"REQUESTED_SEATS": "Резервирани седишта",
 	"REQUEST_SENT_MESSAGE": "испрати барање за резервација.",
 	"REQUEST_APPROVED_MESSAGE": "го одобри твоето барање за резервација.",
 	"REQUEST_EXPIRED_MESSAGE": "Барањето за резервација истече за превозот објавен од",
@@ -133,5 +133,11 @@
 	"RATING_SUBMITTED_SUCCESS": "Успешно оставена оцена",
 	"SEE_RIDE": "Карактеристики на превозот",
 	"INVALID_INPUT": "Невалидно поле",
-	"PUBLISH": "Објави"
+	"PUBLISH": "Објави",
+	"REQUEST_SEATS": "Одбери број на потребни седишта",
+	"PENDING": "На чекање",
+	"EMAIL": "E-Mail адреса",
+	"PRIMARY_LANG": "Префериран јазик",
+	"MEMBER_SINCE": "Регистриран од",
+	"TOTAL_RATINGS_SUBMITTED": "Вкупно пати оценат"
 }

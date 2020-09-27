@@ -19,7 +19,6 @@ export class TripsComponent implements OnInit {
 		'departureTime',
 		'totalSeats',
 		'pricePerHead',
-		'driver',
 		'status',
 		'allowedActions'
 	];

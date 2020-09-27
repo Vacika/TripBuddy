@@ -10,3 +10,34 @@
 	text-align: center;
 	justify-content: center;
 }
+
+.basic-info {
+	line-height: 3em;
+}
+
+* {
+	font-size: 18px;
+}
+
+.width-40 {
+	width: 40%;
+}
+
+.card {
+	margin-top: 2%;
+	border-radius: 10%;
+}
+
+.profile-pic {
+	border-radius: 60%;
+	width: 48px;
+	height: 48px;
+}
+
+.profile-photo {
+	margin-top: -1%;
+}
+
+.link {
+	cursor: pointer;
+}

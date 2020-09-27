@@ -17,5 +17,6 @@ export interface RideRequestFullResponse {
   toLocation: string,
 	departureTime: string,
 	requestStatus: string,
-	rideStatus: string
+	rideStatus: string,
+	requestedSeats: string
 }

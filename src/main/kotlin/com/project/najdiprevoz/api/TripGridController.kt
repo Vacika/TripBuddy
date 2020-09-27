@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/trips-list")
-class TripViewController(private val service: TripService) {
+class TripGridController(private val service: TripService) {
 
     @GetMapping
     fun getAllForToday(): List<TripResponse> =

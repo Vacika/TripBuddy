@@ -8,6 +8,7 @@ columnPrettyName.set('from', 'FROM');
 columnPrettyName.set('totalSeats', 'TOTAL_SEATS');
 columnPrettyName.set('pricePerHead', 'PRICE_PER_HEAD');
 columnPrettyName.set('status', 'STATUS');
+columnPrettyName.set('requestedSeats', 'REQUESTED_SEATS');
 columnPrettyName.set('departureTime', 'DEPARTURE');
 columnPrettyName.set('requestStatus', 'REQUEST_STATUS');
 columnPrettyName.set('driverName', 'DRIVER');
