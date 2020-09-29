@@ -33,7 +33,7 @@ export class PasswordResetPage implements OnInit {
 
 	createPasswordForm():void {
 		this.newPasswordForm = this.formBuilder.group({
-			newPassword: [null, [Validators.required, Validators.pattern(emailRegex)]]
+			newPassword: [null, [Validators.required, Validators.min(8)]]
 		});
 	}
 	submit() {

@@ -143,5 +143,6 @@
 	"FORGOT_PW_MAIL_SENT": "Check your mail for a reset password link!",
 	"USER_WITH_THAT_MAIL_NOT_FOUND": "We couldn't find user with that mail address..",
 	"PW_RESET_SUCCESS": "Password reset successful.",
-	"PW_RESET_FAIL": "Password reset failed."
+	"PW_RESET_FAIL": "Password reset failed.",
+	"FORGOT_PASSWORD_CLICK_HERE": "Forgot password? Click here!"
 }
