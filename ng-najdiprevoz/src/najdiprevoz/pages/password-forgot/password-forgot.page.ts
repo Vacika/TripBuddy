@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailRegex } from '../../constants/regex.constants';
-import { TranslateService } from '@ngx-translate/core';
 import { PasswordForgotService } from '../../services/password-forgot.service';
 import { UINotificationsService } from '../../services/ui-notifications-service';
+import { HomePage } from '../landing-page/home-page.component';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './password-forgot.page.html',
@@ -15,7 +16,7 @@ export class PasswordForgotPage implements OnInit {
 	constructor(private formBuilder: FormBuilder,
 							private passwordForgotService: PasswordForgotService,
 							private notificationService: UINotificationsService,
-							private translate: TranslateService) {
+							private router: Router) {
 	}
 
 	ngOnInit() {
@@ -27,8 +28,11 @@ export class PasswordForgotPage implements OnInit {
 	submit() {
 		if (this.forgotPasswordForm.valid) {
 			this.passwordForgotService.createResetTokenForUser(this.username.value)
-				.subscribe(_ => this.notificationService.success("FORGOT_PW_MAIL_SENT"),
-					_ => this.notificationService.error("USER_WITH_THAT_MAIL_NOT_FOUND"))
+				.subscribe(_ => {
+						this.notificationService.success('FORGOT_PW_MAIL_SENT');
+						this.router.navigate([HomePage]);
+					},
+					_ => this.notificationService.error('USER_WITH_THAT_MAIL_NOT_FOUND'));
 		}
 	}
 

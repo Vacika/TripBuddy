@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { emailRegex } from '../../constants/regex.constants';
 import { UINotificationsService } from '../../services/ui-notifications-service';
 import { PasswordResetService } from '../../services/password-reset.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HomePage } from '../landing-page/home-page.component';
 
 @Component({
 	templateUrl: './password-reset.page.html',
@@ -17,7 +17,8 @@ export class PasswordResetPage implements OnInit {
 	constructor(private formBuilder: FormBuilder,
 							private route: ActivatedRoute,
 							private passwordResetService: PasswordResetService,
-							private notificationService: UINotificationsService) {
+							private notificationService: UINotificationsService,
+							private router: Router) {
 	}
 
 	ngOnInit() {
@@ -31,15 +32,19 @@ export class PasswordResetPage implements OnInit {
 		}
 	}
 
-	createPasswordForm():void {
+	createPasswordForm(): void {
 		this.newPasswordForm = this.formBuilder.group({
 			newPassword: [null, [Validators.required, Validators.min(8)]]
 		});
 	}
+
 	submit() {
 		if (this.newPasswordForm.valid) {
 			this.passwordResetService.handlePasswordReset(this.token, this.password.value)
-				.subscribe(_ => this.notificationService.success('PW_RESET_SUCCESS'),
+				.subscribe(_ => {
+						this.notificationService.success('PW_RESET_SUCCESS');
+						this.router.navigate([HomePage]);
+					},
 					_ => this.notificationService.error('PW_RESET_FAIL'));
 		}
 	}
