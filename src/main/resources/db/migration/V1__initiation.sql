@@ -126,16 +126,16 @@ create table notification_actions
 alter table notification_actions
     owner to najdiprevoz;
 
-create table if not exists password_reset_tokens
-(
-    id          bigserial    not null
+
+create table if not exists password_reset_tokens (
+    id bigserial not null
         constraint password_reset_tokens_pkey
             primary key,
-    expiry_date timestamp    not null,
-    token       varchar(255) not null
+    expiry_date timestamp not null,
+    token varchar(255) not null
         constraint uk_71lqwbwtklmljk3qlsugr1mig
             unique,
-    user_id     bigint       not null
+    user_id bigint not null
         constraint uk_la2ts67g4oh2sreayswhox1i6
             unique
         constraint fkk3ndxg5xp6v7wd4gjyusp15gq
@@ -144,6 +144,8 @@ create table if not exists password_reset_tokens
 
 alter table password_reset_tokens
     owner to najdiprevoz;
+
+
 
 INSERT INTO public.cities(name)
 VALUES ('Skopje'),

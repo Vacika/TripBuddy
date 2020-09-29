@@ -139,5 +139,11 @@
 	"EMAIL": "E-Mail адреса",
 	"PRIMARY_LANG": "Префериран јазик",
 	"MEMBER_SINCE": "Регистриран од",
-	"TOTAL_RATINGS_SUBMITTED": "Вкупно пати оценат"
+	"TOTAL_RATINGS_SUBMITTED": "Вкупно пати оценат",
+	"INVALID_PW_RESET_TOKEN": "Невалиден токен за ресетирање лозинка",
+	"NEW_PASSWORD": "Нова лозинка",
+	"FORGOT_PW_MAIL_SENT": "Проверете го вашиот email за да ја ресетирате лозинката!",
+	"USER_WITH_THAT_MAIL_NOT_FOUND": "Неможевме да го најдеме корисникот кој го наведовте.",
+	"PW_RESET_SUCCESS": "Успешно ја ресетиравте лозинката.",
+	"PW_RESET_FAIL": "Неуспешно ресетирање лозинка."
 }

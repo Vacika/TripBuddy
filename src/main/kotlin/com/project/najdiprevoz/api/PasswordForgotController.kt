@@ -1,17 +1,18 @@
 package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.services.PasswordForgotService
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 
-@Controller
+@RestController
 @RequestMapping("/api/forgot-password")
 class PasswordForgotController(private val passwordForgotService: PasswordForgotService) {
 
 
     @PostMapping
-    fun processForgotPasswordForm(username: String) =
+    fun createResetTokenForUser(@RequestBody username: String) =
             passwordForgotService.createResetTokenForUser(username)
 }

@@ -14,7 +14,7 @@ import java.util.*
 class PasswordForgotService(private val userService: UserService,
                             private val tokenRepository: PasswordResetTokenRepository,
                             private val emailService: EmailService,
-                            @Value("najdiprevoz.official-app-link") private val officialAppUrl: String) {
+                            @Value("\${najdiprevoz.official-app-link}") private val officialAppUrl: String) {
 
     @Transactional
     fun createResetTokenForUser(username: String) {
@@ -25,6 +25,7 @@ class PasswordForgotService(private val userService: UserService,
         token.setExpiryDate(30)
         tokenRepository.save(token)
         val mail = Mail()
+        mail.lang = user.defaultLanguage.name
         mail.from = "no-reply@najdiprevoz.com.mk"
         mail.to = username
         mail.subject = "Password reset request"
@@ -35,7 +36,7 @@ class PasswordForgotService(private val userService: UserService,
         model["signature"] = officialAppUrl
         model["resetUrl"] = officialAppUrl + "/reset-password?token=" + token.token
         mail.model = model
-        emailService.sendEmail(mail)
+        emailService.sendForgetPasswordMail(mail)
     }
 
     fun isTokenValid(token: String): Boolean {

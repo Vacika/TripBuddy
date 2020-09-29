@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets
 class EmailService(private val emailSender: JavaMailSender,
                    private val templateEngine: SpringTemplateEngine) {
 
-    fun sendEmail(mail: Mail) {
+    fun sendForgetPasswordMail(mail: Mail) {
         try {
             val message: MimeMessage = emailSender.createMimeMessage()
             val helper = MimeMessageHelper(message,
@@ -23,7 +23,7 @@ class EmailService(private val emailSender: JavaMailSender,
                     StandardCharsets.UTF_8.name())
             val context = Context()
             context.setVariables(mail.model)
-            val html: String = templateEngine.process("email/email-template", context)
+            val html: String = templateEngine.process("forget-password-template-${mail.lang.toUpperCase()}", context)
             helper.setTo(mail.to)
             helper.setText(html, true)
             helper.setSubject(mail.subject)

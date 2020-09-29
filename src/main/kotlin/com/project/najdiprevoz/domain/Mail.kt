@@ -5,4 +5,5 @@ class Mail {
     var to: String? = null
     var subject: String? = null
     var model: Map<String, Any>? = null
+    var lang: String = "MK"
 }
