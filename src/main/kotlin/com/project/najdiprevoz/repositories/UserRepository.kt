@@ -22,6 +22,6 @@ interface UserRepository : JpaRepository<User, Long> {
 
     fun findByUsername(username: String): Optional<User>
 
-    fun findByForgetPasswordUUID(uuid: UUID): Optional<User>
+    fun findByActivationToken(activationToken: String): Optional<User>
 
 }

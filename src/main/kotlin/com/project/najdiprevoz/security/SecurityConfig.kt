@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.web.WebAttributes
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -45,6 +47,7 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .antMatchers("/api/trips-list/**").permitAll()
                 .antMatchers("/api/cities").permitAll()
                 .antMatchers("/api/users/register").permitAll()
+                .antMatchers("/api/users/activate").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -68,11 +71,14 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
 
     private fun loginFailureHandler(request: HttpServletRequest, response: HttpServletResponse, e: AuthenticationException) {
         response.status = HttpStatus.UNAUTHORIZED.value()
-        objectMapper.writeValue(response.writer, "You failed to log in!!")
+        val data = emptyMap<Any, Any>().toMutableMap()
+        data["exception"] = e.message!!
+        data["timestamp"] = Calendar.getInstance().time.toString()
+        response.outputStream.println(objectMapper.writeValueAsString("$data"))
     }
 
     private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
         response.status = HttpStatus.OK.value()
-        objectMapper.writeValue(response.writer, "Pa-pa!!");
+        objectMapper.writeValue(response.writer, "Successfully logged out!!");
     }
 }

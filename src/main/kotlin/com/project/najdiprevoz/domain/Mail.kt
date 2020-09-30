@@ -6,4 +6,5 @@ class Mail {
     var subject: String? = null
     var model: Map<String, Any>? = null
     var lang: String = "MK"
+    var template: String = "forget-password-template"
 }

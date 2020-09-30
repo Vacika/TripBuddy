@@ -47,9 +47,10 @@ export class LoginPage implements OnInit {
 						localStorage.setItem('lang', user.defaultLanguage.toLowerCase());
 					}
 				},
-				() => {
+				err => {
 					this.password.reset();
-					// this.notificationService.error("INVALID_LOGIN_INFO")
+					console.log('err:',err);
+					this.notificationService.error(err.message)
 				});
 		}
 	}

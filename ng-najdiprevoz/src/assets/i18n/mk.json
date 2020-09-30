@@ -146,5 +146,8 @@
 	"USER_WITH_THAT_MAIL_NOT_FOUND": "Неможевме да го најдеме корисникот кој го наведовте.",
 	"PW_RESET_SUCCESS": "Успешно ја ресетиравте лозинката.",
 	"PW_RESET_FAIL": "Неуспешно ресетирање лозинка.",
-	"FORGOT_PASSWORD_CLICK_HERE": "Заборавена лозинка? Кликни тука!"
+	"FORGOT_PASSWORD_CLICK_HERE": "Заборавена лозинка? Кликни тука!",
+	"USER_NOT_ACTIVATED": "Профилот не е активиран.",
+	"USER_ACTIVATE_SUCCESS": "Вашиот профил е успешно активиран!",
+	"USER_ACTIVATE_FAILED": "Неуспешно активирање на профилот."
 }

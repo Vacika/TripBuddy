@@ -144,5 +144,8 @@
 	"USER_WITH_THAT_MAIL_NOT_FOUND": "We couldn't find user with that mail address..",
 	"PW_RESET_SUCCESS": "Password reset successful.",
 	"PW_RESET_FAIL": "Password reset failed.",
-	"FORGOT_PASSWORD_CLICK_HERE": "Forgot password? Click here!"
+	"FORGOT_PASSWORD_CLICK_HERE": "Forgot password? Click here!",
+	"USER_NOT_ACTIVATED": "This user is not activated.",
+	"USER_ACTIVATE_SUCCESS": "User activation successful!",
+	"USER_ACTIVATE_FAILED": "User activation failed."
 }

@@ -13,6 +13,7 @@ import {UserRatingsView} from "../najdiprevoz/views/view-ratings-for-user/user-r
 import {HomePage} from "../najdiprevoz/pages/landing-page/home-page.component";
 import { PasswordForgotPage } from '../najdiprevoz/pages/password-forgot/password-forgot.page';
 import { PasswordResetPage } from '../najdiprevoz/pages/password-reset/password-reset.page';
+import { ActivateUserPage } from '../najdiprevoz/pages/activate-user/activate-user.page';
 
 export const appRoutes: Routes = [
 	{
@@ -60,6 +61,10 @@ export const appRoutes: Routes = [
 		path: 'user/:id/ratings',
 		component: UserRatingsView,
 		canActivate: [AuthGuard]
+	},
+	{
+		path: 'activate',
+		component: ActivateUserPage
 	},
 	{
 		path: 'forgot-password',

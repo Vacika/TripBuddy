@@ -1,14 +1,16 @@
 package com.project.najdiprevoz.services
 
+import com.project.najdiprevoz.domain.Mail
 import com.project.najdiprevoz.domain.User
+import com.project.najdiprevoz.exceptions.ActivationTokenNotFoundException
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.AuthorityRepository
-import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.repositories.UserRepository
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
 import com.project.najdiprevoz.web.response.UserProfileResponse
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -24,11 +26,13 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
-                  private val ratingRepository: RatingRepository,
                   private val tripRepository: RideRepository,
-                  private val authorityRepository: AuthorityRepository) {
+                  private val authorityRepository: AuthorityRepository,
+                  private val emailService: EmailService,
+                  @Value("\${najdiprevoz.official-app-link}") private val officialAppUrl: String) {
+
     fun createNewUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
-        repository.save(User(
+        val user = repository.save(User(
                 firstName = firstName,
                 lastName = lastName,
                 username = username,
@@ -39,7 +43,26 @@ class UserService(private val repository: UserRepository,
                 profilePhoto = null,
                 authority = authorityRepository.findByAuthority("ROLE_USER")!!,
                 registeredOn = ZonedDateTime.now(),
-                forgetPasswordUUID = null))
+                activationToken = UUID.randomUUID().toString(),
+                isActivated = false))
+
+        emailService.sendUserActivationMail(createUserActivationMailObject(user))
+        user
+    }
+
+    private fun createUserActivationMailObject(user: User): Mail = with(user){
+        val mail = Mail()
+        mail.lang = defaultLanguage.name
+        mail.from = "no-reply@najdiprevoz.com.mk"
+        mail.to = username
+        mail.subject = "NajdiPrevoz - Activate your user"
+        mail.template = "${mail.lang.toLowerCase()}/activation-mail-template"
+        val model: MutableMap<String, Any> = HashMap()
+        model["user"] = user
+        model["signature"] = officialAppUrl
+        model["activationUrl"] = "$officialAppUrl/activate?token=$activationToken"
+        mail.model = model
+        mail
     }
 
     fun createAdminUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
@@ -54,16 +77,13 @@ class UserService(private val repository: UserRepository,
                 profilePhoto = null,
                 authority = authorityRepository.findByAuthority("ROLE_ADMIN")!!,
                 registeredOn = ZonedDateTime.now(),
-                forgetPasswordUUID = null))
+                activationToken = UUID.randomUUID().toString(),
+                isActivated = false))
     }
 
     fun findUserByUsername(username: String): User =
             repository.findByUsername(username)
                     .orElseThrow { UsernameNotFoundException("User was not found") }
-
-    fun findUserByForgetPasswordUUID(uuid: UUID) =
-            repository.findByForgetPasswordUUID(uuid)
-                    .orElseThrow { UsernameNotFoundException("User with forget PW UUID $uuid was not found") }
 
     fun findUserById(userId: Long): User =
             repository.findById(userId)
@@ -84,26 +104,30 @@ class UserService(private val repository: UserRepository,
         return repository.save(user)
     }
 
-    fun createForgetPasswordUUID(username: String) {
-        val user = findUserByUsername(username)
-        if (user.forgetPasswordUUID == null) {
-            user.forgetPasswordUUID = UUID.randomUUID()
+    fun activateUser(activationToken: String): Boolean {
+        return try {
+            val user = findUserByActivationToken(activationToken)
+            user.isActivated = true
             repository.save(user)
+            true
+        } catch (e: ActivationTokenNotFoundException) {
+            false
         }
     }
 
-    fun validateForgetPasswordUUID(token: UUID) {
-        val user = findUserByForgetPasswordUUID(token)
-        user.forgetPasswordUUID = null
-        repository.save(user)
+    fun findUserByActivationToken(activationToken: String): User {
+        return repository.findByActivationToken(activationToken)
+                .orElseThrow {
+                    ActivationTokenNotFoundException("No user found with activation token $activationToken")
+                }
     }
 
     fun getUserInfo(userId: Long): UserProfileResponse = with(findUserById(userId)) {
         UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
-                profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
-                gender = gender.gender, birthDate = birthDate, ratings = ratings,
-                averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
-                publishedRides = tripRepository.findAllByDriverId(userId).size, memberSince = registeredOn)
+                            profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
+                            gender = gender.gender, birthDate = birthDate, ratings = ratings,
+                            averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
+                            publishedRides = tripRepository.findAllByDriverId(userId).size, memberSince = registeredOn)
     }
 
     fun updatePassword(updatedPassword: String, id: Long) {
