@@ -4,6 +4,7 @@ import { UINotificationsService } from '../../services/ui-notifications-service'
 import { PasswordResetService } from '../../services/password-reset.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomePage } from '../landing-page/home-page.component';
+import { LoginPage } from '../login/login.page';
 
 @Component({
 	templateUrl: './password-reset.page.html',
@@ -43,7 +44,7 @@ export class PasswordResetPage implements OnInit {
 			this.passwordResetService.handlePasswordReset(this.token, this.password.value)
 				.subscribe(_ => {
 						this.notificationService.success('PW_RESET_SUCCESS');
-						this.router.navigate([HomePage]);
+						this.router.navigate([LoginPage]);
 					},
 					_ => this.notificationService.error('PW_RESET_FAIL'));
 		}
