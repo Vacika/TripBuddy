@@ -40,6 +40,8 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/forgot-password**").permitAll()
+                .antMatchers("/api/reset-password**").permitAll()
                 .antMatchers("/api/trips-list/**").permitAll()
                 .antMatchers("/api/cities").permitAll()
                 .antMatchers("/api/users/register").permitAll()
