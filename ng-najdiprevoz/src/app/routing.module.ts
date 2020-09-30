@@ -14,6 +14,8 @@ import {HomePage} from "../najdiprevoz/pages/landing-page/home-page.component";
 import { PasswordForgotPage } from '../najdiprevoz/pages/password-forgot/password-forgot.page';
 import { PasswordResetPage } from '../najdiprevoz/pages/password-reset/password-reset.page';
 import { ActivateUserPage } from '../najdiprevoz/pages/activate-user/activate-user.page';
+import {ProfileNotActivatedPage} from "../najdiprevoz/pages/profile-not-activated/profile-not-activated.page";
+import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-sucess/registration-success.page";
 
 export const appRoutes: Routes = [
 	{
@@ -73,6 +75,14 @@ export const appRoutes: Routes = [
 	{
 		path: 'reset-password',
 		component: PasswordResetPage
+	},
+	{
+		path: 'activation-pending',
+		component: ProfileNotActivatedPage
+	},
+	{
+		path: 'registration-success',
+		component: RegistrationSuccessPage
 	},
 	{
 		path: '',

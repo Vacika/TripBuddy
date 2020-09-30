@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UINotificationsService } from '../../services/ui-notifications-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { HomePage } from '../landing-page/home-page.component';
 
 @Component({
 	templateUrl: './activate-user.page.html',

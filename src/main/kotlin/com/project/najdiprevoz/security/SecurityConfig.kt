@@ -71,10 +71,10 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
 
     private fun loginFailureHandler(request: HttpServletRequest, response: HttpServletResponse, e: AuthenticationException) {
         response.status = HttpStatus.UNAUTHORIZED.value()
-        val data = emptyMap<Any, Any>().toMutableMap()
-        data["exception"] = e.message!!
-        data["timestamp"] = Calendar.getInstance().time.toString()
-        response.outputStream.println(objectMapper.writeValueAsString("$data"))
+        if(e.message == "USER_NOT_ACTIVATED"){
+            response.status = HttpStatus.FORBIDDEN.value()
+        }
+        response.outputStream.println(objectMapper.writeValueAsString(e.message))
     }
 
     private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {

@@ -147,5 +147,10 @@
 	"FORGOT_PASSWORD_CLICK_HERE": "Forgot password? Click here!",
 	"USER_NOT_ACTIVATED": "This user is not activated.",
 	"USER_ACTIVATE_SUCCESS": "User activation successful!",
-	"USER_ACTIVATE_FAILED": "User activation failed."
+	"USER_ACTIVATE_FAILED": "User activation failed.",
+	"FAIL_LOGIN": "Invalid username / password!",
+	"PROFILE_ACTIVATION_PENDING_CHECK_MAIL": "Activation mail is sent to your email address.",
+	"PROFILE_NOT_ACTIVATED_HEADING": "This profile is not active!",
+	"ACTIVATION_MAIL_SENT": "We've sent you an activation mail! Please activate your profile as soon as possible.",
+	"REGISTRATION_SUCCESSFUL": "Successful registration!"
 }

@@ -98,6 +98,7 @@
 	"ACTION_FAIL": "Неуспешна акција!",
 	"ACTION_SUCCESS": "Успешна акција",
 	"SUCCESS_LOGIN": "Успешно најава!",
+	"FAIL_LOGIN": "Невалидна комбинација на корисничко име и лозинка!",
 	"RIDE_REQUEST_ADD_SUCCESS": "Испратено барање за резервација!",
 	"RIDE_REQUEST_ADD_FAIL": "Неуспешна резервација..",
 	"RIDE_REQUEST_STATUS_CHANGE_SUCCESS": "Статусот на барањето е променет!",
@@ -149,5 +150,7 @@
 	"FORGOT_PASSWORD_CLICK_HERE": "Заборавена лозинка? Кликни тука!",
 	"USER_NOT_ACTIVATED": "Профилот не е активиран.",
 	"USER_ACTIVATE_SUCCESS": "Вашиот профил е успешно активиран!",
-	"USER_ACTIVATE_FAILED": "Неуспешно активирање на профилот."
+	"USER_ACTIVATE_FAILED": "Неуспешно активирање на профилот.",
+	"PROFILE_ACTIVATION_PENDING_CHECK_MAIL": "Испратен е мејл за активација на корисникот. Проверете ја вашата електронска пошта!",
+	"PROFILE_NOT_ACTIVATED_HEADING": "Профилот е неактивен!"
 }

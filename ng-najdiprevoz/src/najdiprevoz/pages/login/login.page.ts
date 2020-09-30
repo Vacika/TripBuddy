@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { emailRegex } from '../../constants/regex.constants';
-import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { isNotNullOrUndefined } from 'codelyzer/util/isNotNullOrUndefined';
-import { User } from '../../interfaces/user.interface';
-import { TranslateService } from '@ngx-translate/core';
-import { UINotificationsService } from '../../services/ui-notifications-service';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {emailRegex} from '../../constants/regex.constants';
+import {AuthService} from '../../services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {User} from '../../interfaces/user.interface';
+import {TranslateService} from '@ngx-translate/core';
+import {UINotificationsService} from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: './login.page.html',
@@ -49,8 +49,13 @@ export class LoginPage implements OnInit {
 				},
 				err => {
 					this.password.reset();
-					console.log('err:',err);
-					this.notificationService.error(err.message)
+					if (err == 'Forbidden') {
+						this.notificationService.error('USER_NOT_ACTIVATED');
+						this.router.navigate(['activation-pending']);
+					} else {
+						this.notificationService.error("FAIL_LOGIN")
+					}
+
 				});
 		}
 	}
