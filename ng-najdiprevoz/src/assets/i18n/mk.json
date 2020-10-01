@@ -152,5 +152,8 @@
 	"USER_ACTIVATE_SUCCESS": "Вашиот профил е успешно активиран!",
 	"USER_ACTIVATE_FAILED": "Неуспешно активирање на профилот.",
 	"PROFILE_ACTIVATION_PENDING_CHECK_MAIL": "Испратен е мејл за активација на корисникот. Проверете ја вашата електронска пошта!",
-	"PROFILE_NOT_ACTIVATED_HEADING": "Профилот е неактивен!"
+	"PROFILE_NOT_ACTIVATED_HEADING": "Профилот е неактивен!",
+	"REGISTRATION_SUCCESSFUL": "Успешно се регистриравте!",
+	"ACTIVATION_MAIL_SENT": "Ви испративме мејл за активирање на профилот, проверете го вашето сандаче!",
+	"YOU_CAN_NOW_LOG_IN": "Ви благодариме што го активиравте профилот, сега можете да се најавите."
 }
