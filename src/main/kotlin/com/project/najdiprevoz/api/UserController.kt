@@ -21,6 +21,10 @@ class UserController(private val userService: UserService) {
     fun createUser(@RequestBody request: CreateUserRequest): User =
             userService.createNewUser(request)
 
+    @GetMapping("/activate")
+    fun activateUser(@RequestParam(required = false) activationToken: String): Boolean =
+            userService.activateUser(activationToken)
+
     @PutMapping("/edit")
     fun editProfile(@RequestBody req: EditUserProfileRequest, principal: Principal): User =
             userService.editUserProfile(req, principal.name)

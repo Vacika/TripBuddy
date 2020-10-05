@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.stereotype.Service
 import org.thymeleaf.spring5.SpringTemplateEngine
 import java.nio.charset.StandardCharsets
+import java.util.HashMap
 
 
 @Service
@@ -39,4 +40,27 @@ class EmailService(private val emailSender: JavaMailSender,
             throw RuntimeException(e)
         }
     }
+
+    fun sendUserActivationMail(mail: Mail) {
+        try {
+            logger.debug("[EMAIL SERVICE] Sending [Activate User] Mail to ${mail.to}")
+            val message: MimeMessage = emailSender.createMimeMessage()
+            val helper = MimeMessageHelper(message,
+                                           MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                                           StandardCharsets.UTF_8.name())
+            val context = Context()
+            context.setVariables(mail.model)
+            val html: String = templateEngine.process(mail.template, context)
+            helper.setTo(mail.to)
+            helper.setText(html, true)
+            helper.setSubject(mail.subject)
+            helper.setFrom(mail.from)
+            emailSender.send(message)
+            logger.debug("[EMAIL-SERVICE] Mail sent successfully!")
+        } catch (e: Exception) {
+            logger.error("Mail for ${mail.to} was not sent!")
+            throw RuntimeException(e)
+        }
+    }
+
 }

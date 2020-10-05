@@ -39,14 +39,14 @@ class AuthenticationHandler {
         }
     }
 
-    @Bean
-    fun failureHandler(): AuthenticationFailureHandler {
-        return AuthenticationFailureHandler { request: HttpServletRequest?, response: HttpServletResponse, exception: AuthenticationException ->
-            logger.debug("Authentication failure", exception)
-            response.status = HttpStatus.UNAUTHORIZED.value()
-            response.writer.write(exception.message)
-        }
-    }
+//    @Bean
+//    fun failureHandler(): AuthenticationFailureHandler {
+//        return AuthenticationFailureHandler { request: HttpServletRequest?, response: HttpServletResponse, exception: AuthenticationException ->
+//            logger.debug("Authentication failure", exception)
+//            response.status = HttpStatus.UNAUTHORIZED.value()
+//            response.writer.write(exception.message!!)
+//        }
+//    }
 
     @Bean
     fun logoutSuccessHandler(): LogoutSuccessHandler {

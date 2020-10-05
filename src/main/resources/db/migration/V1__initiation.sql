@@ -29,7 +29,9 @@ CREATE TABLE public.users
     authority_id  bigint                                           NOT NULL REFERENCES public.authorities (id),
     profile_photo TEXT,
     default_lang  TEXT,
-    registered_on timestamp with time zone NOT NULL
+    registered_on timestamp with time zone NOT NULL,
+    is_activated boolean NOT NULL,
+    activation_token TEXT NOT NULL
 );
 
 

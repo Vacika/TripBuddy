@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { UINotificationsService } from '../../services/ui-notifications-service';
 import { PasswordResetService } from '../../services/password-reset.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HomePage } from '../landing-page/home-page.component';
 import { LoginPage } from '../login/login.page';
 
 @Component({

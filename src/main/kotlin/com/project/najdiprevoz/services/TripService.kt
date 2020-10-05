@@ -65,7 +65,8 @@ class TripService(private val repository: RideRepository,
     }
 
     fun findById(id: Long): Ride =
-            repository.findById(id).orElseThrow { RideNotFoundException("Ride with id $id was not found") }
+            repository.findById(id)
+                    .orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
     fun findByIdMapped(id: Long): TripResponse =
             findById(id).mapToTripResponse()
@@ -99,7 +100,7 @@ class TripService(private val repository: RideRepository,
                     .filter { it.getAvailableSeats() >= requestedSeats }
                     .map { it.mapToTripResponse() }
         }
-        return repository.findAll(specification).map { it.mapToTripResponse() }
+        return repository.findAll(specification).map { it.mapToTripResponse() }.sortedByDescending { it.driver.rating }
     }
 
     fun getMyTripsAsDriver(username: String): List<TripResponse> {

@@ -54,7 +54,6 @@ data class User(
         @Column(name = "phone_number", nullable = true)
         var phoneNumber: String? = null,
 
-
         @Column(name = "default_lang", nullable = true)
         @Enumerated(EnumType.STRING)
         var defaultLanguage: Language = Language.MK,
@@ -62,8 +61,11 @@ data class User(
         @Column(name = "registered_on", nullable = false)
         var registeredOn: ZonedDateTime,
 
-        @Column(name = "forget_password_uuid", nullable = true)
-        var forgetPasswordUUID: UUID?,
+        @Column(name= "is_activated", nullable = false)
+        var isActivated: Boolean,
+
+        @Column(name= "activation_token", nullable = false)
+        var activationToken: String,
 
         @JsonIgnore
         @OneToMany(mappedBy = "ratedUser", fetch = FetchType.EAGER)

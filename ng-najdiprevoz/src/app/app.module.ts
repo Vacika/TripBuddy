@@ -60,6 +60,9 @@ import { PasswordForgotService } from '../najdiprevoz/services/password-forgot.s
 import { PasswordResetService } from '../najdiprevoz/services/password-reset.service';
 import { PasswordForgotPage } from '../najdiprevoz/pages/password-forgot/password-forgot.page';
 import { PasswordResetPage } from '../najdiprevoz/pages/password-reset/password-reset.page';
+import { ActivateUserPage } from '../najdiprevoz/pages/activate-user/activate-user.page';
+import {ProfileNotActivatedPage} from "../najdiprevoz/pages/profile-not-activated/profile-not-activated.page";
+import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-sucess/registration-success.page";
 
 const SERVICES = [
 	LoaderService,
@@ -72,7 +75,9 @@ const SERVICES = [
 	RatingService,
 	UINotificationsService];
 const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog];
-const PAGES = [
+const PAGES = [ProfileNotActivatedPage,
+	RegistrationSuccessPage,
+	ActivateUserPage,
 	PasswordResetPage,
 	PasswordForgotPage,
 	LoaderComponent,

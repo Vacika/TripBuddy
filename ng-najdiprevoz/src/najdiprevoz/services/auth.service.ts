@@ -65,4 +65,8 @@ export class AuthService {
 	getUserDetails(userId: string): Observable<UserProfileDetails> {
 		return this.httpClient.get<UserProfileDetails>(`${this.path}/details/${userId}`);
 	}
+
+	activateUser(token: string):Observable<boolean> {
+		return this.httpClient.get<boolean>(`${this.path}/activate?activationToken=${token}`);
+	}
 }
