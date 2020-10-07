@@ -29,6 +29,7 @@ class UserService(private val repository: UserRepository,
                   private val tripRepository: RideRepository,
                   private val authorityRepository: AuthorityRepository,
                   private val emailService: EmailService,
+                  @Value("\${najdiprevoz.signature}") private val signature: String,
                   @Value("\${najdiprevoz.official-app-link}") private val officialAppUrl: String) {
 
     fun createNewUser(createUserRequest: CreateUserRequest): User = with(createUserRequest) {
@@ -59,7 +60,7 @@ class UserService(private val repository: UserRepository,
         mail.template = "${mail.lang.toLowerCase()}/activation-mail-template"
         val model: MutableMap<String, Any> = HashMap()
         model["user"] = user
-        model["signature"] = officialAppUrl
+        model["signature"] = signature
         model["activationUrl"] = "$officialAppUrl/activate?token=$activationToken"
         mail.model = model
         mail

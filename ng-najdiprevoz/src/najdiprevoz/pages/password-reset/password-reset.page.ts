@@ -43,7 +43,7 @@ export class PasswordResetPage implements OnInit {
 			this.passwordResetService.handlePasswordReset(this.token, this.password.value)
 				.subscribe(_ => {
 						this.notificationService.success('PW_RESET_SUCCESS');
-						this.router.navigate([LoginPage]);
+						this.router.navigate(['/login']);
 					},
 					_ => this.notificationService.error('PW_RESET_FAIL'));
 		}

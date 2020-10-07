@@ -16,8 +16,9 @@ import java.util.*
 class PasswordForgotService(private val userService: UserService,
                             private val tokenRepository: PasswordResetTokenRepository,
                             private val emailService: EmailService,
+                            @Value("\${najdiprevoz.signature}") private val signature: String,
                             @Value("\${najdiprevoz.official-app-link}") private val officialAppUrl: String) {
-
+    
     val logger: Logger = LoggerFactory.getLogger(PasswordForgotService::class.java)
     @Transactional
     fun createResetTokenForUser(username: String) {
@@ -39,7 +40,7 @@ class PasswordForgotService(private val userService: UserService,
         model["token"] = token
         model["user"] = user
         //TODO: Move this to application.yml
-        model["signature"] = officialAppUrl
+        model["signature"] = signature
         model["resetUrl"] = officialAppUrl + "/reset-password?token=" + token.token
         logger.debug("Reset url for $username is: ${officialAppUrl + "/reset-password?token=" + token.token}")
         mail.model = model
