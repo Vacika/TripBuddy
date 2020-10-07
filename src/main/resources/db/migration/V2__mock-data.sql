@@ -1,75 +1,43 @@
-
-
+-- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
+--                          profile_photo, default_lang, registered_on, is_activated, activation_token)
+-- VALUES (now(), 'user1@mock.com', 'Mock', 'M', 'User1', '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa',
+--         '071111111', 1, null, 'MK', now(), true, '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa'),
+--        (now(), 'user2@mock.com', 'Mock', 'M', 'User2', '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa',
+--         '072222222', 1, null, 'MK', now(), true, '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa'),
+--        (now(), 'user3@mock.com', 'Mock', 'M', 'User3', '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa',
+--         '073333333', 1, null, 'MK', now(), true, '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa'),
+--        (now(), 'user4@mock.com', 'Mock', 'M', 'User4', '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa',
+--         '074444444', 1, null, 'MK', now(), true, '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa'),
+--        (now(), 'user5@mock.com', 'Mock', 'M', 'User5', '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa',
+--         '075555555', 1, null, 'MK', now(), true, '$2a$10$llYgqUzaiKrcXvbtl543D.IU/7nlcR9zcKLM9TQgj6zeXDN5AfqLa');
 --
 --
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email@email.com', 'John', 'M', 'Smith', 'password', '071711033', 1, NULL);
---
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email2@email.com', 'Jane', 'F', 'Doe', 'password', '45282138', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email3@email.com', 'Thierry', 'M', 'Henry', 'password', '357429566', 1, NULL);
---
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email4@email.com', 'Renath', 'M', 'Minerou', 'password', '071711033', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email5@email.com', 'Millow', 'M', 'Hobs', 'password', '071711033', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email6@email.com', 'Nathan', 'M', 'Bowie', 'password', '071711033', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email7@email.com', 'John', 'M', 'Lennon', 'password', '071711033', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email8@email.com', 'Jennifer', 'F', 'Lopez', 'password', '071711033', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email9@email.com', 'Danielle', 'F', 'Rossi', 'password', '071711033', 1, NULL);
--- insert into public.users(birth_date, username, first_name, gender, last_name, password, phone_number, authority_id,
---                          profile_photo)
--- VALUES ('2020-02-11 22:00:06', 'email10@email.com', 'Adrianna', 'F', 'Lima', 'password', '071711033', 1, NULL);
---
--- INSERT INTO public.cars(brand, model, total_seats, year_manufacture, owner_id)
--- VALUES ('Toyota', 'RAV4', 5, 2017, 1),
---        ('BMW', 'X6', 5, 2009, 2),
---        ('Volvo', 'xc90', 5, 2015, 3),
---        ('Ford', 'Fiesta', 4, 2017, 4),
---        ('Ford', 'Mondeo', 5, 2004, 5),
---        ('Volkswagen', 'Golf 4', 5, 2001, 6),
---        ('Volkswagen', 'UP', 4, 2018, 7),
---        ('Audi', 'Q7', 5, 2017, 8),
---        ('Mercedes', 'C350', 5, 2013, 9),
---        ('Honda', 'Civic', 5, 2006, 10);
---
---
--- INSERT INTO public.rides(description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
---                          driver_id, from_location, status, has_air_condition, is_pet_allowed, is_smoking_allowed,
+-- -- PRESENT RIDES --
+-- insert into public.rides(description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
+--                          driver_id, from_location, status, is_smoking_allowed, is_pet_allowed, has_air_condition,
 --                          max_two_backseat)
--- VALUES ('test-description', '2020-02-12 19:50:55', '2021-02-12 19:50:57', 100, 5, 1, 1, 2, 'ACTIVE', true, false, true,
---         true),
---        ('test-ride-2', '2020-02-12 21:04:51', '2021-02-12 21:04:55', 150, 3, 1, 2, 1, 'ACTIVE', true, true, false,
+-- VALUES ('', now(), now() + interval '1' hour, 100, 4, 1, 1, 2, 'ACTIVE', false, false, false, true),
+--        ('', now(), now() + interval '2' hour, 120, 2, 2, 2, 3, 'ACTIVE', true, true, true, true),
+--        ('', now(), now() + interval '2' hour, 140, 3, 3, 3, 4, 'ACTIVE', true, false, true, true),
+--        ('', now(), now() + interval '3' hour, 160, 4, 4, 4, 6, 'ACTIVE', false, true, false, true),
+--        ('', now(), now() + interval '1' hour, 180, 4, 5, 5, 8, 'ACTIVE', true, false, false, false);
+--
+-- -- Past Rides --
+--
+-- insert into public.rides(description, created_on, departure_time, price_per_head, total_seats_offered, to_location,
+--                          driver_id, from_location, status, is_smoking_allowed, is_pet_allowed, has_air_condition,
+--                          max_two_backseat)
+-- VALUES ('', now() - interval '1' day, now() - interval '1' day, 100, 4, 2, 1, 8, 'FINISHED', false, false, false, true),
+--        ('', now() - interval '1' day, now() - interval '1' day, 200, 4, 9, 2, 6, 'FINISHED', true, true, true, true),
+--        ('', now() - interval '5' day, now() - interval '5' day, 250, 3, 4, 3, 2, 'FINISHED', true, false, true, true),
+--        ('', now() - interval '8' day, now() - interval '8' day, 300, 4, 7, 4, 9, 'FINISHED', false, true, false, true),
+--        ('', now() - interval '12' day, now() - interval '12' day, 350, 4, 3, 5, 1, 'FINISHED', true, false, false,
 --         false);
 --
--- INSERT INTO public.ride_requests(created_on, status, requester_id, ride_id, requested_seats)
--- VALUES ('2020-02-12 19:50:27', 'PENDING', 1, 1, 1),
---        ('2020-02-12 19:50:27', 'PENDING', 1, 1, 2),
---        ('2020-02-12 19:50:27', 'PENDING', 1, 2, 3);
 --
--- INSERT INTO public.ratings(date_submitted, note, rating, ride_request_id, rated_user)
--- VALUES ('2020-02-12 21:01:04', 'dobra voznja', 5, 1, 1),
---        ('2020-02-12 21:01:15', 'mnogu loso', 1, 3, 1),
---        ('2020-02-12 21:04:36', 'Meh,sredno', 3, 2, 2);
---
---
---
---
---
---
---
---
+-- insert into public.ride_requests(created_on, status, requester_id, ride_id, additional_description, requested_seats)
+-- VALUES (now() - interval '1' day, 'APPROVED', 5, 1, '', 1),
+--        (now() - interval '1' day, 'DENIED', 5, 1, '', 1),
+--        (now() - interval '5' day, 'APPROVED', 5, 1, '', 1),
+--        (now() - interval '8' day, 'APPROVED', 5, 1, '', 1),
+--        (now() - interval '12' day, 'APPROVED', 5, 1, '', 1);

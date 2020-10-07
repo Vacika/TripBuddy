@@ -1,7 +1,7 @@
 <mat-card class="card" *ngFor="let trip of allTrips">
 	<mat-card-header>
 		<img mat-card-avatar class="card-header-image"
-				 src="{{trip.driver.profilePhoto}}">
+				 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
 		<mat-card-title class="margin-bottom-0 space-between flex">
 			<span class="font-18 margin-right-10">{{trip.driver.name}}</span>
 			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}">
