@@ -3,7 +3,7 @@
 		<img mat-card-avatar class="card-header-image"
 				 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
 		<mat-card-title class="margin-bottom-0 space-between flex">
-			<span class="font-18 margin-right-10">{{trip.driver.name}}</span>
+			<span class="font-18 margin-right-10"><a class="user-link" [routerLink]="'/user/' + trip.driver.id">{{trip.driver.name}}</a></span>
 			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}">
 					<mat-icon *ngFor="let index of getNumberAsArray(trip.totalSeats)"
 										[ngClass]="getClassForPersonIcon(index,trip.availableSeats)">

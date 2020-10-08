@@ -92,7 +92,7 @@
 	<!--	Preferences form FORM -->
 	<div class="form-container" *ngIf='(currentStep|async) > 2'>
 		<form [formGroup]="preferencesForm" (submit)="submitPreferences()" class='flex flex-column text-center'>
-			<div class='flex space-between align-baseline'>
+			<div class='flex space-between align-baseline' style="padding-right: 50px;">
 				<mat-checkbox class="form-field width-12"
 											formControlName='isSmokingAllowed'>{{'IS_SMOKING_ALLOWED' | translate}} </mat-checkbox>
 

@@ -58,3 +58,12 @@
 .inline-block {
 	display: inline-block;
 }
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

@@ -22,6 +22,7 @@ export class AppComponent {
 
 	changeLang(lang: string) {
 		this.translate.use(lang);
+		this.translate.setDefaultLang(lang);
 		this.translate.get('SITE_TITLE').subscribe(title => this.titleService.setTitle(title));
 	}
 }
