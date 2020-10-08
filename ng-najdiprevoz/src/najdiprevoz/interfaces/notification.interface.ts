@@ -6,5 +6,6 @@ export interface NotificationResponse {
 	actions: string[];
 	fromId: number;
 	fromName: string;
+	fromProfilePic?: string;
 	seen: boolean;
 }

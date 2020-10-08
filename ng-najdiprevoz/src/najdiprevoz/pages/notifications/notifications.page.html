@@ -4,7 +4,7 @@
 				<div class="notification">
 					<span class='left-side'>
 						<img src="../../../assets/images/red-dot.gif" height="30px" width="60px" *ngIf="!notification.seen">
-						<img class=" card-header-image" src="https://material.angular.io/assets/img/examples/shiba1.jpg"
+						<img class=" card-header-image" src="{{notification.fromProfilePic? notification.fromProfilePic : '../assets/images/default-profile-pic.jpeg'}}"
 								 style="border-radius:50%;width:52px;height:52px; padding-right:10px;">
 						<span *ngIf="notification.type == 'REQUEST_SENT'">
 							<b>{{notification.fromName}}</b> {{"REQUEST_SENT_MESSAGE"|translate}}

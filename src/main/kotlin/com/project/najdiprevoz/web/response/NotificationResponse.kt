@@ -7,6 +7,7 @@ import java.time.ZonedDateTime
 class NotificationResponse(val id: Long,
                            val fromId: Long,
                            val fromName: String,
+                           val fromProfilePic: String?,
                            val actions: List<NotificationAction>,
                            val createdOn: ZonedDateTime,
                            val rideRequestId: Long,

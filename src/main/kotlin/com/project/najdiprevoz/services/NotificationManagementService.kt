@@ -32,6 +32,7 @@ class NotificationManagementService(private val notificationService: Notificatio
         NotificationResponse(id = id,
                 fromId = from.id,
                 fromName = from.getFullName(),
+                fromProfilePic = from.profilePhoto,
                 rideRequestId = rideRequest.id,
                 type = type,
                 actions = actions,
