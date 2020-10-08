@@ -14,7 +14,7 @@
 			<div class="rating">
 				<mat-icon>star</mat-icon>
 				<span class="primary-light-color bold">{{"RATING"|translate}}</span> : {{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
-				(Total ratings submitted: {{user.ratings.length}})
+				({{"TOTAL_RATINGS_SUBMITTED"|translate}}: {{user.ratings.length}})
 				<mat-icon (click)="navigateToRatings()" *ngIf="user.ratings?.length > 0" class="link">keyboard_arrow_right</mat-icon>
 			</div>
 
