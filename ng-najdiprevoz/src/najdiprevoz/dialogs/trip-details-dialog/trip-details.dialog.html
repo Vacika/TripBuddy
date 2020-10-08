@@ -8,7 +8,7 @@
 	<div><span class="text-bold">{{'AVAILABLE_SEATS'|translate}}: </span>{{trip.availableSeats}}</div>
 	<div><span class="text-bold">{{'PRICE_PER_HEAD'|translate}}: </span>{{trip.pricePerHead}}</div>
 	<div><span class="text-bold">{{'TOTAL_SEATS'|translate}}: </span>{{trip.totalSeats}}</div>
-	<div><span class="text-bold">{{'DRIVER'|translate}}:</span> {{trip.driver.name}}</div>
+	<div><span class="text-bold">{{'DRIVER'|translate}}:</span> <a [routerLink]="'/user/' + trip.driver.id">{{trip.driver.name}}</a></div>
 	<div><span class="text-bold">{{'RATING'| translate}}:</span> {{trip.driver.rating.toString()
 	!= "NaN" ? trip.driver.rating : 'NO_RATINGS'|translate}}</div>
 	<div><span class="text-bold"

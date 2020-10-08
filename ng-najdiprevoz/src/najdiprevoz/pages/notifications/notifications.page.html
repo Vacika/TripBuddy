@@ -7,30 +7,30 @@
 						<img class=" card-header-image" src="{{notification.fromProfilePic? notification.fromProfilePic : '../assets/images/default-profile-pic.jpeg'}}"
 								 style="border-radius:50%;width:52px;height:52px; padding-right:10px;">
 						<span *ngIf="notification.type == 'REQUEST_SENT'">
-							<b>{{notification.fromName}}</b> {{"REQUEST_SENT_MESSAGE"|translate}}
+							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a>{{"REQUEST_SENT_MESSAGE"|translate}}
 						</span>
 
-						<span *ngIf="notification.type == 'REQUEST_CANCELLED'">
-							<b>{{notification.fromName}}</b> {{"REQUEST_CANCELLED_MESSAGE"|translate}}
+						<span *ngIf="notification.type == 'REQUEST_CANCELLEDd'">
+							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"REQUEST_CANCELLED_MESSAGE"|translate}}
 						</span>
 						<span *ngIf="notification.type == 'REQUEST_APPROVED'">
-							<b>{{notification.fromName}}</b> {{"REQUEST_APPROVED_MESSAGE"|translate}}
+							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"REQUEST_APPROVED_MESSAGE"|translate}}
 						</span>
 						<span *ngIf="notification.type == 'REQUEST_EXPIRED'"> {{"REQUEST_EXPIRED_MESSAGE"|translate}}
-							<b>{{notification.fromName}}</b>
+							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a>
 						</span>
 						<span
-							*ngIf="notification.type == 'RIDE_CANCELLED'"><b>{{notification.fromName}}</b> {{"RIDE_CANCELLED_MESSAGE"|translate}}
+							*ngIf="notification.type == 'RIDE_CANCELLED'"><a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"RIDE_CANCELLED_MESSAGE"|translate}}
 						</span>
 						<span
-							*ngIf="notification.type == 'REQUEST_DENIED'"><b>{{notification.fromName}}</b> {{"REQUEST_DENIED_MESSAGE"|translate}}
+							*ngIf="notification.type == 'REQUEST_DENIED'"><a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"REQUEST_DENIED_MESSAGE"|translate}}
 						</span>
 
 						<span *ngIf="notification.type == 'RATING_ALLOWED'">
-							{{"RATING_ALLOWED"|translate}} <b>{{notification.fromName}}</b>
+							{{"RATING_ALLOWED"|translate}} <a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a>
 						</span>
 						<span
-							*ngIf="notification.type == 'RATING_SUBMITTED'"> <b>{{notification.fromName}}</b> {{"RATING_SUBMITTED"|translate}}
+							*ngIf="notification.type == 'RATING_SUBMITTED'"> <a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"RATING_SUBMITTED"|translate}}
 						</span>
 					</span>
 					<span class="flex space-between inline-block">
