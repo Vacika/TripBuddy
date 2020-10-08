@@ -26,7 +26,11 @@
 				<span>{{element.departureTime | date : 'dd.MM.y hh:mm'}}</span>
 			</span>
 
-			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime'"
+			<span *ngIf="column == 'fromLocation' || column == 'toLocation'">
+				<span>{{element[column] | translate}}</span>
+			</span>
+
+			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime' && column != 'fromLocation' && column != 'toLocation'"
 					 style="display: flex; align-items: center;">
 
 				<!-- STATUS -->

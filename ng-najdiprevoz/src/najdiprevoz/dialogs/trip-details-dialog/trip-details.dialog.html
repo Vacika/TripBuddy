@@ -1,5 +1,5 @@
 <h1 mat-dialog-title class="text-center">
-	{{trip.from}}  <img src="../../assets/images/right-arrow.png" height="13px" width="29px">  {{trip.to}}</h1>
+	{{trip.from|translate}}  <img src="../../assets/images/right-arrow.png" height="13px" width="29px">  {{trip.to | translate}}</h1>
 <div mat-dialog-content class='mat-dialog-content'>
 
 	<div><span class="text-bold">{{'STATUS'|translate}}: </span> {{ trip.status | translate }}</div>
