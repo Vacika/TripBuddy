@@ -45,7 +45,7 @@ data class Ride(
         @JsonManagedReference
         @OneToMany(mappedBy = "ride",
                 targetEntity = RideRequest::class,
-                fetch = FetchType.EAGER,
+                fetch = FetchType.LAZY,
                 cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
         var rideRequests: List<RideRequest> = listOf(),
 

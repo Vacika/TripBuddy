@@ -50,7 +50,10 @@ class TripService(private val repository: RideRepository,
     }
 
     fun findAllActiveTripsForToday(): List<Ride> =
-            repository.findAll(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime))
+            repository.findAll(
+                    listOfNotNull(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
+                    evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification))
+                            .fold(whereTrue()) { first, second -> Specification.where(first).and(second) })
 
 
     fun getPastPublishedTripsByUser(userId: Long) =

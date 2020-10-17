@@ -6,7 +6,7 @@
 					<span class="flex space-between">
 						<span class="flex">
 							<img class="card-header-image"
-									 [src]="rating.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
+									 [src]="rating?.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
 									 style="border-radius:50%;width:52px;height:52px;">
 
 							<span class="flex-column ml-3">
@@ -27,6 +27,9 @@
 						 <p>{{rating.note}}</p>
 					</div>
 				</div>
+				<div>
+						<button mat-stroked-button (click)="rideDetails(rating.rideId)" class='button-primary'> {{"SEE_RIDE"|translate}}</button>
+					</div>
 				<hr>
 
 		<mat-divider></mat-divider>
