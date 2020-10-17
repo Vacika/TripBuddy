@@ -188,5 +188,7 @@
 	"Sveti Nikole": "Sveti Nikole",
 	"Makedonski brod": "Makedonski Brod",
 	"Makedonska Kamenica": "Makedonska Kamenica",
-	"Dojran": "Dojran"
+	"Dojran": "Dojran",
+	"MAX_TWO_BACKSEAT": "Maximum 2 persons seat in backseat",
+	"HAS_AIR_CONDITION": "Air condition included"
 }
