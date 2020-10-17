@@ -3,7 +3,6 @@ package com.project.najdiprevoz.domain
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.project.najdiprevoz.enums.RideRequestStatus
-import com.project.najdiprevoz.web.response.RideRequestResponse
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -43,14 +42,6 @@ class RideRequest(
 ) {
     fun getRequesterFullName() = requester.getFullName()
 
-    fun mapToRideRequestResponse(allowedActions: List<String>?): RideRequestResponse {
-        return RideRequestResponse(
-                id = id,
-                requester = requester.mapToUserShortResponse(),
-                tripId = ride.id,
-                allowedActions = allowedActions
-        )
-    }
     fun changeStatus(newStatus: RideRequestStatus): RideRequest {
         this.status = newStatus
         return this

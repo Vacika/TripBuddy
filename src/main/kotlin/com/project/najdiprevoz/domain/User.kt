@@ -104,27 +104,6 @@ data class User(
 
     fun getAverageRating(): Double = ratings.map { it.rating }.average()
 
-    fun mapToUserShortResponse(): UserShortResponse {
-        return UserShortResponse(id = id,
-                rating = this.getAverageRating(),
-                name = this.getFullName(),
-                profilePhoto = this.profilePhoto)
-    }
-
-    fun mapToUserProfileResponse(): UserResponse {
-        return UserResponse(firstName = firstName,
-                lastName = lastName,
-                username = username,
-                profilePhoto = profilePhoto,
-                phoneNumber = phoneNumber,
-                gender = gender.name,
-                averageRating = getAverageRating(),
-                ratings = ratings,
-                id = id,
-                birthDate = birthDate,
-                defaultLanguage= defaultLanguage.toString())
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

@@ -3,7 +3,6 @@ package com.project.najdiprevoz.services
 import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.RideRequestStatus
-import com.project.najdiprevoz.web.request.create.CreateRatingRequest
 import com.project.najdiprevoz.web.response.NotificationResponse
 import org.springframework.stereotype.Service
 

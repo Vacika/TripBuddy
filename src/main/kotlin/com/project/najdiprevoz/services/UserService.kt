@@ -26,7 +26,6 @@ fun passwordEncoder(): PasswordEncoder {
 
 @Service
 class UserService(private val repository: UserRepository,
-                  private val tripRepository: RideRepository,
                   private val authorityRepository: AuthorityRepository,
                   private val emailService: EmailService,
                   @Value("\${najdiprevoz.signature}") private val signature: String,
@@ -121,14 +120,6 @@ class UserService(private val repository: UserRepository,
                 .orElseThrow {
                     ActivationTokenNotFoundException("No user found with activation token $activationToken")
                 }
-    }
-
-    fun getUserInfo(userId: Long): UserProfileResponse = with(findUserById(userId)) {
-        UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
-                            profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
-                            gender = gender.gender, birthDate = birthDate, ratings = ratings,
-                            averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
-                            publishedRides = tripRepository.findAllByDriverId(userId).size, memberSince = registeredOn)
     }
 
     fun updatePassword(updatedPassword: String, id: Long) {

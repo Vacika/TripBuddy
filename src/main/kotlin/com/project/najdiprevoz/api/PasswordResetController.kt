@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.api
 import com.project.najdiprevoz.services.PasswordForgotService
 import com.project.najdiprevoz.web.request.HandlePasswordResetRequest
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 

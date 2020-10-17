@@ -1,7 +1,5 @@
 package com.project.najdiprevoz.web.response
 
-import java.time.ZonedDateTime
-
 class RideRequestFullResponse(
         val id: Long,
         val requesterName: String,
