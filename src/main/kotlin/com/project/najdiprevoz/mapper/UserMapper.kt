@@ -1,6 +1,7 @@
 package com.project.najdiprevoz.mapper
 
 import com.project.najdiprevoz.domain.User
+import com.project.najdiprevoz.repositories.RatingRepository
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.services.UserService
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
@@ -9,7 +10,9 @@ import com.project.najdiprevoz.web.response.UserProfileResponse
 import org.springframework.stereotype.Service
 
 @Service
-class UserMapper(private val service: UserService, private val tripRepository: RideRepository) {
+class UserMapper(private val service: UserService,
+                 private val tripRepository: RideRepository,
+                 private val ratingViewRepository: RatingRepository) {
     fun createNewUser(createUserRequest: CreateUserRequest): User =
             service.createNewUser(createUserRequest)
 
@@ -32,10 +35,14 @@ class UserMapper(private val service: UserService, private val tripRepository: R
             tripRepository.findAllByDriverId(userId).size
 
     private fun mapToUserProfileResponse(user: User) = with(user) {
+        val ratings = ratingViewRepository.findAllByRatedUser_Id(id)
         UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
                 profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,
                 gender = gender.gender, birthDate = birthDate, ratings = ratings,
-                averageRating = getAverageRating(), defaultLanguage = defaultLanguage.longName,
+                averageRating = ratings
+                        .map { it.rating }
+                        .average(),
+                defaultLanguage = defaultLanguage.longName,
                 publishedRides = getPublishedRidesCount(user.id), memberSince = registeredOn)
 
     }

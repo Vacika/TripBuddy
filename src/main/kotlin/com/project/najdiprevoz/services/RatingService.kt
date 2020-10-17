@@ -22,8 +22,8 @@ class RatingService(private val repository: RatingRepository,
     fun getRatingsForTrip(rideId: Long) =
             repository.findRatingsByRideRequestRide_Id(rideId = rideId)
 
-    fun getRatingsForUser(username: String) =
-            repository.findAllByRatedUser_Username(username).map { it.mapToRatingResponse() }
+    fun getRatingsForUser(username: String) = null
+//            repository.findAllByRatedUser_Username(username).map { it.mapToRatingResponse() }
 
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {
@@ -60,6 +60,6 @@ class RatingService(private val repository: RatingRepository,
     }
 
     fun getRatingsForUserById(userId: Long): List<Rating> {
-        return repository.findAllByRatedUser_Id(userId)
+        return emptyList()
     }
 }

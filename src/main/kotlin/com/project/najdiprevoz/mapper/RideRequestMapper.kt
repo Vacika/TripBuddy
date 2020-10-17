@@ -3,6 +3,7 @@ package com.project.najdiprevoz.mapper
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideRequestStatus
+import com.project.najdiprevoz.repositories.RatingViewRepository
 import com.project.najdiprevoz.services.RideRequestService
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import com.project.najdiprevoz.web.response.RideRequestFullResponse
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 import java.time.format.DateTimeFormatter
 
 @Service
-class RideRequestMapper(private val service: RideRequestService) {
+class RideRequestMapper(private val service: RideRequestService,
+                        private val ratingViewRepository: RatingViewRepository) {
 
     fun findById(id: Long): RideRequestResponse =
             mapToRideRequestResponse(service.findById(id), getAvailableActions(id, true))
@@ -45,7 +47,7 @@ class RideRequestMapper(private val service: RideRequestService) {
     private fun mapToRideRequestResponse(rideRequest: RideRequest, allowedActions: List<String>?): RideRequestResponse = with(rideRequest) {
         RideRequestResponse(
                 id = id,
-                requester =mapToUserShortResponse(requester),
+                requester = mapToUserShortResponse(requester),
                 tripId = ride.id,
                 allowedActions = allowedActions
         )
@@ -68,9 +70,11 @@ class RideRequestMapper(private val service: RideRequestService) {
         )
     }
 
-    private fun mapToUserShortResponse(user: User): UserShortResponse = with(user){
+    private fun mapToUserShortResponse(user: User): UserShortResponse = with(user) {
         UserShortResponse(id = id,
-                rating = this.getAverageRating(),
+                rating = ratingViewRepository.findAllByDriverId(id)
+                        .map { it.rating }
+                        .average(),
                 name = this.getFullName(),
                 profilePhoto = this.profilePhoto)
     }

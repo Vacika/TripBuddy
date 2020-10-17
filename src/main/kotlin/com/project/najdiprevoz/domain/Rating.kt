@@ -25,12 +25,7 @@ data class Rating(
         val dateSubmitted: ZonedDateTime,
 
         @Column(name = "rating")
-        val rating: Int,
-
-        @JsonBackReference
-        @ManyToOne
-        @JoinColumn(name = "rated_user")
-        val ratedUser: User = rideRequest.ride.driver) {
+        val rating: Int) {
 
     @JsonIgnore
     fun getAuthor(): User = rideRequest.requester

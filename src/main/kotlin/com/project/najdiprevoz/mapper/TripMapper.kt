@@ -3,6 +3,7 @@ package com.project.najdiprevoz.mapper
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.repositories.RatingViewRepository
 import com.project.najdiprevoz.services.TripService
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
@@ -14,7 +15,8 @@ import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.stereotype.Service
 
 @Service
-class TripMapper(private val tripService: TripService) {
+class TripMapper(private val tripService: TripService,
+                 private val ratingViewRepository: RatingViewRepository) {
 
     //////////////////CORE METHODS////////////////////
     fun findAllActiveTripsForToday(): List<TripResponse> {
@@ -98,7 +100,9 @@ class TripMapper(private val tripService: TripService) {
 
     private fun mapToUserShortResponse(user: User): UserShortResponse = with(user){
         UserShortResponse(id = id,
-                rating = this.getAverageRating(),
+                rating = ratingViewRepository.findAllByDriverId(id)
+                        .map { it.rating }
+                        .average(),
                 name = this.getFullName(),
                 profilePhoto = this.profilePhoto)
     }

@@ -191,3 +191,15 @@ VALUES ('ROLE_USER');
 insert into public.authorities(authority)
 VALUES ('ROLE_ADMIN');
 
+DROP VIEW IF EXISTS v_ratings;
+CREATE OR REPLACE VIEW v_ratings AS
+SELECT r.id as id, r.id as rating_id, r.rating as rating,
+       r.date_submitted as date_submitted,
+       r.ride_request_id as ride_request_id,
+       r2.id as ride_id,
+       author.id as author_id, driver.id as driver_id
+from ratings r
+         join ride_requests rr on rr.id = r.ride_request_id
+         join users author on rr.requester_id= author.id
+         join rides r2 on rr.ride_id = r2.id
+         join users driver on r2.driver_id = driver.id;
