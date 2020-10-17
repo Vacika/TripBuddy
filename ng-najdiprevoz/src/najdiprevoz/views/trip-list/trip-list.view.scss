@@ -121,3 +121,13 @@
 .color-white {
 	color: white;
 }
+
+.user-link {
+	text-decoration: none;
+	color: white !important;
+}
+
+.user-link:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

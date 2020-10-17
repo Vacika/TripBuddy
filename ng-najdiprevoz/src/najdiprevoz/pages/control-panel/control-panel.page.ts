@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { RideRequestFullResponse } from '../../interfaces/ride-request.interface';
-import { Observable } from 'rxjs';
-import { RideRequestService } from '../../services/ride-request.service';
-import { MatDialog } from '@angular/material/dialog';
-import { SubmitRatingDialog } from '../../dialogs/submit-rating/submit-rating.dialog';
-import { UINotificationsService } from '../../services/ui-notifications-service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+import {RideRequestFullResponse} from '../../interfaces/ride-request.interface';
+import {Observable} from 'rxjs';
+import {RideRequestService} from '../../services/ride-request.service';
+import {MatDialog} from '@angular/material/dialog';
+import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dialog';
+import {UINotificationsService} from '../../services/ui-notifications-service';
+import {TranslateService} from "@ngx-translate/core";
+import {Title} from "@angular/platform-browser";
 
 @Component({
 	templateUrl: './control-panel.page.html',
@@ -18,14 +20,23 @@ export class ControlPanelPage implements OnInit {
 	constructor(private authService: AuthService,
 							private rideRequestService: RideRequestService,
 							private _notificationService: UINotificationsService,
-							private _dialog: MatDialog) {
+							private _dialog: MatDialog,
+							private translate: TranslateService,
+							private titleService: Title) {
 	}
 
 	submit(formValues: any) {
 		this.authService.editProfile(formValues).subscribe(user => {
 			this.authService.resetUserObservable();
 			this.authService.setLoggedUser(user);
+			this.changeLang(formValues['defaultLanguage'].toLowerCase())
 		});
+	}
+
+	changeLang(lang: string) {
+		this.translate.use(lang);
+		this.translate.setDefaultLang(lang);
+		this.translate.get('SITE_TITLE').subscribe(title => this.titleService.setTitle(title));
 	}
 
 	ngOnInit(): void {
