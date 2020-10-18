@@ -65,7 +65,10 @@ data class User(
         var isActivated: Boolean,
 
         @Column(name= "activation_token", nullable = false)
-        var activationToken: String
+        var activationToken: String,
+
+        @Column(name="banned", nullable = false)
+        var isBanned: Boolean = false
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =

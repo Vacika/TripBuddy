@@ -46,6 +46,7 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .antMatchers("/api/cities").permitAll()
                 .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/users/activate").permitAll()
+                .antMatchers("/api/admin/**").hasRole("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -47,7 +47,7 @@ private fun equalsPredicate(value: Long, properties: List<String>, root: Root<Ri
                                          cb: CriteriaBuilder) = cb.equal(
         getPath(root, properties).`as`(Long::class.java), value)
 
-fun equalSpecification(properties: List<String>, value: Long) =
+fun equalLongSpecification(properties: List<String>, value: Long) =
         Specification<Ride> { root, _, cb -> equalsPredicate(value, properties, root, cb) }
 
 

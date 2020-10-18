@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AuthorityRepository : JpaRepository<Authority?, Long?> {
-    fun findByAuthority(authority: String?): Authority?
+    fun findByAuthority(authority: String): Authority
 }

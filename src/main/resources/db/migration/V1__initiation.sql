@@ -31,7 +31,8 @@ CREATE TABLE public.users
     default_lang  TEXT,
     registered_on timestamp with time zone NOT NULL,
     is_activated boolean NOT NULL,
-    activation_token TEXT NOT NULL
+    activation_token TEXT NOT NULL,
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 

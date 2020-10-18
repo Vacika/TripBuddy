@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.security
 
+import com.project.najdiprevoz.exceptions.UserBannedException
 import com.project.najdiprevoz.exceptions.UserNotActivatedException
 import com.project.najdiprevoz.repositories.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
@@ -16,6 +17,9 @@ class UserDetailsServiceImpl(private val repository: UserRepository) : UserDetai
                 .orElseThrow { UsernameNotFoundException("User '$username' not found") }
         if(!user.isActivated){
             throw UserNotActivatedException()
+        }
+        if(user.isBanned){
+            throw UserBannedException("User is banned!")
         }
         return user
     }

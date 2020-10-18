@@ -1,17 +1,17 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Mail
+import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.exceptions.ActivationTokenNotFoundException
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
-import com.project.najdiprevoz.repositories.AuthorityRepository
-import com.project.najdiprevoz.repositories.RideRepository
-import com.project.najdiprevoz.repositories.UserRepository
+import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
-import com.project.najdiprevoz.web.response.UserProfileResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -41,7 +41,7 @@ class UserService(private val repository: UserRepository,
                 gender = gender,
                 phoneNumber = phoneNumber,
                 profilePhoto = null,
-                authority = authorityRepository.findByAuthority("ROLE_USER")!!,
+                authority = authorityRepository.findByAuthority("ROLE_USER"),
                 registeredOn = ZonedDateTime.now(),
                 activationToken = UUID.randomUUID().toString(),
                 isActivated = false))
@@ -50,7 +50,7 @@ class UserService(private val repository: UserRepository,
         user
     }
 
-    private fun createUserActivationMailObject(user: User): Mail = with(user){
+    private fun createUserActivationMailObject(user: User): Mail = with(user) {
         val mail = Mail()
         mail.lang = defaultLanguage.name
         mail.from = "no-reply@najdiprevoz.com.mk"
@@ -75,7 +75,7 @@ class UserService(private val repository: UserRepository,
                 gender = gender,
                 phoneNumber = phoneNumber,
                 profilePhoto = null,
-                authority = authorityRepository.findByAuthority("ROLE_ADMIN")!!,
+                authority = authorityRepository.findByAuthority("ROLE_ADMIN"),
                 registeredOn = ZonedDateTime.now(),
                 activationToken = UUID.randomUUID().toString(),
                 isActivated = false))
@@ -125,6 +125,27 @@ class UserService(private val repository: UserRepository,
     fun updatePassword(updatedPassword: String, id: Long) {
         val user = findUserById(id)
         user.password = passwordEncoder().encode(updatedPassword)
+        repository.save(user)
+    }
+
+    fun banUser(username: String) {
+        val user = findUserByUsername(username)
+        user.isBanned = true
+        repository.save(user)
+    }
+
+    fun isUserBanned(username: String) =
+            findUserByUsername(username).isBanned
+
+    fun changeUserRole(username: String, role: String) {
+        val user = findUserByUsername(username)
+        user.setAuthority(authorityRepository.findByAuthority(role))
+        repository.save(user)
+    }
+
+    fun unbanUser(username: String) {
+        val user = findUserByUsername(username)
+        user.isBanned = false
         repository.save(user)
     }
 }
