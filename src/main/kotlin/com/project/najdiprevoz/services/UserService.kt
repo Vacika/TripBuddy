@@ -1,11 +1,11 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Mail
-import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.exceptions.ActivationTokenNotFoundException
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
 import com.project.najdiprevoz.repositories.*
+import com.project.najdiprevoz.utils.likeSpecification
 import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
 import org.springframework.beans.factory.annotation.Value
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import java.util.*
-import javax.persistence.criteria.CriteriaBuilder
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -158,7 +157,7 @@ class UserService(private val repository: UserRepository,
     private fun createSpecification(username: String?, phone: String?): Specification<User>{
         return Specification.where<User>(
                 likeSpecification<User>(listOf("username"), username ?: "")
-                        .and(likeSpecification<User>(listOf("phoneNumber"), phone?:"")))!!
+                        .and(likeSpecification<User>(listOf("phoneNumber"), phone ?: "")))!!
     }
 }
 

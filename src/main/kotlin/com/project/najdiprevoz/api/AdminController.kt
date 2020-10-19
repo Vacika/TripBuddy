@@ -1,23 +1,23 @@
 package com.project.najdiprevoz.api
 
-import com.project.najdiprevoz.mapper.AdminMapper
+import com.project.najdiprevoz.mapper.AdminService
 import com.project.najdiprevoz.web.request.ChangeRoleRequest
 import com.project.najdiprevoz.web.request.UserGridFilterRequest
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/admin")
-class AdminController(private val adminMapper: AdminMapper) {
+class AdminController(private val adminService: AdminService) {
 
     @PutMapping("/ban")
-    fun banUser(username: String) = adminMapper.banUser(username)
+    fun banUser(username: String) = adminService.banUser(username)
 
     @PutMapping("/unban")
-    fun unBanUser(username: String) = adminMapper.unbanUser(username)
+    fun unBanUser(username: String) = adminService.unbanUser(username)
 
     @PostMapping("/change-role")
-    fun unBanUser(@RequestBody req: ChangeRoleRequest) = adminMapper.changeUserRole(req.username, req.role)
+    fun unBanUser(@RequestBody req: ChangeRoleRequest) = adminService.changeUserRole(req.username, req.role)
 
     @GetMapping("/users/filter")
-    fun fetchAllUsers(req: UserGridFilterRequest) = adminMapper.findAllUsersFiltered(req)
+    fun fetchAllUsers(req: UserGridFilterRequest) = adminService.findAllUsersFiltered(req)
 }

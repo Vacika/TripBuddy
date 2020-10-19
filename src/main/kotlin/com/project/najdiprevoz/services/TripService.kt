@@ -6,6 +6,10 @@ import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
+import com.project.najdiprevoz.utils.equalSpecification
+import com.project.najdiprevoz.utils.laterThanTime
+import com.project.najdiprevoz.utils.tripStatusEqualsSpecification
+import com.project.najdiprevoz.utils.whereTrue
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
