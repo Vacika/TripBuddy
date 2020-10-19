@@ -104,8 +104,8 @@ class TripService(private val repository: RideRepository,
 
     private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
             listOfNotNull(
-                    evaluateSpecification(listOf("fromLocation", "id"), fromAddress, ::equalLongSpecification),
-                    evaluateSpecification(listOf("destination", "id"), toAddress, ::equalLongSpecification),
+                    evaluateSpecification(listOf("fromLocation", "id"), fromAddress, ::equalSpecification),
+                    evaluateSpecification(listOf("destination", "id"), toAddress, ::equalSpecification),
                     evaluateSpecification(listOf("departureTime"), departure, ::laterThanTime),
                     evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
             ).fold(whereTrue()) { first, second ->

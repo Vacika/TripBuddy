@@ -18,6 +18,6 @@ class AdminController(private val adminMapper: AdminMapper) {
     @PostMapping("/change-role")
     fun unBanUser(@RequestBody req: ChangeRoleRequest) = adminMapper.changeUserRole(req.username, req.role)
 
+    @GetMapping("/users/filter")
     fun fetchAllUsers(req: UserGridFilterRequest) = adminMapper.findAllUsersFiltered(req)
-
 }

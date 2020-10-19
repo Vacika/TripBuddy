@@ -3,12 +3,13 @@ package com.project.najdiprevoz.repositories
 import com.project.najdiprevoz.domain.User
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface UserRepository : JpaRepository<User, Long> {
+interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<User>{
 
     @Query("""
         SELECT u as rating FROM User u

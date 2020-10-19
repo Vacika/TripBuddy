@@ -25,16 +25,13 @@ class UserMapper(private val service: UserService,
     fun getUserInfo(userId: Long): UserProfileResponse =
             findById(userId)
 
-    fun updatePassword(updatedPassword: String, id: Long) =
-            service.updatePassword(updatedPassword, id)
-
     fun findById(userId: Long): UserProfileResponse =
             mapToUserProfileResponse(service.findUserById(userId))
 
     private fun getPublishedRidesCount(userId: Long) =
             tripRepository.findAllByDriverId(userId).size
 
-    private fun mapToUserProfileResponse(user: User) = with(user) {
+    fun mapToUserProfileResponse(user: User) = with(user) {
         val ratings = ratingViewRepository.findAllByRatedUser_Id(id)
         UserProfileResponse(id = id, firstName = firstName, lastName = lastName,
                 profilePhoto = profilePhoto, username = username, phoneNumber = phoneNumber,

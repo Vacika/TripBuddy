@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification
 import java.time.ZonedDateTime
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.Path
+import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
 // H@CK where 1 = 1
@@ -13,8 +14,8 @@ fun whereTrue() = Specification<Ride> { _, _, cb ->
     cb.and()
 }
 
-private fun getPath(root: Root<Ride>, attributeName: List<String>): Path<Ride> {
-    var path: Path<Ride> = root
+ fun<T> getPath(root: Root<T>, attributeName: List<String>): Path<T> {
+    var path: Path<T> = root
     for (part in attributeName) {
         path = path.get(part)
     }
@@ -28,36 +29,35 @@ private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatu
 fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
         Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
-private fun valueLike(value: String, root: Root<Ride>, cb: CriteriaBuilder, properties: List<String>) =
+private fun <T>  valueLike(value: String, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)
 
-fun likeSpecification(properties: List<String>, value: String): Specification<Ride> =
-        Specification<Ride> { root, _, cb -> valueLike(value, root, cb, properties) }
+fun <T>likeSpecification(properties: List<String>, value: String): Specification<T> =
+        Specification { root, _, cb -> valueLike(value, root, cb, properties) }
 
 
-private fun greaterThanOrEqualsPredicate(value: Int, properties: List<String>, root: Root<Ride>,
-                                         cb: CriteriaBuilder) = cb.greaterThanOrEqualTo(
-        getPath(root, properties).`as`(Int::class.java), value)
+inline fun <T, reified E:Comparable<E>>greaterThanOrEqualsPredicate(value: E, properties: List<String>, root: Root<T>,
+                                                              cb: CriteriaBuilder): Predicate = cb.greaterThanOrEqualTo(
+        getPath(root, properties).`as`(E::class.java), value)
 
-fun greaterThanOrEquals(properties: List<String>, value: Int) =
-        Specification<Ride> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
+inline fun <T, reified E:Comparable<E>> greaterThanOrEquals(properties: List<String>, value: E) =
+        Specification<T> { root, _, cb -> greaterThanOrEqualsPredicate(value, properties, root, cb) }
 
 
-private fun equalsPredicate(value: Long, properties: List<String>, root: Root<Ride>,
+private fun <T, E> equalsPredicate(value: E, properties: List<String>, root: Root<T>,
                                          cb: CriteriaBuilder) = cb.equal(
-        getPath(root, properties).`as`(Long::class.java), value)
+        getPath(root, properties), value)
 
-fun equalLongSpecification(properties: List<String>, value: Long) =
-        Specification<Ride> { root, _, cb -> equalsPredicate(value, properties, root, cb) }
+fun <T> equalSpecification(properties: List<String>, value: Long) =
+        Specification<T> { root, _, cb -> equalsPredicate(value, properties, root, cb) }
 
-
-private fun laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<Ride>,
+private fun <T> laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<T>,
                                    cb: CriteriaBuilder) =
         cb.and(cb.greaterThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value),
                 cb.lessThanOrEqualTo(getPath(root, properties).`as`(ZonedDateTime::class.java), value.withHour(23).withMinute(59)))
 
-fun laterThanTime(properties: List<String>, value: ZonedDateTime) =
-        Specification<Ride> { root, _, cb -> laterThanTimePredicate(value, properties, root, cb) }
+fun <T> laterThanTime(properties: List<String>, value: ZonedDateTime) =
+        Specification<T> { root, _, cb -> laterThanTimePredicate(value, properties, root, cb) }
 
 
 //private fun <T> valueLike(value: String, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =

@@ -10,6 +10,7 @@ import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import java.util.*
+import javax.persistence.criteria.CriteriaBuilder
 
 @Bean
 fun passwordEncoder(): PasswordEncoder {
@@ -147,6 +149,16 @@ class UserService(private val repository: UserRepository,
         val user = findUserByUsername(username)
         user.isBanned = false
         repository.save(user)
+    }
+
+    fun findAllUsersFiltered(username: String?, phone: String?, pageable: Pageable): Page<User> {
+        return repository.findAll(createSpecification(username,phone),pageable)
+    }
+
+    private fun createSpecification(username: String?, phone: String?): Specification<User>{
+        return Specification.where<User>(
+                likeSpecification<User>(listOf("username"), username ?: "")
+                        .and(likeSpecification<User>(listOf("phoneNumber"), phone?:"")))!!
     }
 }
 
