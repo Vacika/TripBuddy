@@ -150,11 +150,15 @@ class UserService(private val repository: UserRepository,
         repository.save(user)
     }
 
-    fun findAllUsersFiltered(username: String?, phone: String?, pageable: Pageable): Page<User> {
-        return repository.findAll(createSpecification(username,phone),pageable)
+    fun findAllUsersFiltered(username: String?, phone: String?): List<User> {
+        return repository.findAll(createSpecification(username,phone))
     }
 
-    private fun createSpecification(username: String?, phone: String?): Specification<User>{
+//    fun findAllPaginated(username: String?, phone: String?, pageable: Pageable): Page<User> {
+//        return repository.findAll(createSpecification(username, phone), pageable)
+//    }
+
+    private fun createSpecification(username: String?, phone: String?): Specification<User> {
         return Specification.where<User>(
                 likeSpecification<User>(listOf("username"), username ?: "")
                         .and(likeSpecification<User>(listOf("phoneNumber"), phone ?: "")))!!

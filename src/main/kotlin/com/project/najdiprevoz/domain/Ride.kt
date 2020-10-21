@@ -31,6 +31,9 @@ data class Ride(
         @Column(name = "total_seats_offered")
         val totalSeatsOffered: Int,
 
+        @Column(name = "available_seats")
+        var availableSeats: Int = 0,
+
         @JsonBackReference
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "driver_id")
@@ -65,7 +68,7 @@ data class Ride(
         @Column(name = "has_air_condition")
         val hasAirCondition: Boolean = false) {
 
-    fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RideRequestStatus.APPROVED }.sumBy { it.requestedSeats }
+//    fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RideRequestStatus.APPROVED }.sumBy { it.requestedSeats }
 
     @Override
     override fun toString(): String = ""

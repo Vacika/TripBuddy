@@ -3,7 +3,6 @@ package com.project.najdiprevoz.repositories
 import com.project.najdiprevoz.domain.Rating
 import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.enums.RideStatus
-import com.project.najdiprevoz.repositories.projections.AvailableSeatsForRideProjection
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
@@ -22,16 +21,15 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     fun findAllByDriverIdAndStatus(driverId: Long, status: RideStatus): List<Ride>
 
-    @Query("""SELECT (r.totalSeatsOffered - count(rd.id)) as available_seats 
-         FROM RideRequest rd 
-         JOIN Ride r 
-         ON r = rd.ride 
-         WHERE rd.status = 'APPROVED'
-         AND r.id = :rideId
-         GROUP BY r.id""")
-    fun getAvailableSeatsForRide(@Param("rideId") rideId: Long): AvailableSeatsForRideProjection
-
-    fun findAllByStatus(status: RideStatus): List<Ride>
+//    @Query("""SELECT (r.totalSeatsOffered - count(rd.id)) as available_seats
+//         FROM RideRequest rd
+//         JOIN Ride r
+//         ON r = rd.ride
+//         WHERE rd.status = 'APPROVED'
+//         AND r.id = :rideId
+//         GROUP BY r.id""")
+//
+//    fun findAllByStatus(status: RideStatus): List<Ride>
 
     @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.requester.username=:username and rr.status='APPROVED' and r.status='FINISHED'")
     fun findMyPastTripsAsPassenger(@Param("username") username: String): List<Ride>
@@ -59,7 +57,7 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
         SET r.departureTime = :newTime
         where r.id = :rideId
     """)
-    fun changeRideTiming(@Param("rideId") rideId: Long, @Param("newTime") newTime: ZonedDateTime): Int
+    fun changeRideDepartureTime(@Param("rideId") rideId: Long, @Param("newTime") newTime: ZonedDateTime): Int
 
     @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.status='APPROVED' and count(rr)< r.totalSeatsOffered ")
     fun findAllActiveTripsWithAvailableSeats(): List<Ride>
@@ -72,5 +70,9 @@ interface RideRepository : JpaRepository<Ride, Long>, JpaSpecificationExecutor<R
 
     @Query("SELECT r from Ride r JOIN RideRequest rr on rr.ride = r where rr.requester.username=:username and rr.status='APPROVED'")
     fun findAllMyTripsAsPassenger(@Param("username") username: String): List<Ride>
+
+    @Modifying
+    @Query("UPDATE Ride set availableSeats = :seats where id = :rideId")
+    fun updateRideAvailableSeats(@Param("rideId") rideId: Long, @Param("seats") seats: Int)
 
 }

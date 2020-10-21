@@ -2,10 +2,9 @@ package com.project.najdiprevoz.mapper
 
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.services.UserService
+import com.project.najdiprevoz.utils.PageableUtils
 import com.project.najdiprevoz.web.request.UserGridFilterRequest
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,8 +19,12 @@ class AdminService(private val userService: UserService) {
     fun changeUserRole(username: String, role: String) =
             userService.changeUserRole(username, role)
 
-    fun findAllUsersFiltered(req: UserGridFilterRequest): Page<User> {
-        val pageable: Pageable = PageRequest.of(req.page, req.pageSize)
-        return userService.findAllUsersFiltered(req.username, req.phone, pageable)
+    fun findAllUsersFiltered(req: UserGridFilterRequest): List<User> {
+        return userService.findAllUsersFiltered(req.username, req.phone)
     }
+
+//    fun findAllPaginated(req: UserGridFilterRequest): Page<User> = with(req) {
+//        val pageable = PageableUtils.getPageableWithDefaultSortById(page, pageSize, sortProperty, sortDirection)
+//        return userService.findAllPaginated(req.username, req.phone, pageable)
+//    }
 }

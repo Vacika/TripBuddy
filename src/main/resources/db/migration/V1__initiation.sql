@@ -69,7 +69,8 @@ CREATE TABLE public.rides
     is_smoking_allowed  boolean,
     is_pet_allowed      boolean,
     has_air_condition   boolean,
-    max_two_backseat    boolean
+    max_two_backseat    boolean,
+    available_seats     integer not null
 );
 
 

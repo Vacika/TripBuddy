@@ -20,4 +20,7 @@ class AdminController(private val adminService: AdminService) {
 
     @GetMapping("/users/filter")
     fun fetchAllUsers(req: UserGridFilterRequest) = adminService.findAllUsersFiltered(req)
+
+//    @GetMapping("/users/filter")
+//    fun fetchAllUsers(req: UserGridFilterRequest) = adminService.findAllPaginated(req)
 }

@@ -47,7 +47,7 @@ private fun <T, E> equalsPredicate(value: E, properties: List<String>, root: Roo
                                          cb: CriteriaBuilder) = cb.equal(
         getPath(root, properties), value)
 
-fun <T> equalSpecification(properties: List<String>, value: Long) =
+fun <T, E> equalSpecification(properties: List<String>, value: E) =
         Specification<T> { root, _, cb -> equalsPredicate(value, properties, root, cb) }
 
 private fun <T> laterThanTimePredicate(value: ZonedDateTime, properties: List<String>, root: Root<T>,

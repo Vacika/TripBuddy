@@ -6,15 +6,15 @@ import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
-import com.project.najdiprevoz.utils.equalSpecification
-import com.project.najdiprevoz.utils.laterThanTime
-import com.project.najdiprevoz.utils.tripStatusEqualsSpecification
-import com.project.najdiprevoz.utils.whereTrue
+import com.project.najdiprevoz.utils.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
+import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
@@ -42,21 +42,17 @@ class TripService(private val repository: RideRepository,
     fun findAllFiltered(req: FilterTripRequest): List<Ride> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
-                    departure = ZonedDateTime.ofInstant(departureDate.toInstant(), ZoneId.systemDefault())) //TODO: refactor this
+                    departure = ZonedDateTime.ofInstant(departureDate.toInstant(), ZoneId.systemDefault()), availableSeats = requestedSeats) //TODO: refactor this
 
-        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = null)
-
-        if (requestedSeats != null) {
-            return repository.findAll(specification)
-                    .filter { it.getAvailableSeats() >= requestedSeats }
-        }
+        else createRideSpecification(fromAddress = fromLocation, toAddress = toLocation, departure = null, availableSeats = requestedSeats)
         return repository.findAll(specification)
     }
 
     fun findAllActiveTripsForToday(): List<Ride> =
             repository.findAll(
-                    listOfNotNull(evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
-                    evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification))
+                    listOfNotNull(
+                            evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
+                            evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification))
                             .fold(whereTrue()) { first, second -> Specification.where(first).and(second) })
 
 
@@ -106,10 +102,11 @@ class TripService(private val repository: RideRepository,
     fun canSubmitRating(ride: Ride, username: String): Boolean =
             repository.canSubmitRating(username, ride).isEmpty()
 
-    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?) =
+    private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?, availableSeats: Int?) =
             listOfNotNull(
                     evaluateSpecification(listOf("fromLocation", "id"), fromAddress, ::equalSpecification),
                     evaluateSpecification(listOf("destination", "id"), toAddress, ::equalSpecification),
+                    evaluateSpecification(listOf("availableSeats"), availableSeats, ::greaterThanOrEquals),
                     evaluateSpecification(listOf("departureTime"), departure, ::laterThanTime),
                     evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
             ).fold(whereTrue()) { first, second ->
@@ -131,7 +128,8 @@ class TripService(private val repository: RideRepository,
                 isSmokingAllowed = smokingAllowed,
                 isPetAllowed = petAllowed,
                 hasAirCondition = hasAirCondition,
-                maxTwoBackSeat = maxTwoBackseat)
+                maxTwoBackSeat = maxTwoBackseat,
+                availableSeats = totalSeats)
     }
 
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?,
@@ -143,5 +141,14 @@ class TripService(private val repository: RideRepository,
         logger.info("[CRONJOB] Checking for finished rides..")
         logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
     }
+
+    fun updateRideAvailableSeats(rideId: Long, seats: Int) {
+        repository.updateRideAvailableSeats(rideId, seats)
+    }
+
+//    fun getMyTripsAsDriverPaginated(username: String, pageable: Pageable): Page<Ride> {
+//        val spec = Specification.where(likeSpecification<Ride>(listOf("driver","username"), username))
+//        return repository.findAll(spec, pageable)
+//    }
 }
 

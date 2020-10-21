@@ -62,7 +62,6 @@ class RideRequestService(private val repository: RideRequestRepository,
                 requester = userService.findUserByUsername(username),
                 additionalDescription = additionalDescription,
                 requestedSeats = requestedSeats))
-
         logger.debug("[RideRequestService] Sucessfully added new RideRequest")
         pushNotification(savedRequest, NotificationType.REQUEST_SENT)
     }
@@ -109,7 +108,7 @@ class RideRequestService(private val repository: RideRequestRepository,
             this.tripService.findById(tripId).driver.username != username
 
     private fun checkIfEnoughAvailableSeats(tripId: Long, requestedSeats: Int): Boolean =
-            this.tripService.findById(tripId).getAvailableSeats() >= requestedSeats
+            this.tripService.findById(tripId).availableSeats >= requestedSeats
 
     private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
         val rideRequest = repository.findByRideIdAndRequester_Username(tripId, username)
@@ -121,9 +120,9 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun changeRequestToApproved(requestId: Long) {
         val rideRequest = findById(requestId)
-        if (checkIfEnoughAvailableSeats(rideRequest.ride.id, rideRequest.requestedSeats)) {
-            logger
+        if (rideRequest.ride.availableSeats >=  rideRequest.requestedSeats) {
             repository.updateRideRequestStatus(requestId = requestId, status = RideRequestStatus.APPROVED)
+            tripService.updateRideAvailableSeats(rideId = rideRequest.ride.id, seats = rideRequest.ride.availableSeats - rideRequest.requestedSeats)
         } else throw RuntimeException("Not enough seats available to approve RideRequest with ID: [$requestId]!")
         pushNotification(rideRequest, NotificationType.REQUEST_APPROVED)
     }
@@ -134,6 +133,8 @@ class RideRequestService(private val repository: RideRequestRepository,
     }
 
     private fun changeRequestToCancelled(requestId: Long) {
+        val rideRequest = findById(requestId)
+        tripService.updateRideAvailableSeats(rideId = rideRequest.ride.id, seats = rideRequest.ride.availableSeats + rideRequest.requestedSeats)
         repository.updateRideRequestStatus(requestId = requestId, status = RideRequestStatus.CANCELLED)
         pushNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
     }

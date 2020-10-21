@@ -45,4 +45,10 @@ class TripController(private val mapper: TripMapper) {
     @GetMapping("/history/driver/{userId}")
     fun findMyPastTripsAsDriver(@PathVariable("userId") userId: Long) =
             mapper.getPastPublishedTripsByUser(userId)
+
+//    @GetMapping("/my/driver")
+//    fun getMyTripsAsDriver(@RequestParam("page", required=false) page: Int?,
+//                           @RequestParam("pageSize",required = false) pageSize: Int? ,
+//                           principal: Principal) =
+//            mapper.getMyTripsAsDriver(username = principal.name, page = page?:1, pageSize = pageSize?:15)
 }

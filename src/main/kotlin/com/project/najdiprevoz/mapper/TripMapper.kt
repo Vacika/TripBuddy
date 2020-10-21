@@ -5,6 +5,7 @@ import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RatingViewRepository
 import com.project.najdiprevoz.services.TripService
+import com.project.najdiprevoz.utils.PageableUtils
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
@@ -12,7 +13,9 @@ import com.project.najdiprevoz.web.response.PastTripResponse
 import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import com.project.najdiprevoz.web.response.UserShortResponse
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
+import java.awt.print.Pageable
 
 @Service
 class TripMapper(private val tripService: TripService,
@@ -69,7 +72,7 @@ class TripMapper(private val tripService: TripService,
                 from = fromLocation.name,
                 to = destination.name,
                 departureTime = departureTime,
-                availableSeats = getAvailableSeats(),
+                availableSeats = availableSeats,
                 pricePerHead = pricePerHead,
                 totalSeats = totalSeatsOffered,
                 driver = mapToUserShortResponse(driver),
@@ -106,4 +109,16 @@ class TripMapper(private val tripService: TripService,
                 name = this.getFullName(),
                 profilePhoto = this.profilePhoto)
     }
+
+
+//    fun getMyTripsAsDriver(username: String, page: Int, pageSize: Int): Page<TripResponse> {
+//        val pageable = PageableUtils.getPageableWithDefaultSortById(page,pageSize,null,null)
+//        return tripService.getMyTripsAsDriverPaginated(username, pageable).let {
+//            PageableUtils.createPageResponse(
+//                    it,
+//                    it.content.map(::mapToTripResponse),
+//                    it.pageable
+//            )
+//        }
+//    }
 }
