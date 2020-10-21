@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { columnPrettyName } from '../../constants/columns';
-import { RideRequestFullResponse } from '../../interfaces/ride-request.interface';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {columnPrettyName} from '../../constants/columns';
+import {RideRequestFullResponse} from '../../interfaces/ride-request.interface';
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {Page} from "../../interfaces/page.interface";
 
 @Component({
 	selector: 'data-table',
@@ -8,6 +11,8 @@ import { RideRequestFullResponse } from '../../interfaces/ride-request.interface
 	styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit {
+	dataSource = new MatTableDataSource();
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
 	@Input() displayedColumns = [
 		'fromLocation',
@@ -20,9 +25,20 @@ export class DataTableComponent implements OnInit {
 		'rideStatus',
 		'allowedActions'
 	];
-	@Input() dataSource: any[] = [];
+
+	@Input() set data(data: Page<any>) {
+		if(data) {
+			this.dataSource.data = data.content;
+			this.paginator.pageIndex = data.pageable.pageNumber;
+			this.paginator.pageSize = data.pageable.pageSize;
+			this.dataSource.paginator = this.paginator;
+		}
+	};
 
 	@Output() onActionTaken = new EventEmitter<any>();
+	@Output() pageChangedEvent = new EventEmitter<PageEvent>();
+	@Input() page = 1;
+	@Input() pageSize = 15;
 
 	prettyName(rawName: string): string {
 		return columnPrettyName.get(rawName);
@@ -32,7 +48,7 @@ export class DataTableComponent implements OnInit {
 	}
 
 	takeAction(actionName: string, requestId: number) {
-		this.onActionTaken.emit({ action: actionName, id: requestId });
+		this.onActionTaken.emit({action: actionName, id: requestId});
 	}
 
 	getSpanClass(column: string, element: RideRequestFullResponse, indicator: boolean) {
@@ -85,5 +101,9 @@ export class DataTableComponent implements OnInit {
 			}
 		}
 		return classes;
+	}
+
+	pageEventCaught($event: PageEvent) {
+		 this.pageChangedEvent.emit($event)
 	}
 }

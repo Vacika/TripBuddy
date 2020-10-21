@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatTableModule} from "@angular/material/table";
 
 export const MaterialModules = [
 	CommonModule,
@@ -23,5 +25,7 @@ export const MaterialModules = [
 	MatFormFieldModule,
 	MatInputModule,
 	MatSnackBarModule,
-	MatDividerModule
+	MatDividerModule,
+	MatPaginatorModule,
+	MatTableModule
 ];

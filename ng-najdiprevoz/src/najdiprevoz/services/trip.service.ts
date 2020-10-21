@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {TripDetailsResponse, TripResponse} from '../interfaces/trip-response.interface';
 import {Observable} from 'rxjs';
 import {HelperService} from './helper.service';
+import {Page} from "../interfaces/page.interface";
 
 @Injectable({
 	providedIn: 'root'
@@ -54,5 +55,12 @@ export class TripService {
 
 	getMyTripsAsDriver(): Observable<TripResponse[]> {
 		return this._http.get<TripResponse[]>(`${this.path}/my/driver`);
+	}
+
+	getMyTripsAsDriverPaginated(pageIndex: number=1, pageSize: number=15) {
+		const map = new Map();
+		map.set('page', pageIndex);
+		map.set('pageSize', pageSize);
+		return this._http.get<Page<TripResponse[]>>(`${this.path}/my/driver${this._helper.mapToQueryString(map)}`)
 	}
 }
