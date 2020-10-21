@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { TripListPage } from '../najdiprevoz/pages/trip-list/trip-list.page';
 import { RouterModule } from '@angular/router';
@@ -9,7 +9,7 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { TripDetailsPage } from '../najdiprevoz/pages/trip-details/trip-details.page';
 import { CityService } from '../najdiprevoz/services/city.service';
 import { NavMenuComponent } from '../najdiprevoz/components/nav-menu.component';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MaterialModules } from './material/material.module';
 import { LoginPage } from '../najdiprevoz/pages/login/login.page';
@@ -42,7 +42,7 @@ import { RideRequestsComponent } from '../najdiprevoz/components/ride-requests/r
 import { DataTableComponent } from '../najdiprevoz/components/data-table/data-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -63,6 +63,7 @@ import { PasswordResetPage } from '../najdiprevoz/pages/password-reset/password-
 import { ActivateUserPage } from '../najdiprevoz/pages/activate-user/activate-user.page';
 import {ProfileNotActivatedPage} from "../najdiprevoz/pages/profile-not-activated/profile-not-activated.page";
 import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-sucess/registration-success.page";
+import {MatPaginatorI18nService} from "../najdiprevoz/constants/paginator-i18n.class";
 
 const SERVICES = [
 	LoaderService,
@@ -138,7 +139,13 @@ const PAGES = [ProfileNotActivatedPage,
 		MatPaginatorModule,
 		MatSortModule,
 		MatProgressSpinnerModule],
-	providers: [...SERVICES, {
+	providers: [
+		...SERVICES,
+		{
+			provide: MatPaginatorIntl,
+			useClass: MatPaginatorI18nService,
+		},
+		{
 		provide: HTTP_INTERCEPTORS,
 		useClass: ErrorInterceptor,
 		multi: true

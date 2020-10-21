@@ -190,5 +190,12 @@
 	"Makedonska Kamenica": "Makedonska Kamenica",
 	"Dojran": "Dojran",
 	"MAX_TWO_BACKSEAT": "Maximum 2 persons seat in backseat",
-	"HAS_AIR_CONDITION": "Air condition included"
+	"HAS_AIR_CONDITION": "Air condition included",
+	"ITEMS_PER_PAGE_LABEL": "Редови по страна",
+	"NEXT_PAGE_LABEL": "Следна страна",
+	"PREVIOUS_PAGE_LABEL": "Претходна страна",
+	"FIRST_PAGE_LABEL": "Почетна",
+	"LAST_PAGE_LABEL": "Последна",
+	"RANGE_PAGE_LABEL_1": "0 од {{length}}",
+	"RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} од вкупно {{length}}"
 }

@@ -190,8 +190,10 @@
 	"Sveti Nikole": "Свети Николе",
 	"Makedonski brod": "Македонски Брод",
 	"Makedonska Kamenica": "Македонска Каменица",
-	"Dojran": "Дојран"
-
-
-
+	"Dojran": "Дојран",
+	"ITEMS_PER_PAGE": "Редови по страна",
+	"NEXT_PAGE": "Следна страна",
+	"PREVIOUS_PAGE": "Претходна страна",
+	"FIRST_PAGE": "Почетна",
+	"LAST_PAGE": "Последна"
 }
