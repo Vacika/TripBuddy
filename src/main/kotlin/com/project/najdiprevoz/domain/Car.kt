@@ -2,6 +2,7 @@ package com.project.najdiprevoz.domain
 
 import javax.persistence.*
 
+@Deprecated("Remove this")
 @Entity
 @Table(name = "cars")
 data class Car(

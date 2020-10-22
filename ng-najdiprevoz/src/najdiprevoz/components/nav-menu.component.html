@@ -76,6 +76,14 @@
 				<!-- Control Panel -->
 				<button mat-menu-item
 								class="link"
+								*ngIf="isAdmin"
+								[routerLink]="'/admin-panel'">
+					<mat-icon>admin_panel_settings</mat-icon>
+					<span>{{"ADMIN_PANEL"| translate}}</span>
+				</button>
+
+				<button mat-menu-item
+								class="link"
 								*ngIf="authenticated"
 								[routerLink]="'/control-panel'">
 					<mat-icon>settings</mat-icon>

@@ -2,7 +2,6 @@ package com.project.najdiprevoz.domain
 
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.NotificationType
-import org.springframework.data.jpa.repository.Modifying
 import java.time.ZonedDateTime
 import javax.persistence.*
 

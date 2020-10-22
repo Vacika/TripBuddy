@@ -67,9 +67,8 @@ data class User(
         @Column(name= "activation_token", nullable = false)
         var activationToken: String,
 
-        @JsonIgnore
-        @OneToMany(mappedBy = "ratedUser", fetch = FetchType.EAGER)
-        var ratings: List<Rating> = listOf() //todo:remove this!!!
+        @Column(name="banned", nullable = false)
+        var isBanned: Boolean = false
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
@@ -101,29 +100,6 @@ data class User(
     override fun toString(): String = ""
 
     fun getFullName(): String = "$firstName $lastName"
-
-    fun getAverageRating(): Double = ratings.map { it.rating }.average()
-
-    fun mapToUserShortResponse(): UserShortResponse {
-        return UserShortResponse(id = id,
-                rating = this.getAverageRating(),
-                name = this.getFullName(),
-                profilePhoto = this.profilePhoto)
-    }
-
-    fun mapToUserProfileResponse(): UserResponse {
-        return UserResponse(firstName = firstName,
-                lastName = lastName,
-                username = username,
-                profilePhoto = profilePhoto,
-                phoneNumber = phoneNumber,
-                gender = gender.name,
-                averageRating = getAverageRating(),
-                ratings = ratings,
-                id = id,
-                birthDate = birthDate,
-                defaultLanguage= defaultLanguage.toString())
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

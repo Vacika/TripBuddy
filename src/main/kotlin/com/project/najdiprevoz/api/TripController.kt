@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.api
 
-import com.project.najdiprevoz.services.TripService
+import com.project.najdiprevoz.mapper.TripMapper
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import com.project.najdiprevoz.web.response.PastTripResponse
@@ -10,39 +10,45 @@ import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/api/trips")
-class TripController(private val service: TripService) {
+class TripController(private val mapper: TripMapper) {
 
     @PutMapping("/add")
     fun addNewTrip(@RequestBody createTripRequest: CreateTripRequest, principal: Principal) =
-            service.createNewTrip(createTripRequest, principal.name)
+            mapper.createNewTrip(createTripRequest, principal.name)
 
     @PostMapping("/edit/{tripId}")
     fun editTrip(@PathVariable("tripId") tripId: Long, @RequestBody req: EditTripRequest) =
-            service.editTrip(tripId, req)
+            mapper.editTrip(tripId, req)
 
     @Transactional
     @GetMapping("/cancel/{tripId}")
     fun cancelTrip(@PathVariable("tripId") tripId: Long) =
-            service.cancelTrip(tripId)
+            mapper.cancelTrip(tripId)
 
     @GetMapping("/my/driver")
     fun getMyTripsAsDriver(principal: Principal) =
-            service.getMyTripsAsDriver(principal.name)
+            mapper.getMyTripsAsDriver(principal.name)
 
     @GetMapping("/my/passenger")
     fun getMyTripsAsPassenger(principal: Principal) =
-            service.getMyTripsAsPassenger(principal.name)
+            mapper.getMyTripsAsPassenger(principal.name)
 
     @GetMapping("/all/{userId}")
     fun getAllUserTrips(@PathVariable("userId") userId: Long) =
-            service.findAllTripsByDriverId(userId)
+            mapper.findAllTripsByDriverId(userId)
 
     @GetMapping("/history/passenger/past-trips")
     fun findMyPastTripsAsPassenger(principal: Principal): List<PastTripResponse> {
-        return service.findMyPastTripsAsPassenger(username = principal.name)
+        return mapper.findMyPastTripsAsPassenger(username = principal.name)
     }
 
     @GetMapping("/history/driver/{userId}")
     fun findMyPastTripsAsDriver(@PathVariable("userId") userId: Long) =
-            service.getPastPublishedTripsByUser(userId)
+            mapper.getPastPublishedTripsByUser(userId)
+
+//    @GetMapping("/my/driver")
+//    fun getMyTripsAsDriver(@RequestParam("page", required=false) page: Int?,
+//                           @RequestParam("pageSize",required = false) pageSize: Int? ,
+//                           principal: Principal) =
+//            mapper.getMyTripsAsDriver(username = principal.name, page = page?:1, pageSize = pageSize?:15)
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
+@Deprecated("Remove this")
 @Service
 class CarService(private val repository: CarRepository,
                  private val userService: UserService) {

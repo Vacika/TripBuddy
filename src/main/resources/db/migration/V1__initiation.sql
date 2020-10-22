@@ -31,7 +31,8 @@ CREATE TABLE public.users
     default_lang  TEXT,
     registered_on timestamp with time zone NOT NULL,
     is_activated boolean NOT NULL,
-    activation_token TEXT NOT NULL
+    activation_token TEXT NOT NULL,
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 
@@ -68,7 +69,8 @@ CREATE TABLE public.rides
     is_smoking_allowed  boolean,
     is_pet_allowed      boolean,
     has_air_condition   boolean,
-    max_two_backseat    boolean
+    max_two_backseat    boolean,
+    available_seats     integer not null
 );
 
 
@@ -191,3 +193,15 @@ VALUES ('ROLE_USER');
 insert into public.authorities(authority)
 VALUES ('ROLE_ADMIN');
 
+DROP VIEW IF EXISTS v_ratings;
+CREATE OR REPLACE VIEW v_ratings AS
+SELECT r.id as id, r.id as rating_id, r.rating as rating,
+       r.date_submitted as date_submitted,
+       r.ride_request_id as ride_request_id,
+       r2.id as ride_id,
+       author.id as author_id, driver.id as driver_id
+from ratings r
+         join ride_requests rr on rr.id = r.ride_request_id
+         join users author on rr.requester_id= author.id
+         join rides r2 on rr.ride_id = r2.id
+         join users driver on r2.driver_id = driver.id;
