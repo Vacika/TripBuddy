@@ -4,7 +4,9 @@ import com.project.najdiprevoz.domain.User
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -24,5 +26,9 @@ interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<U
     fun findByUsername(username: String): Optional<User>
 
     fun findByActivationToken(activationToken: String): Optional<User>
+
+    @Modifying
+    @Query("UPDATE User set isActivated = true where username = :username")
+    fun activateUser(@Param("username") username: String)
 
 }

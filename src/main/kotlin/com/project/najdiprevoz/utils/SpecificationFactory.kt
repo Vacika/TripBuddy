@@ -9,7 +9,7 @@ import javax.persistence.criteria.*
 
 
 // H@CK where 1 = 1
-fun whereTrue() = Specification<Ride> { _, _, cb ->
+fun <T>whereTrue() = Specification<T> { _, _, cb ->
     cb.and()
 }
 

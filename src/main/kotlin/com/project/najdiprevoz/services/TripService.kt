@@ -53,7 +53,7 @@ class TripService(private val repository: RideRepository,
                     listOfNotNull(
                             evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
                             evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification))
-                            .fold(whereTrue()) { first, second -> Specification.where(first).and(second) })
+                            .fold(whereTrue<Ride>()) { first, second -> Specification.where(first).and(second) })
 
 
     fun getPastPublishedTripsByUser(userId: Long) =
@@ -109,7 +109,7 @@ class TripService(private val repository: RideRepository,
                     evaluateSpecification(listOf("availableSeats"), availableSeats, ::greaterThanOrEquals),
                     evaluateSpecification(listOf("departureTime"), departure, ::laterThanTime),
                     evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
-            ).fold(whereTrue()) { first, second ->
+            ).fold(whereTrue<Ride>()) { first, second ->
                 Specification.where(first).and(second)
             }
 

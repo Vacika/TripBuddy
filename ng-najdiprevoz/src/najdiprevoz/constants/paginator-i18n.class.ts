@@ -1,5 +1,5 @@
-import { TranslateService } from '@ngx-translate/core';
-import { Injectable } from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {HostBinding, Injectable, OnInit} from '@angular/core';
 import {MatPaginatorIntl} from "@angular/material/paginator";
 
 const ITEMS_PER_PAGE = 'ITEMS_PER_PAGE';
@@ -12,21 +12,17 @@ const LAST_PAGE = 'LAST_PAGE';
 export class MatPaginatorI18nService extends MatPaginatorIntl {
 	public constructor(private translate: TranslateService) {
 		super();
-
+		this.getAndInitTranslations();
 		this.translate.onLangChange.subscribe((e: Event) => {
 			this.getAndInitTranslations();
-		});
-
-		this.getAndInitTranslations();
+		})
 	}
 
 	public getRangeLabel = (page: number, pageSize: number, length: number): string => {
 		if (length === 0 || pageSize === 0) {
 			return `0 / ${length}`;
 		}
-
 		length = Math.max(length, 0);
-
 		const startIndex: number = page * pageSize;
 		const endIndex: number = startIndex < length
 			? Math.min(startIndex + pageSize, length)

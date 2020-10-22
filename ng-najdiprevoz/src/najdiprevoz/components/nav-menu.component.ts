@@ -3,6 +3,7 @@ import {FormControl} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
 import { Router } from '@angular/router';
 import { HomePage } from '../pages/landing-page/home-page.component';
+import {ADMIN_ROLE} from "../constants/roles.constants";
 
 @Component({
 	selector: 'nav-menu',
@@ -35,6 +36,10 @@ export class NavMenuComponent implements OnInit {
 
 	get authenticated(): boolean {
 		return !!this.loginService.getLoggedUser()
+	}
+
+	get isAdmin(): boolean {
+		return this.loginService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
 	}
 
 	logout() {

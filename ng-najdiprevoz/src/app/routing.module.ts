@@ -16,6 +16,8 @@ import { PasswordResetPage } from '../najdiprevoz/pages/password-reset/password-
 import { ActivateUserPage } from '../najdiprevoz/pages/activate-user/activate-user.page';
 import {ProfileNotActivatedPage} from "../najdiprevoz/pages/profile-not-activated/profile-not-activated.page";
 import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-sucess/registration-success.page";
+import {AdminPanelPage} from "../najdiprevoz/pages/admin-panel/admin-panel.page";
+import {AdminAuthGuard} from "../najdiprevoz/admin-auth.guard";
 
 export const appRoutes: Routes = [
 	{
@@ -83,6 +85,11 @@ export const appRoutes: Routes = [
 	{
 		path: 'registration-success',
 		component: RegistrationSuccessPage
+	},
+	{
+		path: 'admin-panel',
+		component: AdminPanelPage,
+		canActivate: [AdminAuthGuard]
 	},
 	{
 		path: '',

@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service
 class UserDetailsServiceImpl(private val repository: UserRepository) : UserDetailsService {
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val user =  repository.findByUsername(username)
+        val user = repository.findByUsername(username)
                 .orElseThrow { UsernameNotFoundException("User '$username' not found") }
-        if(!user.isActivated){
+        if (!user.isActivated) {
             throw UserNotActivatedException()
         }
-        if(user.isBanned){
+        if (user.isBanned) {
             throw UserBannedException("User is banned!")
         }
         return user

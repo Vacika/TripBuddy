@@ -191,9 +191,20 @@
 	"Makedonski brod": "Македонски Брод",
 	"Makedonska Kamenica": "Македонска Каменица",
 	"Dojran": "Дојран",
-	"ITEMS_PER_PAGE": "Редови по страна",
+	"ITEMS_PER_PAGE": "Редици по страна",
 	"NEXT_PAGE": "Следна страна",
 	"PREVIOUS_PAGE": "Претходна страна",
 	"FIRST_PAGE": "Почетна",
-	"LAST_PAGE": "Последна"
+	"LAST_PAGE": "Последна",
+	"DEFAULT_LANGUAGE": "Јазик",
+	"REGISTERED_ON": "Регистриран на",
+	"IS_ACTIVATED": "Активиран",
+	"IS_BANNED": "Баниран",
+	"true": "Да",
+	"false": "Не",
+	"BAN_USER": "Банирај корисник",
+	"UNBAN_USER": "Одбанирај корисник",
+	"CHANGE_USER_ROLE": "Промени улога",
+	"ADMIN_PANEL": "Администраторска табла",
+	"ACTIVATE_USER": "Активирај корисник"
 }

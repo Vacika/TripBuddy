@@ -8,6 +8,7 @@ import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dial
 import {UINotificationsService} from '../../services/ui-notifications-service';
 import {TranslateService} from "@ngx-translate/core";
 import {Title} from "@angular/platform-browser";
+import {submitRatingAction} from "../../constants/actions.constants";
 
 @Component({
 	templateUrl: './control-panel.page.html',
@@ -45,8 +46,8 @@ export class ControlPanelPage implements OnInit {
 	}
 
 	takeAction(event: any) {
-		if (event.action != 'SUBMIT_RATING') {
-			this.rideRequestService.changeRequestStatus(event.id, event.action).subscribe(() => {
+		if (event.action != submitRatingAction) {
+			this.rideRequestService.changeRequestStatus(event.element, event.action).subscribe(() => {
 				this.sentRideRequests$ = this.rideRequestService.getSentRequests();
 				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS', 'ACTION_SUCCESS');
 			}, () => {

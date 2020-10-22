@@ -1,7 +1,8 @@
 <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 background-black">
 	<ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979' mat-sort-header> {{prettyName(column) | translate}} </th>
+		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979' mat-sort-header> {{getLabel(column) | translate}} </th>
 		<td mat-cell *matCellDef="let element" [ngClass]="getSpanClass(column,element,false)">
+
 
 			<!-- Allowed Actions -->
 			<span *ngIf="column=='allowedActions'">
@@ -10,8 +11,32 @@
 					<mat-icon>more_vert</mat-icon>
 				</button>
 			 	<mat-menu #menu="matMenu">
-					<button mat-menu-item *ngFor="let action of element[column]" (click)="takeAction(action, element.id)">
+					<button mat-menu-item
+									*ngFor="let action of element[column]"
+									(click)="takeAction(action, element.id)">
 						{{action | translate}}
+					</button>
+				</mat-menu>
+			</span>
+
+			<!-- User Actions [ADMIN PANEL] -->
+			<span *ngIf="column=='adminActions'">
+				<button [disabled]='element[column]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
+								aria-label="Actions">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+			 	<mat-menu #menu="matMenu">
+					<button mat-menu-item *ngIf="!element.isBanned" (click)="takeAction('BAN_USER',element.username)">
+						{{'BAN_USER'|translate}}
+					</button>
+					<button mat-menu-item *ngIf="element.isBanned" (click)="takeAction('UNBAN_USER',element.username)">
+						{{'UNBAN_USER'|translate}}
+					</button>
+					<button mat-menu-item *ngIf='!element.isActivated' (click)="takeAction('ACTIVATE_USER',element.username)">
+						{{'ACTIVATE_USER'|translate}}
+					</button>
+					<button mat-menu-item (click)="takeAction('CHANGE_USER_ROLE',element.username)">
+						{{'CHANGE_USER_ROLE'|translate}}
 					</button>
 				</mat-menu>
 			</span>
@@ -26,22 +51,25 @@
 				<span>{{element.departureTime | date: 'dd.MM.y hh:mm' }}</span>
 			</span>
 
+			<span *ngIf="column === 'birthDate' || column === 'registeredOn'">
+				<span>{{element.birthDate | date:'dd.MM.y'}}</span>
+			</span>
+			<!-- From / To Location -->
 			<span *ngIf="column == 'fromLocation' || column == 'toLocation'">
 				<span>{{element[column] | translate}}</span>
 			</span>
 
-			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime' && column != 'fromLocation' && column != 'toLocation'"
+			<div *ngIf="column!='allowedActions' && column!= 'driver' && column !='departureTime' &&
+			column != 'fromLocation' && column != 'toLocation' && column !='birthDate' && column !='registeredOn' && column !='adminActions'"
 					 style="display: flex; align-items: center;">
 
 				<!-- STATUS -->
 				<span *ngIf='column == "requestStatus"'
-							style="border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;"
+							style='border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;'
 							[classList]="getSpanClass(column,element,true)">
 					</span>
-				<span *ngIf='column == "requestStatus" || column == "status"'>{{element[column] | translate}} </span>
-				<span *ngIf='column != "requestStatus" && column != "status" '>
-					{{element[column] |translate}}
-				</span>
+				<span *ngIf='column == "requestStatus" || column == "status"'>{{element[column]?.toString() | translate}} </span>
+				<span *ngIf='column != "requestStatus" && column != "status" '>{{element[column]?.toString() |translate}} </span>
 			</div>
 		</td>
 	</ng-container>
@@ -50,4 +78,4 @@
 	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator class="pagnacolor" [pageSizeOptions]="[5,10,15,50]" showFirstLastButtons></mat-paginator>
+<mat-paginator class="pagnacolor" [pageSizeOptions]="[5,10,15,50]" showFirstLastButtons *ngIf="dataSource?.data?.length > 0"></mat-paginator>

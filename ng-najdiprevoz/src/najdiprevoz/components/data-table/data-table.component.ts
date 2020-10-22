@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {columnPrettyName} from '../../constants/columns';
 import {RideRequestFullResponse} from '../../interfaces/ride-request.interface';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from "@angular/material/sort";
+import {columnLabelName} from "../../constants/column-labels";
 
 @Component({
 	selector: 'data-table',
@@ -37,15 +37,15 @@ export class DataTableComponent implements OnInit {
 
 	@Output() onActionTaken = new EventEmitter<any>();
 
-	prettyName(rawName: string): string {
-		return columnPrettyName.get(rawName);
+	getLabel(rawName: string): string {
+		return columnLabelName.get(rawName);
 	}
 
 	ngOnInit(): void {
 	}
 
-	takeAction(actionName: string, requestId: number) {
-		this.onActionTaken.emit({action: actionName, id: requestId});
+	takeAction(actionName: string, element: any) {
+		this.onActionTaken.emit({ action: actionName, element: element });
 	}
 
 	getSpanClass(column: string, element: RideRequestFullResponse, indicator: boolean) {
