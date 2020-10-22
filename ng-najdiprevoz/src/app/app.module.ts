@@ -66,6 +66,7 @@ import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-sucess/
 import {MatPaginatorI18nService} from "../najdiprevoz/constants/paginator-i18n.class";
 import {AdminPanelPage} from "../najdiprevoz/pages/admin-panel/admin-panel.page";
 import {AdminService} from "../najdiprevoz/services/admin.service";
+import {DataTable2Component} from "../najdiprevoz/components/data-table2/data-table.component";
 
 const SERVICES = [
 	LoaderService,
@@ -104,7 +105,8 @@ const PAGES = [ProfileNotActivatedPage,
 	UserInfoPage,
 	UserRatingsView,
 	HomePage,
-	AdminPanelPage];
+	AdminPanelPage,
+	DataTable2Component];
 
 @NgModule({
 	declarations: [

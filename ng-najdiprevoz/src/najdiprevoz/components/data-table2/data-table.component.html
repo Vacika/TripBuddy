@@ -1,0 +1,104 @@
+<table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 background-black">
+	<ng-container [matColumnDef]="column.name" *ngFor="let column of displayedColumns">
+		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979'
+				mat-sort-header> {{column.translationLabel | translate}} </th>
+
+		<td mat-cell *matCellDef="let element" [ngClass]="getSpanClass(element[column.name],false)">
+
+			<span [ngSwitch]="column.type">
+				<span *ngSwitchCase="ColumnType.DATETIME">
+									<span>{{element[column.name] | date: 'dd.MM.y hh:mm' }}</span>
+				</span>
+
+				<span *ngSwitchCase="ColumnType.DATE">
+									<span>{{element[column.name] | date: 'dd.MM.y' }}</span>
+				</span>
+
+				<span *ngSwitchCase="ColumnType.TIME">
+									<span>{{element[column.name] | date: 'hh:mm' }}</span>
+				</span>
+
+				<span *ngSwitchCase="ColumnType.TEXT">
+									<span>{{element[column.name]?.toString() | translate }}</span>
+				</span>
+
+				<span *ngSwitchCase="ColumnType.NUMBER">
+									<span>{{element[column.name]}}</span>
+				</span>
+				<span *ngSwitchCase="ColumnType.BOOLEAN">
+									<span>{{element[column.name]?.toString() | translate}}</span>
+				</span>
+
+					<span *ngSwitchCase="ColumnType.CUSTOM">
+						<span [ngSwitch]="column.name">
+
+										<!-- User Actions [ADMIN PANEL] -->
+							<span *ngSwitchCase="'adminActions'">
+								<button [disabled]='element[column]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
+												aria-label="Actions">
+										<mat-icon>more_vert</mat-icon>
+									</button>
+									<mat-menu #menu="matMenu">
+										<button mat-menu-item *ngIf="!element.isBanned" (click)="takeAction('BAN_USER',element.username)">
+											{{'BAN_USER'|translate}}
+										</button>
+										<button mat-menu-item *ngIf="element.isBanned" (click)="takeAction('UNBAN_USER',element.username)">
+											{{'UNBAN_USER'|translate}}
+										</button>
+										<button mat-menu-item *ngIf='!element.isActivated'
+														(click)="takeAction('ACTIVATE_USER',element.username)">
+											{{'ACTIVATE_USER'|translate}}
+										</button>
+										<button mat-menu-item (click)="takeAction('CHANGE_USER_ROLE',element.username)">
+											{{'CHANGE_USER_ROLE'|translate}}
+										</button>
+									</mat-menu>
+							</span>
+
+							<!--------------------->
+							<!------ Driver ------->
+								<span *ngSwitchCase="'driver'">
+									<span>{{element.driver.name}}</span>
+								</span>
+
+							<!--------------------->
+							<!-- Allowed Actions -->
+							<span *ngSwitchCase="'allowedActions'">
+								<button [disabled]='element[column.name]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
+												aria-label="Actions">
+									<mat-icon>more_vert</mat-icon>
+								</button>
+								<mat-menu #menu="matMenu">
+									<button mat-menu-item
+													*ngFor="let action of element[column.name]"
+													(click)="takeAction(action, element.id)">
+										{{action | translate}}
+									</button>
+								</mat-menu>
+						</span>
+
+							<div *ngSwitchCase="'status' || 'requestStatus'">
+												<!-- STATUS -->
+								<span style='border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;'
+											[classList]="getSpanClass(element[column.name],true)">
+								</span>
+								<span>{{element[column.name]?.toString() | translate}} </span>
+							</div>
+
+							<span *ngSwitchDefault>
+								<span>{{element[column.name]?.toString() |translate}} </span>
+							</span>
+
+					</span>
+				</span>
+			</span>
+
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="getColumnNames(displayedColumns)"></tr>
+	<tr mat-row *matRowDef="let row; columns: getColumnNames(displayedColumns);"></tr>
+</table>
+
+<mat-paginator class="pagnacolor" [pageSizeOptions]="[5,10,15,50]" showFirstLastButtons
+							 *ngIf="dataSource?.data?.length > 0"></mat-paginator>
