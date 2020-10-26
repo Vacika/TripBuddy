@@ -72,7 +72,7 @@
 	"IS_SMOKING_ALLOWED_POSITIVE": "Smoking is allowed",
 	"HAS_AIR_CONDITION_POSITIVE": "Car has AC unit",
 	"CONFIRM_RESERVATION": "Confirm reservation",
-	"REQUESTED_SEATS": "How many seats you need?",
+	"HOW_MANY_SEATS_YOU_NEED": "How many seats you need?",
 	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a ride you published.",
 	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
 	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for ride published by",
@@ -119,7 +119,7 @@
 	"RECEIVED": "Received",
 	"PASSENGER": "Passenger",
 	"DEPARTURE": "Departure",
-	"REQUEST_STATUS": "Request Status",
+	"RESERVATION_STATUS": "Reservation Status",
 	"TRIP_ID": "ID",
 	"RIDE_STATUS": "Trip Status",
 	"ACTIVE:": "Active",
@@ -208,5 +208,9 @@
 	"UNBAN_USER": "Unban User",
 	"CHANGE_USER_ROLE": "Change Role",
 	"ADMIN_PANEL": "Admin Panel",
-	"ACTIVATE_USER": "Activate User"
+	"ACTIVATE_USER": "Activate User",
+	"REQUESTED_SEATS": "Requested Seats",
+	"REQUESTER_NAME": "Requester",
+	"RESERVATION_INFO": "Reservation Info"
+
 }

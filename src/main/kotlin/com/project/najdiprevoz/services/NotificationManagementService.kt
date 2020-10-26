@@ -15,7 +15,7 @@ class NotificationManagementService(private val notificationService: Notificatio
         notificationService.markAsSeen(notificationId)
         when (action) {
             NotificationAction.APPROVE -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.APPROVED) //driver approves
-            NotificationAction.CANCEL -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.CANCELLED)//this is when the requester decides to cancel their request
+            NotificationAction.CANCEL_RESERVATION -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.CANCELLED)//this is when the requester decides to cancel their request
             NotificationAction.MARK_AS_SEEN -> notificationService.markAsSeen(notificationId) // just mark seen
             NotificationAction.DENY -> rideRequestService.changeStatus(notification.rideRequest.id, RideRequestStatus.DENIED) // driver denies request
             NotificationAction.SUBMIT_RATING -> TODO()

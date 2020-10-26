@@ -33,7 +33,7 @@ export class AdminPanelPage implements OnInit {
 
 	onActionTaken(actionData: { element: any; action: string; }) {
 		switch (actionData.action) {
-			case ACTION_CONSTANTS.banUserAction: {
+			case ACTION_CONSTANTS.BAN_USER_ACTION: {
 				this.service.banUser(actionData.element)
 					.subscribe(() => {
 						this.fetchUsers();
@@ -42,7 +42,7 @@ export class AdminPanelPage implements OnInit {
 						_ => this._notificationService.error('ACTION_FAIL'));
 				break;
 			}
-			case ACTION_CONSTANTS.unBanUserAction: {
+			case ACTION_CONSTANTS.UNBAN_USER_ACTION: {
 				this.service.unBanUser(actionData.element).subscribe(() => {
 						this.fetchUsers();
 						this._notificationService.success('ACTION_SUCCESS');
@@ -50,7 +50,7 @@ export class AdminPanelPage implements OnInit {
 					_ => this._notificationService.error('ACTION_FAIL'));
 				break;
 			}
-			case ACTION_CONSTANTS.activateUserAction: {
+			case ACTION_CONSTANTS.ACTIVATE_USER_ACTION: {
 				this.service.unBanUser(actionData.element).subscribe(() => {
 						this.fetchUsers();
 						this._notificationService.success('ACTION_SUCCESS');
@@ -58,7 +58,7 @@ export class AdminPanelPage implements OnInit {
 					_ => this._notificationService.error('ACTION_FAIL'));
 				break;
 			}
-			case ACTION_CONSTANTS.changeUserRoleAction: {
+			case ACTION_CONSTANTS.CHANGE_USER_ROLE_ACTION: {
 				break;
 			}
 		}

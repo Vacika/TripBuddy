@@ -4,6 +4,7 @@ import { NotificationResponse } from '../../interfaces/notification.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { SubmitRatingDialog } from '../../dialogs/submit-rating/submit-rating.dialog';
 import { UINotificationsService } from '../../services/ui-notifications-service';
+import {SUBMIT_RATING_ACTION} from "../../constants/actions.constants";
 
 @Component({
 	templateUrl: './notifications.page.html',
@@ -22,7 +23,7 @@ export class NotificationListPage implements OnInit {
 	}
 
 	takeAction(notification: NotificationResponse, action: string) {
-		if (action != 'SUBMIT_RATING') {
+		if (action != SUBMIT_RATING_ACTION) {
 			this._notificationService.takeAction(notification.id, action).subscribe(response => {
 				this._uiNotificationsService.success( 'ACTION_SUCCESS')
 				this.notifications = response;

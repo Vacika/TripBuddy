@@ -74,7 +74,7 @@
 	"IS_SMOKING_ALLOWED_POSITIVE": "Пушење е дозволено",
 	"HAS_AIR_CONDITION_POSITIVE": "Кола со клима уред",
 	"CONFIRM_RESERVATION": "Потврди резервација",
-	"REQUESTED_SEATS": "Резервирани седишта",
+	"HOW_MANY_SEATS_YOU_NEED": "Резервирани седишта",
 	"REQUEST_SENT_MESSAGE": "испрати барање за резервација.",
 	"REQUEST_APPROVED_MESSAGE": "го одобри твоето барање за резервација.",
 	"REQUEST_EXPIRED_MESSAGE": "Барањето за резервација истече за превозот објавен од",
@@ -122,7 +122,7 @@
 	"RECEIVED": "Примени",
 	"PASSENGER": "Патник",
 	"DEPARTURE": "Поаѓање",
-	"REQUEST_STATUS": "Статус на резервација",
+	"RESERVATION_STATUS": "Статус на резервација",
 	"TRIP_ID": "ID",
 	"RIDE_STATUS": "Статус на превоз",
 	"ACTIVE:": "Активен",
@@ -206,5 +206,11 @@
 	"UNBAN_USER": "Одбанирај корисник",
 	"CHANGE_USER_ROLE": "Промени улога",
 	"ADMIN_PANEL": "Администраторска табла",
-	"ACTIVATE_USER": "Активирај корисник"
+	"ACTIVATE_USER": "Активирај корисник",
+	"REQUESTED_SEATS": "Побарани седишта",
+	"REQUESTER_NAME": "Барател",
+	"RESERVATION_INFO": "Информации за резервацијата",
+	"EXPIRED": "Истечена",
+	"CANCEL_RESERVATION": "Откажи резервација"
+
 }

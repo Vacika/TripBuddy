@@ -82,6 +82,13 @@ export class DataTable2Component implements OnInit {
 						classes.push('background-success inline-block');
 					}
 					break;
+				case 'ACTIVE':
+					if (!indicator) {
+						classes.push('text-light-blue');
+					} else {
+						classes.push('background-light-blue inline-block');
+					}
+					break;
 
 				case 'RIDE_CANCELLED':
 					if (!indicator) {

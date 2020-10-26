@@ -1,0 +1,19 @@
+<div *ngIf="reservation">
+	<h1 mat-dialog-title class="text-center">{{"RESERVATION_INFO"|translate}}</h1>
+	<div mat-dialog-content class='mat-dialog-content'>
+
+		<div class="flex-row space-evenly">
+			<div><span class="text-bold">{{'REQUESTER_NAME'|translate}}: </span> {{ reservation.requesterName | translate }}</div>
+			<div><span class="text-bold">{{'RESERVATION_STATUS'|translate}}: </span>{{reservation.requestStatus}}</div>
+		</div>
+		<div class="flex-row space-evenly">
+			<div><span class="text-bold">{{'FROM'|translate}}: </span> {{ reservation.fromLocation | translate }}</div>
+			<div><span class="text-bold">{{'TO'|translate}}: </span>{{reservation.toLocation}}</div>
+		</div>
+
+	</div>
+	<div mat-dialog-actions>
+		<button mat-button class='width-49-percent mat-stroked-button mat-primary'
+						(click)="onCancel()">{{'CLOSE'|translate}}</button>
+	</div>
+</div>

@@ -29,6 +29,10 @@
 									<span>{{element[column.name]?.toString() | translate}}</span>
 				</span>
 
+				<span *ngSwitchCase="ColumnType.BUTTON">
+									<button mat-icon-button (click)="takeAction(column.actionName, element)"><mat-icon>{{column.matIconName}}</mat-icon></button>
+				</span>
+
 					<span *ngSwitchCase="ColumnType.CUSTOM">
 						<span [ngSwitch]="column.name">
 
@@ -57,7 +61,8 @@
 
 							<!--------------------->
 							<!------ Driver ------->
-								<span *ngSwitchCase="'driver'">
+								<span *ngSwitchCase="'driver' || 'driverName'">
+									{{TTT}} ttt
 									<span>{{element.driver.name}}</span>
 								</span>
 

@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {TripService} from '../../services/trip.service';
 import {Observable} from 'rxjs';
 import {UINotificationsService} from '../../services/ui-notifications-service';
-import {tableColumnsAsDriver, tableColumnsAsPassenger}  from "../../constants/columns.constants";
+import {tableColumnsAsDriver, tableColumnsAsPassenger} from "../../constants/columns.constants";
 
 @Component({
 	selector: 'trips-component',
@@ -32,7 +32,7 @@ export class TripsComponent implements OnInit {
 	}
 
 	takeAction(actionEvent) {
-		if (actionEvent.action == 'CANCEL_RIDE') {
+		if (actionEvent.action === 'CANCEL_RIDE') {
 			this._service.cancelTrip(actionEvent.element).subscribe(() => {
 				this._notificationService.success('CANCEL_RIDE_SUCCESS', 'ACTION_SUCCESS');
 				this.tripsAsDriver$ = this._service.getMyTripsAsDriver();

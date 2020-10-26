@@ -2,6 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.RideRequest
 import com.project.najdiprevoz.enums.NotificationType
+import com.project.najdiprevoz.enums.Actions
 import com.project.najdiprevoz.enums.RideRequestStatus
 import com.project.najdiprevoz.enums.RideStatus
 import com.project.najdiprevoz.repositories.RideRequestRepository
@@ -92,14 +93,14 @@ class RideRequestService(private val repository: RideRequestRepository,
         var availableActions = listOf<String>()
         if (!forRequester && rideRequest.ride.status == RideStatus.ACTIVE) {
             if (changeStatusActionAllowed(currentStatus, RideRequestStatus.APPROVED))
-                availableActions = availableActions.plus("APPROVE")
+                availableActions = availableActions.plus(Actions.APPROVE.name)
             if (changeStatusActionAllowed(currentStatus, RideRequestStatus.DENIED))
-                availableActions = availableActions.plus("DENY")
+                availableActions = availableActions.plus(Actions.DENY.name)
         } else if (forRequester) {
             if (canSubmitRating(rideRequest))
-                availableActions = availableActions.plus("SUBMIT_RATING")
+                availableActions = availableActions.plus(Actions.SUBMIT_RATING.name)
             if (changeStatusActionAllowed(currentStatus, RideRequestStatus.CANCELLED))
-                availableActions = availableActions.plus("CANCEL")
+                availableActions = availableActions.plus(Actions.CANCEL_RESERVATION.name)
         }
         return availableActions
     }

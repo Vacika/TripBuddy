@@ -1,5 +1,8 @@
-export const banUserAction = 'BAN_USER';
-export const unBanUserAction = 'UNBAN_USER';
-export const activateUserAction = 'ACTIVATE_USER';
-export const changeUserRoleAction = 'CHANGE_USER_ROLE';
-export const submitRatingAction = 'SUBMIT_RATING';
+export const BAN_USER_ACTION = 'BAN_USER';
+export const UNBAN_USER_ACTION = 'UNBAN_USER';
+export const ACTIVATE_USER_ACTION = 'ACTIVATE_USER';
+export const CHANGE_USER_ROLE_ACTION = 'CHANGE_USER_ROLE';
+export const SUBMIT_RATING_ACTION = 'SUBMIT_RATING';
+export const SEE_RIDE_REQUEST_INFO_ACTION = "SEE_RIDE_REQUEST_INFO";
+export const SEE_TRIP_INFO_ACTION= "SEE_TRIP_INFO";
+export const CANCEL_RIDE_ACTION = "CANCEL_RIDE";

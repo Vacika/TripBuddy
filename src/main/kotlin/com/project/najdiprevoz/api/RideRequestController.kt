@@ -38,7 +38,7 @@ class RideRequestController(private val mapper: RideRequestMapper) {
     fun changeStatusToDenied(@PathVariable("requestId") requestId: Long) =
             mapper.changeStatus(requestId, RideRequestStatus.DENIED)
 
-    @GetMapping("/{requestId}/cancel")
+    @GetMapping("/{requestId}/cancel_reservation")
     fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
             mapper.changeStatus(requestId, RideRequestStatus.CANCELLED)
 
