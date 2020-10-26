@@ -63,7 +63,7 @@ export class ControlPanelPage implements OnInit {
 		} else if (event.action === SEE_RIDE_REQUEST_INFO_ACTION) {
 			this._dialog.open(ReservationDetailsDialog, {
 				data: event.element as RideRequestFullResponse,
-				height: '400px',
+				height: '305px',
 				width: '600px'
 			})
 		}

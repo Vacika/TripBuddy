@@ -113,10 +113,10 @@ class RideRequestService(private val repository: RideRequestRepository,
 
     private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
         val rideRequest = repository.findByRideIdAndRequester_Username(tripId, username)
-        if (rideRequest.isPresent && rideRequest.get().status != RideRequestStatus.CANCELLED) {
-            return true
+        if (rideRequest.isNullOrEmpty()) {
+            return false
         }
-        return false
+        return true
     }
 
     private fun changeRequestToApproved(requestId: Long) {

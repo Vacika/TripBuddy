@@ -53,7 +53,7 @@ interface RideRequestRepository : JpaRepository<RideRequest, Long>, JpaSpecifica
     @Query("""UPDATE RideRequest r set r.status='RIDE_CANCELLED' where r.status='PENDING' and r.ride.status='FINISHED'""")
     fun updateRideRequestsCron(): Int
 
-    fun findByRideIdAndRequester_Username(rideId: Long, username: String): Optional<RideRequest>
+    fun findByRideIdAndRequester_Username(rideId: Long, username: String): List<RideRequest>
 
 
     fun findAllByRequester_UsernameAndStatus(username: String, status: RideRequestStatus): List<RideRequest>

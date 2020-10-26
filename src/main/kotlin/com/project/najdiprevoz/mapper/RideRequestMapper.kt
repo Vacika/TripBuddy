@@ -10,7 +10,6 @@ import com.project.najdiprevoz.web.response.RideRequestFullResponse
 import com.project.najdiprevoz.web.response.RideRequestResponse
 import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.stereotype.Service
-import java.time.format.DateTimeFormatter
 
 @Service
 class RideRequestMapper(private val service: RideRequestService,
@@ -66,7 +65,8 @@ class RideRequestMapper(private val service: RideRequestService,
                 toLocation = ride.destination.name,
                 driverName = ride.driver.getFullName(),
                 requestStatus = status.toString(),
-                rideStatus = ride.status.toString()
+                rideStatus = ride.status.toString(),
+                additionalDescription = rideRequest.additionalDescription
         )
     }
 

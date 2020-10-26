@@ -192,6 +192,5 @@ export const tableColumnsAsPassenger = [
 		sortable: true
 	} as DataTableColumn,
 	{name: 'driver', translationLabel: 'DRIVER', type: DataTableColumnType.CUSTOM, sortable: true} as DataTableColumn,
-	{name: 'status', translationLabel: 'STATUS', type: DataTableColumnType.CUSTOM, sortable: true} as DataTableColumn,
-	{name: 'allowedActions', translationLabel: 'ACTIONS', type: DataTableColumnType.CUSTOM, sortable: false} as DataTableColumn
+	{name: 'status', translationLabel: 'STATUS', type: DataTableColumnType.CUSTOM, sortable: true} as DataTableColumn
 ];
