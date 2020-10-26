@@ -32,7 +32,7 @@ class NotificationService(private val repository: NotificationRepository) {
         val requester: User = rideRequest.requester
         when (notificationType) {
             NotificationType.REQUEST_APPROVED -> {
-                notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.CANCEL)
+                notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.CANCEL_RESERVATION)
                 from = driver
                 to = requester
             }

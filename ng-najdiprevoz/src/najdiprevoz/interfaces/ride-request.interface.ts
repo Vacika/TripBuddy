@@ -19,4 +19,5 @@ export interface RideRequestFullResponse {
 	requestStatus: string,
 	rideStatus: string,
 	requestedSeats: string
+	additionalDescription?: string
 }

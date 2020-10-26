@@ -5,5 +5,6 @@ export enum DataTableColumnType {
 	TIME,
 	NUMBER,
 	BOOLEAN,
-	CUSTOM
+	CUSTOM,
+	BUTTON
 }

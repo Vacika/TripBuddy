@@ -10,7 +10,7 @@
 							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a>{{"REQUEST_SENT_MESSAGE"|translate}}
 						</span>
 
-						<span *ngIf="notification.type == 'REQUEST_CANCELLEDd'">
+						<span *ngIf="notification.type == 'REQUEST_CANCELLED'">
 							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"REQUEST_CANCELLED_MESSAGE"|translate}}
 						</span>
 						<span *ngIf="notification.type == 'REQUEST_APPROVED'">

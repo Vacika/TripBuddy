@@ -1,0 +1,71 @@
+.success {
+	color: rgb(93, 209, 103);
+}
+
+.danger {
+	color: #ff2a26 !important;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.width-49-percent {
+	width: 49%;
+}
+
+.flex-row {
+	display: flex;
+}
+
+.space-evenly {
+	justify-content: space-evenly;
+}
+
+.mat-dialog-content {
+	font-size: 15px;
+	line-height: 30px;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.user-link {
+	text-decoration: none;
+}
+
+.user-link:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.green-gradient-bg {
+	background-color: #00b712;
+	background-image: linear-gradient(315deg, #00b712 0%, #5dd38d 60%);
+}
+
+.icons {
+	height: 25px;
+}
+
+::ng-deep mat-icon, .icons {
+	border-radius: 60%;
+	padding: 5px;
+}
+
+::ng-deep mat-icon.danger, .icons.danger {
+	border: 2px solid red;
+}
+
+::ng-deep mat-icon.success, .icons.success {
+	border: 2px solid #00b712;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.w-100 {
+	width: 100%;
+}

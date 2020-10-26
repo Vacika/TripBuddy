@@ -4,7 +4,8 @@ export interface DataTableColumn {
 	name: string;
 	translationLabel: string;
 	type: DataTableColumnType;
-	subType?: string;
+	actionName?: string;
 	dateFormat?: string
-	sortable: boolean
+	sortable: boolean,
+	matIconName?: string
 }

@@ -67,6 +67,7 @@ import {MatPaginatorI18nService} from "../najdiprevoz/constants/paginator-i18n.c
 import {AdminPanelPage} from "../najdiprevoz/pages/admin-panel/admin-panel.page";
 import {AdminService} from "../najdiprevoz/services/admin.service";
 import {DataTable2Component} from "../najdiprevoz/components/data-table2/data-table.component";
+import {ReservationDetailsDialog} from "../najdiprevoz/dialogs/reservation-details/reservation-details.dialog";
 
 const SERVICES = [
 	LoaderService,
@@ -79,7 +80,7 @@ const SERVICES = [
 	RatingService,
 	UINotificationsService,
 	AdminService];
-const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog];
+const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog, ReservationDetailsDialog];
 const PAGES = [ProfileNotActivatedPage,
 	RegistrationSuccessPage,
 	ActivateUserPage,
