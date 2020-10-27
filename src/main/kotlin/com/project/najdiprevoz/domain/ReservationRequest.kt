@@ -2,13 +2,13 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.project.najdiprevoz.enums.RideRequestStatus
+import com.project.najdiprevoz.enums.ReservationStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "ride_requests")
-class RideRequest(
+@Table(name = "reservation_requests")
+class ReservationRequest(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0L,
@@ -20,8 +20,8 @@ class RideRequest(
 
         @JsonBackReference
         @ManyToOne
-        @JoinColumn(name = "ride_id", referencedColumnName = "id", nullable = false)
-        val ride: Ride,
+        @JoinColumn(name = "trip_id", referencedColumnName = "id", nullable = false)
+        val trip: Trip,
 
         @Column(name = "created_on", nullable = false)
         val createdOn: ZonedDateTime,
@@ -33,16 +33,16 @@ class RideRequest(
         val additionalDescription: String?,
 
         @JsonManagedReference
-        @OneToOne(mappedBy = "rideRequest", optional = true)
+        @OneToOne(mappedBy = "reservationRequest", optional = true)
         val rating: Rating? = null,
 
         @Enumerated(EnumType.STRING)
         @Column(name = "status", nullable = false)
-        var status: RideRequestStatus = RideRequestStatus.PENDING
+        var status: ReservationStatus = ReservationStatus.PENDING
 ) {
     fun getRequesterFullName() = requester.getFullName()
 
-    fun changeStatus(newStatus: RideRequestStatus): RideRequest {
+    fun changeStatus(newStatus: ReservationStatus): ReservationRequest {
         this.status = newStatus
         return this
     }

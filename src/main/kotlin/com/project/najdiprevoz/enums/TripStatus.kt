@@ -1,5 +1,5 @@
 package com.project.najdiprevoz.enums
 
-enum class RideStatus {
+enum class TripStatus {
     ACTIVE, FINISHED, CANCELLED
 }

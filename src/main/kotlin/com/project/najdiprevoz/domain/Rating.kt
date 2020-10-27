@@ -15,8 +15,8 @@ data class Rating(
 
         @JsonBackReference
         @OneToOne(optional = false)
-        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = false, unique = true)
-        val rideRequest: RideRequest,
+        @JoinColumn(name = "reservation_request_id", referencedColumnName = "id", nullable = false, unique = true)
+        val reservationRequest: ReservationRequest,
 
         @Column(name = "note")
         val note: String?,
@@ -28,23 +28,23 @@ data class Rating(
         val rating: Int) {
 
     @JsonIgnore
-    fun getAuthor(): User = rideRequest.requester
+    fun getAuthor(): User = reservationRequest.requester
 
     @JsonIgnore
-    fun getDriver(): User = rideRequest.ride.driver
+    fun getDriver(): User = reservationRequest.trip.driver
 
-    override fun toString(): String = "Rating id:[${id}], Ride Request id:[${rideRequest.id}], rating: [$rating], date: [$dateSubmitted]"
+    override fun toString(): String = "Rating id:[${id}], Reservation Request id:[${reservationRequest.id}], rating: [$rating], date: [$dateSubmitted]"
 
     fun mapToRatingResponse(): RatingResponse = RatingResponse(
                 id = id,
                 rating = rating,
                 note = note,
-                rideId = rideRequest.ride.id,
+                rideId = reservationRequest.trip.id,
                 fromFullName = getAuthor().getFullName(),
                 fromId = getAuthor().id,
                 fromProfilePic = getAuthor().profilePhoto,
-                rideDate = rideRequest.ride.departureTime,
-                rideFrom = rideRequest.ride.fromLocation.name,
-                rideTo = rideRequest.ride.destination.name
+                rideDate = reservationRequest.trip.departureTime,
+                rideFrom = reservationRequest.trip.fromLocation.name,
+                rideTo = reservationRequest.trip.destination.name
         )
 }

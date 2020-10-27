@@ -1,15 +1,14 @@
 package com.project.najdiprevoz.mapper
 
-import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.Trip
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.Actions
-import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.repositories.RatingViewRepository
 import com.project.najdiprevoz.services.TripService
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
-import com.project.najdiprevoz.web.response.PastTripResponse
 import com.project.najdiprevoz.web.response.TripDetailsResponse
 import com.project.najdiprevoz.web.response.TripResponse
 import com.project.najdiprevoz.web.response.UserShortResponse
@@ -58,7 +57,7 @@ class TripMapper(private val tripService: TripService,
             tripService.findAllTripsByDriverId(id).map { mapToTripResponse(it, false) }
 
 
-    private fun mapToTripResponse(trip: Ride, asPassenger: Boolean): TripResponse = with(trip) {
+    private fun mapToTripResponse(trip: Trip, asPassenger: Boolean): TripResponse = with(trip) {
         return TripResponse(id = id,
                 from = fromLocation.name,
                 to = destination.name,
@@ -73,19 +72,19 @@ class TripMapper(private val tripService: TripService,
     }
 
     //TODO: Move these to constants
-    private fun getAllowedActions(trip: Ride, asPassenger: Boolean): List<String> = with(trip){
+    private fun getAllowedActions(trip: Trip, asPassenger: Boolean): List<String> = with(trip){
         return if (asPassenger) {
             when (status) {
-                RideStatus.ACTIVE -> listOf(Actions.CANCEL_RESERVATION.name)
-                RideStatus.FINISHED -> listOf(Actions.SUBMIT_RATING.name)
+                TripStatus.ACTIVE -> listOf(Actions.CANCEL_RESERVATION.name)
+                TripStatus.FINISHED -> listOf(Actions.SUBMIT_RATING.name)
                 else -> emptyList()
             }
         } else {
-            if (status == RideStatus.ACTIVE) listOf(Actions.CANCEL_RIDE.name) else emptyList()
+            if (status == TripStatus.ACTIVE) listOf(Actions.CANCEL_RIDE.name) else emptyList()
         }
     }
 
-    private fun mapToTripDetailsResponse(trip: Ride): TripDetailsResponse = with(trip) {
+    private fun mapToTripDetailsResponse(trip: Trip): TripDetailsResponse = with(trip) {
         return TripDetailsResponse(isPetAllowed = isPetAllowed,
                 isSmokingAllowed = isSmokingAllowed,
                 hasAirCondition = hasAirCondition,

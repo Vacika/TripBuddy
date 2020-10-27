@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {RideRequestFullResponse} from '../../interfaces/ride-request.interface';
+import {ReservationRequestFullResponse} from '../../interfaces/ride-request.interface';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from "@angular/material/sort";
@@ -31,7 +31,7 @@ export class DataTableComponent implements OnInit {
 		'requestStatus',
 		'driverName',
 		'tripId',
-		'rideStatus',
+		'tripStatus',
 		'allowedActions'
 	];
 
@@ -48,7 +48,7 @@ export class DataTableComponent implements OnInit {
 		this.onActionTaken.emit({ action: actionName, element: element });
 	}
 
-	getSpanClass(column: string, element: RideRequestFullResponse, indicator: boolean) {
+	getSpanClass(column: string, element: ReservationRequestFullResponse, indicator: boolean) {
 		let classes = [];
 		if (column == 'requestStatus') {
 

@@ -1,6 +1,6 @@
 import {Rating} from "./rating.interface";
 
-export interface RideRequest {
+export interface ReservationRequest {
   id: number,
   createdOn: string,
   rating: Rating,

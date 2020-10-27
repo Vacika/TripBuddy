@@ -16,7 +16,7 @@ interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<U
     @Query("""
         SELECT u as rating FROM User u
         JOIN Rating r on
-        r.rideRequest.ride.driver = u
+        r.reservationRequest.trip.driver = u
         GROUP BY u.id
         ORDER BY avg(rating)
         DESC

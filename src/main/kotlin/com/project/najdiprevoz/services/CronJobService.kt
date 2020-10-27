@@ -1,8 +1,8 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RideRequestStatus
-import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.domain.ReservationRequest
+import com.project.najdiprevoz.enums.ReservationStatus
+import com.project.najdiprevoz.enums.TripStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.repository.Modifying
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
-class CronJobService(private val rideRequestService: RideRequestService,
+class CronJobService(private val reservationRequestService: ReservationRequestService,
                      private val tripService: TripService,
                      private val ratingService: RatingService) {
 
@@ -23,32 +23,32 @@ class CronJobService(private val rideRequestService: RideRequestService,
     fun updateRidesAndRequestsJob() {
         updateRideCron()
         logger.info("[CRONJOB] Updating EXPIRED and RIDE_CANCELLED ride requests..")
-        updateRideRequestCron()
+        updateReservationRequestCron()
     }
 
-    private fun updateRideRequestCron() {
-        val allRideRequests = rideRequestService.findAll()
+    private fun updateReservationRequestCron() {
+        val allReservationRequests = reservationRequestService.findAll()
 
-        allRideRequests
-                .filter { it.status == RideRequestStatus.PENDING && it.ride.status == RideStatus.FINISHED }
+        allReservationRequests
+                .filter { it.status == ReservationStatus.PENDING && it.trip.status == TripStatus.FINISHED }
                 .forEach { changeRequestToExpired(it) }
 
-        allRideRequests
+        allReservationRequests
                 .filter {
-                    it.status == RideRequestStatus.APPROVED && it.ride.status == RideStatus.FINISHED && !checkIfHasRatingAllowedNotification(it)
+                    it.status == ReservationStatus.APPROVED && it.trip.status == TripStatus.FINISHED && !checkIfHasRatingAllowedNotification(it)
                 }
                 .forEach { sendRatingNotification(it) }
     }
 
-    private fun sendRatingNotification(it: RideRequest) =
+    private fun sendRatingNotification(it: ReservationRequest) =
             ratingService.pushRatingAllowedNotification(it)
 
-    private fun changeRequestToExpired(rideRequest: RideRequest) =
-            rideRequestService.rideRequestCronJob(rideRequest)
+    private fun changeRequestToExpired(reservationRequest: ReservationRequest) =
+            reservationRequestService.reservationRequestCronJob(reservationRequest)
 
     private fun updateRideCron() =
             tripService.checkForFinishedTripsCronJob()
 
-    private fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest): Boolean =
-            ratingService.checkIfHasRatingAllowedNotification(rideRequest)
+    private fun checkIfHasRatingAllowedNotification(reservationRequest: ReservationRequest): Boolean =
+            ratingService.checkIfHasRatingAllowedNotification(reservationRequest)
 }

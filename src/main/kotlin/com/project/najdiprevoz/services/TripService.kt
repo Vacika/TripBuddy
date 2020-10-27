@@ -1,20 +1,17 @@
 package com.project.najdiprevoz.services
 
-import com.project.najdiprevoz.domain.Ride
+import com.project.najdiprevoz.domain.Trip
 import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.RideRequestStatus
-import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.enums.ReservationStatus
+import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.repositories.*
 import com.project.najdiprevoz.utils.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
-import com.project.najdiprevoz.web.response.TripResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
@@ -32,14 +29,14 @@ class TripService(private val repository: RideRepository,
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
-    fun findById(id: Long): Ride =
+    fun findById(id: Long): Trip =
             repository.findById(id)
                     .orElseThrow { RideNotFoundException("Ride with id $id was not found") }
 
     fun findAllTripsByDriverId(driverId: Long) =
             repository.findAllByDriverId(driverId = driverId)
 
-    fun findAllFiltered(req: FilterTripRequest): List<Ride> = with(req) {
+    fun findAllFiltered(req: FilterTripRequest): List<Trip> = with(req) {
         val specification = if (departureDate != null)
             createRideSpecification(fromAddress = fromLocation, toAddress = toLocation,
                     departure = ZonedDateTime.ofInstant(departureDate.toInstant(), ZoneId.systemDefault()), availableSeats = requestedSeats) //TODO: refactor this
@@ -48,16 +45,16 @@ class TripService(private val repository: RideRepository,
         return repository.findAll(specification)
     }
 
-    fun findAllActiveTripsForToday(): List<Ride> =
+    fun findAllActiveTripsForToday(): List<Trip> =
             repository.findAll(
                     listOfNotNull(
                             evaluateSpecification(listOf("departureTime"), ZonedDateTime.now(), ::laterThanTime),
-                            evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification))
-                            .fold(whereTrue<Ride>()) { first, second -> Specification.where(first).and(second) })
+                            evaluateSpecification(listOf("status"), TripStatus.ACTIVE, ::tripStatusEqualsSpecification))
+                            .fold(whereTrue<Trip>()) { first, second -> Specification.where(first).and(second) })
 
 
     fun getPastPublishedTripsByUser(userId: Long) =
-            repository.findAllByDriverIdAndStatus(driverId = userId, status = RideStatus.FINISHED)
+            repository.findAllByDriverIdAndStatus(driverId = userId, status = TripStatus.FINISHED)
 
     fun findMyPastTripsAsPassenger(username: String) =
             repository.findMyPastTripsAsPassenger(username)
@@ -70,7 +67,7 @@ class TripService(private val repository: RideRepository,
 
     @Modifying
     @Transactional
-    fun editTrip(rideId: Long, editTripRequest: EditTripRequest): Ride = with(editTripRequest) {
+    fun editTrip(rideId: Long, editTripRequest: EditTripRequest): Trip = with(editTripRequest) {
         logger.info("[RideService - Edit Ride] Editing ride with ID:[$rideId]..")
         repository.save(findById(rideId).copy(
                 fromLocation = cityService.findByName(fromLocation),
@@ -83,24 +80,24 @@ class TripService(private val repository: RideRepository,
     @Transactional
     @Modifying
     fun cancelTrip(rideId: Long) {
-        repository.changeRideStatus(rideId, RideStatus.CANCELLED)
+        repository.changeTripStatus(rideId, TripStatus.CANCELLED)
         val ride = findById(rideId)
-        ride.rideRequests = ride.rideRequests.map { it.changeStatus(RideRequestStatus.RIDE_CANCELLED) }
-        ride.rideRequests.forEach {
-            notificationService.pushRideRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
+        ride.reservationRequests = ride.reservationRequests.map { it.changeStatus(ReservationStatus.RIDE_CANCELLED) }
+        ride.reservationRequests.forEach {
+            notificationService.pushReservationRequestStatusChangeNotification(it, NotificationType.RIDE_CANCELLED)
         }
         logger.info("[RideService - CANCEL RIDE] Ride with id $rideId successfully cancelled!")
     }
 
-    fun getMyTripsAsDriver(username: String): List<Ride> =
+    fun getMyTripsAsDriver(username: String): List<Trip> =
             repository.findAllByDriverUsername(username)
 
-    fun getMyTripsAsPassenger(username: String): List<Ride> =
+    fun getMyTripsAsPassenger(username: String): List<Trip> =
             repository.findAllMyTripsAsPassenger(username)
 
 
-    fun canSubmitRating(ride: Ride, username: String): Boolean =
-            repository.canSubmitRating(username, ride).isEmpty()
+    fun canSubmitRating(trip: Trip, username: String): Boolean =
+            repository.canSubmitRating(username, trip).isEmpty()
 
     private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?, availableSeats: Int?) =
             listOfNotNull(
@@ -108,13 +105,13 @@ class TripService(private val repository: RideRepository,
                     evaluateSpecification(listOf("destination", "id"), toAddress, ::equalSpecification),
                     evaluateSpecification(listOf("availableSeats"), availableSeats, ::greaterThanOrEquals),
                     evaluateSpecification(listOf("departureTime"), departure, ::laterThanTime),
-                    evaluateSpecification(listOf("status"), RideStatus.ACTIVE, ::tripStatusEqualsSpecification)
-            ).fold(whereTrue<Ride>()) { first, second ->
+                    evaluateSpecification(listOf("status"), TripStatus.ACTIVE, ::tripStatusEqualsSpecification)
+            ).fold(whereTrue<Trip>()) { first, second ->
                 Specification.where(first).and(second)
             }
 
     private fun createRideObject(createTripRequest: CreateTripRequest, username: String) = with(createTripRequest) {
-        Ride(
+        Trip(
                 createdOn = ZonedDateTime.now(),
                 fromLocation = cityService.findById(fromLocation),
                 destination = cityService.findById(destination),
@@ -123,8 +120,8 @@ class TripService(private val repository: RideRepository,
                 driver = userService.findUserByUsername(username),
                 pricePerHead = pricePerHead,
                 additionalDescription = additionalDescription,
-                rideRequests = listOf(),
-                status = RideStatus.ACTIVE,
+                reservationRequests = listOf(),
+                status = TripStatus.ACTIVE,
                 isSmokingAllowed = smokingAllowed,
                 isPetAllowed = petAllowed,
                 hasAirCondition = hasAirCondition,
@@ -133,17 +130,17 @@ class TripService(private val repository: RideRepository,
     }
 
     private inline fun <reified T> evaluateSpecification(properties: List<String>, value: T?,
-                                                         fn: (List<String>, T) -> Specification<Ride>) = value?.let {
+                                                         fn: (List<String>, T) -> Specification<Trip>) = value?.let {
         fn(properties, value)
     }
 
     fun checkForFinishedTripsCronJob() {
         logger.info("[CRONJOB] Checking for finished rides..")
-        logger.info("[CRONJOB] Updated [" + repository.updateRidesCron(ZonedDateTime.now()) + "] rides.")
+        logger.info("[CRONJOB] Updated [" + repository.updateFinishedTripsCron(ZonedDateTime.now()) + "] rides.")
     }
 
     fun updateRideAvailableSeats(rideId: Long, seats: Int) {
-        repository.updateRideAvailableSeats(rideId, seats)
+        repository.updateTripAvailableSeats(rideId, seats)
     }
 
 //    fun getMyTripsAsDriverPaginated(username: String, pageable: Pageable): Page<Ride> {

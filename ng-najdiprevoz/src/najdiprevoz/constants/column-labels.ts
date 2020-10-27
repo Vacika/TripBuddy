@@ -14,7 +14,7 @@ columnLabelName.set('requestStatus', 'RESERVATION_STATUS');
 columnLabelName.set('driverName', 'DRIVER');
 columnLabelName.set('driver', 'DRIVER');
 columnLabelName.set('tripId', 'TRIP_ID');
-columnLabelName.set('rideStatus', 'RIDE_STATUS');
+columnLabelName.set('tripStatus', 'RESERVATION_STATUS');
 columnLabelName.set('username', 'USERNAME');
 columnLabelName.set('birthDate', 'BIRTH_DATE');
 columnLabelName.set('phoneNumber', 'PHONE_NUMBER');

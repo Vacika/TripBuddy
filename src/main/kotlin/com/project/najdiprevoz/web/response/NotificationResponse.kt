@@ -10,6 +10,6 @@ class NotificationResponse(val id: Long,
                            val fromProfilePic: String?,
                            val actions: List<NotificationAction>,
                            val createdOn: ZonedDateTime,
-                           val rideRequestId: Long,
+                           val reservationRequestId: Long,
                            val type: NotificationType,
                            val seen: Boolean)

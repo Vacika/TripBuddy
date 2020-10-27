@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository
 interface RatingViewRepository: JpaRepository<RatingView, Long> {
 
     fun findAllByDriverId(id: Long): List<RatingView>
-    fun findAllByRideId(rideId: Long): List<RatingView>
 }

@@ -9,7 +9,7 @@ import { UINotificationsService } from '../../services/ui-notifications-service'
 	styleUrls: ['submit-rating.dialog.scss']
 })
 export class SubmitRatingDialog {
-	rideRequestId: number;
+	reservationRequestId: number;
 	form = this.formDefinition;
 	availableOptions = [1, 2, 3, 4, 5];
 
@@ -18,11 +18,11 @@ export class SubmitRatingDialog {
 							private ratingService: RatingService,
 							private _notificationService: UINotificationsService,
 							private _formBuilder: FormBuilder) {
-		this.rideRequestId = data;
+		this.reservationRequestId = data;
 	}
 
 	submit() {
-		this.ratingService.submitRating(this.rideRequestId, this.getRating.value, this.getNote.value).subscribe(() => {
+		this.ratingService.submitRating(this.reservationRequestId, this.getRating.value, this.getNote.value).subscribe(() => {
 			this.onCancel()
 			this._notificationService.success("RATING_SUBMITTED_SUCCESS","ACTION_SUCCESS")
 		},()=>{

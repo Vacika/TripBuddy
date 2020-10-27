@@ -79,7 +79,7 @@
 			</div>
 
 			<!-- Register -->
-			<button mat-raised-button class="button-primary" type="submit" [disabled]="form.invalid || form.pristine">
+			<button mat-raised-button type="submit" [disabled]="form.invalid || form.pristine" [ngClass]="(form.invalid || form.pristine) ? 'disabled button-primary' : 'button-primary'">
 				{{'REGISTER' | translate}}
 			</button>
 		</form>

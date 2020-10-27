@@ -16,8 +16,8 @@ data class Notification(
         val createdOn: ZonedDateTime,
 
         @ManyToOne
-        @JoinColumn(name = "ride_request_id", referencedColumnName = "id", nullable = true)
-        val rideRequest: RideRequest,
+        @JoinColumn(name = "reservation_request_id", referencedColumnName = "id", nullable = true)
+        val reservationRequest: ReservationRequest,
 
         @Enumerated(EnumType.STRING)
         @Column(name = "type")
