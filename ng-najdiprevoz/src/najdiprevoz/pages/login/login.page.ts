@@ -49,13 +49,10 @@ export class LoginPage implements OnInit {
 				},
 				err => {
 					this.password.reset();
-					if (err == 'Forbidden') {
-						this.notificationService.error('USER_NOT_ACTIVATED');
+					this.notificationService.error(err);
+					if (err == 'USER_NOT_ACTIVATED') {
 						this.router.navigate(['activation-pending']);
-					} else {
-						this.notificationService.error("FAIL_LOGIN")
 					}
-
 				});
 		}
 	}

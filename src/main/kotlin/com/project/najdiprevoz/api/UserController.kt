@@ -27,4 +27,5 @@ class UserController(private val mapper: UserMapper) {
     @GetMapping("/details/{userId}")
     fun getUserInfo(@PathVariable("userId") userId: Long): UserProfileResponse =
             mapper.getUserInfo(userId)
+
 }

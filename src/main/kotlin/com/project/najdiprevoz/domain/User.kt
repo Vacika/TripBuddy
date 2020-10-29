@@ -9,6 +9,7 @@ import com.project.najdiprevoz.web.response.UserShortResponse
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.io.Serializable
 import java.time.ZonedDateTime
 import java.util.*
 import javax.persistence.*

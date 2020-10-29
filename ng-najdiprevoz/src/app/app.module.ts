@@ -28,7 +28,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {NotificationListPage} from '../najdiprevoz/pages/notifications/notifications.page';
 import {NotificationService} from '../najdiprevoz/services/notification.service';
 import {RegisterPage} from '../najdiprevoz/pages/register-user/register.page';
-import {ErrorInterceptor} from '../najdiprevoz/http.interceptor';
+import {CustomInterceptor} from '../najdiprevoz/http.interceptor';
 import {ControlPanelPage} from '../najdiprevoz/pages/control-panel/control-panel.page';
 import {ProfileSettingsView} from '../najdiprevoz/views/profile-settings/profile-settings.view';
 import {MatMenuModule} from '@angular/material/menu';
@@ -154,7 +154,7 @@ const PAGES = [ProfileNotActivatedPage,
 		},
 		{
 			provide: HTTP_INTERCEPTORS,
-			useClass: ErrorInterceptor,
+			useClass: CustomInterceptor,
 			multi: true
 		}],
 	bootstrap: [AppComponent]
