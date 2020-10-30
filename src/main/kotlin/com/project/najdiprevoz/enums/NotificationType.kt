@@ -8,6 +8,6 @@ enum class NotificationType(private val type: String) {
     REQUEST_CANCELLED("REQUEST_CANCELLED"),
     RIDE_CANCELLED("RIDE_CANCELLED"),
     RATING_SUBMITTED("RATING_GIVEN"),
-    REQUEST_EXPIRED("Request expired"),
-    RATING_ALLOWED("Rating allowed")
+    REQUEST_EXPIRED("REQUEST_EXPIRED"),
+    RATING_ALLOWED("RATING_ALLOWED")
 }

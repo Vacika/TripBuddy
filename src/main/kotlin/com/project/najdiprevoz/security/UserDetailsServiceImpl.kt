@@ -23,9 +23,4 @@ class UserDetailsServiceImpl(private val repository: UserRepository) : UserDetai
         }
         return user
     }
-
-    fun login(username: String, password: String): Boolean {
-        return loadUserByUsername(username).password == password
-    }
-
 }

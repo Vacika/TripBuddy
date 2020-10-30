@@ -1,19 +1,20 @@
-<table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 background-black">
-	<ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979' mat-sort-header> {{getLabel(column) | translate}} </th>
-		<td mat-cell *matCellDef="let element" [ngClass]="getSpanClass(column,element,false)">
+<table [dataSource]="dataSource" class="mat-elevation-z8 background-black" mat-table matSort>
+	<ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+		<th *matHeaderCellDef class='table-headers' mat-header-cell mat-sort-header
+				style='color:#797979'> {{getLabel(column) | translate}} </th>
+		<td *matCellDef="let element" [ngClass]="getSpanClass(column,element,false)" mat-cell>
 
 
 			<!-- Allowed Actions -->
 			<span *ngIf="column=='allowedActions'">
-				<button [disabled]='element[column]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
-								aria-label="Actions">
+				<button [disabled]='element[column]?.length==0' [matMenuTriggerFor]="menu" aria-label="Actions"
+								mat-icon-button>
 					<mat-icon>more_vert</mat-icon>
 				</button>
 			 	<mat-menu #menu="matMenu">
-					<button mat-menu-item
+					<button (click)="takeAction(action, element.id)"
 									*ngFor="let action of element[column]"
-									(click)="takeAction(action, element.id)">
+									mat-menu-item>
 						{{action | translate}}
 					</button>
 				</mat-menu>
@@ -21,21 +22,21 @@
 
 			<!-- User Actions [ADMIN PANEL] -->
 			<span *ngIf="column=='adminActions'">
-				<button [disabled]='element[column]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
-								aria-label="Actions">
+				<button [disabled]='element[column]?.length==0' [matMenuTriggerFor]="menu" aria-label="Actions"
+								mat-icon-button>
 					<mat-icon>more_vert</mat-icon>
 				</button>
 			 	<mat-menu #menu="matMenu">
-					<button mat-menu-item *ngIf="!element.isBanned" (click)="takeAction('BAN_USER',element.username)">
+					<button (click)="takeAction('BAN_USER',element.username)" *ngIf="!element.isBanned" mat-menu-item>
 						{{'BAN_USER'|translate}}
 					</button>
-					<button mat-menu-item *ngIf="element.isBanned" (click)="takeAction('UNBAN_USER',element.username)">
+					<button (click)="takeAction('UNBAN_USER',element.username)" *ngIf="element.isBanned" mat-menu-item>
 						{{'UNBAN_USER'|translate}}
 					</button>
-					<button mat-menu-item *ngIf='!element.isActivated' (click)="takeAction('ACTIVATE_USER',element.username)">
+					<button (click)="takeAction('ACTIVATE_USER',element.username)" *ngIf='!element.isActivated' mat-menu-item>
 						{{'ACTIVATE_USER'|translate}}
 					</button>
-					<button mat-menu-item (click)="takeAction('CHANGE_USER_ROLE',element.username)">
+					<button (click)="takeAction('CHANGE_USER_ROLE',element.username)" mat-menu-item>
 						{{'CHANGE_USER_ROLE'|translate}}
 					</button>
 				</mat-menu>
@@ -65,17 +66,20 @@
 
 				<!-- STATUS -->
 				<span *ngIf='column == "requestStatus"'
-							style='border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;'
-							[classList]="getSpanClass(column,element,true)">
+							[classList]="getSpanClass(column,element,true)"
+							style='border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;'>
 					</span>
-				<span *ngIf='column == "requestStatus" || column == "status"'>{{element[column]?.toString() | translate}} </span>
-				<span *ngIf='column != "requestStatus" && column != "status" '>{{element[column]?.toString() |translate}} </span>
+				<span
+					*ngIf='column == "requestStatus" || column == "status"'>{{element[column]?.toString() | translate}} </span>
+				<span
+					*ngIf='column != "requestStatus" && column != "status" '>{{element[column]?.toString() |translate}} </span>
 			</div>
 		</td>
 	</ng-container>
 
-	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
 
-<mat-paginator class="pagnacolor" [pageSizeOptions]="[5,10,15,50]" showFirstLastButtons *ngIf="dataSource?.data?.length > 0"></mat-paginator>
+<mat-paginator *ngIf="dataSource?.data?.length > 0" [pageSizeOptions]="[5,10,15,50]" class="pagnacolor"
+							 showFirstLastButtons></mat-paginator>

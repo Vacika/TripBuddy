@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ReservationRequestService } from '../../services/reservation-request.service';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { UINotificationsService } from '../../services/ui-notifications-service';
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ReservationRequestService} from '../../services/reservation-request.service';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {UINotificationsService} from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: 'trip-confirm-reservation.dialog.html',
@@ -24,20 +24,6 @@ export class TripConfirmReservationDialog {
 		this.populateAvailableOptions(data.availableSeats);
 	}
 
-	onCancel(): void {
-		this.dialogRef.close();
-	}
-
-	reserve() {
-		this.reservationRequestService.newReservationRequest(this.tripId, this.getRequestedSeats.value, this.getAdditionalDescription.value)
-			.subscribe(() => {
-				this.notificationService.success('RIDE_REQUEST_ADD_SUCCESS', 'ACTION_SUCCESS');
-				this.onCancel();
-			},()=>{
-				this.notificationService.error('RIDE_REQUEST_ADD_FAIL', 'ACTION_FAIL');
-			});
-	}
-
 	private get getRequestedSeats() {
 		return this.form.controls['requestedSeats'];
 	}
@@ -51,6 +37,20 @@ export class TripConfirmReservationDialog {
 			requestedSeats: new FormControl(1, Validators.required),
 			additionalDescription: new FormControl(null)
 		});
+	}
+
+	onCancel(): void {
+		this.dialogRef.close();
+	}
+
+	reserve() {
+		this.reservationRequestService.newReservationRequest(this.tripId, this.getRequestedSeats.value, this.getAdditionalDescription.value)
+			.subscribe(() => {
+				this.notificationService.success('RIDE_REQUEST_ADD_SUCCESS');
+				this.onCancel();
+			}, () => {
+				this.notificationService.error('RIDE_REQUEST_ADD_FAIL');
+			});
 	}
 
 	private populateAvailableOptions(availableSeats: number) {

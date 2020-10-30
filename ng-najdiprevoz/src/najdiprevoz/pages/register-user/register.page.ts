@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {emailRegex} from "../../constants/regex.constants";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {UINotificationsService} from '../../services/ui-notifications-service';
+import {ERROR_REGISTER} from "../../constants/errors.constants";
 
 @Component({
 	templateUrl: './register.page.html',
@@ -35,20 +36,12 @@ export class RegisterPage implements OnInit {
 	submit() {
 		if (this.form.valid) {
 			this.loginService.registerUser(this.form.value).subscribe(response => {
-					this.notificationService.success('SUCCESS_REGISTER', 'ACTION_SUCCESS');
+					this.notificationService.success('SUCCESS_REGISTER');
 					this.router.navigate(['/registration-success'])
 				},
 				(err) => {
-					this.notificationService.success('ERROR_REGISTER', 'ERROR_ACTION');
+					this.notificationService.success(ERROR_REGISTER);
 				})
 		}
-	}
-
-	private get username(): AbstractControl {
-		return this.form.controls['username']
-	}
-
-	private get password(): AbstractControl {
-		return this.form.controls['password']
 	}
 }

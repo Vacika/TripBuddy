@@ -1,31 +1,31 @@
 <div class="component-wrapper">
 	<div class="form-container">
-		<form [formGroup]="form" (submit)="submit()">
+		<form (submit)="submit()" [formGroup]="form">
 			<!-- USERNAME -->
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'YOUR_EMAIL_ADDRESS' | translate}}
 				</mat-label>
-				<input matInput formControlName="username" required>
+				<input formControlName="username" matInput required>
 				<mat-error *ngIf="form.controls.username.touched && form.controls.username.invalid">
 					<span *ngIf="form.controls.username.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
 
 			<!-- PASSWORD -->
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'PASSWORD' | translate}}
 				</mat-label>
-				<input matInput formControlName="password" type="password">
+				<input formControlName="password" matInput type="password">
 				<mat-error *ngIf="form.controls.password.touched && form.controls.password.invalid">
 					<span *ngIf="form.controls.password.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
 
 			<!-- FIRST NAME -->
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'FIRST_NAME' | translate}}
 				</mat-label>
-				<input matInput formControlName="firstName" type="text">
+				<input formControlName="firstName" matInput type="text">
 				<mat-error *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">
 					<span *ngIf="form.controls.firstName.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
@@ -33,34 +33,34 @@
 
 
 			<!-- LAST NAME -->
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'LAST_NAME' | translate}}
 				</mat-label>
-				<input matInput formControlName="lastName" type="text">
+				<input formControlName="lastName" matInput type="text">
 				<mat-error *ngIf="form.controls.lastName.touched && form.controls.lastName.invalid">
 					<span *ngIf="form.controls.lastName.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
 
 			<!-- Birthdate -->
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'BIRTH_DATE' | translate}}</mat-label>
 
-				<input matInput class='border-top-0' formControlName='birthDate'
-							 [owlDateTime]="birthDate"
-							 [min]="minDate"
-							 [owlDateTimeTrigger]="birthDate"
-				[rangeSeparator]="'-'">
-				<owl-date-time [pickerType]="'calendar'" #birthDate [startView]="'year'"></owl-date-time>
+				<input [min]="minDate" [owlDateTimeTrigger]="birthDate" [owlDateTime]="birthDate"
+							 [rangeSeparator]="'-'"
+							 class='border-top-0'
+							 formControlName='birthDate'
+							 matInput>
+				<owl-date-time #birthDate [pickerType]="'calendar'" [startView]="'year'"></owl-date-time>
 				<mat-error *ngIf="form.controls.birthDate.touched && form.controls.birthDate.invalid">
 					<span *ngIf="form.controls.birthDate.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
 
 			<!-- Phone -->
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'PHONE_NUMBER' | translate}}</mat-label>
-				<input matInput formControlName="phoneNumber" type="text">
+				<input formControlName="phoneNumber" matInput type="text">
 				<mat-error *ngIf="form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid">
 					<span *ngIf="form.controls.phoneNumber.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
@@ -69,7 +69,7 @@
 			<!-- Gender -->
 			<div class="form-field flex-column mb-10">
 				<mat-label> {{'GENDER' | translate}}:</mat-label>
-				<mat-radio-group formControlName='gender' class="radio-button">
+				<mat-radio-group class="radio-button" formControlName='gender'>
 					<mat-radio-button value="M">{{'MALE'|translate}}</mat-radio-button>
 					<mat-radio-button value="F">{{'FEMALE'|translate}}</mat-radio-button>
 					<mat-error *ngIf="form.controls.gender.touched && form.controls.gender.invalid">
@@ -79,7 +79,8 @@
 			</div>
 
 			<!-- Register -->
-			<button mat-raised-button type="submit" [disabled]="form.invalid || form.pristine" [ngClass]="(form.invalid || form.pristine) ? 'disabled button-primary' : 'button-primary'">
+			<button [disabled]="form.invalid || form.pristine" [ngClass]="(form.invalid || form.pristine) ? 'disabled button-primary' : 'button-primary'" mat-raised-button
+							type="submit">
 				{{'REGISTER' | translate}}
 			</button>
 		</form>

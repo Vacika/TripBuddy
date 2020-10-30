@@ -23,6 +23,10 @@ export class AdminPanelPage implements OnInit {
 							private _notificationService: UINotificationsService) {
 	}
 
+	public get adminTableColumns() {
+		return adminTableColumns;
+	};
+
 	ngOnInit() {
 		this.fetchUsers();
 	}
@@ -36,26 +40,26 @@ export class AdminPanelPage implements OnInit {
 			case ACTION_CONSTANTS.BAN_USER_ACTION: {
 				this.service.banUser(actionData.element)
 					.subscribe(() => {
-						this.fetchUsers();
-						this._notificationService.success('ACTION_SUCCESS');
+							this.fetchUsers();
+							this._notificationService.successAction();
 						},
-						_ => this._notificationService.error('ACTION_FAIL'));
+						_ => this._notificationService.errorAction());
 				break;
 			}
 			case ACTION_CONSTANTS.UNBAN_USER_ACTION: {
 				this.service.unBanUser(actionData.element).subscribe(() => {
 						this.fetchUsers();
-						this._notificationService.success('ACTION_SUCCESS');
+						this._notificationService.successAction();
 					},
-					_ => this._notificationService.error('ACTION_FAIL'));
+					_ => this._notificationService.errorAction());
 				break;
 			}
 			case ACTION_CONSTANTS.ACTIVATE_USER_ACTION: {
 				this.service.unBanUser(actionData.element).subscribe(() => {
 						this.fetchUsers();
-						this._notificationService.success('ACTION_SUCCESS');
+						this._notificationService.successAction();
 					},
-					_ => this._notificationService.error('ACTION_FAIL'));
+					_ => this._notificationService.errorAction());
 				break;
 			}
 			case ACTION_CONSTANTS.CHANGE_USER_ROLE_ACTION: {
@@ -63,8 +67,4 @@ export class AdminPanelPage implements OnInit {
 			}
 		}
 	}
-
-	get adminTableColumns() {
-		return adminTableColumns;
-	};
 }

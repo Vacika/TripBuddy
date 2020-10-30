@@ -14,7 +14,7 @@ export interface User {
 	birthDate: string
 	password?: string
 	defaultLanguage: string;
-	authorities: { authority:string }[];
+	authorities: { authority: string }[];
 }
 
 export interface UserProfileDetails extends User {

@@ -1,23 +1,24 @@
 <div class="component-wrapper">
-	<div class="form-container">
+	<div *ngIf="ratings?.length > 0 else noRatingsYetBlock" class="form-container">
 			<span *ngFor="let rating of ratings">
 				<div class="flex-column">
 
 					<span class="flex space-between">
 						<span class="flex">
-							<img class="card-header-image"
-									 [src]="rating.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
+							<img [src]="rating.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
+									 class="card-header-image"
 									 style="border-radius:50%;width:52px;height:52px;">
 
 							<span class="flex-column ml-3">
 								<span class="text-bold no-wrap">{{rating.fromFullName}}:</span>
-								<div style='width:85px'><mat-star-rating [rating]="rating.rating" [starCount]="5"></mat-star-rating> </div>
+								<div style='width:85px'><mat-star-rating [rating]="rating.rating"
+																												 [starCount]="5"></mat-star-rating> </div>
 							</span>
 						</span>
 
 						<span class="flex-column">
 							<span>{{rating.rideFrom}}
-								<img src="../../../assets/images/car-moving2.gif" class="car-moving">
+								<img class="car-moving" src="../../../assets/images/car-moving2.gif">
 								{{rating.rideTo}}</span>
 							<span>{{rating.rideDate| date:'dd/MM/yyyy hh:mm'}}</span>
 						</span>
@@ -27,7 +28,8 @@
 						 <p>{{rating.note}}</p>
 					</div>
 					<div>
-						<button mat-stroked-button (click)="rideDetails(rating.rideId)" class='button-primary'> {{"SEE_RIDE"|translate}}</button>
+						<button (click)="rideDetails(rating.rideId)" class='button-primary'
+										mat-stroked-button> {{"SEE_RIDE"|translate}}</button>
 					</div>
 				</div>
 				<hr>
@@ -35,4 +37,8 @@
 		<mat-divider></mat-divider>
 			</span>
 	</div>
+
+	<ng-template #noRatingsYetBlock>
+		{{'YOU_HAVE_NO_RATINGS'|translate}}
+	</ng-template>
 </div>

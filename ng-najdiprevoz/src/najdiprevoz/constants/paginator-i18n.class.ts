@@ -1,5 +1,5 @@
 import {TranslateService} from '@ngx-translate/core';
-import {HostBinding, Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MatPaginatorIntl} from "@angular/material/paginator";
 
 const ITEMS_PER_PAGE = 'ITEMS_PER_PAGE';

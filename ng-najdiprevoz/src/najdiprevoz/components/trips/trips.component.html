@@ -1,12 +1,12 @@
 <mat-tab-group dynamicHeight>
 	<mat-tab label="{{'DRIVER'|translate}}">
-		<data-table class='margin-top-10' [data]="tripsAsDriver$|async"
+		<data-table (onActionTaken)="takeAction($event)" [data]="tripsAsDriver$|async"
 								[displayedColumns]="tableColumnsAsDriver"
-								(onActionTaken)="takeAction($event)"></data-table>
+								class='margin-top-10'></data-table>
 	</mat-tab>
 	<mat-tab label="{{'PASSENGER'|translate}}">
-		<data-table [data]="tripsAsPassenger$|async"
-								[displayedColumns]="tableColumnsAsPassenger"
-								(onActionTaken)="takeAction($event)"></data-table>
+		<data-table (onActionTaken)="takeAction($event)"
+								[data]="tripsAsPassenger$|async"
+								[displayedColumns]="tableColumnsAsPassenger"></data-table>
 	</mat-tab>
 </mat-tab-group>

@@ -88,9 +88,6 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun getMyNotifications(username: String) = repository.findAllByToUsernameOrderByCreatedOnDesc(username)
 
-    fun getUnreadNotifications(username: String) = repository.findAllByToUsernameAndSeenIsFalseOrderByCreatedOnDesc(
-            username)
-
     private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>,
                                  type: NotificationType, reservationRequest: ReservationRequest) {
         logger.info(

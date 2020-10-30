@@ -1,8 +1,8 @@
 <div class="container">
 	<data-table
+		(onActionTaken)="onActionTaken($event)"
 		[data]="users$|async"
-		[displayedColumns]="adminTableColumns"
-	(onActionTaken)="onActionTaken($event)">
+		[displayedColumns]="adminTableColumns">
 	</data-table>
 
 </div>

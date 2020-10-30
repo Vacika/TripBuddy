@@ -1,9 +1,9 @@
-<table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 background-black">
-	<ng-container [matColumnDef]="column.name" *ngFor="let column of displayedColumns">
-		<th mat-header-cell *matHeaderCellDef class='table-headers' style='color:#797979' [disabled]="!column.sortable"
-				mat-sort-header> {{column.translationLabel | translate}} </th>
+<table [dataSource]="dataSource" class="mat-elevation-z8 background-black" mat-table matSort>
+	<ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.name">
+		<th *matHeaderCellDef [disabled]="!column.sortable" class='table-headers' mat-header-cell mat-sort-header
+				style='color:#797979'> {{column.translationLabel | translate}} </th>
 
-		<td mat-cell *matCellDef="let element" [ngClass]="getSpanClass(element[column.name],false)">
+		<td *matCellDef="let element" [ngClass]="getSpanClass(element[column.name],false)" mat-cell>
 
 			<span [ngSwitch]="column.type">
 				<span *ngSwitchCase="ColumnType.DATETIME">
@@ -30,7 +30,7 @@
 				</span>
 
 				<span *ngSwitchCase="ColumnType.BUTTON">
-									<button mat-icon-button (click)="takeAction(column.actionName, element)"><mat-icon>{{column.matIconName}}</mat-icon></button>
+									<button (click)="takeAction(column.actionName, element)" mat-icon-button><mat-icon>{{column.matIconName}}</mat-icon></button>
 				</span>
 
 					<span *ngSwitchCase="ColumnType.CUSTOM">
@@ -41,42 +41,41 @@
 									<span>{{element.driver.name}}</span>
 								</span>
 
-										<!-- User Actions [ADMIN PANEL] -->
+							<!-- User Actions [ADMIN PANEL] -->
 							<span *ngSwitchCase="'adminActions'">
-								<button [disabled]='element[column]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
-												aria-label="Actions">
+								<button [disabled]='element[column]?.length==0' [matMenuTriggerFor]="menu" aria-label="Actions"
+												mat-icon-button>
 										<mat-icon>more_vert</mat-icon>
 									</button>
 									<mat-menu #menu="matMenu">
-										<button mat-menu-item *ngIf="!element.isBanned" (click)="takeAction('BAN_USER',element.username)">
+										<button (click)="takeAction('BAN_USER',element.username)" *ngIf="!element.isBanned" mat-menu-item>
 											{{'BAN_USER'|translate}}
 										</button>
-										<button mat-menu-item *ngIf="element.isBanned" (click)="takeAction('UNBAN_USER',element.username)">
+										<button (click)="takeAction('UNBAN_USER',element.username)" *ngIf="element.isBanned" mat-menu-item>
 											{{'UNBAN_USER'|translate}}
 										</button>
-										<button mat-menu-item *ngIf='!element.isActivated'
-														(click)="takeAction('ACTIVATE_USER',element.username)">
+										<button (click)="takeAction('ACTIVATE_USER',element.username)" *ngIf='!element.isActivated'
+														mat-menu-item>
 											{{'ACTIVATE_USER'|translate}}
 										</button>
-										<button mat-menu-item (click)="takeAction('CHANGE_USER_ROLE',element.username)">
+										<button (click)="takeAction('CHANGE_USER_ROLE',element.username)" mat-menu-item>
 											{{'CHANGE_USER_ROLE'|translate}}
 										</button>
 									</mat-menu>
 							</span>
 
 
-
 							<!--------------------->
 							<!-- Allowed Actions -->
 							<span *ngSwitchCase="'allowedActions'">
-								<button [disabled]='element[column.name]?.length==0' mat-icon-button [matMenuTriggerFor]="menu"
-												aria-label="Actions">
+								<button [disabled]='element[column.name]?.length==0' [matMenuTriggerFor]="menu" aria-label="Actions"
+												mat-icon-button>
 									<mat-icon>more_vert</mat-icon>
 								</button>
 								<mat-menu #menu="matMenu">
-									<button mat-menu-item
+									<button (click)="takeAction(action, element.id)"
 													*ngFor="let action of element[column.name]"
-													(click)="takeAction(action, element.id)">
+													mat-menu-item>
 										{{action | translate}}
 									</button>
 								</mat-menu>
@@ -84,8 +83,8 @@
 
 							<div *ngSwitchCase="'status' || 'requestStatus'">
 												<!-- STATUS -->
-								<span style='border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;'
-											[classList]="getSpanClass(element[column.name],true)">
+								<span [classList]="getSpanClass(element[column.name],true)"
+											style='border:1px solid; border-radius:50%;width:10px; height: 10px; margin-right:5px;'>
 								</span>
 								<span>{{element[column.name]?.toString() | translate}} </span>
 							</div>
@@ -101,9 +100,9 @@
 		</td>
 	</ng-container>
 
-	<tr mat-header-row *matHeaderRowDef="getColumnNames(displayedColumns)"></tr>
-	<tr mat-row *matRowDef="let row; columns: getColumnNames(displayedColumns);"></tr>
+	<tr *matHeaderRowDef="getColumnNames(displayedColumns)" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: getColumnNames(displayedColumns);" mat-row></tr>
 </table>
 
-<mat-paginator class="pagnacolor" [pageSizeOptions]="[5,10,15,50]" showFirstLastButtons
-							 *ngIf="dataSource?.data?.length > 0"></mat-paginator>
+<mat-paginator *ngIf="dataSource?.data?.length > 0" [pageSizeOptions]="[5,10,15,50]" class="pagnacolor"
+							 showFirstLastButtons></mat-paginator>

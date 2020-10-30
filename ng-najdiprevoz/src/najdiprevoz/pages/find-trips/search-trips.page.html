@@ -1,8 +1,8 @@
-<form [formGroup]="form" (submit)="submit()" class='flex flex-column' [ngClass]="textColor">
+<form (submit)="submit()" [formGroup]="form" [ngClass]="textColor" class='flex flex-column'>
 	<div class='flex space-between'>
 
 		<!-- From Location -->
-		<mat-form-field class="form-field width-20" appearance="outline" color="primary">
+		<mat-form-field appearance="outline" class="form-field width-20" color="primary">
 			<mat-label> {{'FROM' | translate}}</mat-label>
 			<mat-select formControlName="fromLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -15,7 +15,7 @@
 		</mat-form-field>
 
 		<!-- To Location -->
-		<mat-form-field class="form-field width-20" appearance="outline">
+		<mat-form-field appearance="outline" class="form-field width-20">
 			<mat-label> {{'TO' | translate}}</mat-label>
 			<mat-select formControlName="toLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -28,19 +28,18 @@
 		</mat-form-field>
 
 
-
-		<button mat-raised-button type="submit"
-						[disabled]='form.invalid || form.pristine'
-						class='button-primary color-white button-form final-submit-button'>
+		<button [disabled]='form.invalid || form.pristine' class='button-primary color-white button-form final-submit-button'
+						mat-raised-button
+						type="submit">
 			<span>{{'SEARCH' | translate}}</span>
-			<img src='assets/images/moving-car.gif' height="52px" width="52px">
+			<img height="52px" src='assets/images/moving-car.gif' width="52px">
 		</button>
 
 
 		<!-- Seats requested -->
-		<mat-form-field class="form-field width-20" appearance="outline">
+		<mat-form-field appearance="outline" class="form-field width-20">
 			<mat-label> {{'TOTAL_SEATS_OFFERED' | translate}}</mat-label>
-			<input matInput type='number' [max]='5' [min]=1 formControlName='requestedSeats'>
+			<input [max]='5' [min]=1 formControlName='requestedSeats' matInput type='number'>
 			<mat-error
 				*ngIf="form.controls.requestedSeats.touched && form.controls.requestedSeats.invalid">
 						<span
@@ -50,22 +49,24 @@
 
 
 		<!-- Departure date -->
-		<mat-form-field class="form-field width-20" appearance="outline">
-			<input matInput class='border-top-0' formControlName='departureDate' style="color:white!important"
-						 [owlDateTime]="departureDate" [min]='minimumDate'
-						 [owlDateTimeFilter]='myDateTimeFilter'
-						 [owlDateTimeTrigger]="departureDate">
+		<mat-form-field appearance="outline" class="form-field width-20">
+			<input [min]='minimumDate' [owlDateTimeFilter]='myDateTimeFilter' [owlDateTimeTrigger]="departureDate" [owlDateTime]="departureDate"
+						 class='border-top-0' formControlName='departureDate'
+						 matInput
+						 style="color:white!important">
 			<mat-label>{{"DEPARTURE_DATE"|translate}}</mat-label>
-			<owl-date-time [pickerType]='"calendar"'
+			<owl-date-time #departureDate
+										 [pickerType]='"calendar"'
 										 [startAt]='minimumDate'
-										 [stepMinute]='30'
-										 #departureDate></owl-date-time>
+										 [stepMinute]='30'></owl-date-time>
 			<mat-error
 				*ngIf='form.controls.departureDate.touched && form.controls.departureDate.invalid'>{{'INVALID_INPUT' | translate}}</mat-error>
 		</mat-form-field>
 	</div>
-	<div class='date color-white' *ngIf='!this.form.value["departureDate"] && displayDate'>{{theTimeNow().toISOString() | date: 'dd/MM/yyyy'}}</div>
-	<div class='date color-white' *ngIf='this.form.value["departureDate"] && displayDate'>{{this.form.value["departureDate"] | date: 'dd/MM/yyyy'}}</div>
+	<div *ngIf='!this.form.value["departureDate"] && displayDate'
+			 class='date color-white'>{{theTimeNow().toISOString() | date: 'dd/MM/yyyy'}}</div>
+	<div *ngIf='this.form.value["departureDate"] && displayDate'
+			 class='date color-white'>{{this.form.value["departureDate"] | date: 'dd/MM/yyyy'}}</div>
 
 </form>
 

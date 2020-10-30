@@ -1,26 +1,28 @@
 <div class="component-wrapper">
 	<div class="form-container">
-		<form [formGroup]="loginForm" (submit)="submit()">
-			<mat-form-field class="form-field" appearance="outline">
+		<form (submit)="submit()" [formGroup]="loginForm">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'YOUR_EMAIL_ADDRESS' | translate}}
 				</mat-label>
-				<input matInput formControlName="email" required>
+				<input formControlName="email" matInput required>
 				<mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
 					<span *ngIf="loginForm.controls.email.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 					<span *ngIf="loginForm.controls.email.errors.pattern">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
-			<mat-form-field class="form-field" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field">
 				<mat-label> {{'PASSWORD' | translate}}
 				</mat-label>
-				<input matInput formControlName="password" type="password">
+				<input formControlName="password" matInput type="password">
 				<mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
 					<span *ngIf="loginForm.controls.password.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
-			<div><a [routerLink]='"/forgot-password"' class='primary-light-color'>{{"FORGOT_PASSWORD_CLICK_HERE"|translate}}</a></div>
+			<div><a [routerLink]='"/forgot-password"'
+							class='primary-light-color'>{{"FORGOT_PASSWORD_CLICK_HERE"|translate}}</a></div>
 			<br/>
-			<button mat-raised-button class="button-primary" type="submit" [disabled]="loginForm.invalid || loginForm.pristine">
+			<button [disabled]="loginForm.invalid || loginForm.pristine" class="button-primary" mat-raised-button
+							type="submit">
 				{{'LOG_IN' | translate}}
 			</button>
 		</form>

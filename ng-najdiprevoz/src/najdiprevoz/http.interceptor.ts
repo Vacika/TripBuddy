@@ -7,13 +7,21 @@ import {Router} from "@angular/router";
 import {LoaderService} from "./services/loader.service";
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class CustomInterceptor implements HttpInterceptor {
 	constructor(private authenticationService: AuthService,
 							private loader: LoaderService,
 							private router: Router) {
 	}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		if (sessionStorage.getItem('currentUser') && sessionStorage.getItem('token')) {
+			request = request.clone({
+				setHeaders: {
+					Authorization: sessionStorage.getItem('token')
+				}
+			})
+		}
+
 		return next.handle(request).pipe(
 			tap((event) => this.loader.start()),
 			catchError(err => {
@@ -27,4 +35,5 @@ export class ErrorInterceptor implements HttpInterceptor {
 			}),
 			finalize(() => this.loader.stop()))
 	}
+
 }

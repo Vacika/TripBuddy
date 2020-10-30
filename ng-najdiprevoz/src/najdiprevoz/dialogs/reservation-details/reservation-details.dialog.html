@@ -1,20 +1,24 @@
-	<h1 mat-dialog-title class="text-center">{{"RESERVATION_INFO"|translate}}</h1>
-	<div mat-dialog-content class='mat-dialog-content' style="overflow:hidden">
+<h1 class="text-center" mat-dialog-title>{{"RESERVATION_INFO"|translate}}</h1>
+<div class='mat-dialog-content' mat-dialog-content style="overflow:hidden">
 
-		<div class="flex-row space-evenly">
-			<div><span class="text-bold">{{'REQUESTER_NAME'|translate}}: </span> {{ reservation.requesterName | translate }}</div>
-			<div><span class="text-bold">{{'RESERVATION_STATUS'|translate}}: </span>{{reservation.requestStatus | translate}}</div>
+	<div class="flex-row space-evenly">
+		<div><span class="text-bold">{{'REQUESTER_NAME'|translate}}: </span> {{ reservation.requesterName | translate }}
 		</div>
-		<div class="flex-row space-evenly">
-			<div><span class="text-bold">{{'FROM'|translate}}: </span> {{ reservation.fromLocation | translate }}</div>
-			<div><span class="text-bold">{{'TO'|translate}}: </span>{{reservation.toLocation | translate}}</div>
+		<div><span class="text-bold">{{'RESERVATION_STATUS'|translate}}: </span>{{reservation.requestStatus | translate}}
 		</div>
-		<div class="flex-row justify-center text-center" *ngIf="reservation.additionalDescription">
-			<div><span class="text-bold">{{'ADDITIONAL_DESCRIPTION'|translate}}: </span><textarea matInput readonly [value]="reservation.additionalDescription"></textarea></div>
+	</div>
+	<div class="flex-row space-evenly">
+		<div><span class="text-bold">{{'FROM'|translate}}: </span> {{ reservation.fromLocation | translate }}</div>
+		<div><span class="text-bold">{{'TO'|translate}}: </span>{{reservation.toLocation | translate}}</div>
+	</div>
+	<div *ngIf="reservation.additionalDescription" class="flex-row justify-center text-center">
+		<div><span class="text-bold">{{'ADDITIONAL_DESCRIPTION'|translate}}: </span><textarea [value]="reservation.additionalDescription" matInput
+																																													readonly></textarea>
 		</div>
+	</div>
 
-	</div>
-	<div mat-dialog-actions>
-		<button mat-button class='w-100 mat-stroked-button button-danger'
-						(click)="onCancel()">{{'CLOSE'|translate}}</button>
-	</div>
+</div>
+<div mat-dialog-actions>
+	<button (click)="onCancel()" class='w-100 mat-stroked-button button-danger'
+					mat-button>{{'CLOSE'|translate}}</button>
+</div>

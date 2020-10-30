@@ -16,6 +16,17 @@ export class SearchTripsPage implements OnInit {
 	@Output() searchFormEmitter = new EventEmitter();
 	@Input() textColor: string = 'color-black';
 	@Input() displayDate: boolean = true;
+	form: FormGroup = this.searchFormDefinition;
+	allCities: City[] = [];
+	dateNow: Date = new Date();
+	minimumDate = new Date();
+
+	constructor(private _service: TripService,
+							private _route: ActivatedRoute,
+							private _formBuilder: FormBuilder,
+							private _cityService: CityService) {
+
+	};
 
 	@Input() set patchFormValues(newValues: any) {
 		if (newValues) {
@@ -30,23 +41,6 @@ export class SearchTripsPage implements OnInit {
 		}
 	}
 
-	form: FormGroup = this.searchFormDefinition;
-	allCities: City[] = [];
-	dateNow: Date = new Date();
-	minimumDate = new Date();
-
-	constructor(private _service: TripService,
-							private _route: ActivatedRoute,
-							private _formBuilder: FormBuilder,
-							private _cityService: CityService) {
-
-	};
-
-	ngOnInit(): void {
-		this._cityService.getAllCities().subscribe(it => this.allCities = it);
-		this.minimumDate.setDate(this.dateNow.getDate() - 1); //TODO: Fix this workaround
-	}
-
 	private get searchFormDefinition() {
 		return this._formBuilder.group({
 			fromLocation: new FormControl('', Validators.required),
@@ -54,6 +48,11 @@ export class SearchTripsPage implements OnInit {
 			departureDate: new FormControl(null),
 			requestedSeats: new FormControl(null)
 		});
+	}
+
+	ngOnInit(): void {
+		this._cityService.getAllCities().subscribe(it => this.allCities = it);
+		this.minimumDate.setDate(this.dateNow.getDate() - 1); //TODO: Fix this workaround
 	}
 
 	submit() {

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { TripService } from '../../services/trip.service';
-import { TripResponse } from '../../interfaces/trip-response.interface';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {TripService} from '../../services/trip.service';
+import {TripResponse} from '../../interfaces/trip-response.interface';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Component({
 	templateUrl: './trip-list.page.html',

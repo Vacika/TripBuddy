@@ -13,8 +13,8 @@ export interface ReservationRequestFullResponse {
 	driverName: string
 	tripId: number
 	allowedActions: string[],
-  fromLocation: string,
-  toLocation: string,
+	fromLocation: string,
+	toLocation: string,
 	departureTime: string,
 	requestStatus: string,
 	tripStatus: string,

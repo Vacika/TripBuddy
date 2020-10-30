@@ -125,7 +125,7 @@ export const tableColumnsForReceived = [
 		translationLabel: '',
 		type: DataTableColumnType.BUTTON,
 		actionName: SEE_RIDE_REQUEST_INFO_ACTION,
-		matIconName:'info',
+		matIconName: 'info',
 		sortable: false
 	} as DataTableColumn,
 	{

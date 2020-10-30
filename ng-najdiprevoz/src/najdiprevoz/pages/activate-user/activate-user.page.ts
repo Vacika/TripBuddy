@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UINotificationsService } from '../../services/ui-notifications-service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {UINotificationsService} from '../../services/ui-notifications-service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
 	templateUrl: './activate-user.page.html',

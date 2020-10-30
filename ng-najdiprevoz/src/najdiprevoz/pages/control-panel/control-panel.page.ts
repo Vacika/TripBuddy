@@ -50,9 +50,9 @@ export class ControlPanelPage implements OnInit {
 		if (event.action != SUBMIT_RATING_ACTION && event.action !== SEE_RIDE_REQUEST_INFO_ACTION) {
 			this.reservationRequestService.changeRequestStatus(event.element, event.action).subscribe(() => {
 				this.sentReservationRequests$ = this.reservationRequestService.getSentRequests();
-				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS', 'ACTION_SUCCESS');
+				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS');
 			}, () => {
-				this._notificationService.error('RIDE_REQUEST_STATUS_CHANGE_FAIL', 'ACTION_FAIL');
+				this._notificationService.error('RIDE_REQUEST_STATUS_CHANGE_FAIL');
 			});
 		} else if (event.action == SUBMIT_RATING_ACTION) {
 			this._dialog.open(SubmitRatingDialog, {

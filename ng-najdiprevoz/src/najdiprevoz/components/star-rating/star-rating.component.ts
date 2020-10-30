@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
 	selector: 'mat-star-rating',
@@ -28,7 +28,7 @@ export class StarRatingComponent implements OnInit {
 	}
 
 	onClick() {
-		this.snackBar.open(this.translateService.instant('RATING')+ ': ' + this.rating + ' / ' + this.starCount, '', {
+		this.snackBar.open(this.translateService.instant('RATING') + ': ' + this.rating + ' / ' + this.starCount, '', {
 			duration: this.snackBarDuration
 		});
 		return false;

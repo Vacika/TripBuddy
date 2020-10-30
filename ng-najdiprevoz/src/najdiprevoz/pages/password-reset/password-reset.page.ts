@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UINotificationsService } from '../../services/ui-notifications-service';
-import { PasswordResetService } from '../../services/password-reset.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LoginPage } from '../login/login.page';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UINotificationsService} from '../../services/ui-notifications-service';
+import {PasswordResetService} from '../../services/password-reset.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
 	templateUrl: './password-reset.page.html',
@@ -19,6 +18,10 @@ export class PasswordResetPage implements OnInit {
 							private passwordResetService: PasswordResetService,
 							private notificationService: UINotificationsService,
 							private router: Router) {
+	}
+
+	private get password(): AbstractControl {
+		return this.newPasswordForm.controls['newPassword'];
 	}
 
 	ngOnInit() {
@@ -47,9 +50,5 @@ export class PasswordResetPage implements OnInit {
 					},
 					_ => this.notificationService.error('PW_RESET_FAIL'));
 		}
-	}
-
-	private get password(): AbstractControl {
-		return this.newPasswordForm.controls['newPassword'];
 	}
 }

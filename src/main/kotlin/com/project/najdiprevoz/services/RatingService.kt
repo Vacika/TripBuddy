@@ -45,7 +45,7 @@ class RatingService(private val repository: RatingRepository,
     }
 
     fun pushRatingAllowedNotification(reservationRequest: ReservationRequest) {
-        logger.debug("[RatingService] Pushing RatingNotification for ReservationRequest with ID: [${reservationRequest.id}")
+        logger.debug("[RatingService] Pushing Rating Allowed Notification for ReservationRequest with ID: [${reservationRequest.id}")
         notificationService.pushRatingAllowedNotification(reservationRequest = reservationRequest)
     }
 

@@ -16,6 +16,8 @@ export class DataTable2Component implements OnInit {
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	ColumnType = DataTableColumnType
+	@Input() displayedColumns: DataTableColumn[] = [];
+	@Output() onActionTaken = new EventEmitter<any>();
 
 	@Input() set data(data: any[]) {
 		if (data) {
@@ -24,10 +26,6 @@ export class DataTable2Component implements OnInit {
 			this.dataSource.sort = this.sort;
 		}
 	}
-
-	@Input() displayedColumns: DataTableColumn[] = [];
-
-	@Output() onActionTaken = new EventEmitter<any>();
 
 	getLabel(rawName: string): string {
 		return columnLabelName.get(rawName);
@@ -42,70 +40,70 @@ export class DataTable2Component implements OnInit {
 
 	getSpanClass(status: string, indicator: boolean) {
 		let classes = [];
-			switch (status) {
-				case 'PENDING':
-					if (!indicator) {
-						classes.push('text-light-blue');
-					} else {
-						classes.push('background-light-blue inline-block');
-					}
-					break;
+		switch (status) {
+			case 'PENDING':
+				if (!indicator) {
+					classes.push('text-light-blue');
+				} else {
+					classes.push('background-light-blue inline-block');
+				}
+				break;
 
-				case 'APPROVED':
-					if (!indicator) {
-						classes.push('text-success');
-					} else {
-						classes.push('background-success inline-block');
-					}
-					break;
+			case 'APPROVED':
+				if (!indicator) {
+					classes.push('text-success');
+				} else {
+					classes.push('background-success inline-block');
+				}
+				break;
 
-				case 'DENIED':
-					if (!indicator) {
-						classes.push('text-fail');
-					} else {
-						classes.push('background-fail inline-block');
-					}
-					break;
+			case 'DENIED':
+				if (!indicator) {
+					classes.push('text-fail');
+				} else {
+					classes.push('background-fail inline-block');
+				}
+				break;
 
-				case 'EXPIRED':
-					if (!indicator) {
-						classes.push('text-warn');
-					} else {
-						classes.push('background-warn inline-block');
-					}
-					break;
+			case 'EXPIRED':
+				if (!indicator) {
+					classes.push('text-warn');
+				} else {
+					classes.push('background-warn inline-block');
+				}
+				break;
 
-				case 'FINISHED':
-					if (!indicator) {
-						classes.push('text-success');
-					} else {
-						classes.push('background-success inline-block');
-					}
-					break;
-				case 'ACTIVE':
-					if (!indicator) {
-						classes.push('text-light-blue');
-					} else {
-						classes.push('background-light-blue inline-block');
-					}
-					break;
+			case 'FINISHED':
+				if (!indicator) {
+					classes.push('text-success');
+				} else {
+					classes.push('background-success inline-block');
+				}
+				break;
+			case 'ACTIVE':
+				if (!indicator) {
+					classes.push('text-light-blue');
+				} else {
+					classes.push('background-light-blue inline-block');
+				}
+				break;
 
-				case 'RIDE_CANCELLED':
-					if (!indicator) {
-						classes.push('text-fail ');
-					} else {
-						classes.push('background-fail inline-block');
-					}
-					break;
+			case 'RIDE_CANCELLED':
+				if (!indicator) {
+					classes.push('text-fail ');
+				} else {
+					classes.push('background-fail inline-block');
+				}
+				break;
 
-				case 'CANCELLED':
-					if (!indicator) {
-						classes.push('text-fail');
-					} else {
-						classes.push('background-fail inline-block');
-					}
-					break;
-			}
+			case 'CANCELLED':
+				if (!indicator) {
+					classes.push('text-fail');
+				} else {
+					classes.push('background-fail inline-block');
+				}
+				break;
+		}
 		return classes;
 	}
 

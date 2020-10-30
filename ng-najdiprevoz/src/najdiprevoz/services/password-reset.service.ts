@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -16,6 +16,6 @@ export class PasswordResetService {
 	}
 
 	handlePasswordReset(token: string, password: string): Observable<void> {
-		return this._http.post<void>(`${this.path}`, { token, password });
+		return this._http.post<void>(`${this.path}`, {token, password});
 	}
 }
