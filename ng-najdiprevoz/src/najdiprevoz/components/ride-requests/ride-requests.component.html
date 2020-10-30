@@ -1,12 +1,12 @@
 <mat-tab-group dynamicHeight>
 	<mat-tab label="{{'SENT'|translate}}">
-		<data-table class='margin-top-10' [data]="sentReservationRequests"
+		<data-table (onActionTaken)="takeAction($event)" [data]="sentReservationRequests"
 								[displayedColumns]="tableColumnsForSent"
-								(onActionTaken)="takeAction($event)"></data-table>
+								class='margin-top-10'></data-table>
 	</mat-tab>
 	<mat-tab label="{{'RECEIVED'|translate}}">
-		<data-table [data]="receivedReservationRequests"
-								[displayedColumns]="tableColumnsForReceived"
-								(onActionTaken)="takeAction($event)"></data-table>
+		<data-table (onActionTaken)="takeAction($event)"
+								[data]="receivedReservationRequests"
+								[displayedColumns]="tableColumnsForReceived"></data-table>
 	</mat-tab>
 </mat-tab-group>

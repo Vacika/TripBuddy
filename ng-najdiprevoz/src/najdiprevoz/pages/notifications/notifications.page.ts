@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { NotificationService } from '../../services/notification.service';
-import { NotificationResponse } from '../../interfaces/notification.interface';
-import { MatDialog } from '@angular/material/dialog';
-import { SubmitRatingDialog } from '../../dialogs/submit-rating/submit-rating.dialog';
-import { UINotificationsService } from '../../services/ui-notifications-service';
-import {SUBMIT_RATING_ACTION} from "../../constants/actions.constants";
+import {Component, OnInit} from '@angular/core';
+import {NotificationService} from '../../services/notification.service';
+import {NotificationResponse} from '../../interfaces/notification.interface';
+import {MatDialog} from '@angular/material/dialog';
+import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dialog';
+import {UINotificationsService} from '../../services/ui-notifications-service';
+import {
+	APPROVE_ACTION,
+	CANCEL_ACTION,
+	DENY_ACTION,
+	MARK_AS_SEEN_ACTION,
+	RATING_ALLOWED_ACTION,
+	SUBMIT_RATING_ACTION
+} from "../../constants/actions.constants";
 
 @Component({
 	templateUrl: './notifications.page.html',
@@ -25,10 +32,10 @@ export class NotificationListPage implements OnInit {
 	takeAction(notification: NotificationResponse, action: string) {
 		if (action != SUBMIT_RATING_ACTION) {
 			this._notificationService.takeAction(notification.id, action).subscribe(response => {
-				this._uiNotificationsService.success( 'ACTION_SUCCESS')
+				this._uiNotificationsService.successAction();
 				this.notifications = response;
-			},()=>{
-				this._uiNotificationsService.error('FAIL_ACTION')
+			}, () => {
+				this._uiNotificationsService.errorAction();
 			});
 		} else {
 			this._dialog.open(SubmitRatingDialog, {
@@ -41,19 +48,19 @@ export class NotificationListPage implements OnInit {
 
 	getClassForAction(action: string): string {
 		switch (action) {
-			case 'MARK_AS_SEEN': {
+			case MARK_AS_SEEN_ACTION: {
 				return 'mat-primary';
 			}
-			case 'APPROVE': {
+			case APPROVE_ACTION: {
 				return 'success';
 			}
-			case 'RATING_ALLOWED': {
+			case RATING_ALLOWED_ACTION: {
 				return 'success';
 			}
-			case 'DENY': {
+			case DENY_ACTION: {
 				return 'danger';
 			}
-			case 'CANCEL': {
+			case CANCEL_ACTION: {
 				return 'warn';
 			}
 		}

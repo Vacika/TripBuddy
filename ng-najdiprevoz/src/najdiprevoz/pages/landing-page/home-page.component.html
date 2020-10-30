@@ -4,6 +4,7 @@
 		<div class="title">{{"SITE_TITLE" | translate}}</div>
 	</div>
 	<div style="background-color:rgba(0,0,0,.6)">
-		<search-trips-component [textColor]="'color-white'" (searchFormEmitter)="onSearch($event)" [displayDate]='false'></search-trips-component>
+		<search-trips-component (searchFormEmitter)="onSearch($event)" [displayDate]='false'
+														[textColor]="'color-white'"></search-trips-component>
 	</div>
 </div>

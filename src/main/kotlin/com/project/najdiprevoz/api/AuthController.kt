@@ -10,16 +10,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import security.JwtTokenUtil
+import com.project.najdiprevoz.security.JwtTokenUtil
 import java.util.*
 
 
 @RestController
 @RequestMapping("/api/authenticate")
 class AuthController(private val userDetailsServiceImpl: UserDetailsServiceImpl,
-                     private val authenticationManager: AuthenticationManager) {
+                     private val authenticationManager: AuthenticationManager,
+                     private val jwtTokenUtil: JwtTokenUtil) {
 
-    val jwtTokenUtil = JwtTokenUtil()
 
     @RequestMapping
     fun login(@RequestBody req: LoginUserRequest): JwtResponse = with(req) {

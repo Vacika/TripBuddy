@@ -53,13 +53,6 @@ class TripService(private val repository: RideRepository,
                             .fold(whereTrue<Trip>()) { first, second -> Specification.where(first).and(second) })
 
 
-    fun getPastPublishedTripsByUser(userId: Long) =
-            repository.findAllByDriverIdAndStatus(driverId = userId, status = TripStatus.FINISHED)
-
-    fun findMyPastTripsAsPassenger(username: String) =
-            repository.findMyPastTripsAsPassenger(username)
-
-
     fun createNewTrip(createTripRequest: CreateTripRequest, username: String) {
         logger.info("[RideService - ADD RIDE] Creating new ride!")
         repository.save(createRideObject(createTripRequest = createTripRequest, username = username))
@@ -95,9 +88,6 @@ class TripService(private val repository: RideRepository,
     fun getMyTripsAsPassenger(username: String): List<Trip> =
             repository.findAllMyTripsAsPassenger(username)
 
-
-    fun canSubmitRating(trip: Trip, username: String): Boolean =
-            repository.canSubmitRating(username, trip).isEmpty()
 
     private fun createRideSpecification(fromAddress: Long, toAddress: Long, departure: ZonedDateTime?, availableSeats: Int?) =
             listOfNotNull(

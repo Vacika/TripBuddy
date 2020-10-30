@@ -7,6 +7,7 @@ import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {User} from '../../interfaces/user.interface';
 import {TranslateService} from '@ngx-translate/core';
 import {UINotificationsService} from '../../services/ui-notifications-service';
+import {USER_NOT_ACTIVATED_ERROR} from "../../constants/errors.constants";
 
 @Component({
 	templateUrl: './login.page.html',
@@ -22,6 +23,14 @@ export class LoginPage implements OnInit {
 							private route: ActivatedRoute,
 							private loginService: AuthService,
 							private translate: TranslateService) {
+	}
+
+	private get username(): AbstractControl {
+		return this.loginForm.controls['email'];
+	}
+
+	private get password(): AbstractControl {
+		return this.loginForm.controls['password'];
 	}
 
 	ngOnInit() {
@@ -40,7 +49,7 @@ export class LoginPage implements OnInit {
 		if (this.loginForm.valid) {
 			this.loginService.login(this.username.value, this.password.value).subscribe((user: User) => {
 					if (isNotNullOrUndefined(user)) {
-						this.notificationService.success('SUCCESS_LOGIN', 'ACTION_SUCCESS');
+						this.notificationService.success('SUCCESS_LOGIN');
 						this.router.navigate([this.returnUrl]);
 						this.translate.use(user.defaultLanguage.toLowerCase());
 						localStorage.removeItem('lang');
@@ -50,18 +59,10 @@ export class LoginPage implements OnInit {
 				err => {
 					this.password.reset();
 					this.notificationService.error(err);
-					if (err == 'USER_NOT_ACTIVATED') {
+					if (err == USER_NOT_ACTIVATED_ERROR) {
 						this.router.navigate(['activation-pending']);
 					}
 				});
 		}
-	}
-
-	private get username(): AbstractControl {
-		return this.loginForm.controls['email'];
-	}
-
-	private get password(): AbstractControl {
-		return this.loginForm.controls['password'];
 	}
 }

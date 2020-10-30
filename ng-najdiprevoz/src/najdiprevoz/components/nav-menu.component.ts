@@ -1,8 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import {FormControl} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
-import { Router } from '@angular/router';
-import { HomePage } from '../pages/landing-page/home-page.component';
+import {Router} from '@angular/router';
 import {ADMIN_ROLE} from "../constants/roles.constants";
 
 @Component({
@@ -13,16 +12,23 @@ import {ADMIN_ROLE} from "../constants/roles.constants";
 export class NavMenuComponent implements OnInit {
 	selectedLangControl = new FormControl('');
 	@Input() languages: string[];
-
-	@Input() set currentLanguage(lang: string) {
-		this.selectedLangControl.setValue(lang)
-	};
-
 	@Output() switchLangEmitter = new EventEmitter<string>();
 	@ViewChild('languageSelect') languageSelect;
 
 	constructor(private loginService: AuthService,
 							private _router: Router) {
+	}
+
+	@Input() set currentLanguage(lang: string) {
+		this.selectedLangControl.setValue(lang)
+	};
+
+	get authenticated(): boolean {
+		return !!this.loginService.getLoggedUser()
+	}
+
+	get isAdmin(): boolean {
+		return this.loginService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
 	}
 
 	ngOnInit(): void {
@@ -34,16 +40,8 @@ export class NavMenuComponent implements OnInit {
 		this.languageSelect.toggle();
 	}
 
-	get authenticated(): boolean {
-		return !!this.loginService.getLoggedUser()
-	}
-
-	get isAdmin(): boolean {
-		return this.loginService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
-	}
-
 	logout() {
 		this._router.navigate(['/'], {}).then();
-		this.loginService.logout();
+		this.loginService.logout().subscribe();
 	}
 }

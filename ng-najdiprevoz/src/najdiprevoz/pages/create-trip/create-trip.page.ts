@@ -1,12 +1,12 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
-import { TripService } from '../../services/trip.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { City } from '../../interfaces/city.interface';
-import { CityService } from '../../services/city.service';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { UINotificationsService } from '../../services/ui-notifications-service';
+import {Component, HostBinding, OnInit} from '@angular/core';
+import {TripService} from '../../services/trip.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {City} from '../../interfaces/city.interface';
+import {CityService} from '../../services/city.service';
+import {Observable} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
+import {UINotificationsService} from '../../services/ui-notifications-service';
 
 @Component({
 	templateUrl: './create-trip.page.html',
@@ -31,6 +31,42 @@ export class CreateTripPage implements OnInit {
 							private formBuilder: FormBuilder) {
 
 	};
+
+	get getFromLocation() {
+		return this.fromToForm.get('fromLocation');
+	}
+
+	get getToLocation() {
+		return this.fromToForm.get('toLocation');
+	}
+
+	private get getPassengerSeats() {
+		return this.passengerInfoForm.get('totalSeatsOffered');
+	}
+
+	private get getPricePerHead() {
+		return this.passengerInfoForm.get('pricePerHead');
+	}
+
+	private get getIsSmokingAllowed() {
+		return this.preferencesForm.get('isSmokingAllowed');
+	}
+
+	private get getIsPetAllowed() {
+		return this.preferencesForm.get('isPetAllowed');
+	}
+
+	private get getDepartureTime() {
+		return this.preferencesForm.get('departureTime');
+	}
+
+	private get getHasAirCondition() {
+		return this.preferencesForm.get('hasAirCondition');
+	}
+
+	private get getMaxTwoBackseat() {
+		return this.preferencesForm.get('maxTwoBackseat');
+	}
 
 	ngOnInit(): void {
 		this._cityService.getAllCities().subscribe(cities => this.allCities = cities);
@@ -71,46 +107,18 @@ export class CreateTripPage implements OnInit {
 			driverId: this._loginService.getLoggedUser()
 		};
 		this._service.addNewTrip(formValues).subscribe(() => {
-			this._notificationService.success('TRIP_CREATE_SUCCESS', 'ACTION_SUCCESS');
+			this._notificationService.success('TRIP_CREATE_SUCCESS');
 			this._router.navigate(['trips']);
-		}, () => this._notificationService.success('TRIP_CREATE_FAIL', 'ACTION_FAIL'));
+		}, () => this._notificationService.success('TRIP_CREATE_FAIL'));
 	}
 
-	get getFromLocation() {
-		return this.fromToForm.get('fromLocation');
+	getTimeDateNow() {
+		return this.dateNow;
 	}
 
-	get getToLocation() {
-		return this.fromToForm.get('toLocation');
-	}
-
-	private get getPassengerSeats() {
-		return this.passengerInfoForm.get('totalSeatsOffered');
-	}
-
-	private get getPricePerHead() {
-		return this.passengerInfoForm.get('pricePerHead');
-	}
-
-	private get getIsSmokingAllowed() {
-		return this.preferencesForm.get('isSmokingAllowed');
-	}
-
-	private get getIsPetAllowed() {
-		return this.preferencesForm.get('isPetAllowed');
-	}
-
-	private get getDepartureTime() {
-		return this.preferencesForm.get('departureTime');
-	}
-
-	private get getHasAirCondition() {
-		return this.preferencesForm.get('hasAirCondition');
-	}
-
-	private get getMaxTwoBackseat() {
-		return this.preferencesForm.get('maxTwoBackseat');
-	}
+	myDateTimeFilter = (d: Date): boolean => {
+		return this.dateNow < d;
+	};
 
 	private _passengerInfoFormDefinition() {
 		return this.formBuilder.group({
@@ -128,12 +136,4 @@ export class CreateTripPage implements OnInit {
 			maxTwoBackseat: new FormControl(false, Validators.required)
 		});
 	}
-
-	getTimeDateNow() {
-		return this.dateNow;
-	}
-
-	myDateTimeFilter = (d: Date): boolean => {
-		return this.dateNow < d;
-	};
 }

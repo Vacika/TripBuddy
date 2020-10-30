@@ -2,21 +2,21 @@
 	<mat-card-header>
 		<div mat-card-avatar>
 			<img [src]="imgUrl? imgUrl : '../../../assets/images/default-profile-pic.jpeg'" class="profile-pic">
-			<input id="profilePhoto" #profilePhoto type="file" accept="image/*" name="profilePhoto" class="hidden"
-						 (change)="onFileChange(profilePhoto.files)">
+			<input #profilePhoto (change)="onFileChange(profilePhoto.files)" accept="image/*" class="hidden" id="profilePhoto" name="profilePhoto"
+						 type="file">
 		</div>
 		<mat-card-title class="flex space-between align-center">
 			<span>{{user?.firstName + ' ' + user?.lastName}}</span>
 			<span class="flex align-center">
 						<mat-star-rating [rating]="user?.averageRating!= 'NaN'? user?.averageRating : 0"
 														 [starCount]="5"></mat-star-rating>
-				<button mat-icon-button (click)="toggleEdit()" class="align-center"
-				[matTooltip]="'EDIT'|translate">
+				<button (click)="toggleEdit()" [matTooltip]="'EDIT'|translate" class="align-center"
+								mat-icon-button>
 				<mat-icon style="line-height:15px; color:#feae14!important;">edit</mat-icon>
 			</button>
 			</span>
 		</mat-card-title>
-		<mat-card-subtitle class="mt-minus-27" *ngIf="form.enabled">
+		<mat-card-subtitle *ngIf="form.enabled" class="mt-minus-27">
 			<a (click)="openFileBrowser($event)">{{'EDIT_PROFILE_PHOTO'|translate}}</a>
 		</mat-card-subtitle>
 
@@ -27,13 +27,13 @@
 			<!-- PASSWORD-->
 			<mat-form-field>
 				<mat-label>{{"PASSWORD"|translate}}:</mat-label>
-				<input matInput type="password" formControlName="password" required>
+				<input formControlName="password" matInput required type="password">
 			</mat-form-field>
 
 			<!-- PHONE NUMBER -->
 			<mat-form-field appearance='standard'>
 				<mat-label>{{"PHONE_NUMBER"|translate}}</mat-label>
-				<input type="text" matInput formControlName="phoneNumber" required>
+				<input formControlName="phoneNumber" matInput required type="text">
 			</mat-form-field>
 
 			<!-- GENDER -->
@@ -56,23 +56,23 @@
 			</mat-form-field>
 
 			<!-- BIRTHDATE -->
-			<mat-form-field class="form-field mt-5" appearance="outline">
+			<mat-form-field appearance="outline" class="form-field mt-5">
 				<mat-label>{{"BIRTH_DATE"|translate}}:</mat-label>
-					<input matInput [matDatepicker]="birthDate" formControlName="birthDate" required>
-				<mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+				<input [matDatepicker]="birthDate" formControlName="birthDate" matInput required>
+				<mat-datepicker-toggle [for]="birthDate" matSuffix></mat-datepicker-toggle>
 				<mat-datepicker #birthDate></mat-datepicker>
 				<!--				<input matInput class='border-top-0' formControlName='birthDate' required-->
-<!--							 [owlDateTime]="birthDate"-->
-<!--							 [owlDateTimeTrigger]="birthDate">-->
-<!--				<owl-date-time [pickerType]='"calendar"'-->
-<!--											 #birthDate></owl-date-time>-->
+				<!--							 [owlDateTime]="birthDate"-->
+				<!--							 [owlDateTimeTrigger]="birthDate">-->
+				<!--				<owl-date-time [pickerType]='"calendar"'-->
+				<!--											 #birthDate></owl-date-time>-->
 				<mat-error
 					*ngIf='form.controls.birthDate.touched && form.controls.birthDate.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
 			</mat-form-field>
 		</form>
 	</mat-card-content>
 	<mat-card-actions *ngIf="form.enabled" class="text-end">
-		<button mat-button class="button-primary" (click)="submit()">{{'SAVE'|translate}}</button>
-		<button mat-stroked-button (click)="onCancelEdit()">{{'CANCEL'|translate}}</button>
+		<button (click)="submit()" class="button-primary" mat-button>{{'SAVE'|translate}}</button>
+		<button (click)="onCancelEdit()" mat-stroked-button>{{'CANCEL'|translate}}</button>
 	</mat-card-actions>
 </mat-card>

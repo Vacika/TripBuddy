@@ -11,10 +11,9 @@ const apiURI = "/api/authenticate";
 	providedIn: 'root'
 })
 export class AuthService {
+	readonly path = "/api/users";
 	private currentUser: BehaviorSubject<User | null>;
 	private token: string = "";
-
-	readonly path = "/api/users";
 
 	constructor(private httpClient: HttpClient) {
 		this.currentUser = new BehaviorSubject<User>(null);
@@ -29,16 +28,11 @@ export class AuthService {
 			username,
 			password
 		}
-		// let params: URLSearchParams = new URLSearchParams();
-		// let headers = new HttpHeaders()
-		// 	.set('Content-Type', 'application/json');
-		// params.append("username", username);
-		// params.append("password", password);
 		return this.httpClient.post<any>(apiURI, req)
 			.pipe(map(response => {
 				if (isNotNullOrUndefined(response.user)) {
 					this.currentUser.next(response.user);
-					sessionStorage.setItem('username', JSON.stringify(response.user.username));
+					sessionStorage.setItem('currentUser', JSON.stringify(response.user));
 
 					let tokenStr = "Bearer " + response.token;
 					this.token = tokenStr;
@@ -60,7 +54,7 @@ export class AuthService {
 
 	resetUserObservable() {
 		this.currentUser.next(null);
-		sessionStorage.removeItem('username');
+		sessionStorage.removeItem('currentUser');
 	}
 
 	editProfile(formValues: any): Observable<User> {
@@ -69,7 +63,7 @@ export class AuthService {
 
 	setLoggedUser(user: User) {
 		this.currentUser.next(user);
-		sessionStorage.setItem('username', JSON.stringify(user.username));
+		sessionStorage.setItem('currentUser', JSON.stringify(user));
 	}
 
 	getUserDetails(userId: string): Observable<UserProfileDetails> {
@@ -80,8 +74,9 @@ export class AuthService {
 		return this.httpClient.get<boolean>(`${this.path}/activate?activationToken=${token}`);
 	}
 
+	//TODO: Remove
 	isUserLoggedIn() {
-		let user = sessionStorage.getItem("username");
+		let user = sessionStorage.getItem("currentUser");
 		console.log(!(user === null));
 		return !(user === null);
 	}

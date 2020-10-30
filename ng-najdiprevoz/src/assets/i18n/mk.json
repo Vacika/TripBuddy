@@ -211,6 +211,6 @@
 	"REQUESTER_NAME": "Барател",
 	"RESERVATION_INFO": "Информации за резервацијата",
 	"EXPIRED": "Истечена",
-	"CANCEL_RESERVATION": "Откажи резервација"
-
+	"CANCEL_RESERVATION": "Откажи резервација",
+"YOU_HAVE_NO_RATINGS": "Немате ниту една оцена.."
 }

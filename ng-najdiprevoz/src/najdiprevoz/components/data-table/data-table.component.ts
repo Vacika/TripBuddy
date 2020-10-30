@@ -14,15 +14,6 @@ export class DataTableComponent implements OnInit {
 	dataSource = new MatTableDataSource();
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
-
-	@Input() set data(data: any[]) {
-		if (data) {
-			this.dataSource = new MatTableDataSource(data);
-			this.dataSource.paginator = this.paginator;
-			this.dataSource.sort = this.sort;
-		}
-	}
-
 	@Input() displayedColumns = [
 		'fromLocation',
 		'toLocation',
@@ -34,8 +25,15 @@ export class DataTableComponent implements OnInit {
 		'tripStatus',
 		'allowedActions'
 	];
-
 	@Output() onActionTaken = new EventEmitter<any>();
+
+	@Input() set data(data: any[]) {
+		if (data) {
+			this.dataSource = new MatTableDataSource(data);
+			this.dataSource.paginator = this.paginator;
+			this.dataSource.sort = this.sort;
+		}
+	}
 
 	getLabel(rawName: string): string {
 		return columnLabelName.get(rawName);
@@ -45,7 +43,7 @@ export class DataTableComponent implements OnInit {
 	}
 
 	takeAction(actionName: string, element: any) {
-		this.onActionTaken.emit({ action: actionName, element: element });
+		this.onActionTaken.emit({action: actionName, element: element});
 	}
 
 	getSpanClass(column: string, element: ReservationRequestFullResponse, indicator: boolean) {

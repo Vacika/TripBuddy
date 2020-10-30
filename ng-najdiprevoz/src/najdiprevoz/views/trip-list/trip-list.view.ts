@@ -29,17 +29,17 @@ export class TripListView implements OnInit {
 		// 		trip: this.allTrips.find(it => it.id == tripId),
 		// 		tripDetails: tripDetailsResponse
 		// 	};
-			const dialogRef = this._dialog.open(TripDetailsDialog, {
-				minHeight: '384px',
-				width: '500px',
-				data: tripId
-			});
+		const dialogRef = this._dialog.open(TripDetailsDialog, {
+			minHeight: '384px',
+			width: '500px',
+			data: tripId
+		});
 
-			dialogRef.componentInstance.reserveEmit.subscribe(trip =>
-				this.reserve(trip)
-			);
+		dialogRef.componentInstance.reserveEmit.subscribe(trip =>
+			this.reserve(trip)
+		);
 
-			dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
+		dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
 	}
 
 	convertToImage(image) {
@@ -64,14 +64,14 @@ export class TripListView implements OnInit {
 	}
 
 	reserve(trip: TripResponse) {
-			let data = {
-				tripId: trip.id,
-				availableSeats: trip.availableSeats
-			};
-			this._dialog.open(TripConfirmReservationDialog, {
-				height: '400px',
-				width: '600px',
-				data: data
-			})
-		}
+		let data = {
+			tripId: trip.id,
+			availableSeats: trip.availableSeats
+		};
+		this._dialog.open(TripConfirmReservationDialog, {
+			height: '400px',
+			width: '600px',
+			data: data
+		})
+	}
 }

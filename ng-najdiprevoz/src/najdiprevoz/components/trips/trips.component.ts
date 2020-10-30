@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {TripService} from '../../services/trip.service';
 import {Observable} from 'rxjs';
@@ -14,16 +14,16 @@ export class TripsComponent implements OnInit {
 	tripsAsDriver$: Observable<TripResponse[]>;
 	tripsAsPassenger$: Observable<TripResponse[]>;
 
+	constructor(private _service: TripService,
+							private _notificationService: UINotificationsService) {
+	}
+
 	get tableColumnsAsDriver() {
 		return tableColumnsAsDriver;
 	}
 
 	get tableColumnsAsPassenger() {
 		return tableColumnsAsPassenger;
-	}
-
-	constructor(private _service: TripService,
-							private _notificationService: UINotificationsService) {
 	}
 
 	ngOnInit(): void {
@@ -34,10 +34,10 @@ export class TripsComponent implements OnInit {
 	takeAction(actionEvent) {
 		if (actionEvent.action === 'CANCEL_RIDE') {
 			this._service.cancelTrip(actionEvent.element).subscribe(() => {
-				this._notificationService.success('CANCEL_RIDE_SUCCESS', 'ACTION_SUCCESS');
+				this._notificationService.success('CANCEL_RIDE_SUCCESS');
 				this.tripsAsDriver$ = this._service.getMyTripsAsDriver();
 			}, () => {
-				this._notificationService.error('CANCEL_RIDE_FAIL', 'ACTION_FAIL');
+				this._notificationService.error('CANCEL_RIDE_FAIL');
 			});
 		}
 	}

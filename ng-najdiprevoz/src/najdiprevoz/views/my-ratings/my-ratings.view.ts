@@ -1,8 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {RatingService} from "../../services/rating.service";
 import {RatingCustomResponse} from "../../interfaces/rating.interface";
-import { MatDialog } from '@angular/material/dialog';
-import { TripDetailsDialog } from '../../dialogs/trip-details-dialog/trip-details.dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {TripDetailsDialog} from '../../dialogs/trip-details-dialog/trip-details.dialog';
 
 @Component({
 	selector: 'my-ratings',
@@ -13,8 +13,7 @@ export class MyRatingsView implements OnInit {
 	ratings: RatingCustomResponse[] = [];
 
 	constructor(private ratingService: RatingService,
-							private _dialog:MatDialog) {
-
+							private _dialog: MatDialog) {
 	}
 
 	ngOnInit() {

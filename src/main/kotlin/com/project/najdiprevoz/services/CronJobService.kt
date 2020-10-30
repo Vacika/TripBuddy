@@ -17,7 +17,7 @@ class CronJobService(private val reservationRequestService: ReservationRequestSe
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
 
-    @Scheduled(fixedRate = 1000000)
+    @Scheduled(fixedDelayString = "\${cron.every-5-minute}")
     @Modifying
     @Transactional
     fun updateRidesAndRequestsJob() {
@@ -40,15 +40,21 @@ class CronJobService(private val reservationRequestService: ReservationRequestSe
                 .forEach { sendRatingNotification(it) }
     }
 
-    private fun sendRatingNotification(it: ReservationRequest) =
-            ratingService.pushRatingAllowedNotification(it)
+    private fun sendRatingNotification(it: ReservationRequest) {
+        logger.info("[CRONJOB] Sending RATING_ALLOWED notification for Reservation ${it.id}")
+        ratingService.pushRatingAllowedNotification(it)
+    }
 
-    private fun changeRequestToExpired(reservationRequest: ReservationRequest) =
-            reservationRequestService.reservationRequestCronJob(reservationRequest)
+    private fun changeRequestToExpired(reservationRequest: ReservationRequest) {
+        logger.info("[CRONJOB] Marking Reservation Request [${reservationRequest.id}] as EXPIRED!")
+        reservationRequestService.reservationRequestCronJob(reservationRequest)
+    }
 
     private fun updateRideCron() =
             tripService.checkForFinishedTripsCronJob()
 
-    private fun checkIfHasRatingAllowedNotification(reservationRequest: ReservationRequest): Boolean =
-            ratingService.checkIfHasRatingAllowedNotification(reservationRequest)
+    private fun checkIfHasRatingAllowedNotification(reservationRequest: ReservationRequest): Boolean {
+        logger.info("[CRONJOB] Checking if Reservation [${reservationRequest.id}] has a RATING_ALLOWED notification")
+        return ratingService.checkIfHasRatingAllowedNotification(reservationRequest)
+    }
 }

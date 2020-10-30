@@ -5,7 +5,6 @@ import com.project.najdiprevoz.services.passwordEncoder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -16,10 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import security.JwtRequestFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -41,11 +38,11 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
         auth.userDetailsService(service).passwordEncoder(passwordEncoder())
     }
 
-    @Autowired
-    @Throws(java.lang.Exception::class)
-    fun configureGlobal(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService<UserDetailsService>(userDetailsService()).passwordEncoder(passwordEncoder())
-    }
+//    @Autowired
+//    @Throws(Exception::class)
+//    fun configureGlobal(auth: AuthenticationManagerBuilder) {
+//        auth.userDetailsService<UserDetailsService>(userDetailsService()).passwordEncoder(passwordEncoder())
+//    }
 
     @Bean
     fun authenticationProvider(): DaoAuthenticationProvider {
@@ -81,6 +78,8 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .exceptionHandling().authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
+
 //                .formLogin()
 //                .successHandler(::loginSuccessHandler)
 //                .failureHandler(::loginFailureHandler)
@@ -89,7 +88,6 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
 //                .logoutUrl("/api/logout")
 //                .logoutSuccessHandler(::logoutSuccessHandler)
 //                .and()
-                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
 
 //                .invalidateHttpSession(true)
 //                .and()
@@ -110,8 +108,8 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
 //        response.outputStream.println(objectMapper.writeValueAsString(e.message))
 //    }
 //
-//    private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
-//        response.status = HttpStatus.OK.value()
-//        objectMapper.writeValue(response.writer, "Successfully logged out!!");
-//    }
+    private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+        response.status = HttpStatus.OK.value()
+        objectMapper.writeValue(response.writer, "Successfully logged out!!");
+    }
 }

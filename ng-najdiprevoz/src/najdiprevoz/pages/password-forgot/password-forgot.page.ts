@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { emailRegex } from '../../constants/regex.constants';
-import { PasswordForgotService } from '../../services/password-forgot.service';
-import { UINotificationsService } from '../../services/ui-notifications-service';
-import { HomePage } from '../landing-page/home-page.component';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {emailRegex} from '../../constants/regex.constants';
+import {PasswordForgotService} from '../../services/password-forgot.service';
+import {UINotificationsService} from '../../services/ui-notifications-service';
+import {HomePage} from '../landing-page/home-page.component';
+import {Router} from '@angular/router';
 
 @Component({
 	templateUrl: './password-forgot.page.html',
@@ -17,6 +17,10 @@ export class PasswordForgotPage implements OnInit {
 							private passwordForgotService: PasswordForgotService,
 							private notificationService: UINotificationsService,
 							private router: Router) {
+	}
+
+	private get username(): AbstractControl {
+		return this.forgotPasswordForm.controls['username'];
 	}
 
 	ngOnInit() {
@@ -34,9 +38,5 @@ export class PasswordForgotPage implements OnInit {
 					},
 					_ => this.notificationService.error('USER_WITH_THAT_MAIL_NOT_FOUND'));
 		}
-	}
-
-	private get username(): AbstractControl {
-		return this.forgotPasswordForm.controls['username'];
 	}
 }

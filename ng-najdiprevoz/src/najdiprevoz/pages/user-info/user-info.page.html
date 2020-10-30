@@ -6,16 +6,18 @@
 				<img [src]="user.profilePhoto? user.profilePhoto : '../../../assets/images/default-profile-pic.jpeg'"
 						 class="profile-pic">
 			</div>
-			<div class="full-name"> <h1><b>{{user.firstName }} {{user.lastName}}</b></h1></div>
+			<div class="full-name"><h1><b>{{user.firstName }} {{user.lastName}}</b></h1></div>
 		</div>
 
 		<!--Basic Info -->
 		<div class="basic-info">
 			<div class="rating">
 				<mat-icon>star</mat-icon>
-				<span class="primary-light-color bold">{{"RATING"|translate}}</span> : {{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
+				<span class="primary-light-color bold">{{"RATING"|translate}}</span>
+				: {{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
 				({{"TOTAL_RATINGS_SUBMITTED"|translate}}: {{user.ratings.length}})
-				<mat-icon (click)="navigateToRatings()" *ngIf="user.ratings?.length > 0" class="link">keyboard_arrow_right</mat-icon>
+				<mat-icon (click)="navigateToRatings()" *ngIf="user.ratings?.length > 0" class="link">keyboard_arrow_right
+				</mat-icon>
 			</div>
 
 			<div class="gender">
@@ -51,7 +53,7 @@
 		<hr>
 
 		<!-- FOOTER (Published rides, member since) -->
-			<div class="footer">
+		<div class="footer">
 			<div class="published-rides">
 				<mat-icon>local_taxi</mat-icon>
 				<span class="primary-light-color bold">{{'PUBLISHED_RIDES_TOTAL' | translate}}</span> : {{user.publishedRides}}

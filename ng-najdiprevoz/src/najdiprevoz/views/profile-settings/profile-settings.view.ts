@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { User } from '../../interfaces/user.interface';
-import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {User} from '../../interfaces/user.interface';
+import {AbstractControl, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
 	selector: 'profile-settings',
@@ -22,6 +22,41 @@ export class ProfileSettingsView {
 		this.imgUrl = this.user.profilePhoto;
 		this.setProperties(this.user);
 		this.form.disable();
+	}
+
+	private get formDefinition() {
+		return this.formBuilder.group({
+			birthDate: new FormControl(null, Validators.required),
+			phoneNumber: new FormControl(null, Validators.required),
+			password: new FormControl('empty-password', Validators.required),
+			gender: new FormControl(null, Validators.required),
+			profilePhoto: new FormControl(null),
+			defaultLanguage: new FormControl(null, Validators.required)
+		});
+	}
+
+	private get defaultLanguage(): AbstractControl {
+		return this.form.controls['defaultLanguage'];
+	}
+
+	private get profilePhoto(): AbstractControl {
+		return this.form.controls['profilePhoto'];
+	}
+
+	private get birthDate(): AbstractControl {
+		return this.form.controls['birthDate'];
+	}
+
+	private get phoneNumber(): AbstractControl {
+		return this.form.controls['phoneNumber'];
+	}
+
+	private get password(): AbstractControl {
+		return this.form.controls['password'];
+	}
+
+	private get gender(): AbstractControl {
+		return this.form.controls['gender'];
 	}
 
 	onFileChange(files) {
@@ -50,51 +85,6 @@ export class ProfileSettingsView {
 		this.submitEvent.emit(this.form.value);
 	}
 
-	private get formDefinition() {
-		return this.formBuilder.group({
-			birthDate: new FormControl(null, Validators.required),
-			phoneNumber: new FormControl(null, Validators.required),
-			password: new FormControl('empty-password', Validators.required),
-			gender: new FormControl(null, Validators.required),
-			profilePhoto: new FormControl(null),
-			defaultLanguage: new FormControl(null, Validators.required)
-		});
-	}
-
-	private setProperties(user: User) {
-		console.log(Date.parse(user.birthDate).toString());
-		let t = new Date(user.birthDate);
-		this.birthDate.setValue(t);
-		this.gender.patchValue(user.gender);
-		this.phoneNumber.setValue(user.phoneNumber);
-		this.profilePhoto.setValue(user.profilePhoto);
-		this.defaultLanguage.setValue(user.defaultLanguage);
-	}
-
-	private get defaultLanguage(): AbstractControl {
-		return this.form.controls['defaultLanguage'];
-	}
-
-	private get profilePhoto(): AbstractControl {
-		return this.form.controls['profilePhoto'];
-	}
-
-	private get birthDate(): AbstractControl {
-		return this.form.controls['birthDate'];
-	}
-
-	private get phoneNumber(): AbstractControl {
-		return this.form.controls['phoneNumber'];
-	}
-
-	private get password(): AbstractControl {
-		return this.form.controls['password'];
-	}
-
-	private get gender(): AbstractControl {
-		return this.form.controls['gender'];
-	}
-
 	toggleEdit() {
 		this.form.enabled ? this.form.disable() : this.form.enable();
 	}
@@ -108,5 +98,15 @@ export class ProfileSettingsView {
 		event.preventDefault();
 		let element: HTMLElement = document.getElementById('profilePhoto') as HTMLElement;
 		element.click();
+	}
+
+	private setProperties(user: User) {
+		console.log(Date.parse(user.birthDate).toString());
+		let t = new Date(user.birthDate);
+		this.birthDate.setValue(t);
+		this.gender.patchValue(user.gender);
+		this.phoneNumber.setValue(user.phoneNumber);
+		this.profilePhoto.setValue(user.profilePhoto);
+		this.defaultLanguage.setValue(user.defaultLanguage);
 	}
 }

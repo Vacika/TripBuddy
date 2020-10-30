@@ -1,0 +1,2 @@
+export const SUCCESS_ACTION = 'ACTION_SUCCESS';
+export const FAIL_ACTION = 'ACTION_FAIL';

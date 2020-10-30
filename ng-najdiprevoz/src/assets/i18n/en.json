@@ -211,6 +211,7 @@
 	"ACTIVATE_USER": "Activate User",
 	"REQUESTED_SEATS": "Requested Seats",
 	"REQUESTER_NAME": "Requester",
-	"RESERVATION_INFO": "Reservation Info"
+	"RESERVATION_INFO": "Reservation Info",
+	"YOU_HAVE_NO_RATINGS": "You have no ratings yet.."
 
 }

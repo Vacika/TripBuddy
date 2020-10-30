@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ReservationRequestFullResponse} from "../../interfaces/ride-request.interface";
-import {tableColumnsAsDriver, tableColumnsForReceived, tableColumnsForSent} from "../../constants/columns.constants";
+import {tableColumnsForReceived, tableColumnsForSent} from "../../constants/columns.constants";
 
 @Component({
 	selector: 'ride-requests-component',
@@ -13,14 +13,19 @@ export class ReservationRequestsComponent implements OnInit {
 	@Input() receivedReservationRequests: ReservationRequestFullResponse[];
 	@Output() onActionTaken = new EventEmitter<any>();
 
-	get tableColumnsForSent() { return tableColumnsForSent;}
-	get tableColumnsForReceived(){ return tableColumnsForReceived;}
+	get tableColumnsForSent() {
+		return tableColumnsForSent;
+	}
+
+	get tableColumnsForReceived() {
+		return tableColumnsForReceived;
+	}
 
 	ngOnInit(): void {
 	}
 
 
 	takeAction(actionEvent) {
-			this.onActionTaken.emit(actionEvent)
+		this.onActionTaken.emit(actionEvent)
 	}
 }

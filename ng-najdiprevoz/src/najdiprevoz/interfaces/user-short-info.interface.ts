@@ -1,6 +1,6 @@
 export interface UserShortInfo {
-  id: number
-  rating: number
-  name: string
+	id: number
+	rating: number
+	name: string
 	profilePhoto?: string
 }

@@ -14,26 +14,26 @@ export class CustomInterceptor implements HttpInterceptor {
 	}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		if (sessionStorage.getItem('username') && sessionStorage.getItem('token')) {
-				request = request.clone({
-					setHeaders: {
-						Authorization: sessionStorage.getItem('token')
-					}
-				})
-			}
-
-			return next.handle(request).pipe(
-				tap((event) => this.loader.start()),
-				catchError(err => {
-					if (err.status === 401 || err.status === 403) {
-						this.authenticationService.resetUserObservable();
-						this.router.navigate(['/login'])
-					}
-					const error = err.error.message || err.statusText;
-					this.loader.stop();
-					return throwError(error);
-				}),
-				finalize(() => this.loader.stop()))
+		if (sessionStorage.getItem('currentUser') && sessionStorage.getItem('token')) {
+			request = request.clone({
+				setHeaders: {
+					Authorization: sessionStorage.getItem('token')
+				}
+			})
 		}
+
+		return next.handle(request).pipe(
+			tap((event) => this.loader.start()),
+			catchError(err => {
+				if (err.status === 401 || err.status === 403) {
+					this.authenticationService.resetUserObservable();
+					this.router.navigate(['/login'])
+				}
+				const error = err.error.message || err.statusText;
+				this.loader.stop();
+				return throwError(error);
+			}),
+			finalize(() => this.loader.stop()))
+	}
 
 }

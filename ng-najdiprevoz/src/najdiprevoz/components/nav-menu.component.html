@@ -1,100 +1,100 @@
 <mat-toolbar class="nav-menu color-white">
 	<mat-toolbar-row class='menu'>
-		<div class='link rounded' [routerLink]='"/"'>
+		<div [routerLink]='"/"' class='link rounded'>
 			<h1 class='inline-block'>{{'SITE_TITLE'|translate}}</h1>
 			<mat-icon class="ignore-default-color">directions_car</mat-icon>
 			<span class="menu-spacer"></span>
 		</div>
 		<div>
-			<a mat-button [routerLink]="'/trips'" class="hide-on-mobile">
+			<a [routerLink]="'/trips'" class="hide-on-mobile" mat-button>
 				<mat-icon>search</mat-icon>
 				{{'FIND_TRIPS'|translate}} </a>
-			<a mat-button [routerLink]="'/trips/new'" class="hide-on-mobile">
+			<a [routerLink]="'/trips/new'" class="hide-on-mobile" mat-button>
 				<mat-icon>add_circle_outline</mat-icon>
 				{{'PUBLISH_TRIP'|translate}} </a>
 
-<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/register'" class="hide-on-mobile"> {{'REGISTER'|translate}} </a>-->
-<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/login'" class="hide-on-mobile"> {{'LOGIN'|translate}} </a>-->
-			<a *ngIf="authenticated" mat-icon-button [routerLink]="'/notifications'">
+			<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/register'" class="hide-on-mobile"> {{'REGISTER'|translate}} </a>-->
+			<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/login'" class="hide-on-mobile"> {{'LOGIN'|translate}} </a>-->
+			<a *ngIf="authenticated" [routerLink]="'/notifications'" mat-icon-button>
 				<mat-icon class='color-white ignore-default-color'>notifications</mat-icon>
 			</a>
-			<span mat-button class="mat-button">
-       <img src="../../assets/images/{{selectedLangControl.value}}.png"
-						(click)="onFlagClick()"
-						class="text-bottom px-15">
+			<span class="mat-button" mat-button>
+       <img (click)="onFlagClick()"
+						class="text-bottom px-15"
+						src="../../assets/images/{{selectedLangControl.value}}.png">
         <mat-select
-					[formControl]="selectedLangControl"
-					#languageSelect>
+					#languageSelect
+					[formControl]="selectedLangControl">
           <mat-option *ngFor="let language of languages"
 											[value]="language">
-            <img src='./../../assets/images/{{language}}.png' class="px-15">{{language|uppercase}}
+            <img class="px-15" src='./../../assets/images/{{language}}.png'>{{language|uppercase}}
           </mat-option>
         </mat-select>
       </span>
 
-			<button mat-icon-button
+			<button [matMenuTriggerFor]="menu"
 							class="link "
-							[matMenuTriggerFor]="menu">
+							mat-icon-button>
 				<mat-icon class="color-white ignore-default-color">menu</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu" class="primary-dark-color-background">
 
 				<!-- Search Trips -->
-				<button mat-menu-item
+				<button [routerLink]="'/trips'"
 								class="link show-on-mobile-only"
-								[routerLink]="'/trips'">
+								mat-menu-item>
 					<mat-icon>search</mat-icon>
 					<span>{{"FIND_TRIPS"| translate}}</span>
 				</button>
 
 				<!-- Publish Trip -->
-				<button mat-menu-item
+				<button [routerLink]="'/trips/new'"
 								class="link show-on-mobile-only"
-								[routerLink]="'/trips/new'">
+								mat-menu-item>
 					<mat-icon>add_circle_outline</mat-icon>
 					<span>{{"PUBLISH_TRIP"| translate}}</span>
 				</button>
 
 				<!-- Register -->
-				<button mat-menu-item
-								*ngIf="!authenticated"
+				<button *ngIf="!authenticated"
+								[routerLink]="'/register'"
 								class="link"
-								[routerLink]="'/register'">
+								mat-menu-item>
 					<mat-icon>create</mat-icon>
 					<span>{{"REGISTER"| translate}}</span>
 				</button>
 
 				<!-- Login -->
-				<button mat-menu-item
-								*ngIf="!authenticated"
+				<button *ngIf="!authenticated"
+								[routerLink]="'/login'"
 								class="link"
-								[routerLink]="'/login'">
+								mat-menu-item>
 					<mat-icon>login</mat-icon>
 					<span>{{"LOGIN"| translate}}</span>
 				</button>
 
 				<!-- Control Panel -->
-				<button mat-menu-item
+				<button *ngIf="isAdmin"
+								[routerLink]="'/admin-panel'"
 								class="link"
-								*ngIf="isAdmin"
-								[routerLink]="'/admin-panel'">
+								mat-menu-item>
 					<mat-icon>admin_panel_settings</mat-icon>
 					<span>{{"ADMIN_PANEL"| translate}}</span>
 				</button>
 
-				<button mat-menu-item
+				<button *ngIf="authenticated"
+								[routerLink]="'/control-panel'"
 								class="link"
-								*ngIf="authenticated"
-								[routerLink]="'/control-panel'">
+								mat-menu-item>
 					<mat-icon>settings</mat-icon>
 					<span>{{"CONTROL_PANEL"| translate}}</span>
 				</button>
 
 				<!-- Logout -->
-				<button mat-menu-item
-								[matTooltip]="'LOGOUT'|translate"
+				<button (click)="logout()"
 								*ngIf="authenticated"
-								(click)="logout()">
+								[matTooltip]="'LOGOUT'|translate"
+								mat-menu-item>
 					<mat-icon>logout</mat-icon>
 					<span>{{"LOGOUT"| translate}}</span>
 				</button>
