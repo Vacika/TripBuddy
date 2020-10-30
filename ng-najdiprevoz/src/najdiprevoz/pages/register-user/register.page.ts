@@ -4,6 +4,7 @@ import {emailRegex} from "../../constants/regex.constants";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {UINotificationsService} from '../../services/ui-notifications-service';
+import {ERROR_REGISTER} from "../../constants/errors.constants";
 
 @Component({
 	templateUrl: './register.page.html',
@@ -39,7 +40,7 @@ export class RegisterPage implements OnInit {
 					this.router.navigate(['/registration-success'])
 				},
 				(err) => {
-					this.notificationService.success('ERROR_REGISTER');
+					this.notificationService.success(ERROR_REGISTER);
 				})
 		}
 	}
