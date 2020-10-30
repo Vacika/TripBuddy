@@ -23,7 +23,6 @@ import {SearchTripsPage} from '../najdiprevoz/pages/find-trips/search-trips.page
 import {HelperService} from '../najdiprevoz/services/helper.service';
 import {TripDetailsDialog} from '../najdiprevoz/dialogs/trip-details-dialog/trip-details.dialog';
 import {MatDialogModule} from '@angular/material/dialog';
-import {RideRequestService} from '../najdiprevoz/services/ride-request.service';
 import {TripConfirmReservationDialog} from '../najdiprevoz/dialogs/trip-confirm-reservation/trip-confirm-reservation.dialog';
 import {MatRadioModule} from '@angular/material/radio';
 import {NotificationListPage} from '../najdiprevoz/pages/notifications/notifications.page';
@@ -38,7 +37,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MyRatingsView} from '../najdiprevoz/views/my-ratings/my-ratings.view';
 import {RatingService} from '../najdiprevoz/services/rating.service';
-import {RideRequestsComponent} from '../najdiprevoz/components/ride-requests/ride-requests.component';
+import {ReservationRequestsComponent} from '../najdiprevoz/components/ride-requests/ride-requests.component';
 import {DataTableComponent} from '../najdiprevoz/components/data-table/data-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -68,12 +67,13 @@ import {AdminPanelPage} from "../najdiprevoz/pages/admin-panel/admin-panel.page"
 import {AdminService} from "../najdiprevoz/services/admin.service";
 import {DataTable2Component} from "../najdiprevoz/components/data-table2/data-table.component";
 import {ReservationDetailsDialog} from "../najdiprevoz/dialogs/reservation-details/reservation-details.dialog";
+import {ReservationRequestService} from "../najdiprevoz/services/reservation-request.service";
 
 const SERVICES = [
 	LoaderService,
 	TripService,
 	CityService, HelperService,
-	RideRequestService,
+	ReservationRequestService,
 	NotificationService,
 	PasswordForgotService,
 	PasswordResetService,
@@ -100,7 +100,7 @@ const PAGES = [ProfileNotActivatedPage,
 	ControlPanelPage,
 	ProfileSettingsView,
 	MyRatingsView,
-	RideRequestsComponent,
+	ReservationRequestsComponent,
 	DataTableComponent,
 	TripsComponent,
 	UserInfoPage,

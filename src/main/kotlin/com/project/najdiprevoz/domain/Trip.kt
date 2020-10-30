@@ -2,14 +2,13 @@ package com.project.najdiprevoz.domain
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.project.najdiprevoz.enums.RideRequestStatus
-import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.enums.TripStatus
 import java.time.ZonedDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "rides")
-data class Ride(
+@Table(name = "trips")
+data class Trip(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0L,
@@ -46,15 +45,15 @@ data class Ride(
         var additionalDescription: String?,
 
         @JsonManagedReference
-        @OneToMany(mappedBy = "ride",
-                targetEntity = RideRequest::class,
+        @OneToMany(mappedBy = "trip",
+                targetEntity = ReservationRequest::class,
                 fetch = FetchType.LAZY,
                 cascade = [CascadeType.ALL]) //TODO: Change this to LAZY OR EAGER?
-        var rideRequests: List<RideRequest> = listOf(),
+        var reservationRequests: List<ReservationRequest> = listOf(),
 
         @Enumerated(EnumType.STRING)
         @Column(name = "status")
-        var status: RideStatus,
+        var status: TripStatus,
 
         @Column(name = "is_smoking_allowed")
         val isSmokingAllowed: Boolean = false,
@@ -67,8 +66,6 @@ data class Ride(
 
         @Column(name = "has_air_condition")
         val hasAirCondition: Boolean = false) {
-
-//    fun getAvailableSeats(): Int = this.totalSeatsOffered - this.rideRequests.filter { it.status == RideRequestStatus.APPROVED }.sumBy { it.requestedSeats }
 
     @Override
     override fun toString(): String = ""

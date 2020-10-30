@@ -2,7 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.domain.Rating
-import com.project.najdiprevoz.domain.RideRequest
+import com.project.najdiprevoz.domain.ReservationRequest
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.NotificationType
@@ -24,12 +24,12 @@ class NotificationService(private val repository: NotificationRepository) {
 
     //TODO: Remove all previous/last notifications with same requestId when pushing new notification (if it is not first)
     @Modifying
-    fun pushRideRequestStatusChangeNotification(rideRequest: RideRequest, notificationType: NotificationType) {
+    fun pushReservationRequestStatusChangeNotification(reservationRequest: ReservationRequest, notificationType: NotificationType) {
         var notificationActionAllowed: List<NotificationAction> = listOf(NotificationAction.MARK_AS_SEEN)
         var to: User
         var from: User
-        val driver: User = rideRequest.ride.driver
-        val requester: User = rideRequest.requester
+        val driver: User = reservationRequest.trip.driver
+        val requester: User = reservationRequest.requester
         when (notificationType) {
             NotificationType.REQUEST_APPROVED -> {
                 notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.CANCEL_RESERVATION)
@@ -61,8 +61,8 @@ class NotificationService(private val repository: NotificationRepository) {
             NotificationType.RATING_SUBMITTED -> TODO()
             NotificationType.RATING_ALLOWED -> TODO()
         }
-        removeOldNotificationsActions(rideRequest.id)
-        pushNotification(from = from, to = to, rideRequest = rideRequest, type = notificationType,
+        removeOldNotificationsActions(reservationRequest.id)
+        pushNotification(from = from, to = to, reservationRequest = reservationRequest, type = notificationType,
                          notificationActionAllowed = notificationActionAllowed)
     }
 
@@ -72,17 +72,17 @@ class NotificationService(private val repository: NotificationRepository) {
                 from = getAuthor(),
                 to = getDriver(),
                 type = NotificationType.RATING_SUBMITTED,
-                rideRequest = rideRequest,
+                reservationRequest = reservationRequest,
                 notificationActionAllowed = listOf(NotificationAction.MARK_AS_SEEN))
     }
 
     @Modifying
-    fun pushRatingAllowedNotification(rideRequest: RideRequest) = with(rideRequest) {
-        pushNotification(from = ride.driver,
+    fun pushRatingAllowedNotification(reservationRequest: ReservationRequest) = with(reservationRequest) {
+        pushNotification(from = trip.driver,
                          to = requester,
                          notificationActionAllowed = listOf(NotificationAction.SUBMIT_RATING,
                                                             NotificationAction.MARK_AS_SEEN),
-                         rideRequest = this,
+                         reservationRequest = this,
                          type = NotificationType.RATING_ALLOWED)
     }
 
@@ -92,9 +92,9 @@ class NotificationService(private val repository: NotificationRepository) {
             username)
 
     private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>,
-                                 type: NotificationType, rideRequest: RideRequest) {
+                                 type: NotificationType, reservationRequest: ReservationRequest) {
         logger.info(
-                "[NOTIFICATIONS] Saving new notification for RideRequest[${rideRequest.id}], Notification Type:[${type.name}]")
+                "[NOTIFICATIONS] Saving new notification for ReservationRequest[${reservationRequest.id}], Notification Type:[${type.name}]")
         repository.saveAndFlush(Notification(
                 from = from,
                 to = to,
@@ -102,7 +102,7 @@ class NotificationService(private val repository: NotificationRepository) {
                 type = type,
                 createdOn = ZonedDateTime.now(),
                 seen = false,
-                rideRequest = rideRequest
+                reservationRequest = reservationRequest
         ))
     }
 
@@ -114,11 +114,11 @@ class NotificationService(private val repository: NotificationRepository) {
 
     @Transactional
     @Modifying
-    fun removeLastNotificationForRideRequest(requestId: Long) {
-        var notification = repository.findAllByRideRequest_Id(requestId)
+    fun removeLastNotificationForReservationRequest(requestId: Long) {
+        var notification = repository.findAllByReservationRequest_Id(requestId)
         if (notification.isNotEmpty()) {
             val deleteNotification = notification.maxBy { it.createdOn }!!
-            logger.debug("[NOTIFICATIONS] Removing last notification associated with RideRequest with ID: [$requestId]")
+            logger.debug("[NOTIFICATIONS] Removing last notification associated with ReservationRequest with ID: [$requestId]")
             repository.delete(deleteNotification)
             repository.flush()
         }
@@ -127,14 +127,14 @@ class NotificationService(private val repository: NotificationRepository) {
     @Transactional
     @Modifying
     fun removeOldNotificationsActions(requestId: Long) {
-        repository.findAllByRideRequest_Id(requestId).forEach { notification ->
+        repository.findAllByReservationRequest_Id(requestId).forEach { notification ->
             logger.debug(
-                    "[NOTIFICATIONS] Removing ACTIONS for last notification associated with RideRequest with ID: [$requestId]")
+                    "[NOTIFICATIONS] Removing ACTIONS for last notification associated with ReservationRequest with ID: [$requestId]")
             repository.save(notification.removeAllActions())
         }
     }
 
-    fun checkIfHasRatingAllowedNotification(rideRequest: RideRequest): Boolean =
-            repository.findAllByTypeAndRideRequest(NotificationType.RATING_ALLOWED, rideRequest).isNotEmpty()
+    fun checkIfHasRatingAllowedNotification(reservationRequest: ReservationRequest): Boolean =
+            repository.findAllByTypeAndReservationRequest(NotificationType.RATING_ALLOWED, reservationRequest).isNotEmpty()
 
 }

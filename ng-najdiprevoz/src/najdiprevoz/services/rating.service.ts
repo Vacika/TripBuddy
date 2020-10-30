@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {RatingCustomResponse} from '../interfaces/rating.interface';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -16,9 +16,9 @@ export class RatingService {
 		return this._http.get<RatingCustomResponse[]>(this.path);
 	}
 
-	submitRating(rideRequestId: number, rating: number, note?: string): Observable<void> {
+	submitRating(reservationRequestId: number, rating: number, note?: string): Observable<void> {
 		const body = {
-			rideRequestId: rideRequestId,
+			reservationRequestId: reservationRequestId,
 			rating: rating,
 			note: note
 		};

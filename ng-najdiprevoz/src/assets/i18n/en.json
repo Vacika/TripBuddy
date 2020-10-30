@@ -121,7 +121,7 @@
 	"DEPARTURE": "Departure",
 	"RESERVATION_STATUS": "Reservation Status",
 	"TRIP_ID": "ID",
-	"RIDE_STATUS": "Trip Status",
+	"RESERVATION_STATUS": "Trip Status",
 	"ACTIVE:": "Active",
 	"APPROVED": "Approved",
 	"ACTIONS": "Actions",

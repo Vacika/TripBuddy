@@ -1,5 +1,5 @@
 import {City} from "./city.interface";
-import {RideRequest} from "./riderequest.interface";
+import {ReservationRequest} from "./riderequest.interface";
 
 export interface Trip {
   id: number,
@@ -10,7 +10,7 @@ export interface Trip {
   totalSeatsOffered: number,
   pricePerHead: number,
   additionalDescription?: string
-  rideRequests: RideRequest[];
+  reservationRequests: ReservationRequest[];
   status: string,
   isSmokingAllowed: boolean
   isPetAllowed: boolean

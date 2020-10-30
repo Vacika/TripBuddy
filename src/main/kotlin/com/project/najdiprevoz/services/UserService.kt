@@ -1,7 +1,6 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Mail
-import com.project.najdiprevoz.domain.Ride
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.exceptions.ActivationTokenNotFoundException
 import com.project.najdiprevoz.exceptions.InvalidUserIdException
@@ -12,10 +11,7 @@ import com.project.najdiprevoz.web.request.EditUserProfileRequest
 import com.project.najdiprevoz.web.request.create.CreateUserRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
-import org.springframework.data.jpa.repository.Modifying
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RideRequestService } from '../../services/ride-request.service';
+import { ReservationRequestService } from '../../services/reservation-request.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UINotificationsService } from '../../services/ui-notifications-service';
 
@@ -16,7 +16,7 @@ export class TripConfirmReservationDialog {
 
 	constructor(public dialogRef: MatDialogRef<TripConfirmReservationDialog>,
 							@Inject(MAT_DIALOG_DATA) public data,
-							private rideRequestService: RideRequestService,
+							private reservationRequestService: ReservationRequestService,
 							private notificationService: UINotificationsService,
 							private _formBuilder: FormBuilder) {
 		this.availableSeats = data.availableSeats;
@@ -29,7 +29,7 @@ export class TripConfirmReservationDialog {
 	}
 
 	reserve() {
-		this.rideRequestService.newRideRequest(this.tripId, this.getRequestedSeats.value, this.getAdditionalDescription.value)
+		this.reservationRequestService.newReservationRequest(this.tripId, this.getRequestedSeats.value, this.getAdditionalDescription.value)
 			.subscribe(() => {
 				this.notificationService.success('RIDE_REQUEST_ADD_SUCCESS', 'ACTION_SUCCESS');
 				this.onCancel();

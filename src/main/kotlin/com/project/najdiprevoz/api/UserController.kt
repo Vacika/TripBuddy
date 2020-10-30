@@ -12,10 +12,6 @@ import java.security.Principal
 @RequestMapping("/api/users")
 class UserController(private val mapper: UserMapper) {
 
-    @GetMapping("/details/{userId}")
-    fun getUserInfo(@PathVariable("userId") userId: Long): UserProfileResponse =
-            mapper.getUserInfo(userId)
-
     @PutMapping("/register")
     fun createUser(@RequestBody request: CreateUserRequest): User =
             mapper.createNewUser(request)
@@ -27,4 +23,8 @@ class UserController(private val mapper: UserMapper) {
     @PutMapping("/edit")
     fun editProfile(@RequestBody req: EditUserProfileRequest, principal: Principal): User =
             mapper.editUserProfile(req, principal.name)
+
+    @GetMapping("/details/{userId}")
+    fun getUserInfo(@PathVariable("userId") userId: Long): UserProfileResponse =
+            mapper.getUserInfo(userId)
 }

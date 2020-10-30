@@ -2,7 +2,7 @@ package com.project.najdiprevoz.web.response
 
 import java.time.ZonedDateTime
 
-class RideRequestFullResponse(
+class ReservationRequestFullResponse(
         val id: Long,
         val requesterName: String,
         val tripId: Long,
@@ -12,7 +12,7 @@ class RideRequestFullResponse(
         val departureTime: ZonedDateTime,
         val driverName: String,
         val requestStatus: String,
-        val rideStatus: String,
+        val tripStatus: String,
         val requestedSeats: Int,
         val additionalDescription: String?
 )

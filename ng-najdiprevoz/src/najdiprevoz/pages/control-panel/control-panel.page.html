@@ -7,8 +7,8 @@
 	<div class="w-65 mat-card mt-5">
 		<mat-tab-group mat-stretch-tabs dynamicHeight class="set-width color-white">
 			<mat-tab label="{{'RIDE_REQUESTS'|translate}}" class='color-white'>
-				<ride-requests-component [sentRideRequests]="sentRideRequests$|async"
-																 [receivedRideRequests]="receivedRideRequests$|async"
+				<ride-requests-component [sentReservationRequests]="sentReservationRequests$|async"
+																 [receivedReservationRequests]="receivedReservationRequests$|async"
 																 (onActionTaken)="takeAction($event)"></ride-requests-component>
 			</mat-tab>
 			<mat-tab label="{{'TRIPS'|translate}}">

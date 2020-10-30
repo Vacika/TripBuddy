@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {RideRequestFullResponse} from '../../interfaces/ride-request.interface';
+import {ReservationRequestFullResponse} from '../../interfaces/ride-request.interface';
 import {Observable} from 'rxjs';
-import {RideRequestService} from '../../services/ride-request.service';
+import {ReservationRequestService} from '../../services/reservation-request.service';
 import {MatDialog} from '@angular/material/dialog';
 import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dialog';
 import {UINotificationsService} from '../../services/ui-notifications-service';
@@ -16,11 +16,11 @@ import {ReservationDetailsDialog} from "../../dialogs/reservation-details/reserv
 	styleUrls: ['./control-panel.page.scss']
 })
 export class ControlPanelPage implements OnInit {
-	sentRideRequests$: Observable<RideRequestFullResponse[]>;
-	receivedRideRequests$: Observable<RideRequestFullResponse[]>;
+	sentReservationRequests$: Observable<ReservationRequestFullResponse[]>;
+	receivedReservationRequests$: Observable<ReservationRequestFullResponse[]>;
 
 	constructor(private authService: AuthService,
-							private rideRequestService: RideRequestService,
+							private reservationRequestService: ReservationRequestService,
 							private _notificationService: UINotificationsService,
 							private _dialog: MatDialog,
 							private translate: TranslateService,
@@ -42,14 +42,14 @@ export class ControlPanelPage implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.sentRideRequests$ = this.rideRequestService.getSentRequests();
-		this.receivedRideRequests$ = this.rideRequestService.getReceivedRequests();
+		this.sentReservationRequests$ = this.reservationRequestService.getSentRequests();
+		this.receivedReservationRequests$ = this.reservationRequestService.getReceivedRequests();
 	}
 
 	takeAction(event: any) {
 		if (event.action != SUBMIT_RATING_ACTION && event.action !== SEE_RIDE_REQUEST_INFO_ACTION) {
-			this.rideRequestService.changeRequestStatus(event.element, event.action).subscribe(() => {
-				this.sentRideRequests$ = this.rideRequestService.getSentRequests();
+			this.reservationRequestService.changeRequestStatus(event.element, event.action).subscribe(() => {
+				this.sentReservationRequests$ = this.reservationRequestService.getSentRequests();
 				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS', 'ACTION_SUCCESS');
 			}, () => {
 				this._notificationService.error('RIDE_REQUEST_STATUS_CHANGE_FAIL', 'ACTION_FAIL');
@@ -62,7 +62,7 @@ export class ControlPanelPage implements OnInit {
 			});
 		} else if (event.action === SEE_RIDE_REQUEST_INFO_ACTION) {
 			this._dialog.open(ReservationDetailsDialog, {
-				data: event.element as RideRequestFullResponse,
+				data: event.element as ReservationRequestFullResponse,
 				height: '305px',
 				width: '600px'
 			})

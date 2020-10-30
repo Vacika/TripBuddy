@@ -1,13 +1,13 @@
 import {UserShortInfo} from "./user-short-info.interface";
 
-export interface RideRequestResponse {
+export interface ReservationRequestResponse {
 	id: number;
 	requester: UserShortInfo
 	tripId: number
 	allowedActions: string[]
 }
 
-export interface RideRequestFullResponse {
+export interface ReservationRequestFullResponse {
 	id: number
 	requesterName: string
 	driverName: string
@@ -17,7 +17,7 @@ export interface RideRequestFullResponse {
   toLocation: string,
 	departureTime: string,
 	requestStatus: string,
-	rideStatus: string,
+	tripStatus: string,
 	requestedSeats: string
 	additionalDescription?: string
 }

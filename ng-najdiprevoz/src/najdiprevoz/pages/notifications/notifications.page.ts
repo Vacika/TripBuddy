@@ -34,7 +34,7 @@ export class NotificationListPage implements OnInit {
 			this._dialog.open(SubmitRatingDialog, {
 				height: '400px',
 				width: '600px',
-				data: notification.rideRequestId
+				data: notification.reservationRequestId
 			});
 		}
 	}

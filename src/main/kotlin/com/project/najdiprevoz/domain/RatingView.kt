@@ -23,10 +23,10 @@ data class RatingView(
         @Column(name = "date_submitted")
         val dateSubmitted: ZonedDateTime,
 
-        @Column(name = "ride_request_id")
-        val rideRequestId: Long,
+        @Column(name = "reservation_request_id")
+        val reservationRequestId: Long,
 
-        @Column(name = "ride_id")
+        @Column(name = "trip_id")
         val rideId: Long,
 
         @Column(name = "author_id")

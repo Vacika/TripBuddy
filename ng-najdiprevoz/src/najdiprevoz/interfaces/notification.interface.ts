@@ -1,7 +1,7 @@
 export interface NotificationResponse {
 	id: number;
 	createdOn: string;
-	rideRequestId: number
+	reservationRequestId: number
 	type: string;
 	actions: string[];
 	fromId: number;

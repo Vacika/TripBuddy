@@ -1,8 +1,7 @@
 package com.project.najdiprevoz.utils
 
-import com.project.najdiprevoz.domain.Ride
-import com.project.najdiprevoz.domain.RideRequest
-import com.project.najdiprevoz.enums.RideStatus
+import com.project.najdiprevoz.domain.Trip
+import com.project.najdiprevoz.enums.TripStatus
 import org.springframework.data.jpa.domain.Specification
 import java.time.ZonedDateTime
 import javax.persistence.criteria.*
@@ -21,12 +20,12 @@ fun <T>whereTrue() = Specification<T> { _, _, cb ->
     return path
 }
 
-private fun tripStatusEqualsPredicate(properties: List<String>, value: RideStatus, root: Root<Ride>,
+private fun tripStatusEqualsPredicate(properties: List<String>, value: TripStatus, root: Root<Trip>,
                                       cb: CriteriaBuilder) =
         cb.equal(getPath(root, properties), value)
 
-fun tripStatusEqualsSpecification(properties: List<String>, value: RideStatus): Specification<Ride> =
-        Specification<Ride> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
+fun tripStatusEqualsSpecification(properties: List<String>, value: TripStatus): Specification<Trip> =
+        Specification<Trip> { root, _, cb -> tripStatusEqualsPredicate(properties, value, root, cb) }
 
 private fun <T>  valueLike(value: String, root: Root<T>, cb: CriteriaBuilder, properties: List<String>) =
         cb.like(getPath(root, properties).`as`(String::class.java), value)

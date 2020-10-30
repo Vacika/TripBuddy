@@ -35,6 +35,11 @@
 
 					<span *ngSwitchCase="ColumnType.CUSTOM">
 						<span [ngSwitch]="column.name">
+							<!--------------------->
+							<!------ Driver ------->
+								<span *ngSwitchCase="'driver' || 'driverName'">
+									<span>{{element.driver.name}}</span>
+								</span>
 
 										<!-- User Actions [ADMIN PANEL] -->
 							<span *ngSwitchCase="'adminActions'">
@@ -59,12 +64,7 @@
 									</mat-menu>
 							</span>
 
-							<!--------------------->
-							<!------ Driver ------->
-								<span *ngSwitchCase="'driver' || 'driverName'">
-									{{TTT}} ttt
-									<span>{{element.driver.name}}</span>
-								</span>
+
 
 							<!--------------------->
 							<!-- Allowed Actions -->
