@@ -212,6 +212,7 @@
 	"REQUESTED_SEATS": "Requested Seats",
 	"REQUESTER_NAME": "Requester",
 	"RESERVATION_INFO": "Reservation Info",
-	"YOU_HAVE_NO_RATINGS": "You have no ratings yet.."
-
+	"YOU_HAVE_NO_RATINGS": "You have no ratings yet..",
+	"USER_BANNED_ERROR": "You are banned from this application!",
+	"USER_BANNED_EXPLANATION": "You were banned from the application's administrator. If you think you were banned not rightfully, please contact us at "
 }

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {TripListPage} from '../najdiprevoz/pages/trip-list/trip-list.page';
 import {RouterModule} from '@angular/router';
@@ -9,7 +9,7 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import {TripDetailsPage} from '../najdiprevoz/pages/trip-details/trip-details.page';
 import {CityService} from '../najdiprevoz/services/city.service';
 import {NavMenuComponent} from '../najdiprevoz/components/nav-menu.component';
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MaterialModules} from './material/material.module';
 import {LoginPage} from '../najdiprevoz/pages/login/login.page';
@@ -68,6 +68,8 @@ import {AdminService} from "../najdiprevoz/services/admin.service";
 import {DataTable2Component} from "../najdiprevoz/components/data-table2/data-table.component";
 import {ReservationDetailsDialog} from "../najdiprevoz/dialogs/reservation-details/reservation-details.dialog";
 import {ReservationRequestService} from "../najdiprevoz/services/reservation-request.service";
+import {UserBannedPage} from "../najdiprevoz/pages/user-banned/user-banned.page";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const SERVICES = [
 	LoaderService,
@@ -107,7 +109,8 @@ const PAGES = [ProfileNotActivatedPage,
 	UserRatingsView,
 	HomePage,
 	AdminPanelPage,
-	DataTable2Component];
+	DataTable2Component,
+	UserBannedPage];
 
 @NgModule({
 	declarations: [
@@ -145,7 +148,8 @@ const PAGES = [ProfileNotActivatedPage,
 		MatTableModule,
 		MatPaginatorModule,
 		MatSortModule,
-		MatProgressSpinnerModule],
+		MatProgressSpinnerModule,
+		NgbModule],
 	providers: [
 		...SERVICES,
 		{

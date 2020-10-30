@@ -7,7 +7,7 @@ import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {User} from '../../interfaces/user.interface';
 import {TranslateService} from '@ngx-translate/core';
 import {UINotificationsService} from '../../services/ui-notifications-service';
-import {USER_NOT_ACTIVATED_ERROR} from "../../constants/errors.constants";
+import {USER_BANNED_ERROR, USER_NOT_ACTIVATED_ERROR} from "../../constants/errors.constants";
 
 @Component({
 	templateUrl: './login.page.html',
@@ -59,8 +59,12 @@ export class LoginPage implements OnInit {
 				err => {
 					this.password.reset();
 					this.notificationService.error(err);
-					if (err == USER_NOT_ACTIVATED_ERROR) {
+					if (err === USER_NOT_ACTIVATED_ERROR) {
 						this.router.navigate(['activation-pending']);
+					}
+					else if (err === USER_BANNED_ERROR){
+						this.router.navigate(['user-banned']);
+
 					}
 				});
 		}
