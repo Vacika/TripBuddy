@@ -1,7 +1,7 @@
 import {Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {TripService} from '../../services/trip.service';
 import {ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {City} from '../../interfaces/city.interface';
 import {CityService} from '../../services/city.service';
 
@@ -71,5 +71,19 @@ export class SearchTripsPage implements OnInit {
 
 	theTimeNow() {
 		return this.dateNow;
+	}
+
+	get fromLocation(): AbstractControl {
+		return this.form['fromLocation'];
+	}
+
+	get toLocation(): AbstractControl {
+		return this.form['toLocation'];
+	}
+
+	switchLocations() {
+		let from = this.fromLocation.value;
+		this.fromLocation.patchValue(this.toLocation.value);
+		this.toLocation.patchValue(from);
 	}
 }

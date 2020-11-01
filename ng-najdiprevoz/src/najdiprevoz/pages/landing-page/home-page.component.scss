@@ -1,13 +1,3 @@
-.container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: -5%;
-	flex-direction: column;
-	height: 100%;
-	width: 100%;
-}
-
 .text-center {
 	text-align: center;
 }
@@ -26,4 +16,27 @@
 	font: 300 29px/28px Roboto, Helvetica Neue, sans-serif;
 	letter-spacing: normal;
 	margin: 0 0 16px;
+}
+
+@media (max-width: 1199.98px) {
+	::ng-deep {
+		.search-wrapper {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.form-field, .final-submit-button {
+			width: 100% !important;
+		}
+
+		.hide-on-mobile {
+			display: none;
+		}
+	}
+}
+
+@media(max-width: 1243px) {
+	::ng-deep .swap-icon {
+		display: none;
+	}
 }

@@ -1,10 +1,14 @@
-<div class="container">
-	<div class="text-center bold">
-		<div class="subtitle">{{"SITE_INTRO" | translate}}</div>
-		<div class="title">{{"SITE_TITLE" | translate}}</div>
+<div class="row center-block d-flex flex-column justify-content-center">
+	<div class="text-center bold col-12">
+		<div class="subtitle ">{{"SITE_INTRO" | translate}}</div>
+		<div class="title ">{{"SITE_TITLE" | translate}}</div>
 	</div>
-	<div style="background-color:rgba(0,0,0,.6)">
-		<search-trips-component (searchFormEmitter)="onSearch($event)" [displayDate]='false'
-														[textColor]="'color-white'"></search-trips-component>
+	<div class="col-12 text-center d-flex justify-content-center">
+		<div style="background-color:rgba(0,0,0,.9)" class="col-lg-10 col-md-10 col-sm-11">
+			<search-trips-component (searchFormEmitter)="onSearch($event)"
+															[displayDate]='false'
+															[textColor]="'color-white'">
+			</search-trips-component>
+		</div>
 	</div>
 </div>

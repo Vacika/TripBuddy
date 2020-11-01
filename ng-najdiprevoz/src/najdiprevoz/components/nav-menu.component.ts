@@ -15,7 +15,7 @@ export class NavMenuComponent implements OnInit {
 	@Output() switchLangEmitter = new EventEmitter<string>();
 	@ViewChild('languageSelect') languageSelect;
 
-	constructor(private loginService: AuthService,
+	constructor(private _authService: AuthService,
 							private _router: Router) {
 	}
 
@@ -23,12 +23,15 @@ export class NavMenuComponent implements OnInit {
 		this.selectedLangControl.setValue(lang)
 	};
 
+	get username(): string {
+		return this._authService.getLoggedUser().username;
+	}
 	get authenticated(): boolean {
-		return !!this.loginService.getLoggedUser()
+		return !!this._authService.getLoggedUser()
 	}
 
 	get isAdmin(): boolean {
-		return this.loginService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
+		return this._authService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
 	}
 
 	ngOnInit(): void {
@@ -42,6 +45,6 @@ export class NavMenuComponent implements OnInit {
 
 	logout() {
 		this._router.navigate(['/'], {}).then();
-		this.loginService.logout().subscribe();
+		this._authService.logout().subscribe();
 	}
 }
