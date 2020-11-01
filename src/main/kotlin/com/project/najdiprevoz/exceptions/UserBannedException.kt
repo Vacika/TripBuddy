@@ -2,5 +2,5 @@ package com.project.najdiprevoz.exceptions
 
 import org.springframework.security.core.AuthenticationException
 
-class UserBannedException(s: String) : AuthenticationException("USER_BANNED") {
+class UserBannedException() : AuthenticationException("USER_BANNED_ERROR") {
 }

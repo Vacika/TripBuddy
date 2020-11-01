@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.api
 
+import com.project.najdiprevoz.security.JwtTokenUtil
 import com.project.najdiprevoz.security.UserDetailsServiceImpl
 import com.project.najdiprevoz.web.request.LoginUserRequest
 import com.project.najdiprevoz.web.response.JwtResponse
@@ -10,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import com.project.najdiprevoz.security.JwtTokenUtil
 import java.util.*
 
 

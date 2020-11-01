@@ -10,6 +10,6 @@ import javax.servlet.http.HttpServletResponse
 class NoPopupBasicAuthenticationEntryPoint : AuthenticationEntryPoint {
     @Throws(IOException::class)
     override fun commence(request: HttpServletRequest, response: HttpServletResponse, authException: AuthenticationException) {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ERROR_NOT_AUTHORIZED")
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.message)
     }
 }
