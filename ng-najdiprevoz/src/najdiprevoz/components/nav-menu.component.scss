@@ -60,3 +60,12 @@
 		display: none;
 	}
 }
+
+a:hover {
+	color: #2979ff !important;
+	text-decoration: none !important;
+}
+
+.remove-focus-border:focus {
+	outline: none !important;
+}

@@ -1,8 +1,8 @@
-<form (submit)="submit()" [formGroup]="form" [ngClass]="textColor" class='flex flex-column'>
-	<div class='flex space-between'>
+<form (submit)="submit()" [formGroup]="form" [ngClass]="textColor" class='container'>
+	<div class='align-items-center container d-flex row justify-content-between'>
 
 		<!-- From Location -->
-		<mat-form-field appearance="outline" class="form-field width-20" color="primary">
+		<mat-form-field appearance="outline" class="flex-fill mr-1 col-md-2 col-sm-12" color="primary">
 			<mat-label> {{'FROM' | translate}}</mat-label>
 			<mat-select formControlName="fromLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -14,8 +14,17 @@
 			</mat-error>
 		</mat-form-field>
 
+		<!-- Switch FROM-TO Locations button -->
+		<button mat-icon-button
+						(click)="switchLocations()"
+						[matTooltip]="'SWITCH_LOCATIONS'|translate"
+						class="mr-1 col-md-1 col-sm-12">
+			<mat-icon style="width:auto;height:auto;">swap_horizontal_circle</mat-icon>
+		</button>
+
+
 		<!-- To Location -->
-		<mat-form-field appearance="outline" class="form-field width-20">
+		<mat-form-field appearance="outline" class="flex-fill mr-1 col-md-2 col-sm-12">
 			<mat-label> {{'TO' | translate}}</mat-label>
 			<mat-select formControlName="toLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -28,7 +37,8 @@
 		</mat-form-field>
 
 
-		<button [disabled]='form.invalid || form.pristine' class='button-primary color-white button-form final-submit-button'
+		<button [disabled]='form.invalid || form.pristine'
+						class='button-primary color-white button-form final-submit-button flex-fill mr-1 col-md-2 col-sm-12'
 						mat-raised-button
 						type="submit">
 			<span>{{'SEARCH' | translate}}</span>
@@ -37,7 +47,7 @@
 
 
 		<!-- Seats requested -->
-		<mat-form-field appearance="outline" class="form-field width-20">
+		<mat-form-field appearance="outline" class="flex-fill mr-1 col-md-2 col-sm-12">
 			<mat-label> {{'TOTAL_SEATS_OFFERED' | translate}}</mat-label>
 			<input [max]='5' [min]=1 formControlName='requestedSeats' matInput type='number'>
 			<mat-error
@@ -49,8 +59,9 @@
 
 
 		<!-- Departure date -->
-		<mat-form-field appearance="outline" class="form-field width-20">
-			<input [min]='minimumDate' [owlDateTimeFilter]='myDateTimeFilter' [owlDateTimeTrigger]="departureDate" [owlDateTime]="departureDate"
+		<mat-form-field appearance="outline" class="flex-fill mr-1 col-md-2 col-sm-12 ">
+			<input [min]='minimumDate' [owlDateTimeFilter]='myDateTimeFilter' [owlDateTimeTrigger]="departureDate"
+						 [owlDateTime]="departureDate"
 						 class='border-top-0' formControlName='departureDate'
 						 matInput
 						 style="color:white!important">

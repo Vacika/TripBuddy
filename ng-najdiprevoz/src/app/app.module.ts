@@ -19,7 +19,7 @@ import {CreateTripPage} from '../najdiprevoz/pages/create-trip/create-trip.page'
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 import {TripListView} from '../najdiprevoz/views/trip-list/trip-list.view';
-import {SearchTripsPage} from '../najdiprevoz/pages/find-trips/search-trips.page';
+import {SearchTripsPage} from '../najdiprevoz/components/search-trips/search-trips.page';
 import {HelperService} from '../najdiprevoz/services/helper.service';
 import {TripDetailsDialog} from '../najdiprevoz/dialogs/trip-details-dialog/trip-details.dialog';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -38,7 +38,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MyRatingsView} from '../najdiprevoz/views/my-ratings/my-ratings.view';
 import {RatingService} from '../najdiprevoz/services/rating.service';
 import {ReservationRequestsComponent} from '../najdiprevoz/components/ride-requests/ride-requests.component';
-import {DataTableComponent} from '../najdiprevoz/components/data-table/data-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
@@ -103,7 +102,6 @@ const PAGES = [ProfileNotActivatedPage,
 	ProfileSettingsView,
 	MyRatingsView,
 	ReservationRequestsComponent,
-	DataTableComponent,
 	TripsComponent,
 	UserInfoPage,
 	UserRatingsView,
