@@ -29,12 +29,6 @@
 	font-size: 18px;
 }
 
-.search-wrapper {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-}
-
 .align-center {
 	align-items: center;
 }
@@ -53,7 +47,6 @@
 	padding-top: 1.34375em !important;
 }
 
-.form-field {
-	min-width: 130px !important;
-	width: 19%;
+.mat-form-field {
+	min-width: 177px !important;
 }

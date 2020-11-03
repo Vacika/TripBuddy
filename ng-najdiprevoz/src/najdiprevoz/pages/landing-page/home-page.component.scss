@@ -18,16 +18,15 @@
 	margin: 0 0 16px;
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1230.98px) {
 	::ng-deep {
 		.search-wrapper {
 			display: flex;
-//			//flex-direction: column;
+			flex-direction: column;
 		}
-//
-//		.form-field, .final-submit-button {
-//			width: 100% !important;
-//		}
+		.form-field, .final-submit-button {
+			width: 100% !important;
+		}
 //
 //		.hide-on-mobile {
 //			display: none;

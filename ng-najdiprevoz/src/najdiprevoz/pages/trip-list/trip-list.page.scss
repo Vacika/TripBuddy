@@ -1,9 +1,9 @@
-//@media (max-width: 1003.98px) {
-//	::ng-deep {
-//		.search-wrapper {
-//			display: flex;
-//			flex-direction: column;
-//		}
+@media (max-width: 1003.98px) {
+	::ng-deep {
+		.search-wrapper {
+			display: flex;
+			flex-direction: column;
+		}
 //
 //		.form-field, .final-submit-button {
 //			width: 100% !important;
@@ -16,5 +16,5 @@
 //		.swap-icon {
 //			display: none;
 //		}
-//	}
-//}
+	}
+}
