@@ -7,16 +7,14 @@
 		</div>
 		<div>
 			<a [routerLink]="'/trips'" class="hide-on-mobile" mat-button>
-				<mat-icon>search</mat-icon>
+				<mat-icon class="ignore-default-color">search</mat-icon>
 				{{'FIND_TRIPS'|translate}} </a>
 			<a [routerLink]="'/trips/new'" class="hide-on-mobile" mat-button>
-				<mat-icon>add_circle_outline</mat-icon>
+				<mat-icon class="ignore-default-color">add_circle_outline</mat-icon>
 				{{'PUBLISH_TRIP'|translate}} </a>
 
-			<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/register'" class="hide-on-mobile"> {{'REGISTER'|translate}} </a>-->
-			<!--			<a *ngIf="!authenticated" mat-button [routerLink]="'/login'" class="hide-on-mobile"> {{'LOGIN'|translate}} </a>-->
 			<a *ngIf="authenticated" [routerLink]="'/notifications'" mat-icon-button>
-				<mat-icon class='color-white ignore-default-color'>notifications</mat-icon>
+				<mat-icon class='ignore-default-color'>notifications</mat-icon>
 			</a>
 			<span class="mat-button" mat-button>
        <img (click)="onFlagClick()"
@@ -33,12 +31,14 @@
       </span>
 
 			<button [matMenuTriggerFor]="menu"
-							class="link "
+							class="link remove-focus-border"
 							mat-icon-button>
-				<mat-icon class="color-white ignore-default-color">menu</mat-icon>
+				<mat-icon class="ignore-default-color">menu</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu" class="primary-dark-color-background">
 
+				<span *ngIf="authenticated"><b>{{username}}</b></span>
+				<hr>
 				<!-- Search Trips -->
 				<button [routerLink]="'/trips'"
 								class="link show-on-mobile-only"

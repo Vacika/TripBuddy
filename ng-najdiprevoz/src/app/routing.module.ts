@@ -3,7 +3,7 @@ import {TripListPage} from '../najdiprevoz/pages/trip-list/trip-list.page';
 import {TripDetailsPage} from '../najdiprevoz/pages/trip-details/trip-details.page';
 import {LoginPage} from '../najdiprevoz/pages/login/login.page';
 import {CreateTripPage} from '../najdiprevoz/pages/create-trip/create-trip.page';
-import {SearchTripsPage} from '../najdiprevoz/pages/find-trips/search-trips.page';
+import {SearchTripsPage} from '../najdiprevoz/components/search-trips/search-trips.page';
 import {NotificationListPage} from "../najdiprevoz/pages/notifications/notifications.page";
 import {AuthGuard} from "../najdiprevoz/auth.guard";
 import {RegisterPage} from "../najdiprevoz/pages/register-user/register.page";

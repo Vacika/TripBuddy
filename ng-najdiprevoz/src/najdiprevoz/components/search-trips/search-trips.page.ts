@@ -1,7 +1,7 @@
 import {Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {TripService} from '../../services/trip.service';
 import {ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {City} from '../../interfaces/city.interface';
 import {CityService} from '../../services/city.service';
 
@@ -30,7 +30,6 @@ export class SearchTripsPage implements OnInit {
 
 	@Input() set patchFormValues(newValues: any) {
 		if (newValues) {
-			console.log("NEW VALUES:", newValues);
 			let newFormControlValues = {
 				fromLocation: newValues.fromLocation ? +newValues.fromLocation : null,
 				toLocation: newValues.toLocation ? +newValues.toLocation : null,
@@ -71,5 +70,19 @@ export class SearchTripsPage implements OnInit {
 
 	theTimeNow() {
 		return this.dateNow;
+	}
+
+	get fromLocation(): AbstractControl {
+		return this.form.controls['fromLocation'];
+	}
+
+	get toLocation(): AbstractControl {
+		return this.form.controls['toLocation'];
+	}
+
+	switchLocations() {
+		let from = this.fromLocation.value;
+		this.fromLocation.patchValue(this.toLocation.value);
+		this.toLocation.patchValue(from);
 	}
 }

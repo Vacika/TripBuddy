@@ -5,13 +5,15 @@ import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.exceptions.RideNotFoundException
-import com.project.najdiprevoz.repositories.*
+import com.project.najdiprevoz.exceptions.SeatsLimitException
+import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.utils.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
@@ -25,7 +27,9 @@ import javax.transaction.Transactional
 class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
-                  private val notificationService: NotificationService) {
+                  private val notificationService: NotificationService,
+                  @Value("\${najdiprevoz.max-seats-per-seats}")
+                  private val maxSeatsPerTrip: Int) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
@@ -54,7 +58,11 @@ class TripService(private val repository: RideRepository,
 
 
     fun createNewTrip(createTripRequest: CreateTripRequest, username: String) {
-        logger.info("[RideService - ADD RIDE] Creating new ride!")
+        logger.info("[RideService - ADD RIDE] Creating new ride by {}!", username)
+        if (createTripRequest.totalSeats > maxSeatsPerTrip){
+            throw SeatsLimitException()
+        }
+
         repository.save(createRideObject(createTripRequest = createTripRequest, username = username))
     }
 

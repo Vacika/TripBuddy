@@ -19,7 +19,7 @@ class UserDetailsServiceImpl(private val repository: UserRepository) : UserDetai
             throw UserNotActivatedException()
         }
         if (user.isBanned) {
-            throw UserBannedException("User is banned!")
+            throw UserBannedException()
         }
         return user
     }

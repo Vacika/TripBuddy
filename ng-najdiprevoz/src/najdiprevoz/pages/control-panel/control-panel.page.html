@@ -1,10 +1,10 @@
 <div class="flex h-100-percent">
 	<!-- USER DETAILS -->
-	<div class="w-35 ml-5 mt-5">
+	<div class="ml-5 mt-5 profile-settings">
 		<profile-settings (submitEvent)="submit($event)"></profile-settings>
 	</div>
 
-	<div class="w-65 mat-card mt-5">
+	<div class="mat-card mt-5 table-container">
 		<mat-tab-group class="set-width color-white" dynamicHeight mat-stretch-tabs>
 			<mat-tab class='color-white' label="{{'RIDE_REQUESTS'|translate}}">
 				<ride-requests-component (onActionTaken)="takeAction($event)"

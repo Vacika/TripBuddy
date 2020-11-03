@@ -1,9 +1,9 @@
 <div style="height:100%; margin-top:-10px;">
-	<div class=''>
+	<div>
 		<search-trips-component (searchFormEmitter)='navigateWithQueryParams($event)'
-														[patchFormValues]='formValues'></search-trips-component>
+														[patchFormValues]='formValues'>
+		</search-trips-component>
 	</div>
 	<list-trips [allTrips]='data$|async'>
-
 	</list-trips>
-</div>
+</div>a
