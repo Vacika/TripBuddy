@@ -23,7 +23,7 @@
 }
 
 .width-50 {
-	width: 50%;
+	width: 48%;
 }
 
 .flex {
@@ -138,4 +138,9 @@
 
 .width-30 {
 	width: 30% !important;
+}
+
+.remaining-free-seats {
+	display: flex;
+	justify-content: flex-end;
 }

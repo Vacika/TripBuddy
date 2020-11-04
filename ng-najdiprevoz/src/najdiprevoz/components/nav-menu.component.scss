@@ -52,6 +52,25 @@
 	}
 }
 
+// Iphone 5 queries
+@media only screen and (max-width: 330px) {
+	.hide-on-iphone5 {
+		display: none;
+	}
+	.show-on-iphone5-only {
+		display: inline-block;
+	}
+}
+
+@media only screen and (min-width: 331px) {
+	.show-on-iphone5-only {
+		display: none;
+	}
+	.hide-on-iphone5 {
+		display: inline-block;
+	}
+}
+
 // NOT MOBILE
 @media only screen and (min-width: 769px) {
 	.hide-on-mobile {
