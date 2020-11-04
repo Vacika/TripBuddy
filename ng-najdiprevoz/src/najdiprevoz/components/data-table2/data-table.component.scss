@@ -87,3 +87,9 @@ td {
 		vertical-align: middle;
 	}
 }
+
+::ng-deep {
+	& .mat-paginator-page-size {
+		align-items: center;
+	}
+}

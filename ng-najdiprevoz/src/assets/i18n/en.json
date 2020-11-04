@@ -216,5 +216,6 @@
 	"USER_BANNED_ERROR": "You are banned from this application!",
 	"USER_BANNED_EXPLANATION": "You were banned from the application's administrator. If you think you were banned not rightfully, please contact us at ",
 	"SWITCH_LOCATIONS": "Switch locations",
-	"SEAT_LIMIT_ERROR": "You can only publish 5 seats per ride."
+	"SEAT_LIMIT_ERROR": "You can only publish 5 seats per ride.",
+	"NOTIFICATIONS": "Notifications"
 }
