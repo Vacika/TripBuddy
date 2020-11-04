@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
-class AdminService(private val userService: UserService) {
+class AdminMapper(private val userService: UserService) {
 
     fun banUser(username: String) =
             userService.banUser(username)

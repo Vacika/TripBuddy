@@ -28,7 +28,7 @@ class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
                   private val notificationService: NotificationService,
-                  @Value("\${najdiprevoz.max-seats-per-seats}")
+                  @Value("\${najdiprevoz.max-seats-per-trip}")
                   private val maxSeatsPerTrip: Int) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
