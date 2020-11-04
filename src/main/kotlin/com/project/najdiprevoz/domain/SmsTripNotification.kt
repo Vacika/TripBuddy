@@ -22,6 +22,9 @@ class SmsTripNotification(
         val destination: City,
 
         @Column(name = "valid_until")
-        val validUntil: ZonedDateTime
+        val validUntil: ZonedDateTime,
+
+        @Column(name = "phone_number")
+        val phoneNumber: String
 ) {
 }

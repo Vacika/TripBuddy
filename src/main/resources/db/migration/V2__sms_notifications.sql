@@ -4,6 +4,7 @@ create table if not exists sms_trip_notifications
     created_on      timestamptz,
     from_location   bigint not null references cities(id),
     to_location     bigint not null references cities(id),
+    phone_number    TEXT not null,
     valid_until     timestamptz not null
 );
 
