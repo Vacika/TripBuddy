@@ -26,6 +26,7 @@
 .card {
 	margin-top: 2%;
 	border-radius: 10%;
+	min-width: 450px;
 }
 
 .profile-pic {
@@ -40,4 +41,23 @@
 
 .link {
 	cursor: pointer;
+}
+
+.full-name {
+	display: flex;
+	justify-content: center;
+}
+
+.container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+@media (max-width: 450.98px) {
+	.width-40 {
+		min-width: auto;
+		width: 100%;
+	}
 }
