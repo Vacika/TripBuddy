@@ -1,7 +1,7 @@
 <div class="component-wrapper">
 	<div class="form-container">
 		<form (submit)="submit()" [formGroup]="loginForm">
-			<mat-form-field appearance="outline" class="form-field">
+			<mat-form-field appearance="outline" class="display-block">
 				<mat-label> {{'YOUR_EMAIL_ADDRESS' | translate}}
 				</mat-label>
 				<input formControlName="email" matInput required>
@@ -10,7 +10,7 @@
 					<span *ngIf="loginForm.controls.email.errors.pattern">{{'MANDATORY_FIELD' | translate}}</span>
 				</mat-error>
 			</mat-form-field>
-			<mat-form-field appearance="outline" class="form-field">
+			<mat-form-field appearance="outline" class="display-block">
 				<mat-label> {{'PASSWORD' | translate}}
 				</mat-label>
 				<input formControlName="password" matInput type="password">

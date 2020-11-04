@@ -48,6 +48,42 @@ button {
 	color: white !important;
 }
 
+::ng-deep .mat-sort-header-container {
+	justify-content: center !important;
+}
+
+td {
+	text-align: center;
+}
+
 .background-black {
 	background-color: rgb(0, 0, 0, 0.8) !important;
+}
+
+.table-responsive {
+	display: block;
+	width: 100%;
+	overflow-x: auto !important;
+	.mat-table {
+		width: 100% !important;
+		max-width: 100%;
+		display: table;
+		border-collapse: collapse;
+		margin: 0;
+	}
+	.mat-row,
+	.mat-header-row {
+		display: table-row;
+	}
+	.mat-cell,
+	.mat-header-cell {
+		word-wrap: initial;
+		display: table-cell;
+		padding: 0px 5px;
+		line-break: unset;
+		width: auto;
+		white-space: nowrap;
+		overflow: hidden;
+		vertical-align: middle;
+	}
 }

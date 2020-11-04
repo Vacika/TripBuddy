@@ -3,9 +3,9 @@
 		<img class="card-header-image" mat-card-avatar
 				 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
 		<mat-card-title class="margin-bottom-0 space-between flex">
-			<span class="font-18 margin-right-10"><a [routerLink]="'/user/' + trip.driver.id"
+			<span class="font-18 margin-right-10 width-60"><a [routerLink]="'/user/' + trip.driver.id"
 																							 class="user-link">{{trip.driver.name}}</a></span>
-			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}">
+			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}" class="width-30">
 					<mat-icon *ngFor="let index of getNumberAsArray(trip.totalSeats)"
 										[ngClass]="getClassForPersonIcon(index,trip.availableSeats)">
 						person
@@ -21,7 +21,7 @@
 	<mat-card-content>
 		<div class="flex space-between align-end color-white">
 			<span class="text-bold">{{trip.from | translate}}</span>
-			<img height="52px" src='assets/images/moving-car.gif' width="52px">
+			<img height="52px" src='assets/images/moving-ccolar.gif' width="52px">
 			<span class="text-bold">{{trip.to | translate}}</span>
 		</div>
 		<div class="height-12 margin-top-minus-20px road">
@@ -68,8 +68,8 @@
 		</div>
 	</mat-card-content>
 	<mat-divider></mat-divider>
-	<mat-card-actions class='flex space-between'>
-		<button (click)='reserve(trip)' [disabled]='trip.availableSeats<=0' class=" mat-primary width-50 background-green color-white"
+	<mat-card-actions class='d-flex justify-content-between'>
+		<button (click)='reserve(trip)' [disabled]='trip.availableSeats<=0' class="mat-primary width-50 background-green color-white"
 						mat-button>{{'REQUEST_RIDE'| translate}}</button>
 		<button (click)="onClickDetails(trip.id)" class=" mat-primary width-50 button-primary color-white"
 						mat-button>{{'SEE_DETAILS' | translate}}</button>

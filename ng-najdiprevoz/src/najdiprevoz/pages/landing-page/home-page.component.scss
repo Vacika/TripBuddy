@@ -1,5 +1,19 @@
+.search-trips-component-wrapper {
+	width: 80%;
+	height: fit-content;
+}
+
 .text-center {
 	text-align: center;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
 }
 
 .bold {
@@ -18,21 +32,28 @@
 	margin: 0 0 16px;
 }
 
+.justify-center {
+	justify-content: center;
+}
+
 @media (max-width: 1230.98px) {
 	::ng-deep {
 		.search-wrapper {
 			display: flex;
 			flex-direction: column;
 		}
+
 		.form-field, .final-submit-button {
 			width: 100% !important;
 		}
-//
-//		.hide-on-mobile {
-//			display: none;
-//		}
+
+		//
+		//		.hide-on-mobile {
+		//			display: none;
+		//		}
 	}
 }
+
 //
 //@media(max-width: 1243px) {
 //	::ng-deep .swap-icon {

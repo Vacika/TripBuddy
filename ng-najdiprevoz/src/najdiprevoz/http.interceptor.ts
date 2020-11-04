@@ -25,6 +25,7 @@ export class CustomInterceptor implements HttpInterceptor {
 		return next.handle(request).pipe(
 			tap((event) => this.loader.start()),
 			catchError(err => {
+				console.log("ERROR", err);
 				if (err.status === 401 || err.status === 403) {
 					this.authenticationService.resetUserObservable();
 					this.router.navigate(['/login'])

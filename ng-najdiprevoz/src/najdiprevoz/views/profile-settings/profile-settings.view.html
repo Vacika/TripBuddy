@@ -2,14 +2,14 @@
 	<mat-card-header>
 		<div mat-card-avatar>
 			<img [src]="imgUrl? imgUrl : '../../../assets/images/default-profile-pic.jpeg'" class="profile-pic">
-			<input #profilePhoto (change)="onFileChange(profilePhoto.files)" accept="image/*" class="hidden" id="profilePhoto" name="profilePhoto"
+			<input #profilePhoto (change)="onFileChange(profilePhoto?.files)" accept="image/*" class="hidden" id="profilePhoto" name="profilePhoto"
 						 type="file">
 		</div>
 		<mat-card-title class="flex space-between align-center">
-			<span>{{user?.firstName + ' ' + user?.lastName}}</span>
-			<span class="flex align-center">
-						<mat-star-rating [rating]="user?.averageRating!= 'NaN'? user?.averageRating : 0"
-														 [starCount]="5"></mat-star-rating>
+			<span class="username">{{user?.firstName + ' ' + user?.lastName}}</span>
+			<span class="flex align-center rating-span-container">
+<!--						<mat-star-rating [rating]="user?.averageRating!= 'NaN'? user?.averageRating : 0"-->
+<!--														 [starCount]="5"></mat-star-rating>-->
 				<button (click)="toggleEdit()" [matTooltip]="'EDIT'|translate" class="align-center"
 								mat-icon-button>
 				<mat-icon style="line-height:15px; color:#feae14!important;">edit</mat-icon>

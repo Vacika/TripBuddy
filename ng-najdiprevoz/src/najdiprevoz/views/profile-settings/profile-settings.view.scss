@@ -2,7 +2,19 @@
 	display: flex;
 }
 
-b
+.username {
+	max-width: 30%;
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 1em;
+}
+
+.rating-span-container {
+	width: 40%;
+	display: flex;
+	justify-content: flex-end;
+}
+
 .w-35 {
 	width: 35%;
 }

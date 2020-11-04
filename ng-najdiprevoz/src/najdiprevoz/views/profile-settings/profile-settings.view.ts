@@ -19,8 +19,10 @@ export class ProfileSettingsView {
 							private router: Router,
 							private loginService: AuthService) {
 		this.user = this.loginService.getLoggedUser();
-		this.imgUrl = this.user.profilePhoto;
-		this.setProperties(this.user);
+		if(this.user) {
+			this.imgUrl = this.user?.profilePhoto;
+			this.setProperties(this.user);
+		}
 		this.form.disable();
 	}
 

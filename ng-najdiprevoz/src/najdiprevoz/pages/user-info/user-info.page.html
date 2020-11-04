@@ -1,9 +1,9 @@
-<div class='container width-100 flex center'>
+<div class='width-100 flex center' *ngIf="user">
 	<div class="width-40 card mat-card">
 		<!--Header ( Profile Pic & Full Name ) -->
 		<div class="header-info center">
 			<div class="profile-photo">
-				<img [src]="user.profilePhoto? user.profilePhoto : '../../../assets/images/default-profile-pic.jpeg'"
+				<img [src]="user.profilePhoto != null ? user.profilePhoto : '../../../assets/images/default-profile-pic.jpeg'"
 						 class="profile-pic">
 			</div>
 			<div class="full-name"><h1><b>{{user.firstName }} {{user.lastName}}</b></h1></div>

@@ -19,7 +19,7 @@
 							 class="text-bold">{{'ADDITIONAL_DESCRIPTION' |translate}}
 			:</span> {{tripDetails.additionalDescription}}
 		</div>
-		<div class='flex-row space-evenly'>
+		<div class='d-flex justify-content-around'>
 			<mat-icon *ngIf="tripDetails.isPetAllowed" class="success ignore-default-color"
 								matTooltip='{{"IS_PET_ALLOWED_POSITIVE"|translate}}'>
 				pets
@@ -67,8 +67,8 @@
 						matTooltip="{{'MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP' | translate}}">
 		<svg aria-hidden="true"
 				 fill="#708C91"
-				 height="24" viewBox="0 0 24 24"
-				 width="24"
+				 height="30" viewBox="0 0 24 24"
+				 width="30"
 				 xmlns="http://www.w3.org/2000/svg">
 			<g
 				fill="none" stroke="#ff2a26" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
@@ -85,7 +85,7 @@
 	</span>
 		</div>
 	</div>
-	<div mat-dialog-actions>
+	<div mat-dialog-actions class="flex-nowrap">
 		<button (click)='reserve()' *ngIf='trip.status == "ACTIVE"'
 						[disabled]='trip.availableSeats<=0'
 						class='width-49-percent mat-stroked-button color-white green-gradient-bg'

@@ -145,7 +145,7 @@ input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, 
 }
 
 .mat-card {
-	background: rgb(0, 0, 0, 0.8);
+	background: rgb(0, 0, 0, 0.8) !important;
 }
 
 .mat-menu-item {
@@ -160,5 +160,3 @@ input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, 
 	background: #2979ff !important;
 	color: white !important;
 }
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';

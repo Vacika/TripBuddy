@@ -10,11 +10,12 @@ export class AuthGuard implements CanActivate {
 	}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		const currentUser = this.authenticationService.getLoggedUser();
-		if (currentUser) {
+		const loggedUser = this.authenticationService.isUserLoggedIn();
+		if (loggedUser) {
 			// logged in so return true
 			return true;
 		}
+		console.log("Not logged in!");
 		// not logged in so redirect to login page with the return url
 		this.router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
 		return false;

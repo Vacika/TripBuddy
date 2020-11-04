@@ -1,3 +1,6 @@
+<div class="table-responsive">
+
+
 <table [dataSource]="dataSource" class="mat-elevation-z8 background-black" mat-table matSort>
 	<ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.name">
 		<th *matHeaderCellDef [disabled]="!column.sortable" class='table-headers' mat-header-cell mat-sort-header
@@ -106,3 +109,4 @@
 
 <mat-paginator *ngIf="dataSource?.data?.length > 0" [pageSizeOptions]="[5,10,15,50]" class="pagnacolor"
 							 showFirstLastButtons></mat-paginator>
+</div>

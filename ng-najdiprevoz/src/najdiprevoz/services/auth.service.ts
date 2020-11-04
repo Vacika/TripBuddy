@@ -20,7 +20,10 @@ export class AuthService {
 	}
 
 	public getLoggedUser(): User {
-		return this.currentUser.value;
+		if(this.isUserLoggedIn()){
+			return JSON.parse(sessionStorage.getItem("currentUser")) as User;
+		}
+		return null
 	}
 
 	login(username: string, password: string): Observable<User | null> {
@@ -77,7 +80,7 @@ export class AuthService {
 	//TODO: Remove
 	isUserLoggedIn() {
 		let user = sessionStorage.getItem("currentUser");
-		console.log(!(user === null));
-		return !(user === null);
+		let token = sessionStorage.getItem("token");
+		return !(user === null || token === null);
 	}
 }

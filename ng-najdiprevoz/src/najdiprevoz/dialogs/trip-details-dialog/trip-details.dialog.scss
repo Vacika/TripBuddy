@@ -46,12 +46,19 @@
 }
 
 .icons {
-	height: 25px;
+	border-radius: 60% !important;
+	padding: 5px !important;
+	font-size: 30px !important;
+	width: 44px !important;
+	height: 44px !important;
 }
 
 ::ng-deep mat-icon, .icons {
-	border-radius: 60%;
-	padding: 5px;
+	border-radius: 60% !important;
+	padding: 5px !important;
+	font-size: 30px !important;
+	width: 44px !important;
+	height: 44px !important;
 }
 
 ::ng-deep mat-icon.danger, .icons.danger {

@@ -1,10 +1,11 @@
-<div class="row center-block d-flex flex-column justify-content-center">
-	<div class="text-center bold col-12">
+<div class="flex-column"
+		 style="margin-top: 5%;">
+	<div class="text-center bold">
 		<div class="subtitle ">{{"SITE_INTRO" | translate}}</div>
 		<div class="title ">{{"SITE_TITLE" | translate}}</div>
 	</div>
-	<div class="col-12 text-center d-flex justify-content-center">
-		<div style="background-color:rgba(0,0,0,.9); max-width:1416px!important;" class="col-lg-10 col-md-10 col-sm-11">
+	<div class="justify-center flex">
+		<div style="background-color:rgba(0,0,0,.9); max-width:1416px!important;" class="search-trips-component-wrapper">
 			<search-trips-component (searchFormEmitter)="onSearch($event)"
 															[displayDate]='false'
 															[textColor]="'color-white'">

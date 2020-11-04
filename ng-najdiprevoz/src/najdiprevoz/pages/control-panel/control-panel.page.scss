@@ -2,26 +2,16 @@
 	display: flex;
 }
 
-.profile-settings {
-	width: 30%;
-}
-
 .table-container {
-	width: 66%;
-	margin-left: 2%;
-	margin-right: 1%;
+	width: 64%;
+	margin-top:1.5em;
 }
 
 .profile-pic {
 	border-radius: 60%;
 }
 
-.ml-5 {
-	margin-left: 5px;
-}
-
 .mt-5 {
-	margin-top: 5px;
 }
 
 .space-between {
@@ -60,5 +50,21 @@
 :host ::ng-deep {
 	.mat-tab-label-active {
 		background: black !important;
+	}
+}
+
+.prof-settings-container {
+	margin-left: 0.5em;
+	margin-right: 1.5em;
+	width: 30%;
+	margin-top: 1.5em;
+}
+
+@media (max-width: 1088.98px) {
+	.container {
+		flex-direction: column;
+	}
+	.table-container, .prof-settings-container {
+		width: 99%;
 	}
 }

@@ -37,8 +37,8 @@
 			</button>
 			<mat-menu #menu="matMenu" class="primary-dark-color-background">
 
-				<span *ngIf="authenticated"><b>{{username}}</b></span>
-				<hr>
+				<span *ngIf="authenticated" style="display: flex; justify-content: center; padding: 1em;"><b>{{username}}</b></span>
+				<hr *ngIf="authenticated" style="margin: 0; padding: 0;color: white;background: white;">
 				<!-- Search Trips -->
 				<button [routerLink]="'/trips'"
 								class="link show-on-mobile-only"
