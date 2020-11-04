@@ -1,9 +1,10 @@
 <mat-card *ngFor="let trip of allTrips" class="card">
-	<mat-card-header>
-		<img class="card-header-image" mat-card-avatar
-				 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
+	<mat-card-header class="flex-column">
 		<mat-card-title class="margin-bottom-0 space-between flex">
-			<span class="font-18 margin-right-10" style="max-width: 200px;">
+			<img class="card-header-image" mat-card-avatar
+					 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
+
+			<span class="font-18" style="max-width: 200px;">
 				<a [routerLink]="'/user/' + trip.driver.id" class="user-link">
 					{{trip.driver.name}}
 				</a>

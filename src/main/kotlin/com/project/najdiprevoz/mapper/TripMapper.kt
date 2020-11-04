@@ -71,7 +71,6 @@ class TripMapper(private val tripService: TripService,
                 allowedActions = getAllowedActions(trip, asPassenger))
     }
 
-    //TODO: Move these to constants
     private fun getAllowedActions(trip: Trip, asPassenger: Boolean): List<String> = with(trip){
         return if (asPassenger) {
             when (status) {

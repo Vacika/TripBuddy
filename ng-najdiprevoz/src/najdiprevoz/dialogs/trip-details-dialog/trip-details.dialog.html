@@ -19,7 +19,7 @@
 							 class="text-bold">{{'ADDITIONAL_DESCRIPTION' |translate}}
 			:</span> {{tripDetails.additionalDescription}}
 		</div>
-		<div class='d-flex justify-content-around'>
+		<div class='flex space-evenly'>
 			<mat-icon *ngIf="tripDetails.isPetAllowed" class="success ignore-default-color"
 								matTooltip='{{"IS_PET_ALLOWED_POSITIVE"|translate}}'>
 				pets
@@ -85,7 +85,7 @@
 	</span>
 		</div>
 	</div>
-	<div mat-dialog-actions class="flex-nowrap">
+	<div mat-dialog-actions class="flex space-between">
 		<button (click)='reserve()' *ngIf='trip.status == "ACTIVE"'
 						[disabled]='trip.availableSeats<=0'
 						class='width-49-percent mat-stroked-button color-white green-gradient-bg'

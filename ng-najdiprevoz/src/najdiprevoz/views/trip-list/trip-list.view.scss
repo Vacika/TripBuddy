@@ -9,7 +9,7 @@
 .mat-card {
 	display: inline-block;
 	margin: 30px 30px;
-	min-width: 290px;
+	//min-width: 290px;
 	background: rgb(0, 0, 0, 0.8);
 	color: white !important;
 }
@@ -38,10 +38,17 @@
 	& .mat-card-header-text {
 		width: 100%;
 		margin-right: 0;
+		margin-left: 0;
+		display: flex;
+		flex-direction: column;
 	}
 
 	& .mat-card-header {
 		margin-bottom: 5px;
+	}
+
+	& .mat-card-header .mat-card-subtitle:not(:first-child) {
+		margin-top: 1%;
 	}
 }
 
@@ -143,4 +150,24 @@
 .remaining-free-seats {
 	display: flex;
 	justify-content: flex-end;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+
+@media (max-width: 430.98px) {
+	:host::ng-deep {
+		& .mat-card-title {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		& .mat-card-subtitle {
+			text-align: center;
+		}
+	}
 }

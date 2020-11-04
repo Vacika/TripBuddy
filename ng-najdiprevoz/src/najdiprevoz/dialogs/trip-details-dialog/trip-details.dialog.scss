@@ -11,7 +11,7 @@
 }
 
 .width-49-percent {
-	width: 49%;
+	width: 45%;
 }
 
 .flex-row {
@@ -53,12 +53,12 @@
 	height: 44px !important;
 }
 
-::ng-deep mat-icon, .icons {
+:host::ng-deep mat-icon, .icons {
 	border-radius: 60% !important;
-	padding: 5px !important;
+	padding: 4px !important;
 	font-size: 30px !important;
-	width: 44px !important;
-	height: 44px !important;
+	width: 30px !important;
+	height: 30px !important
 }
 
 ::ng-deep mat-icon.danger, .icons.danger {
