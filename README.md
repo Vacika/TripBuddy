@@ -38,7 +38,7 @@ There are two roles the user could appear in: <br/>
   <li>Add validators for registration forms input box</li>
  <li>Implement OAuth2 (If we can fetch phone number / mail / profile photo / full name / date of birth from FB/Google)</li>
  <li> Move filters on sidebar when searching trips instead of the top of the screen </li>
- <li> Add one more input box on registration form, a 'Confirm password' with validator </li>
+ <li> Add two more input boxes on registration form, a 'Confirm password' with validator and a 'Profile photo' file upload </li>
  <li> Edit trip functionality </li>
  <li> Create a mobile application using Ionic framework </li>
  <li> Split application into modules - both front end and back end</li>
@@ -54,6 +54,14 @@ There are two roles the user could appear in: <br/>
  <li> <s> JWT Security Layer </s> </li>
  <li> <s> Max {X} seats per ride configurable </s> </li>
  <li> <s> Control panel for user </s> </li>
+ <li> <s>Ability to submit rating for a finished trip </s> </li>
+ <li> <s> Cancel trip </s> </li>
+ <li> <s> Add new trip </s> </li>
+ <li> <s> Make a reservation with additional description(optional) </s> </li>
+ <li> <s> Accept / Deny reservation, both from control panel and notifications screen </s> </li>
+ <li> <s> Cancel a reservation request (the requester can cancel the reservation whether is approved or pending)</s> </li>
+ <li> <s> Control panel for user </s> </li>
+ <li> <s> Ability for users to can change password / gender / profile photo / date of birth </s> </li>
  <li> <s> Listing of all trips as driver/passenger with list of available actions to be taken </s> </li>
  <li> <s> Listing of all sent/received reservations with list of available actions to be taken </s> </li>
  <li> <s> List of all received ratings for the logged user + see trip details for which the rating was submitted </s> </li>
