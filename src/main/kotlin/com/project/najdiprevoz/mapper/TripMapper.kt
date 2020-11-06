@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service
 class TripMapper(private val tripService: TripService,
                  private val ratingViewRepository: RatingViewRepository) {
 
-    //////////////////CORE METHODS////////////////////
     fun findAllActiveTripsForToday(): List<TripResponse> {
         return tripService.findAllActiveTripsForToday().map { mapToTripResponse(it, false) }
     }
@@ -28,17 +27,17 @@ class TripMapper(private val tripService: TripService,
                     .map { mapToTripResponse(it, false) }
                     .sortedByDescending { it.driver.rating }
 
-    fun editTrip(rideId: Long, editTripRequest: EditTripRequest): TripResponse =
-            mapToTripResponse(tripService.editTrip(rideId, editTripRequest), false)
+    fun editTrip(tripId: Long, editTripRequest: EditTripRequest): TripResponse =
+            mapToTripResponse(tripService.editTrip(tripId, editTripRequest), false)
 
     fun createNewTrip(createTripRequest: CreateTripRequest, username: String) =
             tripService.createNewTrip(createTripRequest, username)
 
-    fun cancelTrip(rideId: Long) =
-            tripService.cancelTrip(rideId)
+    fun cancelTrip(tripId: Long, username: String) =
+            tripService.cancelTrip(tripId, username)
 
-    fun findById(rideId: Long): TripResponse =
-            mapToTripResponse(tripService.findById(rideId), false)
+    fun findById(tripId: Long): TripResponse =
+            mapToTripResponse(tripService.findById(tripId), false)
 
     fun getTripAdditionalInfo(tripId: Long): TripDetailsResponse {
         return mapToTripDetailsResponse(tripService.findById(tripId))
@@ -98,32 +97,4 @@ class TripMapper(private val tripService: TripService,
                 name = this.getFullName(),
                 profilePhoto = this.profilePhoto)
     }
-
-
-//    fun getMyTripsAsDriver(username: String, page: Int, pageSize: Int): Page<TripResponse> {
-//        val pageable = PageableUtils.getPageableWithDefaultSortById(page,pageSize,null,null)
-//        return tripService.getMyTripsAsDriverPaginated(username, pageable).let {
-//            PageableUtils.createPageResponse(
-//                    it,
-//                    it.content.map(::mapToTripResponse),
-//                    it.pageable
-//            )
-//        }
-//    }
-//    fun getPastPublishedTripsByUser(userId: Long): List<TripResponse> =
-//        tripService.getPastPublishedTripsByUser(userId).map { mapToTripResponse(it, false) }
-//
-//    fun findMyPastTripsAsPassenger(username: String) =
-//            tripService.findMyPastTripsAsPassenger(username).map { mapToPastTripResponse(it, username) }
-
-//    private fun mapToPastTripResponse(ride: Ride, username: String): PastTripResponse = with(ride) {
-//        PastTripResponse(
-//                tripId = id,
-//                from = fromLocation.name,
-//                to = destination.name,
-//                pricePerHead = pricePerHead,
-//                driver = mapToUserShortResponse(driver),
-//                canSubmitRating = tripService.canSubmitRating(ride, username)
-//        )
-//    }
 }

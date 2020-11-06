@@ -123,7 +123,7 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
         val reservationRequest = findById(requestId)
         if (reservationRequest.trip.availableSeats >=  reservationRequest.requestedSeats) {
             repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.APPROVED)
-            tripService.updateRideAvailableSeats(rideId = reservationRequest.trip.id, seats = reservationRequest.trip.availableSeats - reservationRequest.requestedSeats)
+            tripService.updateTripAvailableSeats(rideId = reservationRequest.trip.id, seats = reservationRequest.trip.availableSeats - reservationRequest.requestedSeats)
         } else throw RuntimeException("Not enough seats available to approve ReservationRequest with ID: [$requestId]!")
         pushNotification(reservationRequest, NotificationType.REQUEST_APPROVED)
     }
@@ -135,7 +135,7 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
 
     private fun changeRequestToCancelled(requestId: Long) {
         val reservationRequest = findById(requestId)
-        tripService.updateRideAvailableSeats(rideId = reservationRequest.trip.id, seats = reservationRequest.trip.availableSeats + reservationRequest.requestedSeats)
+        tripService.updateTripAvailableSeats(rideId = reservationRequest.trip.id, seats = reservationRequest.trip.availableSeats + reservationRequest.requestedSeats)
         repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.CANCELLED)
         pushNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
     }
