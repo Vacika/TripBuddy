@@ -31,7 +31,7 @@ Trip Roles: <br/>
 <b> Features to be implemented: </b>
 <ul>
  <li> Add additional 'luggage' parameter in trips (Think how to implement this to be intuitive) </li>
- <li>SMS Notify feature when a search is made and no trips were found. User enters phone number and notification validity time (ex:2days) and receives SMS if someone publishes a trip on the location he searched for</li>
+ <li><s>SMS Notify feature when a search is made and no trips were found. User enters phone number and notification validity time (ex:2days) and receives SMS if someone publishes a trip on the location he searched for</s></li>
   <li>Top 3 drivers - Display on landing page a top 3 trivers dashboard, which will be the best-rated drivers</li>
  <li>Most recent published trips -- Display on landing page the 5 most recent published trips</li>
  <li>Make city search input box an autocomplete</li>
