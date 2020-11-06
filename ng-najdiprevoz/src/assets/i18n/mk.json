@@ -124,7 +124,6 @@
 	"DEPARTURE": "Поаѓање",
 	"RESERVATION_STATUS": "Статус на резервација",
 	"TRIP_ID": "ID",
-	"RESERVATION_STATUS": "Статус на превоз",
 	"ACTIVE:": "Активен",
 	"APPROVED": "Одобрена",
 	"ACTIONS": "Акции",
@@ -218,5 +217,9 @@
   "SWITCH_LOCATIONS": "Замени ги локациите",
 	"SEAT_LIMIT_ERROR": "Го надминавте лимитот од 5 дозволени седишта по оглас",
 	"NOTIFICATIONS": "Известувања",
-	"MIN_HRS_TRIP_CANCEL_ERROR": "Веќе е касно да го откажете вашето патување!"
+	"MIN_HRS_TRIP_CANCEL_ERROR": "Веќе е касно да го откажете вашето патување!",
+	"ADD_SMS_NOTIFICATION_HERE": "Кликни тука ако сакаш да добиеш СМС известување кога некој ќе објави превоз за оваа рута",
+	"ADD_SMS_NOTIFICATION_DIALOG_TITLE": "SMS известување",
+	"VALID_FOR_DAYS": "Времетраење на SMS известувањето",
+	"VALID_FOR_DAYS_PLACEHOLDER": "Денови колку ќе биде активно известувањето"
 }

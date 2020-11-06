@@ -3,6 +3,7 @@ import {TripService} from '../../services/trip.service';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {SmsNotificationDialog} from "../../dialogs/sms-notification-dialog/sms-notification.dialog";
 
 @Component({
 	templateUrl: './trip-list.page.html',
@@ -11,6 +12,8 @@ import {Observable} from 'rxjs';
 export class TripListPage implements OnInit {
 	data$ = new Observable<TripResponse[]>();
 	formValues: any;
+	private fromLocation: string;
+	private toLocation: string;
 
 	constructor(private _service: TripService,
 							private _route: ActivatedRoute,
@@ -34,7 +37,21 @@ export class TripListPage implements OnInit {
 		this._route.queryParams.subscribe(params => {
 			if (params && params.fromLocation && params.toLocation) {
 				this.onSearchEmit(params);
+				this.fromLocation = params.fromLocation;
+				this.toLocation = params.toLocation;
 			}
 		});
+	}
+
+	openSmsDialog() {
+		const data = {
+			fromLocation: this.fromLocation,
+			toLocation: this.toLocation
+		}
+		this._dialog.open(SmsNotificationDialog,{
+			data: data,
+			maxHeight:'200px',
+			minWidth:'200px'
+		}.afterClosed().unsubscribe()
 	}
 }

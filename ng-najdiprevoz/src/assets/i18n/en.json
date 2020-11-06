@@ -217,5 +217,10 @@
 	"SWITCH_LOCATIONS": "Switch locations",
 	"SEAT_LIMIT_ERROR": "You can only publish 5 seats per trip.",
 	"NOTIFICATIONS": "Notifications",
-	"MIN_HRS_TRIP_CANCEL_ERROR": "It is too late to cancel your trip!"
+	"MIN_HRS_TRIP_CANCEL_ERROR": "It is too late to cancel your trip!",
+	"ADD_SMS_NOTIFICATION_HERE": "Click here to receive SMS when someone publishes trip on this route",
+	"ADD_SMS_NOTIFICATION_DIALOG_TITLE": "SMS notification",
+	"VALID_FOR_DAYS": "Duration of SMS notification",
+	"VALID_FOR_DAYS_PLACEHOLDER": "Valid for X days"
+
 }
