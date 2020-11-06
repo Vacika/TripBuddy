@@ -6,7 +6,28 @@ There are two roles the user could appear in: <br/>
  --- <b>As driver</b> - The user wants to share the costs of a his trip with other passengers, so he finds passengers here. <br/>
  --- <b>As passenger </b>- User looks for active ads for trips on the location he wants to travel.
 
+<b>Public pages(no Authorization): </b> 
+<ul>
+ <li> Landing page </li>
+  <li> Search trips page </li>
+  <li> Trip details dialog </li>
+  <li> User profile's page </li>
+</ul>
+<br/>
+<b>Authorized user pages(Logged in): </b> 
+<ul>
+ <li> Add trip page </li>
+  <li> Control panel page </li>
+  <li> Notifications page </li>
+  <li> Reservation dialog page </li>
+</ul>
+<br/>
 
+<b>Admin pages(Admin Role): </b> 
+<ul>
+ <li> Admin Panel</li>
+</ul>
+<br/>
 <b> Features to be implemented: </b>
 <ul>
  <li> Add additional 'luggage' parameter in trips (Think how to implement this to be intuitive) </li>
