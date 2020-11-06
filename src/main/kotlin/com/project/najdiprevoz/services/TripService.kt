@@ -29,7 +29,7 @@ class TripService(private val repository: RideRepository,
                   private val userService: UserService,
                   private val cityService: CityService,
                   private val notificationService: NotificationService,
-                  @Value("\${najdiprevoz.min-hrs-before-cancel-trip")
+                  @Value("\${najdiprevoz.min-hrs-before-cancel-trip}")
                   private val minHrsBeforeCancelTrip: Long,
                   @Value("\${najdiprevoz.max-seats-per-trip}")
                   private val maxSeatsPerTrip: Int) {

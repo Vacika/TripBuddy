@@ -4,6 +4,7 @@ import {TripResponse} from '../../interfaces/trip-response.interface';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {SmsNotificationDialog} from "../../dialogs/sms-notification-dialog/sms-notification.dialog";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
 	templateUrl: './trip-list.page.html',
@@ -17,6 +18,7 @@ export class TripListPage implements OnInit {
 
 	constructor(private _service: TripService,
 							private _route: ActivatedRoute,
+							private _dialog: MatDialog,
 							private _router: Router) {
 	}
 
@@ -52,6 +54,6 @@ export class TripListPage implements OnInit {
 			data: data,
 			maxHeight:'200px',
 			minWidth:'200px'
-		}.afterClosed().unsubscribe()
+		})
 	}
 }
