@@ -22,8 +22,8 @@ class TripController(private val mapper: TripMapper) {
 
     @Transactional
     @GetMapping("/cancel/{tripId}")
-    fun cancelTrip(@PathVariable("tripId") tripId: Long) =
-            mapper.cancelTrip(tripId)
+    fun cancelTrip(@PathVariable("tripId") tripId: Long, principal: Principal) =
+            mapper.cancelTrip(tripId, principal.name)
 
     @GetMapping("/my/driver")
     fun getMyTripsAsDriver(principal: Principal) =

@@ -69,10 +69,13 @@ import {ReservationDetailsDialog} from "../najdiprevoz/dialogs/reservation-detai
 import {ReservationRequestService} from "../najdiprevoz/services/reservation-request.service";
 import {UserBannedPage} from "../najdiprevoz/pages/user-banned/user-banned.page";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {SmsNotificationDialog} from "../najdiprevoz/dialogs/sms-notification-dialog/sms-notification.dialog";
+import {SmsTripNotificationService} from "../najdiprevoz/services/sms-trip-notification.service";
 
 const SERVICES = [
 	LoaderService,
 	TripService,
+	SmsTripNotificationService,
 	CityService, HelperService,
 	ReservationRequestService,
 	NotificationService,
@@ -81,7 +84,7 @@ const SERVICES = [
 	RatingService,
 	UINotificationsService,
 	AdminService];
-const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog, ReservationDetailsDialog];
+const DIALOGS = [TripDetailsDialog, TripConfirmReservationDialog, SubmitRatingDialog, ReservationDetailsDialog, SmsNotificationDialog];
 const PAGES = [ProfileNotActivatedPage,
 	RegistrationSuccessPage,
 	ActivateUserPage,

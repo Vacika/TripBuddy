@@ -1,0 +1,28 @@
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-row {
+	display: flex;
+}
+
+.space-evenly {
+	justify-content: space-evenly;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.width-47-percent {
+	width: 47%;
+}
+
+.margin-left-2 {
+	margin-left: 2%;
+}
+
+:host::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
+	color: #2979ff!important;
+}

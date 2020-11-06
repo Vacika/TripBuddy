@@ -1,3 +1,4 @@
+<div *ngIf="allTrips?.length>0; else noTripsFound">
 <mat-card *ngFor="let trip of allTrips" class="card">
 	<mat-card-header class="flex-column">
 		<mat-card-title class="margin-bottom-0 space-between flex">
@@ -63,3 +64,12 @@
 	</mat-card-actions>
 </mat-card>
 
+</div>
+
+<ng-template #noTripsFound>
+	<div class="margin-left-2">
+		{{"NO_TRIPS_FOUND"|translate}}.
+		<a class='link' *ngIf="showSmsMessage" (click)="openSmsNotificationDialog()">
+			{{'ADD_SMS_NOTIFICATION_HERE'|translate}}
+		</a></div>
+</ng-template>

@@ -60,7 +60,9 @@
 
 		<!-- Departure date -->
 		<mat-form-field appearance="outline" class="form-field flex-fill mr-3">
-			<input [min]='minimumDate' [owlDateTimeFilter]='myDateTimeFilter' [owlDateTimeTrigger]="departureDate"
+			<input [min]='minimumDate'
+						 [owlDateTimeFilter]='myDateTimeFilter'
+						 [owlDateTimeTrigger]="departureDate"
 						 [owlDateTime]="departureDate"
 						 class='border-top-0' formControlName='departureDate'
 						 matInput

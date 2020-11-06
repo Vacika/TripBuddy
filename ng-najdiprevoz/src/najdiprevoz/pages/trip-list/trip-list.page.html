@@ -4,6 +4,8 @@
 														[patchFormValues]='formValues'>
 		</search-trips-component>
 	</div>
-	<list-trips [allTrips]='data$|async'>
+	<list-trips [allTrips]='data$|async'
+							[showSmsMessage]="showSmsMessage"
+	(openSmsNotificationEmitter)="openSmsDialog()">
 	</list-trips>
 </div>

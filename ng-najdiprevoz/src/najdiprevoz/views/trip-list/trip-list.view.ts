@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {TripService} from '../../services/trip.service';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {Router} from '@angular/router';
@@ -13,6 +13,8 @@ import {TripConfirmReservationDialog} from "../../dialogs/trip-confirm-reservati
 })
 export class TripListView implements OnInit {
 	@Input() allTrips: TripResponse[] = [];
+	@Input() showSmsMessage: boolean = false;
+	@Output() openSmsNotificationEmitter = new EventEmitter<void>();
 
 	constructor(private _service: TripService,
 							private _router: Router,
@@ -23,12 +25,6 @@ export class TripListView implements OnInit {
 	}
 
 	onClickDetails(tripId: number) {
-
-		// this._service.getTripInformation(tripId).subscribe(tripDetailsResponse => {
-		// 	let data = {
-		// 		trip: this.allTrips.find(it => it.id == tripId),
-		// 		tripDetails: tripDetailsResponse
-		// 	};
 		const dialogRef = this._dialog.open(TripDetailsDialog, {
 			minHeight: '384px',
 			width: '500px',
@@ -42,10 +38,10 @@ export class TripListView implements OnInit {
 		dialogRef.afterClosed().subscribe(it => console.log('CLOSED'));
 	}
 
-	convertToImage(image) {
-		let base64image = btoa(String.fromCharCode.apply(null, new Uint8Array(image)));
-		return 'data:image/jpeg;base64,' + image;
-	}
+	// convertToImage(image) {
+	// 	let base64image = btoa(String.fromCharCode.apply(null, new Uint8Array(image)));
+	// 	return 'data:image/jpeg;base64,' + image;
+	// }
 
 	getNumberAsArray(it: number) {
 		let array = [];
@@ -73,5 +69,9 @@ export class TripListView implements OnInit {
 			width: '600px',
 			data: data
 		})
+	}
+
+	openSmsNotificationDialog(){
+		this.openSmsNotificationEmitter.emit();
 	}
 }

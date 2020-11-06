@@ -10,8 +10,8 @@ plugins {
     kotlin("plugin.jpa") version "1.3.61"
 }
 
-group = "com.project"
-version = "0.0.1-SNAPSHOT"
+group = "com.najdiprevoz"
+version = "1.0.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 val developmentOnly by configurations.creating
@@ -35,6 +35,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.twilio.sdk:twilio:7.9.0")
     implementation ("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

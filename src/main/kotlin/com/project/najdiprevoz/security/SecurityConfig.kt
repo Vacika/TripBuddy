@@ -38,12 +38,6 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
         auth.userDetailsService(service).passwordEncoder(passwordEncoder())
     }
 
-//    @Autowired
-//    @Throws(Exception::class)
-//    fun configureGlobal(auth: AuthenticationManagerBuilder) {
-//        auth.userDetailsService<UserDetailsService>(userDetailsService()).passwordEncoder(passwordEncoder())
-//    }
-
     @Bean
     fun authenticationProvider(): DaoAuthenticationProvider {
         val authProvider = DaoAuthenticationProvider()
@@ -61,7 +55,6 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -70,6 +63,7 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .antMatchers("/api/reset-password**").permitAll()
                 .antMatchers("/api/trips-list/**").permitAll()
                 .antMatchers("/api/cities").permitAll()
+                .antMatchers("/api/public/**").permitAll()
                 .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/users/activate").permitAll()
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
@@ -79,37 +73,5 @@ class SecurityConfig(private val service: UserDetailsServiceImpl,
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
-
-//                .formLogin()
-//                .successHandler(::loginSuccessHandler)
-//                .failureHandler(::loginFailureHandler)
-//                .and()
-//                .logout()
-//                .logoutUrl("/api/logout")
-//                .logoutSuccessHandler(::logoutSuccessHandler)
-//                .and()
-
-//                .invalidateHttpSession(true)
-//                .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(NoPopupBasicAuthenticationEntryPoint())
-    }
-
-    private fun loginSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
-        response.status = HttpStatus.OK.value()
-        objectMapper.writeValue(response.writer, authentication.principal)
-    }
-
-//    private fun loginFailureHandler(request: HttpServletRequest, response: HttpServletResponse, e: AuthenticationException) {
-//        response.status = HttpStatus.UNAUTHORIZED.value()
-//        if(e.message == "USER_NOT_ACTIVATED"){
-//            response.status = HttpStatus.FORBIDDEN.value()
-//        }
-//        response.outputStream.println(objectMapper.writeValueAsString(e.message))
-//    }
-//
-    private fun logoutSuccessHandler(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
-        response.status = HttpStatus.OK.value()
-        objectMapper.writeValue(response.writer, "Successfully logged out!!");
     }
 }

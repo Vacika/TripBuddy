@@ -4,6 +4,8 @@ import com.project.najdiprevoz.security.JwtTokenUtil
 import com.project.najdiprevoz.security.UserDetailsServiceImpl
 import com.project.najdiprevoz.web.request.LoginUserRequest
 import com.project.najdiprevoz.web.response.JwtResponse
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.DisabledException
@@ -20,6 +22,7 @@ class AuthController(private val userDetailsServiceImpl: UserDetailsServiceImpl,
                      private val authenticationManager: AuthenticationManager,
                      private val jwtTokenUtil: JwtTokenUtil) {
 
+    val logger: Logger = LoggerFactory.getLogger(AuthController::class.java)
 
     @RequestMapping
     fun login(@RequestBody req: LoginUserRequest): JwtResponse = with(req) {
@@ -40,9 +43,11 @@ class AuthController(private val userDetailsServiceImpl: UserDetailsServiceImpl,
         try {
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
         } catch (e: DisabledException) {
-            throw Exception("USER_DISABLED", e)
+            logger.debug("User $username is disabled!")
+            throw DisabledException("USER_DISABLED", e)
         } catch (e: BadCredentialsException) {
-            throw Exception("INVALID_CREDENTIALS", e)
+            logger.debug("User $username entered wrong credentials!")
+            throw BadCredentialsException("INVALID_CREDENTIALS")
         }
     }
 }

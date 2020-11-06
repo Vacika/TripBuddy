@@ -8,7 +8,7 @@
 				<mat-label> {{'FROM' | translate}}</mat-label>
 				<mat-select formControlName="fromLocation" required>
 					<mat-option *ngFor="let city of allCities" [value]="city.id">
-						{{city.name}}
+						{{city.name | translate}}
 					</mat-option>
 				</mat-select>
 				<mat-error *ngIf="fromToForm.controls.fromLocation.touched && fromToForm.controls.fromLocation.invalid">
@@ -29,7 +29,7 @@
 				<mat-label> {{'TO' | translate}}</mat-label>
 				<mat-select formControlName="toLocation" required>
 					<mat-option *ngFor="let city of allCities" [value]="city.id">
-						{{city.name}}
+						{{city.name | translate}}
 					</mat-option>
 				</mat-select>
 				<mat-error *ngIf="fromToForm.controls.toLocation.touched && fromToForm.controls.toLocation.invalid">
