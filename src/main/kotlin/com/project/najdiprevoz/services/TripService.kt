@@ -32,7 +32,8 @@ class TripService(private val repository: RideRepository,
                   @Value("\${najdiprevoz.min-hrs-before-cancel-trip}")
                   private val minHrsBeforeCancelTrip: Long,
                   @Value("\${najdiprevoz.max-seats-per-trip}")
-                  private val maxSeatsPerTrip: Int) {
+                  private val maxSeatsPerTrip: Int,
+                  private val smsTripNotificationService: SmsTripNotificationService) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
 
@@ -62,10 +63,11 @@ class TripService(private val repository: RideRepository,
 
     fun createNewTrip(createTripRequest: CreateTripRequest, username: String) {
         logger.info("[TripService - ADD TRIP] Creating new trip by {}!", username)
-        if (createTripRequest.totalSeats > maxSeatsPerTrip){
+        if (createTripRequest.totalSeats > maxSeatsPerTrip) {
             throw SeatsLimitException()
         }
-
+        val trip = createTripObject(createTripRequest = createTripRequest, username = username)
+        smsTripNotificationService.checkForSmsNotifications(trip)
         repository.save(createTripObject(createTripRequest = createTripRequest, username = username))
     }
 
@@ -101,10 +103,10 @@ class TripService(private val repository: RideRepository,
      ***/
     private fun checkIfCanCancelTrip(tripId: Long, username: String) {
         val trip = findById(tripId)
-        if(trip.driver.username != username){
+        if (trip.driver.username != username) {
             throw Exception()
         }
-        if(trip.departureTime.minusHours(minHrsBeforeCancelTrip).isBefore(ZonedDateTime.now())){
+        if (trip.departureTime.minusHours(minHrsBeforeCancelTrip).isBefore(ZonedDateTime.now())) {
             logger.error("The trip with ID: [$tripId] can not be cancelled, the cancellation time has passed..")
             throw MinimumHrsBeforeCancelException()
         }
@@ -160,10 +162,5 @@ class TripService(private val repository: RideRepository,
     fun updateTripAvailableSeats(tripId: Long, seats: Int) {
         repository.updateTripAvailableSeats(tripId, seats)
     }
-
-//    fun getMyTripsAsDriverPaginated(username: String, pageable: Pageable): Page<Trip> {
-//        val spec = Specification.where(likeSpecification<Trip>(listOf("driver","username"), username))
-//        return repository.findAll(spec, pageable)
-//    }
 }
 

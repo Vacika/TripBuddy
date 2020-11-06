@@ -13,6 +13,7 @@ import {TripConfirmReservationDialog} from "../../dialogs/trip-confirm-reservati
 })
 export class TripListView implements OnInit {
 	@Input() allTrips: TripResponse[] = [];
+	@Input() showSmsMessage: boolean = false;
 	@Output() openSmsNotificationEmitter = new EventEmitter<void>();
 
 	constructor(private _service: TripService,

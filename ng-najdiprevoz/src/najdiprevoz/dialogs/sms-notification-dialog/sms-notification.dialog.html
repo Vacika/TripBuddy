@@ -1,27 +1,35 @@
 <h1 class="text-center" mat-dialog-title>{{'ADD_SMS_NOTIFICATION_DIALOG_TITLE'|translate}}</h1>
 <div mat-dialog-content>
-	<form [formGroup]="form" class='flex-column'>
-		<div class="flex-column text-center">
+	<form [formGroup]="form" class='flex-row space-evenly'>
+		<div class="flex-column text-center margin-left-2 ignore-default-color">
 			<mat-label>{{'PHONE_NUMBER'|translate}}:</mat-label>
-			<mat-form-field class="flex-row space-evenly">
-				<input matInput formControlName="phone">
+			<mat-form-field class="flex-row space-evenly" appearance="outline">
+				<input matInput formControlName="phone" placeholder="{{'PHONE_NUMBER_SMS_PLACEHOLDER'|translate}}">
+				<mat-error *ngIf='form.controls.phone.touched && form.controls.phone.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
+			</mat-form-field>
+
+		</div>
+
+		<div class="flex-column text-center margin-left-2">
+			<mat-label>{{"VALID_UNTIL" | translate}}</mat-label>
+			<mat-form-field appearance="outline">
+				<input [min]='dateNow' [owlDateTimeFilter]='myDateTimeFilter'
+							 [owlDateTimeTrigger]="validUntilOwlComponent"
+							 [placeholder]="'VALID_UNTIL_PLACEHOLDER'|translate"
+							 [owlDateTime]="validUntilOwlComponent" class='border-top-0'
+							 formControlName='validUntil'
+							 matInput>
+				<owl-date-time #validUntilOwlComponent [stepMinute]='60'></owl-date-time>
+				<mat-error
+					*ngIf='form.controls.validUntil.touched && form.controls.validUntil.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
 			</mat-form-field>
 		</div>
-		<mat-form-field [floatLabel]="'always'"
-										class="text-center">
-			<mat-label>{{'VALID_FOR_DAYS'|translate}}</mat-label>
-			<input type="number"
-						 [max]="5"
-						 formControlName="validFor"
-						 matInput
-						 placeholder="{{'VALID_FOR_DAYS_PLACEHOLDER'|translate}}">
-		</mat-form-field>
 	</form>
 
 </div>
 <div mat-dialog-actions>
-	<button (click)='submit()' class='width-49-percent mat-stroked-button mat-primary'
-					mat-button>{{'SUBMIT' | translate}}</button>
-	<button (click)="onCancel()" class='width-49-percent mat-stroked-button mat-primary'
+	<button (click)='submit()' class='width-47-percent mat-stroked-button mat-primary'
+					mat-button>{{'SAVE' | translate}}</button>
+	<button (click)="onCancel()" class='width-47-percent mat-stroked-button mat-primary'
 					mat-button>{{'CLOSE'|translate}}</button>
 </div>

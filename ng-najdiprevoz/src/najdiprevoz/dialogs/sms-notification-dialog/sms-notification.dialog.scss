@@ -15,6 +15,14 @@
 	text-align: center;
 }
 
-.width-49-percent {
-	width: 49%;
+.width-47-percent {
+	width: 47%;
+}
+
+.margin-left-2 {
+	margin-left: 2%;
+}
+
+:host::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
+	color: #2979ff!important;
 }

@@ -1,3 +1,5 @@
 package com.project.najdiprevoz.web.request
 
-class AddNewSmsNotificationRequest(val from: String, val to: String, val validFor: Int, val phone: String)
+import java.time.ZonedDateTime
+
+class AddNewSmsNotificationRequest(val from: Long, val to: Long, val validFor: ZonedDateTime, val phone: String)

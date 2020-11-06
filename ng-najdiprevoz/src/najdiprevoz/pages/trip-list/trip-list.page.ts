@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {TripService} from '../../services/trip.service';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,6 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class TripListPage implements OnInit {
 	data$ = new Observable<TripResponse[]>();
 	formValues: any;
+	showSmsMessage = false;
 	private fromLocation: string;
 	private toLocation: string;
 
@@ -41,6 +42,7 @@ export class TripListPage implements OnInit {
 				this.onSearchEmit(params);
 				this.fromLocation = params.fromLocation;
 				this.toLocation = params.toLocation;
+				this.showSmsMessage = true;
 			}
 		});
 	}
@@ -52,7 +54,8 @@ export class TripListPage implements OnInit {
 		}
 		this._dialog.open(SmsNotificationDialog,{
 			data: data,
-			maxHeight:'200px',
+			height:'auto',
+			width:'auto',
 			minWidth:'200px'
 		})
 	}

@@ -132,7 +132,7 @@ a:not(.mat-icon-button):after {
 	border-color: white !important;
 }
 
-input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, .mat-card {
+input:not(.owl-dt-timer-input, .ignore-default-color), .mat-datepicker-toggle-default-icon, .mat-cell, .mat-card {
 	color: white !important;
 }
 
@@ -159,4 +159,9 @@ input:not(.owl-dt-timer-input), .mat-datepicker-toggle-default-icon, .mat-cell, 
 .mat-paginator {
 	background: #2979ff !important;
 	color: white !important;
+}
+
+.link {
+	cursor: pointer;
+	text-decoration: underline;
 }

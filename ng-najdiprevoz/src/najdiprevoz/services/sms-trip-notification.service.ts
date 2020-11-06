@@ -6,16 +6,16 @@ import {Observable} from "rxjs";
 	providedIn: 'root'
 })
 export class SmsTripNotificationService {
-	readonly path = 'api/public/sms-notifications/new';
+	readonly path = 'api/public/sms-notifications';
 
 	constructor(private _http: HttpClient) {}
 
-	addSmsTripNotification(phone: string, validFor: number, from:string, to: string): Observable<void> {
+	addSmsTripNotification(phone: string, validFor: number, from:number, to: number): Observable<void> {
 		const request = {
-			phone,
-			validFor,
-			from,
-			to
+			phone:phone,
+			validFor:validFor,
+			from:from,
+			to:to
 		}
 		return this._http.post<void>(`${this.path}/new`, request);
 	}

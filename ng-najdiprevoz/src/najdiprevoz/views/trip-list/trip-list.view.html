@@ -67,5 +67,9 @@
 </div>
 
 <ng-template #noTripsFound>
-	<div>{{"NO_TRIPS_FOUND"|translate}}. <a (click)="openSmsNotificationDialog()">{{'ADD_SMS_NOTIFICATION_HERE'|translate}}</a></div>
+	<div class="margin-left-2">
+		{{"NO_TRIPS_FOUND"|translate}}.
+		<a class='link' *ngIf="showSmsMessage" (click)="openSmsNotificationDialog()">
+			{{'ADD_SMS_NOTIFICATION_HERE'|translate}}
+		</a></div>
 </ng-template>

@@ -220,7 +220,9 @@
 	"MIN_HRS_TRIP_CANCEL_ERROR": "It is too late to cancel your trip!",
 	"ADD_SMS_NOTIFICATION_HERE": "Click here to receive SMS when someone publishes trip on this route",
 	"ADD_SMS_NOTIFICATION_DIALOG_TITLE": "SMS notification",
-	"VALID_FOR_DAYS": "Duration of SMS notification",
-	"VALID_FOR_DAYS_PLACEHOLDER": "Valid for X days"
-
+	"VALID_UNTIL": "Valid until",
+	"VALID_UNTIL_PLACEHOLDER": "Date here",
+	"INVALID_CREDENTIALS": "Invalid credentials!",
+	"PHONE_NUMBER_SMS_PLACEHOLDER": "Format: +3897xxxxxxx",
+	"NO_TRIPS_FOUND": "Currently there are no active trips for this route"
 }
