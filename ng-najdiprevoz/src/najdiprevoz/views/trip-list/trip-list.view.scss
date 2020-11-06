@@ -150,6 +150,7 @@
 .remaining-free-seats {
 	display: flex;
 	justify-content: flex-end;
+	margin-left: 4vw;
 }
 
 .flex-column {
@@ -168,6 +169,14 @@
 
 		& .mat-card-subtitle {
 			text-align: center;
+		}
+
+		& .mat-card {
+			width: -webkit-fill-available;
+		}
+
+		& .remaining-free-seats {
+			margin-left: 0;
 		}
 	}
 }

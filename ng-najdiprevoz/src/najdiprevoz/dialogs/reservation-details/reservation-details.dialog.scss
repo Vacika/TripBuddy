@@ -49,7 +49,7 @@
 	height: 25px;
 }
 
-::ng-deep mat-icon, .icons {
+:host::ng-deep mat-icon, .icons {
 	border-radius: 60%;
 	padding: 5px;
 }

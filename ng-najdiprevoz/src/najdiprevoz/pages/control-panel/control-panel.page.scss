@@ -43,7 +43,7 @@
 	justify-content: center;
 }
 
-::ng-deep .mat-tab-label {
+:host::ng-deep .mat-tab-label {
 	color: white !important;
 }
 
