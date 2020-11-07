@@ -73,4 +73,4 @@ Trip Roles: <br/>
 
 
 Database Diagram:
-[![Najdi-Prevoz-1.png](https://i.postimg.cc/y8NNX9PF/Najdi-Prevoz-1.png)](https://postimg.cc/w7SH91nv)
+[![Najdi-Prevoz-2.png](https://i.postimg.cc/1zfcT89F/Najdi-Prevoz-2.png)](https://postimg.cc/XZ6CB7BN)
