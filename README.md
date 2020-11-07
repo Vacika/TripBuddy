@@ -41,7 +41,7 @@ Trip Roles: <br/>
  <li> Add two more input boxes on registration form, a 'Confirm password' with validator and a 'Profile photo' file upload </li>
  <li> Edit trip functionality </li>
  <li> Create a mobile application using Ionic framework </li>
- <li> Split application into modules - both front end and back end</li>
+ <li> Split application into modules - both front end and back end (Back-end : Mail Module, Sms Sender module, perhaps Notifications module)</li>
  <li> <s>Responsive</s> </li>
  <li> <s> Set a minimum {X} hours before cancelling a trip </s> </li>
  <li> <s> Admin Panel for Admin users - list all users </s> </li>
