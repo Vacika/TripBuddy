@@ -2,6 +2,17 @@
  
 Najdi Prevoz is application platform where the user could share a ride with other users of the platform.
 
+Setup: 
+1) Clone the repository: <code>git clone git@github.com:Vacika/NajdiPrevoz.git </code>
+2) Install PostgreSQL 
+3) Add new user to PostgreSQL with username: najdiprevoz password: najdiprevoz
+4) Create new database najdiprevoz
+5) cd /{PATH_TO_PROJECT}/ng-najdiprevoz   && npm install
+6) npm start (front-end runs on 4202)
+7) cd /{PATH_TO_PROJECT}/
+8) ./gradlew bootRun (back-end runs on 8080)
+
+
 Trip Roles: <br/>
  - <b>Driver</b> - The user wants to share the costs of a his trip with other passengers, so he finds passengers here. <br/>
  - <b>Passenger </b>- User looks for active published trip for the route he wants to travel.
