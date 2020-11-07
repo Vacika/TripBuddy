@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.domain
 
+import com.project.najdiprevoz.enums.Language
 import java.time.ZonedDateTime
 import javax.persistence.*
 
@@ -25,6 +26,10 @@ class SmsTripNotification(
         val validUntil: ZonedDateTime,
 
         @Column(name = "phone_number")
-        val phoneNumber: String
+        val phoneNumber: String,
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "lang")
+        val language: Language
 ) {
 }

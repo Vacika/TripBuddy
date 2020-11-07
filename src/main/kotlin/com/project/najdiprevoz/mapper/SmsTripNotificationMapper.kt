@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service
 class SmsTripNotificationMapper(private val service: SmsTripNotificationService) {
 
     fun addNewNotification(req: AddNewSmsNotificationRequest) = with(req) {
-        service.addNewNotification(fromLocation = from, toLocation = to, validUntil = validFor, phone = phone)
+        service.addNewNotification(fromLocation = from, toLocation = to, validUntil = validFor, phone = phone, language = language)
     }
 }
