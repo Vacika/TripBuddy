@@ -70,3 +70,7 @@ Trip Roles: <br/>
  <li> <s> Errors thrown from back-end translated to front-end on the selected language </s> </li>
 
 </ul>
+
+
+Database Diagram:
+[![Najdi-Prevoz-1.png](https://i.postimg.cc/y8NNX9PF/Najdi-Prevoz-1.png)](https://postimg.cc/w7SH91nv)
