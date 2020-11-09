@@ -95,6 +95,7 @@ Database Diagram:
  <li> Choose primary and secondary color </li>
  <li> Implement design across the WEB Najdi Prevoz screens </li>
  <li> Make notifications be fetched on intervals or through sockets(front-end) </li>
+ <li> Split front-end into modules </li>
  <li> Design screens for mobile NajdiPrevoz </li>
  <li> Make mobile application of NajdiPrevoz using Ionic framework </li>
  <li> Create Monetization plan</li>
