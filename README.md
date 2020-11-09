@@ -2,7 +2,7 @@
  
 Najdi Prevoz is application platform where the user could share a ride with other users of the platform.
 
-Setup: 
+<h2> Project setup: </h2> 
 1) Clone the repository: <code>git clone git@github.com:Vacika/NajdiPrevoz.git </code>
 2) Install PostgreSQL 
 3) Add new user to PostgreSQL with username: najdiprevoz password: najdiprevoz
@@ -85,3 +85,20 @@ Trip Roles: <br/>
 
 Database Diagram:
 [![Najdi-Prevoz-2.png](https://i.postimg.cc/1zfcT89F/Najdi-Prevoz-2.png)](https://postimg.cc/XZ6CB7BN)
+
+
+<b>Next phases: </b>
+<ul>
+ <li> Move email service into separate module</li>
+ <li> Move SMS service into separate module </li>
+ <li> Design landing page for WEB Najdi Prevoz </li>
+ <li> Choose primary and secondary color </li>
+ <li> Implement design across the WEB Najdi Prevoz screens </li>
+ <li> Make notifications be fetched on intervals or through sockets(front-end) </li>
+ <li> Design screens for mobile NajdiPrevoz </li>
+ <li> Make mobile application of NajdiPrevoz using Ionic framework </li>
+ <li> Create Monetization plan</li>
+ <li> Create Marketing strategy plan </li>
+ <li> Choose adequate hosting option </li>
+ <li> DEPLOY, ACTIVATE MARKETING PLANS </li>
+</ul>
