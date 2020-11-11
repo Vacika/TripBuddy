@@ -97,9 +97,7 @@ CREATE TABLE public.ratings
     date_submitted  timestamp without time zone,
     note            character varying(255),
     rating          integer                                          NOT NULL,
-    reservation_request_id bigint                                           NOT NULL references public.reservation_requests (id),
-    rated_user      bigint                                           NOT NULL references public.users (id)
-
+    reservation_request_id bigint                                           NOT NULL references public.reservation_requests (id)
 );
 
 
