@@ -5,6 +5,10 @@ import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.Actions
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
+import com.project.najdiprevoz.exceptions.AlreadySentReservationException
+import com.project.najdiprevoz.exceptions.NotEnoughAvailableSeatsException
+import com.project.najdiprevoz.exceptions.OwnTripReservationApplyException
+import com.project.najdiprevoz.exceptions.TripNotActiveException
 import com.project.najdiprevoz.repositories.ReservationRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
 import javassist.NotFoundException
@@ -67,23 +71,26 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
         pushNotification(savedRequest, NotificationType.REQUEST_SENT)
     }
 
+    //TODO: Switch with translatable Exception messages, switch with custom exceptions
     private fun validateRequest(req: CreateRequestForTrip, username: String) = with(req) {
-        logger.debug("[ReservationRequestService] Validating new ReservationRequest..")
+        logger.debug("[ReservationRequestValidator] Validating new ReservationRequest..")
         if (checkIfAppliedBefore(tripId, username)) {
-            throw RuntimeException("User [$username] has already sent a ride request for Trip [$tripId]")
+            logger.error("[ReservationRequestValidator] User [$username] has already sent a reservation request for Trip [$tripId]")
+            throw AlreadySentReservationException("EXCEPTION_APPLIED_BEFORE")
         }
         if (!checkIsTripActive(tripId)) {
-            throw RuntimeException("Trip applied for seat is not ACTIVE! Trip ID: [$tripId]")
+            logger.error("[ReservationRequestValidator] Trip applied for seat is not ACTIVE! Trip ID: [$tripId]")
+            throw TripNotActiveException("EXCEPTION_TRIP_NOT_ACTIVE_ANYMORE")
         }
         if (!checkIfEnoughAvailableSeats(tripId, requestedSeats)) {
-            throw RuntimeException(
-                    "Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
+            logger.error("[ReservationRequestValidator] Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
+            throw NotEnoughAvailableSeatsException("EXCEPTION_NOT_ENOUGH_SEATS_AVAILABLE")
         }
         if (!checkIfNotDriverItself(username, tripId)) {
-            throw RuntimeException(
-                    "You can't create a ride request for a ride published by you! Username: [$username], TripID: [$tripId]")
+            logger.error("[ReservationRequestValidator] You can't create a reservation request for a trip published by you! Username: [$username], TripID: [$tripId]")
+            throw OwnTripReservationApplyException("EXCEPTION_CANNOT_APPLY_FOR_OWN_TRIP")
         }
-        logger.debug("[ReservationRequestService] New ReservationRequest is successfully validated..")
+        logger.debug("[ReservationRequestValidator] New ReservationRequest is successfully validated..")
 
     }
 

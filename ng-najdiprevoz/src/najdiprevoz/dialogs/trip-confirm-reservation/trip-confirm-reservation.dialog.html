@@ -24,8 +24,9 @@
 
 </div>
 <div mat-dialog-actions>
-	<button (click)='reserve()' class='width-49-percent mat-stroked-button mat-primary'
-					mat-button>{{'REQUEST_RIDE' | translate}}</button>
-	<button (click)="onCancel()" class='width-49-percent mat-stroked-button mat-primary'
-					mat-button>{{'CLOSE'|translate}}</button>
+	<button (click)='reserve()' class='width-49-percent button-success'
+					mat-stroked-button
+					>{{'REQUEST_RIDE' | translate}}</button>
+	<button (click)="onCancel()" class='width-49-percent button-danger'
+					mat-stroked-button>{{'CLOSE'|translate}}</button>
 </div>

@@ -135,6 +135,7 @@
 
 			<button [disabled]='preferencesForm.invalid || preferencesForm.pristine' [hidden]='(currentStep|async) != 3'
 							mat-raised-button
+							class="width-20 final-submit-button"
 							color='primary'
 							type="submit">
 				{{'PUBLISH' | translate}}
