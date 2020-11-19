@@ -1,12 +1,14 @@
 <div class="flex-column"
 		 style="margin-top: 5%;">
+	<!-- Title & Subtitle -->
 	<div class="text-center bold">
 		<div class="subtitle ">{{"SITE_INTRO" | translate}}</div>
 		<div class="title ">{{"SITE_TITLE" | translate}}</div>
 	</div>
+	<!-- Search Component -->
 	<div class="justify-center flex">
 		<div style="background-color:rgba(0,0,0,.9); max-width:1416px!important;" class="search-trips-component-wrapper">
-			<search-trips-component (searchFormEmitter)="onSearch($event)"
+		<search-trips-component (searchFormEmitter)="onSearch($event)"
 															[displayDate]='false'
 															[textColor]="'color-white'">
 			</search-trips-component>

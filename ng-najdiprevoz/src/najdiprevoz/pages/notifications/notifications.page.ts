@@ -26,7 +26,10 @@ export class NotificationListPage implements OnInit {
 	}
 
 	ngOnInit() {
-		this._notificationService.fetchUserNotifications().subscribe(response => this.notifications = response);
+		// Fetch notifications every 15 seconds
+		setInterval(() =>
+			this._notificationService.fetchUserNotifications()
+				.subscribe(response => this.notifications = response), 15000);
 	}
 
 	takeAction(notification: NotificationResponse, action: string) {

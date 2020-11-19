@@ -1,9 +1,14 @@
-@import "najdi-prevoz-theme.scss";
+@import "~@angular/material/theming";
 
 @include mat-core();
-@include angular-material-theme($najdi-prevoz-theme);
-//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+
+/* ======== Angular material custom themes ======== */
+$my-custom-primary: mat-palette($mat-blue, 700, 900, A400);
+$my-custom-accent: mat-palette($mat-blue, 500, 700, A400);
+$my-custom-warn: mat-palette($mat-red, 700, 900, A400);
+$my-custom-theme: mat-light-theme($my-custom-primary, $my-custom-accent, $my-custom-warn);
+@include angular-material-theme($my-custom-theme);
 
 $primary-color: white;
 $primary-dark-color: rgb(0, 0, 0, 0.8);
@@ -132,7 +137,30 @@ a:not(.mat-icon-button):after {
 	border-color: white !important;
 }
 
-input:not(.owl-dt-timer-input, .ignore-default-color), .mat-datepicker-toggle-default-icon, .mat-cell, .mat-card {
+/** Overrides dark color when input boxes are disabled **/
+.mat-input-element:disabled {
+	color: white !important;
+}
+
+//overrides buttons when disabled to have more bigger opacity
+.mat-raised-button[disabled] {
+	background: rgb(112, 140, 145) !important;
+	opacity: 0.92 !important;
+	cursor: not-allowed !important;
+
+	& span {
+		color: white !important;
+	}
+}
+
+// Override all the default colors in the mat-card
+.mat-card {
+	color: white !important;
+}
+
+input:not(.owl-dt-timer-input, .ignore-default-color),
+.mat-datepicker-toggle-default-icon,
+.mat-cell, {
 	color: white !important;
 }
 

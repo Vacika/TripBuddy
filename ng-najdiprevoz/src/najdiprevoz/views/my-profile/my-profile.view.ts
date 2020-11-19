@@ -6,10 +6,10 @@ import {AuthService} from '../../services/auth.service';
 
 @Component({
 	selector: 'profile-settings',
-	templateUrl: './profile-settings.view.html',
-	styleUrls: ['./profile-settings.view.scss']
+	templateUrl: './my-profile.view.html',
+	styleUrls: ['./my-profile.view.scss']
 })
-export class ProfileSettingsView {
+export class MyProfileView {
 	form = this.formDefinition;
 	imgUrl: any;
 	user: User;

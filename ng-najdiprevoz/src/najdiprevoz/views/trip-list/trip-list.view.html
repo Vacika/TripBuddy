@@ -1,68 +1,72 @@
 <div *ngIf="allTrips?.length>0; else noTripsFound">
-<mat-card *ngFor="let trip of allTrips" class="card">
-	<mat-card-header class="flex-column">
-		<mat-card-title class="margin-bottom-0 space-between flex">
-			<img class="card-header-image" mat-card-avatar
-					 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
+	<mat-card *ngFor="let trip of allTrips" class="card">
+		<mat-card-header class="flex-column">
+			<mat-card-title class="margin-bottom-0 space-between flex">
+				<img class="card-header-image" mat-card-avatar
+						 src="{{trip.driver.profilePhoto? trip.driver.profilePhoto : '../assets/images/default-profile-pic.jpeg'}}">
 
-			<span class="font-18" style="max-width: 200px;">
+				<span class="font-18" style="max-width: 200px;">
 				<a [routerLink]="'/user/' + trip.driver.id" class="user-link">
 					{{trip.driver.name}}
 				</a>
 			</span>
 
-			<!-- FREE SEATS ICONS -->
-			<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}" class="remaining-free-seats">
+				<!-- FREE SEATS ICONS -->
+				<span matTooltip="{{'REMAINING_FREE_SEATS' | translate}}: {{trip.availableSeats}}" class="remaining-free-seats">
 					<mat-icon *ngFor="let index of getNumberAsArray(trip.totalSeats)"
 										[ngClass]="getClassForPersonIcon(index,trip.availableSeats)">
 						person
 					</mat-icon>
 			</span>
-		</mat-card-title>
-		<mat-card-subtitle>
-			<mat-star-rating [rating]="trip.driver.rating!= 'NaN'? trip.driver.rating : 0" [starCount]="5"></mat-star-rating>
-			<mat-divider></mat-divider>
-		</mat-card-subtitle>
-	</mat-card-header>
+			</mat-card-title>
+			<mat-card-subtitle>
+				<mat-star-rating [rating]="trip.driver.rating!= 'NaN'? trip.driver.rating : 0"
+												 [starCount]="5"></mat-star-rating>
+				<mat-divider></mat-divider>
+			</mat-card-subtitle>
+		</mat-card-header>
 
-	<mat-card-content>
-		<div class="flex space-between align-end color-white">
-			<span class="text-bold">{{trip.from | translate}}</span>
-			<img height="52px" src='assets/images/moving-car.gif' width="52px">
-			<span class="text-bold">{{trip.to | translate}}</span>
-		</div>
-		<div class="height-12 margin-top-minus-20px road">
-			<mat-divider class="inline-block distance-divider"></mat-divider>
-		</div>
-		<div class="width-100-percent flex center">
+		<mat-card-content>
+			<div class="flex space-between align-end color-white">
+				<span class="text-bold">{{trip.from | translate}}</span>
+				<img height="52px" src='assets/images/moving-car.gif' width="52px">
+				<span class="text-bold">{{trip.to | translate}}</span>
+			</div>
+			<div class="height-12 margin-top-minus-20px road">
+				<mat-divider class="inline-block distance-divider"></mat-divider>
+			</div>
+			<div class="width-100-percent flex center">
 			<span class="flex align-flex-end pointer margin-left-minus-14 color-white"
 						matTooltip="{{'DEPARTURE_TIME'|translate}}">
 				<mat-icon>alarm</mat-icon>
 				{{trip.departureTime|date: 'H:mm'}}</span>
-		</div>
+			</div>
 
-		<div class="flex space-between margin-top-20 align-flex-end">
+			<div class="flex space-between margin-top-20 align-flex-end">
 			<span class="flex align-flex-end pointer color-white" matTooltip="{{'DEPARTURE_DATE'|translate}}">
 				<span>
 					{{trip.departureTime | date:"dd/MM/yyyy"}}
 				</span>
 
 			</span>
-			<span class='flex align-flex-end pointer color-white' matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
+				<span class='flex align-flex-end pointer color-white' matTooltip="{{'PRICE_PER_HEAD_TOOLTIP'|translate}}">
 				<!-- PRICE PER HEAD -->
 				<mat-icon class='color-green'>monetization_on</mat-icon>
-				{{trip.pricePerHead}}.00 MKD
+					{{trip.pricePerHead}}.00 MKD
 			</span>
-		</div>
-	</mat-card-content>
-	<mat-divider></mat-divider>
-	<mat-card-actions class='flex space-between'>
-		<button (click)='reserve(trip)' [disabled]='trip.availableSeats<=0' class="mat-primary width-50 background-green color-white"
-						mat-button>{{'REQUEST_RIDE'| translate}}</button>
-		<button (click)="onClickDetails(trip.id)" class=" mat-primary width-50 button-primary color-white" style="margin:0!important;"
-						mat-button>{{'SEE_DETAILS' | translate}}</button>
-	</mat-card-actions>
-</mat-card>
+			</div>
+		</mat-card-content>
+		<mat-divider></mat-divider>
+		<mat-card-actions class='flex space-between'>
+			<button (click)='reserve(trip)' [disabled]='trip.availableSeats<=0'
+							class="mat-primary width-50 background-green color-white"
+							mat-raised-button>{{'REQUEST_RIDE'| translate}}</button>
+			<button (click)="onClickDetails(trip.id)" class=" mat-primary width-50 color-white"
+							color='primary'
+							style="margin:0!important;"
+							mat-raised-button>{{'SEE_DETAILS' | translate}}</button>
+		</mat-card-actions>
+	</mat-card>
 
 </div>
 

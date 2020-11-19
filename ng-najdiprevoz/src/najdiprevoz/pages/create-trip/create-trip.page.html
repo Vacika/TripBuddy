@@ -18,8 +18,9 @@
 
 			<button [disabled]='this.fromToForm.invalid || this.fromToForm.pristine || (this.getFromLocation.value === this.getToLocation.value)'
 							[hidden]='(currentStep|async) != 1'
-							class='button-primary width-20 color-white button-form'
+							class='width-20 color-white button-form'
 							mat-raised-button
+							color='primary'
 							type="submit">
 				{{'NEXT' | translate}}
 				<img height="52px" src='assets/images/map.gif' width="52px">
@@ -56,8 +57,9 @@
 				</mat-form-field>
 
 				<button [disabled]=' passengerInfoForm.pristine || passengerInfoForm.invalid' [hidden]='(currentStep|async) != 2'
-								class='button-primary width-20 color-white button-form'
+								class='width-20 color-white button-form'
 								mat-raised-button
+								color='primary'
 								type="submit">{{'NEXT' | translate}}
 					<span class="pointer" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 										<svg aria-hidden="true"
@@ -123,8 +125,9 @@
 
 
 			<button [disabled]='preferencesForm.invalid || preferencesForm.pristine' [hidden]='(currentStep|async) != 3'
-							class='button-primary color-white button-form final-submit-button'
+							class='color-white button-form final-submit-button'
 							mat-raised-button
+							color='primary'
 							type="submit">
 				{{'PUBLISH' | translate}}
 				<img height="52px" src='assets/images/moving-car.gif' width="52px">

@@ -19,7 +19,7 @@
 						(click)="switchLocations()"
 						[matTooltip]="'SWITCH_LOCATIONS'|translate"
 						class="mr-3">
-			<mat-icon style="width:auto;height:auto;">swap_horizontal_circle</mat-icon>
+			<mat-icon style="width:auto;height:auto;" color="accent">swap_horizontal_circle</mat-icon>
 		</button>
 
 
@@ -38,8 +38,9 @@
 
 
 		<button [disabled]='form.invalid || form.pristine'
-						class='button-primary color-white button-form final-submit-button flex-fill mr-3'
+						class='button-form final-submit-button flex-fill mr-3'
 						mat-raised-button
+						color="primary"
 						type="submit">
 			<span>{{'SEARCH' | translate}}</span>
 			<img height="52px" src='assets/images/moving-car.gif' width="52px">

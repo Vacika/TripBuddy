@@ -30,7 +30,7 @@ import {NotificationService} from '../najdiprevoz/services/notification.service'
 import {RegisterPage} from '../najdiprevoz/pages/register-user/register.page';
 import {CustomInterceptor} from '../najdiprevoz/http.interceptor';
 import {ControlPanelPage} from '../najdiprevoz/pages/control-panel/control-panel.page';
-import {ProfileSettingsView} from '../najdiprevoz/views/profile-settings/profile-settings.view';
+import {MyProfileView} from '../najdiprevoz/views/my-profile/my-profile.view';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -102,7 +102,7 @@ const PAGES = [ProfileNotActivatedPage,
 	SearchTripsPage,
 	RegisterPage,
 	ControlPanelPage,
-	ProfileSettingsView,
+	MyProfileView,
 	MyRatingsView,
 	ReservationRequestsComponent,
 	TripsComponent,
