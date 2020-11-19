@@ -77,3 +77,7 @@ button[hidden] {
 .align-center {
 	align-items: center;
 }
+
+:host::ng-deep .mat-form-field-wrapper {
+	padding-top: 0 !important; // fix for search trips overriding this class..
+}

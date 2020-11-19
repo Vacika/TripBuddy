@@ -43,8 +43,8 @@
 
 
 //add the same padding to top for mat form field
-:host::ng-deep .mat-form-field-wrapper {
-	padding-top: 1.34375em !important;
+.mat-form-field-wrapper {
+	padding-top: 1.34375em;
 }
 
 .mat-form-field {
