@@ -85,4 +85,8 @@ export class SearchTripsPage implements OnInit {
 		this.fromLocation.patchValue(this.toLocation.value);
 		this.toLocation.patchValue(from);
 	}
+
+	private checkIfFromToAreIdentical(): boolean{
+		return (this.fromLocation.value === this.toLocation.value)
+	}
 }

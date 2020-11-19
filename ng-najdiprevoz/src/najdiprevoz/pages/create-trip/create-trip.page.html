@@ -1,52 +1,57 @@
-<div class='text-center'>
+<div class=''>
 
 
 	<!--	FROM TO FORM -->
-	<div class="form-container">    <!--todo: if not active, add some class to make it like smoked/disabled whole part -->
-		<form (submit)="submitFromTo()" [formGroup]="fromToForm" class='flex space-between'>
-			<mat-form-field appearance="outline" class="form-field width-40">
-				<mat-label> {{'FROM' | translate}}</mat-label>
-				<mat-select formControlName="fromLocation" required>
-					<mat-option *ngFor="let city of allCities" [value]="city.id">
-						{{city.name | translate}}
-					</mat-option>
-				</mat-select>
-				<mat-error *ngIf="fromToForm.controls.fromLocation.touched && fromToForm.controls.fromLocation.invalid">
-					<span *ngIf="fromToForm.controls.fromLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
-			</mat-form-field>
+	<div>
+		<form (submit)="submitFromTo()" [formGroup]="fromToForm">
+			<div class='flex space-between'>
+				<mat-form-field appearance="outline" class="width-40">
+					<mat-label> {{'FROM' | translate}}</mat-label>
+					<mat-select formControlName="fromLocation" required>
+						<mat-option *ngFor="let city of allCities" [value]="city.id">
+							{{city.name | translate}}
+						</mat-option>
+					</mat-select>
+					<mat-error *ngIf="fromToForm.controls.fromLocation.touched && fromToForm.controls.fromLocation.invalid">
+						<span *ngIf="fromToForm.controls.fromLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+					</mat-error>
+				</mat-form-field>
 
-			<button [disabled]='this.fromToForm.invalid || this.fromToForm.pristine || (this.getFromLocation.value === this.getToLocation.value)'
-							[hidden]='(currentStep|async) != 1'
-							class='width-20 color-white button-form'
-							mat-raised-button
-							color='primary'
-							type="submit">
-				{{'NEXT' | translate}}
-				<img height="52px" src='assets/images/map.gif' width="52px">
-			</button>
+				<button
+					[disabled]='this.fromToForm.invalid || this.fromToForm.pristine || (this.getFromLocation.value === this.getToLocation.value)'
+					[hidden]='(currentStep|async) != 1'
+					class='button-form'
+					mat-raised-button
+					color='primary'
+					type="submit">
+					<span class="flex space-between align-center">
+						{{'NEXT' | translate}}
+						<img height="52px" src='assets/images/map.gif' width="52px">
+					</span>
+				</button>
 
-			<mat-form-field appearance="outline" class="form-field width-40">
-				<mat-label> {{'TO' | translate}}</mat-label>
-				<mat-select formControlName="toLocation" required>
-					<mat-option *ngFor="let city of allCities" [value]="city.id">
-						{{city.name | translate}}
-					</mat-option>
-				</mat-select>
-				<mat-error *ngIf="fromToForm.controls.toLocation.touched && fromToForm.controls.toLocation.invalid">
-					<span *ngIf="fromToForm.controls.toLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
-				</mat-error>
-			</mat-form-field>
+				<mat-form-field appearance="outline" class=" width-40">
+					<mat-label> {{'TO' | translate}}</mat-label>
+					<mat-select formControlName="toLocation" required>
+						<mat-option *ngFor="let city of allCities" [value]="city.id">
+							{{city.name | translate}}
+						</mat-option>
+					</mat-select>
+					<mat-error *ngIf="fromToForm.controls.toLocation.touched && fromToForm.controls.toLocation.invalid">
+						<span *ngIf="fromToForm.controls.toLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+					</mat-error>
+				</mat-form-field>
+			</div>
 		</form>
 	</div>
 
 
 	<!--	Passenger Info Form -->
-	<div *ngIf='(currentStep|async) > 1' class="form-container">
+	<div *ngIf='(currentStep|async) > 1'>
 		<!--todo: if not active, add some class to make it like smoked/disabled whole part -->
 		<form (submit)="submitPassengerInfo()" [formGroup]="passengerInfoForm">
 			<div class='flex space-between'>
-				<mat-form-field appearance="outline" class="form-field width-40">
+				<mat-form-field appearance="outline" class=" width-40">
 					<mat-label> {{'TOTAL_SEATS_OFFERED' | translate}}</mat-label>
 					<input [max]='5' [min]=1 formControlName='totalSeatsOffered' matInput type='number'>
 					<mat-error
@@ -56,14 +61,17 @@
 					</mat-error>
 				</mat-form-field>
 
-				<button [disabled]=' passengerInfoForm.pristine || passengerInfoForm.invalid' [hidden]='(currentStep|async) != 2'
-								class='width-20 color-white button-form'
+				<button [disabled]=' passengerInfoForm.pristine || passengerInfoForm.invalid'
+								[hidden]='(currentStep|async) != 2'
+								class='button-form'
 								mat-raised-button
 								color='primary'
-								type="submit">{{'NEXT' | translate}}
-					<span class="pointer" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
+								type="submit">
+					<span class="flex space-between align-center">
+						{{'NEXT' | translate}}
+						<span class="pointer" matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 										<svg aria-hidden="true"
-												 class="top-align width-30 height-30"
+												 class="top-align height-30"
 												 fill="#FFFFF"
 												 height="52" viewBox="0 0 24 24"
 												 width="52"
@@ -75,9 +83,10 @@
 											transform="matrix(-1 0 0 1 37.000004 0)"></path><path
 											d="M5.56759528 6.313482c-1.39916306 0-2.53379764-1.08153511-2.53379764-2.41521909v-.48304382C3.03379764 2.08153511 4.16843222 1 5.56759528 1c1.39916305 0 2.53379764 1.08153511 2.53379764 2.41521909v.48304382c0 1.33368398-1.13463459 2.41521909-2.53379764 2.41521909zM18.5337976 6.313482C17.1346346 6.313482 16 5.23194689 16 3.89826291v-.48304382C16 2.08153511 17.1346346 1 18.5337976 1c1.3991631 0 2.5337977 1.08153511 2.5337977 2.41521909v.48304382c0 1.33368398-1.1346346 2.41521909-2.5337977 2.41521909z"></path></g></svg>
 									</span>
+					</span>
 				</button>
 
-				<mat-form-field appearance="outline" class="form-field width-40">
+				<mat-form-field appearance="outline" class=" width-40">
 					<mat-label> {{'PRICE_PER_HEAD' | translate}}</mat-label>
 					<input [max]='1000' [min]='0' formControlName='pricePerHead' matInput type='number'>
 					<mat-error
@@ -95,13 +104,13 @@
 	<div *ngIf='(currentStep|async) > 2' class="form-container">
 		<form (submit)="submitPreferences()" [formGroup]="preferencesForm" class='flex flex-column text-center'>
 			<div class='flex space-between align-baseline' style="padding-right: 50px;">
-				<mat-checkbox class="form-field width-12"
+				<mat-checkbox class=" width-12"
 											formControlName='isSmokingAllowed'>{{'IS_SMOKING_ALLOWED' | translate}} </mat-checkbox>
 
-				<mat-checkbox class="form-field width-12"
+				<mat-checkbox class=" width-12"
 											formControlName='isPetAllowed'>{{'IS_PET_ALLOWED' | translate}} </mat-checkbox>
 
-				<mat-form-field appearance="outline" class="form-field width-12">
+				<mat-form-field appearance="outline" class=" width-12">
 					<mat-label>{{"DEPARTURE_DATE" | translate}}</mat-label>
 					<input [min]='getTimeDateNow()' [owlDateTimeFilter]='myDateTimeFilter' [owlDateTimeTrigger]="departureTime"
 								 [owlDateTime]="departureTime" class='border-top-0'
@@ -112,10 +121,10 @@
 						*ngIf='preferencesForm.controls.departureTime.touched && preferencesForm.controls.departureTime.invalid'>{{'MANDATORY_FIELD' | translate}}</mat-error>
 				</mat-form-field>
 
-				<mat-checkbox class="form-field width-12"
+				<mat-checkbox class=" width-12"
 											formControlName='hasAirCondition'>{{'HAS_AIR_CONDITION' | translate}} </mat-checkbox>
 
-				<mat-checkbox class="form-field width-12"
+				<mat-checkbox class=" width-12"
 											formControlName='maxTwoBackseat'>{{'MAX_TWO_BACKSEAT' | translate}} </mat-checkbox>
 			</div>
 
@@ -125,12 +134,11 @@
 
 
 			<button [disabled]='preferencesForm.invalid || preferencesForm.pristine' [hidden]='(currentStep|async) != 3'
-							class='color-white button-form final-submit-button'
 							mat-raised-button
 							color='primary'
 							type="submit">
 				{{'PUBLISH' | translate}}
-				<img height="52px" src='assets/images/moving-car.gif' width="52px">
+				<!--				<img height="52px" src='assets/images/moving-car.gif' width="52px">-->
 			</button>
 		</form>
 

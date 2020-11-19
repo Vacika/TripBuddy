@@ -1,8 +1,8 @@
 <form (submit)="submit()" [formGroup]="form" [ngClass]="textColor">
-	<div class='flex space-between align-center search-wrapper'>
+	<div class='flex space-between align-center'>
 
 		<!-- From Location -->
-		<mat-form-field appearance="outline" class="form-field mr-3" color="primary">
+		<mat-form-field appearance="outline" class="w-15 mr-3" color="primary">
 			<mat-label> {{'FROM' | translate}}</mat-label>
 			<mat-select formControlName="fromLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -24,7 +24,7 @@
 
 
 		<!-- To Location -->
-		<mat-form-field appearance="outline" class="form-field flex-fill mr-3">
+		<mat-form-field appearance="outline" class="w-15 flex-fill mr-3">
 			<mat-label> {{'TO' | translate}}</mat-label>
 			<mat-select formControlName="toLocation" required>
 				<mat-option *ngFor="let city of allCities" [value]="city.id">
@@ -37,7 +37,7 @@
 		</mat-form-field>
 
 
-		<button [disabled]='form.invalid || form.pristine'
+		<button [disabled]='form.invalid || form.pristine || checkIfFromToAreIdentical()'
 						class='button-form final-submit-button flex-fill mr-3'
 						mat-raised-button
 						color="primary"
@@ -48,7 +48,7 @@
 
 
 		<!-- Seats requested -->
-		<mat-form-field appearance="outline" class="form-field flex-fill mr-3">
+		<mat-form-field appearance="outline" class="w-15 flex-fill mr-3">
 			<mat-label> {{'TOTAL_SEATS_OFFERED' | translate}}</mat-label>
 			<input [max]='5' [min]=1 formControlName='requestedSeats' matInput type='number'>
 			<mat-error
@@ -60,7 +60,7 @@
 
 
 		<!-- Departure date -->
-		<mat-form-field appearance="outline" class="form-field flex-fill mr-3">
+		<mat-form-field appearance="outline" class="w-15 flex-fill mr-3">
 			<input [min]='minimumDate'
 						 [owlDateTimeFilter]='myDateTimeFilter'
 						 [owlDateTimeTrigger]="departureDate"
