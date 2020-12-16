@@ -30,7 +30,7 @@ export class AuthService {
 		const req = {
 			username,
 			password
-		}
+		};
 		return this.httpClient.post<any>(apiURI, req)
 			.pipe(map(response => {
 				if (isNotNullOrUndefined(response.user)) {

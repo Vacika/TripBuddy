@@ -34,7 +34,6 @@ class AuthController(private val userDetailsServiceImpl: UserDetailsServiceImpl,
         val token = jwtTokenUtil.generateToken(userDetails)
 
         return JwtResponse(token, userDetails)
-
     }
 
     fun authenticate(username: String, password: String) {
