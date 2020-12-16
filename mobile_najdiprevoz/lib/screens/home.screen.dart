@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mobile_najdiprevoz/services/auth.service.dart';
+import 'package:mobile_najdiprevoz/services/http.service.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen(this.token);
@@ -15,18 +17,18 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(title: Text("Home Screen")),
         body: Center(
           child: FutureBuilder(
-              future: http.read('http://10.0.2.2:8080/api/trips-list/1',
-                  headers: {"Authorization": token}),
+              future: HttpService().get('http://10.0.2.2:8080/api/notifications', context).catchError(
+                      (error) => {log("VaskoERROR:$error")}),
               builder: (context, snapshot) => snapshot.hasData
                   ? Column(
                       children: <Widget>[
                         LogoutButton(),
-                        Text(snapshot.data,
+                        Text(snapshot.data.toString(),
                             style: Theme.of(context).textTheme.display1)
                       ],
                     )
                   : snapshot.hasError
-                      ? Text("An error occurred")
+                      ? Text("An error occurred${snapshot.error}")
                       : CircularProgressIndicator()),
         ),
       );
