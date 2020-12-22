@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return getCard(this.trip);
   }
 }
@@ -21,27 +19,27 @@ class TripCard extends StatelessWidget {
 Widget getCard(TripListResponse trip) {
   return Center(
       child: Container(
-          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+          padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
           child: Card(
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                  leading: getDepartureWidget(trip.departureTime),
-                  title:
-                      getFromToAndPrice(trip.from, trip.to, trip.pricePerHead),
+                  leading: departureTime(trip.departureTime),
+                  title: destinationAndPriceWidget(
+                      trip.from, trip.to, trip.pricePerHead),
                   subtitle: Row(
                     children: [
                       Expanded(
                           flex: 2,
                           child: Text(
                               trip.availableSeats.toString() + " seats left")),
-                      Expanded(child: getTripIcons(), flex: 2)
+                      Expanded(child: tripAdditionalDetails(), flex: 2)
                     ],
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   )),
-              getUserDetails(trip),
+              userBasicInfo(trip),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -56,20 +54,16 @@ Widget getCard(TripListResponse trip) {
                     },
                   ),
                   const SizedBox(width: 8),
-                  TextButton(
-                    child: const Text('DETAILS'),
-                    onPressed: () {
-                      /* ... */
-                    },
-                  ),
-                  const SizedBox(width: 8),
                 ],
               ),
             ],
           ))));
 }
 
-getDepartureWidget(DateTime departureTime) {
+/**
+ * Departure time widget with clock icon and formatted departure time
+ */
+departureTime(DateTime departureTime) {
   DateFormat dateFormat = DateFormat("dd MMM");
   DateFormat timeFormat = DateFormat("HH:mm");
   return Column(
@@ -97,7 +91,7 @@ Widget circleImage(String image) {
           new BoxDecoration(color: Colors.blue, shape: BoxShape.circle));
 }
 
-Widget getUserDetails(TripListResponse trip) {
+Widget userBasicInfo(TripListResponse trip) {
   return Column(
     children: [
       Divider(
@@ -110,7 +104,7 @@ Widget getUserDetails(TripListResponse trip) {
       ListTile(
           leading: circleImage(trip.driver.profilePhoto),
           title: Text(trip.driver.name),
-          subtitle: getRating(trip.driver.rating, 23)),
+          subtitle: userRating(trip.driver.rating, 23)),
     ],
   );
 }
@@ -128,7 +122,10 @@ Widget getAvailableSeats(int availableSeats) {
   ));
 }
 
-Widget getRating(double rating, int totalRatings) {
+/**
+ * Rating container
+ */
+Widget userRating(double rating, int totalRatings) {
   return Row(
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,7 +139,10 @@ Widget getRating(double rating, int totalRatings) {
   );
 }
 
-Widget getFromToAndPrice(from, to, price) {
+/**
+ * Row with destination on left and price on the right side.
+ */
+Widget destinationAndPriceWidget(from, to, price) {
   return Row(
     children: [
       Column(
@@ -157,17 +157,17 @@ Widget getFromToAndPrice(from, to, price) {
   );
 }
 
-Widget getTripIcons() {
-  return Row(
-      children: [
-        Icon(
-          Icons.smoke_free,
-          size: 16,
-          color: Colors.red,
-        ),
-        Icon(Icons.pets, size: 16, color: Colors.red),
-        Icon(Icons.ac_unit, size: 16, color: Colors.red)
-      ],
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.max);
+/**
+ * Row with icons for smoking, pets, airconditioner, maxTwoBackseat
+ */
+Widget tripAdditionalDetails() {
+  return Row(children: [
+    Icon(
+      Icons.smoke_free,
+      size: 16,
+      color: Colors.red,
+    ),
+    Icon(Icons.pets, size: 16, color: Colors.red),
+    Icon(Icons.ac_unit, size: 16, color: Colors.red)
+  ], mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.max);
 }
