@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobile_najdiprevoz/interfaces/trip-list-response.dart';
@@ -19,10 +18,10 @@ class TripCard extends StatelessWidget {
 Widget getCard(TripListResponse trip) {
   return Center(
       child: Container(
-          padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+          padding: EdgeInsetsDirectional.fromSTEB(5, 10, 5, 10),
           child: Card(
               child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               ListTile(
                   leading: departureTime(trip.departureTime),
@@ -43,7 +42,11 @@ Widget getCard(TripListResponse trip) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  TextButton(
+                  OutlineButton(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    splashColor: Colors.lightBlue,
+                    focusColor: Colors.white70,
                     child: const Text(
                       'RESERVE',
                       style: TextStyle(
@@ -109,19 +112,19 @@ Widget userBasicInfo(TripListResponse trip) {
   );
 }
 
-Widget getAvailableSeats(int availableSeats) {
-  List<Icon> seats = [];
-  for (int i = 0; i < availableSeats; i++) {
-    seats.add(Icon(Icons.person, color: Colors.green));
-  }
-  return Container(
-      child: Row(
-    children: seats,
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.center,
-  ));
-}
-
+// Widget getAvailableSeats(int availableSeats) {
+//   List<Icon> seats = [];
+//   for (int i = 0; i < availableSeats; i++) {
+//     seats.add(Icon(Icons.person, color: Colors.green));
+//   }
+//   return Container(
+//       child: Row(
+//     children: seats,
+//     mainAxisSize: MainAxisSize.min,
+//     crossAxisAlignment: CrossAxisAlignment.center,
+//   ));
+// }
+//
 /**
  * Rating container
  */
@@ -164,10 +167,10 @@ Widget tripAdditionalDetails() {
   return Row(children: [
     Icon(
       Icons.smoke_free,
-      size: 16,
+      // size: 20,
       color: Colors.red,
     ),
-    Icon(Icons.pets, size: 16, color: Colors.red),
-    Icon(Icons.ac_unit, size: 16, color: Colors.red)
+    Icon(Icons.pets, color: Colors.red),
+    Icon(Icons.ac_unit, color: Colors.red)
   ], mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.max);
 }
