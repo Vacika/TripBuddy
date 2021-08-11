@@ -3,7 +3,7 @@
 Najdi Prevoz is application platform where the user could share a ride with other users of the platform.
 
 <h2> Project setup: </h2> 
-1) Clone the repository: <code>git clone git@github.com:Vacika/NajdiPrevoz.git </code>
+1) Clone the repository
 2) Install PostgreSQL 
 3) Add new user to PostgreSQL with username: najdiprevoz password: najdiprevoz
 4) Create new database najdiprevoz
