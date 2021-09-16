@@ -1,6 +1,6 @@
-# NajdiPrevoz
+# TripBuddy
  
-Najdi Prevoz is application platform where the user could share a ride with other users of the platform.
+Trip Buddy is application platform where the user could share a ride with other users of the platform.
 
 <h2> Project setup: </h2> 
 1) Clone the repository
@@ -91,15 +91,16 @@ Database Diagram:
 <ul>
  <li> Move email service into separate module</li>
  <li> Move SMS service into separate module </li>
- <li> Design landing page for WEB Najdi Prevoz </li>
+ <li> Design landing page </li>
  <li> Choose primary and secondary color </li>
- <li> Implement design across the WEB Najdi Prevoz screens </li>
+ <li> Implement design across the other screens </li>
  <li> Make notifications be fetched on intervals or through sockets(front-end) </li>
  <li> Split front-end into modules </li>
- <li> Design screens for mobile NajdiPrevoz </li>
- <li> Make mobile application of NajdiPrevoz using Ionic framework </li>
+ <li> Design screens for mobile TripBuddy </li>
+ <li> Make mobile application using Ionic framework or Flutter </li>
  <li> Create Monetization plan</li>
  <li> Create Marketing strategy plan </li>
  <li> Choose adequate hosting option </li>
- <li> DEPLOY, ACTIVATE MARKETING PLANS </li>
+ <li> DEPLOY, ACTIVATE MARKETING STRATEGY </li>
+ <li> Check traffic stats every 1 second :) </li>
 </ul>
