@@ -7,7 +7,7 @@ import {City} from "../interfaces/city.interface";
 	providedIn: 'root'
 })
 export class CityService {
-	readonly path = 'api/cities';
+	readonly path = 'api/public/cities';
 
 	constructor(private _http: HttpClient) {
 	}

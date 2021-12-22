@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.twilio
+package com.project.najdiprevoz.services.sms
 
 import com.project.najdiprevoz.interfaces.SmsService
 import com.twilio.http.TwilioRestClient

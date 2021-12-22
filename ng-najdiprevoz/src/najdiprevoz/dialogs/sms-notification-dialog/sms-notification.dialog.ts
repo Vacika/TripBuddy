@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {SmsTripNotificationService} from "../../services/sms-trip-notification.service";
 import {mkNumberRegex} from "../../constants/regex.constants";
 

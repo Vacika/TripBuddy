@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 	providedIn: 'root'
 })
 export class PasswordResetService {
-	readonly path = 'api/reset-password';
+	readonly path = 'api/public/reset-password';
 
 	constructor(private _http: HttpClient) {
 	}

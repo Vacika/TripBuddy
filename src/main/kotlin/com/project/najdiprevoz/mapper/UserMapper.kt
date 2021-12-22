@@ -14,19 +14,19 @@ class UserMapper(private val service: UserService,
                  private val tripRepository: RideRepository,
                  private val ratingViewRepository: RatingRepository) {
     fun createNewUser(createUserRequest: CreateUserRequest): User =
-            service.createNewUser(createUserRequest)
+            service.create(createUserRequest)
 
     fun editUserProfile(req: EditUserProfileRequest, username: String): User =
-            service.editUserProfile(req, username)
+            service.updatePersonalData(req, username)
 
     fun activateUser(activationToken: String): Boolean =
-            service.activateUser(activationToken)
+            service.activate(activationToken)
 
     fun getUserInfo(userId: Long): UserProfileResponse =
             findById(userId)
 
     fun findById(userId: Long): UserProfileResponse =
-            mapToUserProfileResponse(service.findUserById(userId))
+            mapToUserProfileResponse(service.findById(userId))
 
     private fun getPublishedRidesCount(userId: Long) =
             tripRepository.findAllByDriverId(userId).size

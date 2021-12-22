@@ -1,6 +1,6 @@
 import {Subject} from "rxjs";
 import {Injectable} from "@angular/core";
-import {LoaderState} from "../interfaces/loader-state.interface";
+import {LoaderState} from "../../interfaces/loader-state.interface";
 
 @Injectable({
 	providedIn: 'root'

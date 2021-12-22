@@ -1,11 +1,11 @@
-package com.project.najdiprevoz.api
+package com.project.najdiprevoz.api.exposed
 import com.project.najdiprevoz.services.PasswordForgotService
 import com.project.najdiprevoz.web.request.HandlePasswordResetRequest
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/api/reset-password")
+@RequestMapping("/api/public/reset-password")
 class PasswordResetController(private val passwordForgotService: PasswordForgotService) {
 
     @GetMapping

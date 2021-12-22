@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {UserService} from "../../services/user.service";
 
 @Component({
 	templateUrl: './activate-user.page.html',
@@ -13,7 +13,7 @@ export class ActivateUserPage implements OnInit {
 
 	constructor(private route: ActivatedRoute,
 							private router: Router,
-							private userService: AuthService,
+							private userService: UserService,
 							private notificationService: UINotificationsService) {
 	}
 

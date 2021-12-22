@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {emailRegex} from '../../constants/regex.constants';
 import {PasswordForgotService} from '../../services/password-forgot.service';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {HomePage} from '../landing-page/home-page.component';
 import {Router} from '@angular/router';
 

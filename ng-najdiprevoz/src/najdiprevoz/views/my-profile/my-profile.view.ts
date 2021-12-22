@@ -2,7 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {User} from '../../interfaces/user.interface';
 import {AbstractControl, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {UserService} from "../../services/user.service";
 
 @Component({
 	selector: 'profile-settings',
@@ -17,8 +17,8 @@ export class MyProfileView {
 
 	constructor(private formBuilder: FormBuilder,
 							private router: Router,
-							private loginService: AuthService) {
-		this.user = this.loginService.getLoggedUser();
+							private userService: UserService) {
+		this.user = this.userService.getLoggedUser();
 		if(this.user) {
 			this.imgUrl = this.user?.profilePhoto;
 			this.setProperties(this.user);

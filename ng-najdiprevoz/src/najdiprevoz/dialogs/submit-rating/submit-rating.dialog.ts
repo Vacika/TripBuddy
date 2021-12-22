@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {RatingService} from '../../services/rating.service';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 
 @Component({
 	templateUrl: 'submit-rating.dialog.html',

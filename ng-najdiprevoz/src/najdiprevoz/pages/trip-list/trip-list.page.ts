@@ -1,10 +1,10 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {TripService} from '../../services/trip.service';
+import {Component, OnInit} from '@angular/core';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {SmsNotificationDialog} from "../../dialogs/sms-notification-dialog/sms-notification.dialog";
 import {MatDialog} from "@angular/material/dialog";
+import {TripListService} from "../../services/trip-list.service";
 
 @Component({
 	templateUrl: './trip-list.page.html',
@@ -17,7 +17,7 @@ export class TripListPage implements OnInit {
 	private fromLocation: string;
 	private toLocation: string;
 
-	constructor(private _service: TripService,
+	constructor(private _service: TripListService,
 							private _route: ActivatedRoute,
 							private _dialog: MatDialog,
 							private _router: Router) {

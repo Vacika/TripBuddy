@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.api
+package com.project.najdiprevoz.api.exposed
 
 import com.project.najdiprevoz.mapper.TripMapper
 import com.project.najdiprevoz.web.request.FilterTripRequest
@@ -10,21 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/trips-list")
-class TripGridController(private val mapper: TripMapper) {
+@RequestMapping("/api/public/trips-list")
+class TripListController(private val mapper: TripMapper) {
 
     @GetMapping
     fun getAllForToday(): List<TripResponse> =
-            mapper.findAllActiveTripsForToday()
+        mapper.findAllActiveTripsForToday()
 
     @GetMapping("/filter")
     fun findAllFiltered(filterRequest: FilterTripRequest) =
-            mapper.findAllFiltered(filterRequest)
+        mapper.findAllFiltered(filterRequest)
 
     @GetMapping("/{tripId}")
     fun getTrip(@PathVariable("tripId") tripId: Long) =
-            mapper.findById(tripId)
+        mapper.findById(tripId)
 
     @GetMapping("/{tripId}/info")
-    fun getTripAdditionalInfo(@PathVariable("tripId") tripId: Long): TripDetailsResponse = mapper.getTripAdditionalInfo(tripId)
+    fun getTripAdditionalInfo(@PathVariable("tripId") tripId: Long): TripDetailsResponse =
+        mapper.getTripAdditionalInfo(tripId)
 }

@@ -5,6 +5,7 @@ import com.project.najdiprevoz.domain.PasswordResetToken
 import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.exceptions.TokenNotValidOrExpiredException
 import com.project.najdiprevoz.repositories.PasswordResetTokenRepository
+import com.project.najdiprevoz.utils.EmailService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -45,7 +46,7 @@ class PasswordForgotService(private val userService: UserService,
 
     private fun createUserForgotMailObject(username: String): Mail {
         logger.debug("Creating reset token for user: $username")
-        val user: User = userService.findUserByUsername(username)
+        val user: User = userService.findByUsername(username)
         val token = createPaswordResetToken(user)
         val mail = Mail()
         mail.lang = user.defaultLanguage.name

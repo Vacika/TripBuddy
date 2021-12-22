@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.api
+package com.project.najdiprevoz.api.exposed
 
 import com.project.najdiprevoz.security.JwtTokenUtil
 import com.project.najdiprevoz.security.UserDetailsServiceImpl
@@ -17,7 +17,7 @@ import java.util.*
 
 
 @RestController
-@RequestMapping("/api/authenticate")
+@RequestMapping("/api/public/authenticate")
 class AuthController(private val userDetailsServiceImpl: UserDetailsServiceImpl,
                      private val authenticationManager: AuthenticationManager,
                      private val jwtTokenUtil: JwtTokenUtil) {
@@ -37,7 +37,7 @@ class AuthController(private val userDetailsServiceImpl: UserDetailsServiceImpl,
 
     }
 
-    fun authenticate(username: String, password: String) {
+    private fun authenticate(username: String, password: String) {
         Objects.requireNonNull(username)
         Objects.requireNonNull(password)
         try {

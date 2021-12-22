@@ -3,7 +3,7 @@ import {NotificationService} from '../../services/notification.service';
 import {NotificationResponse} from '../../interfaces/notification.interface';
 import {MatDialog} from '@angular/material/dialog';
 import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dialog';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {
 	APPROVE_ACTION,
 	CANCEL_ACTION,

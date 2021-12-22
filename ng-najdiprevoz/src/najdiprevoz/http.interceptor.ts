@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, finalize, tap} from 'rxjs/operators';
-import {AuthService} from "./services/auth.service";
 import {Router} from "@angular/router";
-import {LoaderService} from "./services/loader.service";
+import {LoaderService} from "./services/util/loader.service";
+import {UserService} from "./services/user.service";
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
-	constructor(private authenticationService: AuthService,
-							private loader: LoaderService,
-							private router: Router) {
+	constructor(private _userService: UserService,
+							private _loader: LoaderService,
+							private _router: Router) {
 	}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -23,18 +23,18 @@ export class CustomInterceptor implements HttpInterceptor {
 		}
 
 		return next.handle(request).pipe(
-			tap((event) => this.loader.start()),
+			tap((event) => this._loader.start()),
 			catchError(err => {
 				console.log("ERROR", err);
 				if (err.status === 401 || err.status === 403) {
-					this.authenticationService.resetUserObservable();
-					this.router.navigate(['/login'])
+					this._userService.resetUserObservable();
+					this._router.navigate(['/login'])
 				}
 				const error = err.error.message || err.statusText;
-				this.loader.stop();
+				this._loader.stop();
 				return throwError(error);
 			}),
-			finalize(() => this.loader.stop()))
+			finalize(() => this._loader.stop()))
 	}
 
 }

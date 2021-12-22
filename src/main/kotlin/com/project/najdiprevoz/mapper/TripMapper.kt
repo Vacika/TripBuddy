@@ -5,6 +5,7 @@ import com.project.najdiprevoz.domain.User
 import com.project.najdiprevoz.enums.Actions
 import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.repositories.RatingViewRepository
+import com.project.najdiprevoz.services.list.TripListService
 import com.project.najdiprevoz.services.TripService
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
@@ -16,22 +17,23 @@ import org.springframework.stereotype.Service
 
 @Service
 class TripMapper(private val tripService: TripService,
+                 private val tripListService: TripListService,
                  private val ratingViewRepository: RatingViewRepository) {
 
     fun findAllActiveTripsForToday(): List<TripResponse> {
-        return tripService.findAllActiveTripsForToday().map { mapToTripResponse(it, false) }
+        return tripListService.findAllActiveForToday().map { mapToTripResponse(it, false) }
     }
 
     fun findAllFiltered(req: FilterTripRequest): List<TripResponse> =
-            tripService.findAllFiltered(req)
+        tripListService.findAllFiltered(req)
                     .map { mapToTripResponse(it, false) }
                     .sortedByDescending { it.driver.rating }
 
     fun editTrip(tripId: Long, editTripRequest: EditTripRequest): TripResponse =
-            mapToTripResponse(tripService.editTrip(tripId, editTripRequest), false)
+            mapToTripResponse(tripService.edit(tripId, editTripRequest), false)
 
     fun createNewTrip(createTripRequest: CreateTripRequest, username: String) =
-            tripService.createNewTrip(createTripRequest, username)
+            tripService.create(createTripRequest, username)
 
     fun cancelTrip(tripId: Long, username: String) =
             tripService.cancelTrip(tripId, username)
@@ -46,14 +48,14 @@ class TripMapper(private val tripService: TripService,
     ///////////////////////////////////////////////////
 
     fun getMyTripsAsDriver(username: String): List<TripResponse> {
-        return tripService.getMyTripsAsDriver(username).map { mapToTripResponse(it, false) }
+        return tripListService.getMyTripsAsDriver(username).map { mapToTripResponse(it, false) }
     }
 
     fun getMyTripsAsPassenger(username: String): List<TripResponse> =
-            tripService.getMyTripsAsPassenger(username).map { mapToTripResponse(it, true) }
+            tripListService.getMyTripsAsPassenger(username).map { mapToTripResponse(it, true) }
 
     fun findAllTripsByDriverId(id: Long) =
-            tripService.findAllTripsByDriverId(id).map { mapToTripResponse(it, false) }
+            tripListService.findAllByDriverId(id).map { mapToTripResponse(it, false) }
 
 
     private fun mapToTripResponse(trip: Trip, asPassenger: Boolean): TripResponse = with(trip) {

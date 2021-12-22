@@ -17,5 +17,6 @@ class CityService(private val repository: CityRepository) {
     fun addCity(name: String): City =
             repository.save(City(name = name))
 
-    fun findById(id: Long): City = repository.findById(id).orElseThrow { NotFoundException("No city found with id $id") }
+    fun findById(id: Long): City =
+        repository.findById(id).orElseThrow { NotFoundException("No city found with id $id") }
 }

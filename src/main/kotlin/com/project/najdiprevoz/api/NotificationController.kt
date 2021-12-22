@@ -1,7 +1,7 @@
 package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.enums.NotificationAction
-import com.project.najdiprevoz.services.NotificationManagementService
+import com.project.najdiprevoz.services.management.NotificationManagementService
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 

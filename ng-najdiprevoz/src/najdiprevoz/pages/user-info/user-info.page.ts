@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserProfileDetails} from "../../interfaces/user.interface";
-import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
 	templateUrl: './user-info.page.html',
@@ -10,7 +10,7 @@ import {AuthService} from "../../services/auth.service";
 export class UserInfoPage implements OnInit {
 	user: UserProfileDetails;
 
-	constructor(private _service: AuthService,
+	constructor(private _service: UserService,
 							private _router: Router,
 							private _route: ActivatedRoute) {
 	};

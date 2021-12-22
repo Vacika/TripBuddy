@@ -2,7 +2,7 @@ package com.project.najdiprevoz.api
 
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.mapper.ReservationRequestMapper
-import com.project.najdiprevoz.web.request.create.CreateRequestForTrip
+import com.project.najdiprevoz.web.request.create.CreateReservationRequestForTrip
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
@@ -11,7 +11,7 @@ import java.security.Principal
 class ReservationRequestController(private val mapper: ReservationRequestMapper) {
 
     @PutMapping("/new")
-    fun createNewReservationRequest(@RequestBody req: CreateRequestForTrip, principal: Principal) =
+    fun createNewReservationRequest(@RequestBody req: CreateReservationRequestForTrip, principal: Principal) =
             mapper.addNewReservationRequest(req, principal.name)
 
     @GetMapping("/{requestId}")

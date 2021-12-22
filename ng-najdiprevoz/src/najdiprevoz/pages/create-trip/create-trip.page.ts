@@ -5,8 +5,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {City} from '../../interfaces/city.interface';
 import {CityService} from '../../services/city.service';
 import {Observable} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
+import {UserService} from "../../services/user.service";
 
 @Component({
 	templateUrl: './create-trip.page.html',
@@ -23,7 +23,7 @@ export class CreateTripPage implements OnInit {
 	dateNow: Date;
 
 	constructor(private _service: TripService,
-							private _loginService: AuthService,
+							private _userService: UserService,
 							private _cityService: CityService,
 							private _route: ActivatedRoute,
 							private _notificationService: UINotificationsService,
@@ -104,7 +104,7 @@ export class CreateTripPage implements OnInit {
 			departureTime: this.getDepartureTime.value,
 			maxTwoBackseat: this.getMaxTwoBackseat.value,
 			additionalDescription: this.additionalDescription.value,
-			driverId: this._loginService.getLoggedUser()
+			driverId: this._userService.getLoggedUser()
 		};
 		this._service.addNewTrip(formValues).subscribe(() => {
 			this._notificationService.success('TRIP_CREATE_SUCCESS');

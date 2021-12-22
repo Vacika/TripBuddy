@@ -1,5 +1,6 @@
 package com.project.najdiprevoz.repositories
 
+import com.project.najdiprevoz.domain.Authority
 import com.project.najdiprevoz.domain.User
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -11,16 +12,18 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<User>{
+interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
-    @Query("""
+    @Query(
+        """
         SELECT u as rating FROM User u
         JOIN Rating r on
         r.reservationRequest.trip.driver = u
         GROUP BY u.id
         ORDER BY avg(rating)
         DESC
-    """)
+    """
+    )
     fun findTopRatedDrivers(page: Pageable): List<User>?
 
     fun findByUsername(username: String): Optional<User>
@@ -30,5 +33,9 @@ interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<U
     @Modifying
     @Query("UPDATE User set isActivated = true where username = :username")
     fun activateUser(@Param("username") username: String)
+
+    @Modifying
+    @Query("UPDATE User set authority = :authority where username = :username")
+    fun updateUserRole(@Param("username") username: String, @Param("authority") authority: Authority)
 
 }

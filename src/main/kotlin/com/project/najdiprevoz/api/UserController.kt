@@ -11,15 +11,6 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/users")
 class UserController(private val mapper: UserMapper) {
-
-    @PutMapping("/register")
-    fun createUser(@RequestBody request: CreateUserRequest): User =
-            mapper.createNewUser(request)
-
-    @GetMapping("/activate")
-    fun activateUser(@RequestParam(required = false) activationToken: String): Boolean =
-            mapper.activateUser(activationToken)
-
     @PutMapping("/edit")
     fun editProfile(@RequestBody req: EditUserProfileRequest, principal: Principal): User =
             mapper.editUserProfile(req, principal.name)

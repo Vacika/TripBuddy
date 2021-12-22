@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {User} from '../../interfaces/user.interface';
 import {TranslateService} from '@ngx-translate/core';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {USER_BANNED_ERROR, USER_NOT_ACTIVATED_ERROR} from "../../constants/errors.constants";
 
 @Component({

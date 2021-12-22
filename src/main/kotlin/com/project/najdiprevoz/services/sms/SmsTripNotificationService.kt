@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.services
+package com.project.najdiprevoz.services.sms
 
 import com.project.najdiprevoz.domain.City
 import com.project.najdiprevoz.domain.SmsTripNotification
@@ -6,6 +6,7 @@ import com.project.najdiprevoz.domain.Trip
 import com.project.najdiprevoz.enums.Language
 import com.project.najdiprevoz.interfaces.SmsService
 import com.project.najdiprevoz.repositories.SmsTripNotificationRepository
+import com.project.najdiprevoz.services.CityService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -15,11 +16,11 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class SmsTripNotificationService(
-        private val cityService: CityService,
-        private val smsService: SmsService,
-        private val repository: SmsTripNotificationRepository,
-        @Value("\${najdiprevoz.signature}") private val applicationName: String,
-        @Value("\${najdiprevoz.official-app-link}") private val appLink: String) {
+    private val cityService: CityService,
+    private val smsService: SmsService,
+    private val repository: SmsTripNotificationRepository,
+    @Value("\${najdiprevoz.signature}") private val applicationName: String,
+    @Value("\${najdiprevoz.official-app-link}") private val appLink: String) {
 
     val logger: Logger = LoggerFactory.getLogger(SmsTripNotificationService::class.java)
 
@@ -27,7 +28,7 @@ class SmsTripNotificationService(
     fun addNewNotification(fromLocation: Long, toLocation: Long, validUntil: ZonedDateTime, phone: String, language: String): SmsTripNotification {
         val startingPoint = cityService.findById(fromLocation)
         val endingPoint = cityService.findById(toLocation)
-        val result = createSmsTripObject(startingPoint, endingPoint, validUntil, phone, language)
+        val result = createSmsTripNotificationObj(startingPoint, endingPoint, validUntil, phone, language)
         logger.info("Creating new SMS notification, from ${startingPoint.name} to ${endingPoint.name}, validUntil: ${validUntil}")
         return repository.save(result)
     }
@@ -43,7 +44,7 @@ class SmsTripNotificationService(
         smsList.forEach { smsService.sendSms(it.phoneNumber, createSmsBody(trip, it.language)) }
     }
 
-    private fun createSmsTripObject(startingPoint: City, endingPoint: City, validUntil: ZonedDateTime, phone: String, language: String): SmsTripNotification {
+    private fun createSmsTripNotificationObj(startingPoint: City, endingPoint: City, validUntil: ZonedDateTime, phone: String, language: String): SmsTripNotification {
         return SmsTripNotification(0L, ZonedDateTime.now(), startingPoint, endingPoint, validUntil, phone, Language.valueOf(language))
     }
 

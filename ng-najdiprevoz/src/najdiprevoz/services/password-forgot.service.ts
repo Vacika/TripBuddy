@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 	providedIn: 'root'
 })
 export class PasswordForgotService {
-	readonly path = 'api/forgot-password';
+	readonly path = 'api/public/forgot-password';
 
 	constructor(private _http: HttpClient) {
 	}

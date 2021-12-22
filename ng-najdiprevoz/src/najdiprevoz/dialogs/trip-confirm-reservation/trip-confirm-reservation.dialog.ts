@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ReservationRequestService} from '../../services/reservation-request.service';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 
 @Component({
 	templateUrl: 'trip-confirm-reservation.dialog.html',

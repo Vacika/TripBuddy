@@ -12,6 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import java.time.ZonedDateTime
 import javax.transaction.Transactional
 
@@ -22,12 +23,15 @@ class NotificationService(private val repository: NotificationRepository) {
 
     fun findById(id: Long): Notification = repository.findById(id).orElseThrow { NotificationNotFoundException(id) }
 
-    //TODO: Remove all previous/last notifications with same requestId when pushing new notification (if it is not first)
-    @Modifying
-    fun pushReservationRequestStatusChangeNotification(reservationRequest: ReservationRequest, notificationType: NotificationType) {
+    fun getMyNotifications(username: String) = repository.findAllByToUsernameOrderByCreatedOnDesc(username)
+
+    fun pushReservationStatusChangeNotification(
+        reservationRequest: ReservationRequest,
+        notificationType: NotificationType
+    ) {
         var notificationActionAllowed: List<NotificationAction> = listOf(NotificationAction.MARK_AS_SEEN)
-        var to: User
-        var from: User
+        val to: User
+        val from: User
         val driver: User = reservationRequest.trip.driver
         val requester: User = reservationRequest.requester
         when (notificationType) {
@@ -41,8 +45,8 @@ class NotificationService(private val repository: NotificationRepository) {
                 to = requester
             }
             NotificationType.REQUEST_SENT -> {
-                notificationActionAllowed = notificationActionAllowed.plus(NotificationAction.DENY).plus(
-                        NotificationAction.APPROVE)
+                notificationActionAllowed =
+                    notificationActionAllowed.plus(NotificationAction.DENY).plus(NotificationAction.APPROVE)
                 from = requester
                 to = driver
             }
@@ -58,41 +62,47 @@ class NotificationService(private val repository: NotificationRepository) {
                 from = driver
                 to = requester
             }
-            NotificationType.RATING_SUBMITTED -> TODO()
-            NotificationType.RATING_ALLOWED -> TODO()
+            else -> throw RuntimeException("Something went wrong here. Notification type: ${notificationType.name}, ID: ${reservationRequest.id}")
         }
         removeOldNotificationsActions(reservationRequest.id)
-        pushNotification(from = from, to = to, reservationRequest = reservationRequest, type = notificationType,
-                         notificationActionAllowed = notificationActionAllowed)
-    }
-
-    @Modifying
-    fun pushRatingNotification(rating: Rating) = with(rating) {
         pushNotification(
-                from = getAuthor(),
-                to = getDriver(),
-                type = NotificationType.RATING_SUBMITTED,
-                reservationRequest = reservationRequest,
-                notificationActionAllowed = listOf(NotificationAction.MARK_AS_SEEN))
+            from = from, to = to, reservationRequest = reservationRequest, type = notificationType,
+            notificationActionAllowed = notificationActionAllowed
+        )
     }
 
-    @Modifying
+    fun pushRatingSubmittedNotification(rating: Rating) = with(rating) {
+        pushNotification(
+            from = getAuthor(),
+            to = getDriver(),
+            type = NotificationType.RATING_SUBMITTED,
+            reservationRequest = reservationRequest,
+            notificationActionAllowed = listOf(NotificationAction.MARK_AS_SEEN)
+        )
+    }
+
     fun pushRatingAllowedNotification(reservationRequest: ReservationRequest) = with(reservationRequest) {
-        pushNotification(from = trip.driver,
-                         to = requester,
-                         notificationActionAllowed = listOf(NotificationAction.SUBMIT_RATING,
-                                                            NotificationAction.MARK_AS_SEEN),
-                         reservationRequest = this,
-                         type = NotificationType.RATING_ALLOWED)
+        pushNotification(
+            from = trip.driver,
+            to = requester,
+            notificationActionAllowed = listOf(
+                NotificationAction.SUBMIT_RATING,
+                NotificationAction.MARK_AS_SEEN
+            ),
+            reservationRequest = this,
+            type = NotificationType.RATING_ALLOWED
+        )
     }
 
-    fun getMyNotifications(username: String) = repository.findAllByToUsernameOrderByCreatedOnDesc(username)
-
-    private fun pushNotification(from: User, to: User, notificationActionAllowed: List<NotificationAction>,
-                                 type: NotificationType, reservationRequest: ReservationRequest) {
+    private fun pushNotification(
+        from: User, to: User, notificationActionAllowed: List<NotificationAction>,
+        type: NotificationType, reservationRequest: ReservationRequest
+    ) {
         logger.info(
-                "[NOTIFICATIONS] Saving new notification for ReservationRequest[${reservationRequest.id}], Notification Type:[${type.name}]")
-        repository.saveAndFlush(Notification(
+            "[NOTIFICATIONS] Saving new notification for ReservationRequest[${reservationRequest.id}], Notification Type:[${type.name}]"
+        )
+        repository.saveAndFlush(
+            Notification(
                 from = from,
                 to = to,
                 actions = notificationActionAllowed.toMutableList(),
@@ -100,25 +110,14 @@ class NotificationService(private val repository: NotificationRepository) {
                 createdOn = ZonedDateTime.now(),
                 seen = false,
                 reservationRequest = reservationRequest
-        ))
+            )
+        )
     }
 
     @Modifying
     fun markAsSeen(notificationId: Long) {
         logger.debug("[NOTIFICATIONS] Mark as SEEN notification ID [$notificationId]")
         repository.save(findById(notificationId).markAsSeen())
-    }
-
-    @Transactional
-    @Modifying
-    fun removeLastNotificationForReservationRequest(requestId: Long) {
-        var notification = repository.findAllByReservationRequest_Id(requestId)
-        if (notification.isNotEmpty()) {
-            val deleteNotification = notification.maxBy { it.createdOn }!!
-            logger.debug("[NOTIFICATIONS] Removing last notification associated with ReservationRequest with ID: [$requestId]")
-            repository.delete(deleteNotification)
-            repository.flush()
-        }
     }
 
     @Transactional
@@ -131,7 +130,20 @@ class NotificationService(private val repository: NotificationRepository) {
         }
     }
 
+
+//    @Transactional
+//    @Modifying
+//    fun removeLastNotificationForReservation(requestId: Long, user: User) {
+//        var notification = repository.findAllByReservationRequest_IdAndTo(requestId, user)
+//        if (notification.isNotEmpty()) {
+//            val deleteNotification = notification.maxBy { it.createdOn }!!
+//            logger.debug("[NOTIFICATIONS] Removing last notification associated with ReservationRequest with ID: [$requestId]")
+//            repository.delete(deleteNotification)
+//            repository.flush()
+//        }
+//    }
+
     fun checkIfHasRatingAllowedNotification(reservationRequest: ReservationRequest): Boolean =
-            repository.findAllByTypeAndReservationRequest(NotificationType.RATING_ALLOWED, reservationRequest).isNotEmpty()
+        repository.findAllByTypeAndReservationRequest(NotificationType.RATING_ALLOWED, reservationRequest).isNotEmpty()
 
 }

@@ -26,7 +26,6 @@ interface RideRepository : JpaRepository<Trip, Long>, JpaSpecificationExecutor<T
     fun canSubmitRating(@Param("username") username: String, @Param("trip") trip: Trip): List<Rating>
 
     @Modifying
-    @Transactional
     @Query("""UPDATE Trip r 
         SET r.status = 'FINISHED'
         WHERE r.departureTime < :dateTimeNow
@@ -34,7 +33,6 @@ interface RideRepository : JpaRepository<Trip, Long>, JpaSpecificationExecutor<T
     fun updateFinishedTripsCron(@Param("dateTimeNow") dateTimeNow: ZonedDateTime): Int
 
     @Modifying
-    @Transactional
     @Query("""UPDATE Trip r SET r.status = :status where r.id = :tripId""")
     fun changeTripStatus(@Param("tripId") tripId: Long, @Param("status") status: TripStatus): Int
 

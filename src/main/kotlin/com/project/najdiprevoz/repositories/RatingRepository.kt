@@ -15,5 +15,5 @@ interface RatingRepository : JpaRepository<Rating, Long> {
     @Query("SELECT r from Rating r join User u on r.reservationRequest.trip.driver.id = u.id where u.id = :id")
     fun findAllByRatedUser_Id(@Param("id")id: Long): List<Rating>
 
-    fun findRatingsByReservationRequestTrip_Id(rideId: Long): List<Rating>
+    fun findRatingsByReservationRequestTrip_Id(tripId: Long): List<Rating>
 }

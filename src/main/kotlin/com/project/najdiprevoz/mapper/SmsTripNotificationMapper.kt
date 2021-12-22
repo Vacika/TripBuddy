@@ -1,6 +1,6 @@
 package com.project.najdiprevoz.mapper
 
-import com.project.najdiprevoz.services.SmsTripNotificationService
+import com.project.najdiprevoz.services.sms.SmsTripNotificationService
 import com.project.najdiprevoz.web.request.AddNewSmsNotificationRequest
 import org.springframework.stereotype.Service
 

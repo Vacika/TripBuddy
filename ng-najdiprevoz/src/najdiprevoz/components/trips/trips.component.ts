@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TripResponse} from '../../interfaces/trip-response.interface';
 import {TripService} from '../../services/trip.service';
 import {Observable} from 'rxjs';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {tableColumnsAsDriver, tableColumnsAsPassenger} from "../../constants/columns.constants";
 
 @Component({

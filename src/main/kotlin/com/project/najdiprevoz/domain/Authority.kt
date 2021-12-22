@@ -12,8 +12,9 @@ data class Authority(
         @Column(name = "id", nullable = false, unique = true)
         val id: Long = 0L,
 
-        @Column(name = "authority", nullable = false, unique = true)
+        @Column(name = "authority", unique = true)
         var authority: String? = null,
+
         // Inverse
         @JsonIgnore
         @OneToMany(mappedBy = "authority")

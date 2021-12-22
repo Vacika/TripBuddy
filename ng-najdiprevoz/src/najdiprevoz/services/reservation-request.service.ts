@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {HelperService} from './helper.service';
+import {HelperService} from './util/helper.service';
 import {Observable} from 'rxjs';
 import {ReservationRequestFullResponse} from "../interfaces/ride-request.interface";
 

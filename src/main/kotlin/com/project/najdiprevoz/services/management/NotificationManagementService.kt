@@ -1,14 +1,17 @@
-package com.project.najdiprevoz.services
+package com.project.najdiprevoz.services.management
 
 import com.project.najdiprevoz.domain.Notification
 import com.project.najdiprevoz.enums.NotificationAction
 import com.project.najdiprevoz.enums.ReservationStatus
+import com.project.najdiprevoz.services.NotificationService
+import com.project.najdiprevoz.services.ReservationRequestService
 import com.project.najdiprevoz.web.response.NotificationResponse
 import org.springframework.stereotype.Service
 
 @Service
 class NotificationManagementService(private val notificationService: NotificationService,
-                                    private val reservationRequestService: ReservationRequestService) {
+                                    private val reservationRequestService: ReservationRequestService
+) {
 
     fun takeAction(notificationId: Long, action: NotificationAction): List<NotificationResponse> {
         val notification = notificationService.findById(notificationId)

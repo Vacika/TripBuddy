@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import {FormControl} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
 import {Router} from '@angular/router';
 import {ADMIN_ROLE} from "../constants/roles.constants";
+import {UserService} from "../services/user.service";
+import {AuthService} from "../services/auth.service";
 
 @Component({
 	selector: 'nav-menu',
@@ -15,7 +16,8 @@ export class NavMenuComponent implements OnInit {
 	@Output() switchLangEmitter = new EventEmitter<string>();
 	@ViewChild('languageSelect') languageSelect;
 
-	constructor(private _authService: AuthService,
+	constructor(private _userService: UserService,
+							private _authService: AuthService,
 							private _router: Router) {
 	}
 
@@ -24,14 +26,14 @@ export class NavMenuComponent implements OnInit {
 	};
 
 	get username(): string {
-		return this._authService.getLoggedUser().username;
+		return this._userService.getLoggedUser().username;
 	}
 	get authenticated(): boolean {
-		return !!this._authService.getLoggedUser()
+		return !!this._userService.getLoggedUser()
 	}
 
 	get isAdmin(): boolean {
-		return this._authService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
+		return this._userService.getLoggedUser()?.authorities[0].authority === ADMIN_ROLE;
 	}
 
 	ngOnInit(): void {

@@ -1,5 +1,5 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {UINotificationsService} from '../../services/ui-notifications-service';
+import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from "../../interfaces/user.interface";
 import {Observable} from "rxjs";

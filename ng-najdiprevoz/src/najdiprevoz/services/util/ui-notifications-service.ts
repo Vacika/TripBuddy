@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
-import {FAIL_ACTION, SUCCESS_ACTION} from "../constants/notification-labels.constants";
+import {FAIL_ACTION, SUCCESS_ACTION} from "../../constants/notification-labels.constants";
 
 @Injectable({providedIn: 'root'})
 export class UINotificationsService {

@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.services
+package com.project.najdiprevoz.utils
 
 import com.project.najdiprevoz.domain.Mail
 import org.slf4j.Logger
@@ -22,7 +22,7 @@ class EmailService(private val emailSender: JavaMailSender,
             logger.debug("[EMAIL SERVICE] Sending [Forget Password] Mail to ${mail.to}")
             sendMail(mail)
         } catch (e: Exception) {
-            logger.error("Mail for ${mail.to} was not sent!")
+            logger.error("[EMAIL SERVICE] Mail for ${mail.to} was not sent!")
             throw RuntimeException(e)
         }
     }
@@ -32,7 +32,7 @@ class EmailService(private val emailSender: JavaMailSender,
             logger.debug("[EMAIL SERVICE] Sending [Activate User] Mail to ${mail.to}")
             sendMail(mail)
         } catch (e: Exception) {
-            logger.error("Mail for ${mail.to} was not sent!")
+            logger.error("[EMAIL SERVICE] Mail for ${mail.to} was not sent!")
             throw RuntimeException(e)
         }
     }
@@ -51,7 +51,7 @@ class EmailService(private val emailSender: JavaMailSender,
         helper.setSubject(mail.subject!!)
         helper.setFrom(mail.from!!)
         emailSender.send(message)
-        logger.debug("[EMAIL-SERVICE] Mail sent successfully!")
+        logger.debug("[EMAIL SERVICE] Mail sent successfully!")
     }
 
 }
