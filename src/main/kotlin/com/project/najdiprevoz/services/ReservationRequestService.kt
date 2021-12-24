@@ -5,6 +5,7 @@ import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.Actions
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
+import com.project.najdiprevoz.events.TripCancelledEvent
 import com.project.najdiprevoz.exceptions.AlreadySentReservationException
 import com.project.najdiprevoz.exceptions.NotEnoughAvailableSeatsException
 import com.project.najdiprevoz.exceptions.OwnTripReservationApplyException
@@ -14,36 +15,41 @@ import com.project.najdiprevoz.web.request.create.CreateReservationRequestForTri
 import javassist.NotFoundException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.context.event.EventListener
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import javax.transaction.Transactional
 
 @Service
-class ReservationRequestService(private val repository: ReservationRequestRepository,
-                                private val tripService: TripService,
-                                private val userService: UserService,
-                                private val notificationService: NotificationService
+class ReservationRequestService(
+    private val repository: ReservationRequestRepository,
+    private val tripService: TripService,
+    private val userService: UserService,
+    private val notificationService: NotificationService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(ReservationRequestService::class.java)
 
 
     fun findById(id: Long): ReservationRequest =
-            repository.findById(id)
-                    .orElseThrow { NotFoundException("Ride request not found!") }
+        repository.findById(id)
+            .orElseThrow { NotFoundException("Ride request not found!") }
 
     @Transactional
     @Modifying
     fun create(req: CreateReservationRequestForTrip, username: String) = with(req) {
         validateRequest(this, username)
-        val savedRequest = repository.save(ReservationRequest(
-            status = ReservationStatus.PENDING,
-            trip = tripService.findById(tripId),
-            createdOn = ZonedDateTime.now(),
-            requester = userService.findByUsername(username),
-            additionalDescription = additionalDescription,
-            requestedSeats = requestedSeats))
+        val savedRequest = repository.save(
+            ReservationRequest(
+                status = ReservationStatus.PENDING,
+                trip = tripService.findById(tripId),
+                createdOn = ZonedDateTime.now(),
+                requester = userService.findByUsername(username),
+                additionalDescription = additionalDescription,
+                requestedSeats = requestedSeats
+            )
+        )
         logger.debug("[ReservationRequestService] Successfully added new ReservationRequest")
         pushNotification(savedRequest, NotificationType.REQUEST_SENT)
     }
@@ -51,7 +57,7 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
     @Transactional
     @Modifying
     fun changeStatus(id: Long, newStatus: ReservationStatus) =
-            updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
+        updateStatusIfPossible(requestId = id, previousStatus = findById(id).status, newStatus = newStatus)
 
     fun getAvailableActions(requestId: Long, forRequester: Boolean): List<String> {
         val reservationRequest = findById(requestId)
@@ -69,6 +75,19 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
                 availableActions = availableActions.plus(Actions.CANCEL_RESERVATION.name)
         }
         return availableActions
+    }
+
+    /** EVENT LISTENER **/
+    @EventListener
+    fun onTripCancelled(event: TripCancelledEvent) {
+        event.trip.reservationRequests
+            .forEach { resRequest ->
+                changeStatus(resRequest.id, ReservationStatus.RIDE_CANCELLED)
+                notificationService.pushReservationStatusChangeNotification(
+                    resRequest,
+                    NotificationType.RIDE_CANCELLED
+                )
+            }
     }
 
     /** Checks before creating / updating reservation **/
@@ -96,10 +115,10 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
     }
 
     private fun checkIfNotDriverItself(username: String, tripId: Long): Boolean =
-            this.tripService.findById(tripId).driver.username != username
+        this.tripService.findById(tripId).driver.username != username
 
     private fun checkIfEnoughAvailableSeats(tripId: Long, requestedSeats: Int): Boolean =
-            this.tripService.findById(tripId).availableSeats >= requestedSeats
+        this.tripService.findById(tripId).availableSeats >= requestedSeats
 
     private fun checkIfAppliedBefore(tripId: Long, username: String): Boolean {
         val reservationRequest = repository.findByTripIdAndRequesterUsername(tripId, username)
@@ -133,8 +152,10 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
         return false
     }
 
-    private fun updateStatusIfPossible(requestId: Long, previousStatus: ReservationStatus,
-                                       newStatus: ReservationStatus) {
+    private fun updateStatusIfPossible(
+        requestId: Long, previousStatus: ReservationStatus,
+        newStatus: ReservationStatus
+    ) {
         logger.debug("[ReservationRequestService] Checking if ride request status transition is valid..")
         val request = repository.findById(requestId)
         if (changeStatusActionAllowed(previousStatus, newStatus) && request.get().trip.status == TripStatus.ACTIVE) {
@@ -148,13 +169,18 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
                 ReservationStatus.EXPIRED -> expireRequest(requestId)
             }
         } else throw RuntimeException(
-            "Status change not allowed from $previousStatus to $newStatus for ReservationRequest ID: [$requestId]")
+            "Status change not allowed from $previousStatus to $newStatus for ReservationRequest ID: [$requestId]"
+        )
     }
+
     private fun approveRequest(requestId: Long) {
         val reservationRequest = findById(requestId)
-        if (reservationRequest.trip.availableSeats >=  reservationRequest.requestedSeats) {
+        if (reservationRequest.trip.availableSeats >= reservationRequest.requestedSeats) {
             repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.APPROVED)
-            tripService.updateAvailableSeats(tripId = reservationRequest.trip.id, seats = reservationRequest.trip.availableSeats - reservationRequest.requestedSeats)
+            tripService.updateAvailableSeats(
+                tripId = reservationRequest.trip.id,
+                seats = reservationRequest.trip.availableSeats - reservationRequest.requestedSeats
+            )
         } else throw RuntimeException("Not enough seats available to approve ReservationRequest with ID: [$requestId]!")
         pushNotification(reservationRequest, NotificationType.REQUEST_APPROVED)
     }
@@ -166,7 +192,10 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
 
     private fun cancelRequest(requestId: Long) {
         val reservationRequest = findById(requestId)
-        tripService.updateAvailableSeats(tripId = reservationRequest.trip.id, seats = reservationRequest.trip.availableSeats + reservationRequest.requestedSeats)
+        tripService.updateAvailableSeats(
+            tripId = reservationRequest.trip.id,
+            seats = reservationRequest.trip.availableSeats + reservationRequest.requestedSeats
+        )
         repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.CANCELLED)
         pushNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
     }
@@ -188,7 +217,10 @@ class ReservationRequestService(private val repository: ReservationRequestReposi
 
     private fun pushNotification(reservationRequest: ReservationRequest, notificationType: NotificationType) {
         logger.debug("[ReservationRequestService] Pushing ReservationRequest Status Notification..")
-        notificationService.pushReservationStatusChangeNotification(reservationRequest = reservationRequest, notificationType = notificationType)
+        notificationService.pushReservationStatusChangeNotification(
+            reservationRequest = reservationRequest,
+            notificationType = notificationType
+        )
     }
 
     /** CRON JOB -- EXPIRING OLD RESERVATION REQUEST **/

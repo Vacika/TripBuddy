@@ -5,9 +5,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dialog';
 import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {
-	APPROVE_ACTION,
-	CANCEL_ACTION,
-	DENY_ACTION,
+	APPROVE_RESERVATION_ACTION,
+	CANCEL_RESERVATION_ACTION,
+	DENY_RESERVATION_ACTION,
 	MARK_AS_SEEN_ACTION,
 	RATING_ALLOWED_ACTION,
 	SUBMIT_RATING_ACTION
@@ -54,16 +54,16 @@ export class NotificationListPage implements OnInit {
 			case MARK_AS_SEEN_ACTION: {
 				return 'mat-primary';
 			}
-			case APPROVE_ACTION: {
+			case APPROVE_RESERVATION_ACTION: {
 				return 'success';
 			}
 			case RATING_ALLOWED_ACTION: {
 				return 'success';
 			}
-			case DENY_ACTION: {
+			case DENY_RESERVATION_ACTION: {
 				return 'danger';
 			}
-			case CANCEL_ACTION: {
+			case CANCEL_RESERVATION_ACTION: {
 				return 'warn';
 			}
 		}

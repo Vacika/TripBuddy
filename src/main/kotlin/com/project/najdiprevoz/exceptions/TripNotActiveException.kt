@@ -1,3 +1,3 @@
 package com.project.najdiprevoz.exceptions
 
-class TripNotActiveException(s: String) : Exception(s)
+class TripNotActiveException(s: String) :RuntimeException(s)

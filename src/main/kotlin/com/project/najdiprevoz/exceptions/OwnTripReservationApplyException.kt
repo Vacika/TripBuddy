@@ -1,3 +1,3 @@
 package com.project.najdiprevoz.exceptions
 
-class OwnTripReservationApplyException(s: String) : Exception(s)
+class OwnTripReservationApplyException(s: String) :RuntimeException(s)

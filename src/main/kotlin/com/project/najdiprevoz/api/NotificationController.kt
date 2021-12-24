@@ -15,5 +15,5 @@ class NotificationController(private val service: NotificationManagementService)
 
     @PutMapping("/{notificationId}/action")
     fun takeAction(@PathVariable("notificationId") notificationId: Long, @RequestBody action: String) =
-            service.takeAction(notificationId, NotificationAction.valueOf(action))
+            service.executeNotificationAction(notificationId, NotificationAction.valueOf(action))
 }

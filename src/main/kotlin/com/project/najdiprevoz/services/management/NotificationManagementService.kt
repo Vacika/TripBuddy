@@ -13,15 +13,15 @@ class NotificationManagementService(private val notificationService: Notificatio
                                     private val reservationRequestService: ReservationRequestService
 ) {
 
-    fun takeAction(notificationId: Long, action: NotificationAction): List<NotificationResponse> {
+    fun executeNotificationAction(notificationId: Long, action: NotificationAction): List<NotificationResponse> {
         val notification = notificationService.findById(notificationId)
         notificationService.markAsSeen(notificationId)
         when (action) {
-            NotificationAction.APPROVE -> reservationRequestService.changeStatus(notification.reservationRequest.id, ReservationStatus.APPROVED) //driver approves
+            NotificationAction.APPROVE_RESERVATION -> reservationRequestService.changeStatus(notification.reservationRequest.id, ReservationStatus.APPROVED) //driver approves
             NotificationAction.CANCEL_RESERVATION -> reservationRequestService.changeStatus(notification.reservationRequest.id, ReservationStatus.CANCELLED)//this is when the requester decides to cancel their request
             NotificationAction.MARK_AS_SEEN -> notificationService.markAsSeen(notificationId) // just mark seen
-            NotificationAction.DENY -> reservationRequestService.changeStatus(notification.reservationRequest.id, ReservationStatus.DENIED) // driver denies request
-            NotificationAction.SUBMIT_RATING -> TODO()
+            NotificationAction.DENY_RESERVATION -> reservationRequestService.changeStatus(notification.reservationRequest.id, ReservationStatus.DENIED) // driver denies request
+            NotificationAction.SUBMIT_RATING -> TODO() // diferent endpoint used for submit rating
         }
         return getMyNotifications(notification.to.username)
     }

@@ -1,4 +1,5 @@
 {
+	"GO_TO_HOME_PAGE": "Go to Home",
 	"REGISTER": "Register",
 	"NAME": "Name",
 	"LOGIN": "Log in",
@@ -42,7 +43,7 @@
 	"FIND_TRIPS": "Find trip",
 	"PUBLISH_TRIP": "Publish trip",
 	"ABOUT_US": "About us",
-	"SITE_TITLE": "trip Finder",
+	"SITE_TITLE": "Trip Finder",
 	"SEARCH": "Search",
 	"DRIVER_NAME": "Driver name",
 	"DRIVER": "Driver",

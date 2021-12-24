@@ -58,3 +58,35 @@
 .w-15 {
 	width: 15%;
 }
+
+@media (max-width: 991.98px) {
+
+	.hide-on-small-screens {
+		display: none;
+	}
+	.show-on-small-screens {
+		display: inline-block;
+	}
+
+	.form-wrapper {
+		flex-direction: column;
+	}
+
+	.w-15 {
+		width: auto;
+	}
+	.date {
+		margin-left: -2%;
+		margin-top: 3%;
+		text-align: center;
+	}
+}
+
+@media (min-width: 991.99px) {
+	.hide-on-small-screens {
+		display: inline-block;
+	}
+	.show-on-small-screens {
+		display: none;
+	}
+}

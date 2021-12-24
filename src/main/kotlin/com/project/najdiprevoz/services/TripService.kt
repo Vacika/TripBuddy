@@ -4,6 +4,7 @@ import com.project.najdiprevoz.domain.Trip
 import com.project.najdiprevoz.enums.NotificationType
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
+import com.project.najdiprevoz.events.TripCancelledEvent
 import com.project.najdiprevoz.exceptions.MinimumHrsBeforeCancelException
 import com.project.najdiprevoz.exceptions.RideNotFoundException
 import com.project.najdiprevoz.exceptions.SeatsLimitException
@@ -14,6 +15,8 @@ import com.project.najdiprevoz.web.request.edit.EditTripRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ApplicationEventPublisher
+import org.springframework.context.ApplicationEventPublisherAware
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
@@ -25,14 +28,13 @@ import javax.transaction.Transactional
 class TripService(
     private val repository: RideRepository,
     private val userService: UserService,
+    private val eventPublisher: ApplicationEventPublisher,
     private val cityService: CityService,
-    private val notificationService: NotificationService,
     @Value("\${najdiprevoz.min-hrs-before-cancel-trip}")
     private val minHrsBeforeCancelTrip: Long,
     @Value("\${najdiprevoz.max-seats-per-trip}")
     private val maxSeatsPerTrip: Int,
-    private val smsTripNotificationService: SmsTripNotificationService,
-    private val reservationRequestService: ReservationRequestService
+    private val smsTripNotificationService: SmsTripNotificationService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(TripService::class.java)
@@ -74,14 +76,8 @@ class TripService(
     fun cancelTrip(tripId: Long, username: String) {
         checkCanCancelTrip(tripId, username)
         findById(tripId).let { trip ->
-            trip.reservationRequests.forEach { resRequest ->
-                reservationRequestService.changeStatus(resRequest.id, ReservationStatus.RIDE_CANCELLED)
-                notificationService.pushReservationStatusChangeNotification(
-                    resRequest,
-                    NotificationType.RIDE_CANCELLED
-                )
-            }
             repository.changeTripStatus(tripId, TripStatus.CANCELLED)
+            eventPublisher.publishEvent(TripCancelledEvent(trip))
             logger.info("[TripService - CANCEL Trip] Trip with id $tripId successfully cancelled!")
         }
     }

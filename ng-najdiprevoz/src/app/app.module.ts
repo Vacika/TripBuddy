@@ -50,7 +50,7 @@ import {PasswordForgotPage} from '../najdiprevoz/pages/password-forgot/password-
 import {PasswordResetPage} from '../najdiprevoz/pages/password-reset/password-reset.page';
 import {ActivateUserPage} from '../najdiprevoz/pages/activate-user/activate-user.page';
 import {ProfileNotActivatedPage} from "../najdiprevoz/pages/profile-not-activated/profile-not-activated.page";
-import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-sucess/registration-success.page";
+import {RegistrationSuccessPage} from "../najdiprevoz/pages/registration-success/registration-success.page";
 import {MatPaginatorI18nService} from "../najdiprevoz/constants/paginator-i18n.class";
 import {AdminPanelPage} from "../najdiprevoz/pages/admin-panel/admin-panel.page";
 import {AdminService} from "../najdiprevoz/services/admin.service";

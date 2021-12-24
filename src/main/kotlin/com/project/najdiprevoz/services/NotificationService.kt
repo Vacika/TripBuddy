@@ -46,7 +46,7 @@ class NotificationService(private val repository: NotificationRepository) {
             }
             NotificationType.REQUEST_SENT -> {
                 notificationActionAllowed =
-                    notificationActionAllowed.plus(NotificationAction.DENY).plus(NotificationAction.APPROVE)
+                    notificationActionAllowed.plus(NotificationAction.DENY_RESERVATION).plus(NotificationAction.APPROVE_RESERVATION)
                 from = requester
                 to = driver
             }

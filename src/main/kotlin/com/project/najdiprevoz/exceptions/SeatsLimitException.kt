@@ -1,5 +1,5 @@
 package com.project.najdiprevoz.exceptions
 
-class SeatsLimitException : Exception("SEAT_LIMIT_ERROR") {
+class SeatsLimitException :RuntimeException("SEAT_LIMIT_ERROR") {
 
 }

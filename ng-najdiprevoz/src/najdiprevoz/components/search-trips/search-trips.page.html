@@ -1,5 +1,5 @@
 <form (submit)="submit()" [formGroup]="form" [ngClass]="textColor">
-	<div class='flex space-between align-center'>
+	<div class='flex space-between align-center form-wrapper'>
 
 		<!-- From Location -->
 		<mat-form-field appearance="outline" class="w-15 mr-3" color="primary">
@@ -18,7 +18,7 @@
 		<button mat-icon-button
 						(click)="switchLocations()"
 						[matTooltip]="'SWITCH_LOCATIONS'|translate"
-						class="mr-3">
+						class="mr-3 hide-on-small-screens">
 			<mat-icon style="width:auto;height:auto;" color="accent">swap_horizontal_circle</mat-icon>
 		</button>
 
@@ -38,7 +38,7 @@
 
 
 		<button [disabled]='form.invalid || form.pristine || checkIfFromToAreIdentical()'
-						class='button-form final-submit-button flex-fill mr-3'
+						class='button-form final-submit-button flex-fill mr-3 hide-on-small-screens'
 						mat-raised-button
 						color="primary"
 						type="submit">
@@ -76,6 +76,15 @@
 			<mat-error
 				*ngIf='form.controls.departureDate.touched && form.controls.departureDate.invalid'>{{'INVALID_INPUT' | translate}}</mat-error>
 		</mat-form-field>
+
+		<button [disabled]='form.invalid || form.pristine || checkIfFromToAreIdentical()'
+						class='button-form flex-fill mr-3 show-on-small-screens'
+						mat-raised-button
+						color="primary"
+						type="submit">
+			<span>{{'SEARCH' | translate}}</span>
+			<img height="52px" src='assets/images/moving-car.gif' width="52px">
+		</button>
 	</div>
 	<div *ngIf='!this.form.value["departureDate"] && displayDate'
 			 class='date color-white'>{{theTimeNow().toISOString() | date: 'dd/MM/yyyy'}}</div>

@@ -40,7 +40,7 @@ export class RegisterPage implements OnInit {
 					this._router.navigate(['/registration-success'])
 				},
 				(err) => {
-					this._notificationService.success(ERROR_REGISTER);
+					this._notificationService.error(ERROR_REGISTER);
 				})
 		}
 	}
