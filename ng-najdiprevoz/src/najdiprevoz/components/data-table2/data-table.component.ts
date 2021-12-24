@@ -12,8 +12,8 @@ import {DataTableColumnType} from "../../interfaces/enums/column-type.enum";
 	styleUrls: ['./data-table.component.scss']
 })
 export class DataTable2Component implements OnInit {
-	dataSource = new MatTableDataSource();
-	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+	dataSource: MatTableDataSource<any[]>;
+	@ViewChild('paginator', {static: true}) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	ColumnType = DataTableColumnType
 	@Input() displayedColumns: DataTableColumn[] = [];

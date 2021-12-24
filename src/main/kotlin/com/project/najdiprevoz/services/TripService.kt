@@ -1,12 +1,10 @@
 package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.Trip
-import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.events.TripCancelledEvent
 import com.project.najdiprevoz.exceptions.MinimumHrsBeforeCancelException
-import com.project.najdiprevoz.exceptions.RideNotFoundException
+import com.project.najdiprevoz.exceptions.TripNotFoundException
 import com.project.najdiprevoz.exceptions.SeatsLimitException
 import com.project.najdiprevoz.repositories.RideRepository
 import com.project.najdiprevoz.services.sms.SmsTripNotificationService
@@ -16,7 +14,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.context.ApplicationEventPublisherAware
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
@@ -41,7 +38,7 @@ class TripService(
 
     fun findById(id: Long): Trip =
         repository.findById(id)
-            .orElseThrow { RideNotFoundException("Trip with id $id was not found") }
+            .orElseThrow { TripNotFoundException() }
 
     @Transactional
     fun create(createTripRequest: CreateTripRequest, username: String) {

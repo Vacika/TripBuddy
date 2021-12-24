@@ -1,3 +1,3 @@
 package com.project.najdiprevoz.exceptions
 
-class OwnTripReservationApplyException(s: String) :RuntimeException(s)
+class OwnTripReservationApplyException() :RuntimeException("EXCEPTION_CANNOT_APPLY_FOR_OWN_TRIP")

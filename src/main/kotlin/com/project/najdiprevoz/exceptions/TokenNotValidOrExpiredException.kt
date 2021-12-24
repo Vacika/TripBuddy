@@ -1,7 +1,5 @@
 package com.project.najdiprevoz.exceptions
 
-import java.security.InvalidParameterException
-
-class TokenNotValidOrExpiredException(message: String) : InvalidParameterException() {
+class TokenNotValidOrExpiredException() : RuntimeException("EXCEPTION_TOKEN_INVALID_OR_EXPIRED") {
 
 }

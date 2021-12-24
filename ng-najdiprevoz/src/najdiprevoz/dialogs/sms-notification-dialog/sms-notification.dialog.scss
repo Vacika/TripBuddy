@@ -24,5 +24,9 @@
 }
 
 :host::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
-	color: #2979ff!important;
+	color: #2979ff !important;
+}
+
+.black-color {
+	color: black !important;
 }

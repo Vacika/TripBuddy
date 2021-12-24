@@ -1,3 +1,4 @@
 package com.project.najdiprevoz.exceptions
 
-class AddRatingFailedException(s: String) :RuntimeException(s)
+
+class AddRatingFailedException :RuntimeException("EXCEPTION_ADD_RATING_FAILED")

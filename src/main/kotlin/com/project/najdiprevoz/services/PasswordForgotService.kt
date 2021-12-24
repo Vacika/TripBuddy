@@ -32,7 +32,7 @@ class PasswordForgotService(private val userService: UserService,
         if (resetToken != null && !resetToken.isExpired()) {
             return true
         } else {
-            throw TokenNotValidOrExpiredException("Token was either invalid or expired. Token: $token")
+            throw TokenNotValidOrExpiredException()
         }
     }
 

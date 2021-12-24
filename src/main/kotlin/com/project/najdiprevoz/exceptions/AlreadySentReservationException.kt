@@ -1,3 +1,3 @@
 package com.project.najdiprevoz.exceptions
 
-class AlreadySentReservationException(s: String) :RuntimeException(s)
+class AlreadySentReservationException() :RuntimeException("EXCEPTION_APPLIED_BEFORE")

@@ -71,8 +71,7 @@
 							<!--------------------->
 							<!-- Allowed Actions -->
 							<span *ngSwitchCase="'allowedActions'">
-								<button [disabled]='element[column.name]?.length==0' [matMenuTriggerFor]="menu" aria-label="Actions"
-												mat-icon-button>
+								<button *ngIf='element[column.name]?.length!=0' [matMenuTriggerFor]="menu" aria-label="Actions" mat-icon-button>
 									<mat-icon>more_vert</mat-icon>
 								</button>
 								<mat-menu #menu="matMenu">
@@ -107,6 +106,6 @@
 	<tr *matRowDef="let row; columns: getColumnNames(displayedColumns);" mat-row></tr>
 </table>
 
-<mat-paginator *ngIf="dataSource?.data?.length > 0" [pageSizeOptions]="[5,10,15,50]" class="pagnacolor"
+<mat-paginator #paginator *ngIf="dataSource?.data?.length > 0" [pageSizeOptions]="[5,10,15,50]" class="pagnacolor"
 							 showFirstLastButtons></mat-paginator>
 </div>

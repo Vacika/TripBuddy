@@ -15,6 +15,7 @@ export class SmsNotificationDialog implements OnInit {
 	form = this.formDefinition;
 	fromLocation: number;
 	toLocation: number;
+
 	constructor(public dialogRef: MatDialogRef<SmsNotificationDialog>,
 							@Inject(MAT_DIALOG_DATA) public data: any,
 							private _notificationService: UINotificationsService,
@@ -42,8 +43,11 @@ export class SmsNotificationDialog implements OnInit {
 	submit() {
 		console.log("fromLocation", this.fromLocation);
 		this._service.addSmsTripNotification(this.getPhone.value, this.validUntil.value, this.fromLocation, this.toLocation)
-			.subscribe(_ => this._notificationService.successAction(),
-					_ => this._notificationService.errorAction());
+			.subscribe(_ => {
+					this._notificationService.successAction()
+					this.dialogRef.close(true);
+				},
+				_ => this._notificationService.errorAction());
 	}
 
 	onCancel(): void {

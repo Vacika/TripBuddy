@@ -76,7 +76,7 @@ class UserService(
     fun findByActivationToken(activationToken: String): User {
         return repository.findByActivationToken(activationToken)
             .orElseThrow {
-                ActivationTokenNotFoundException("No user found with activation token $activationToken")
+                ActivationTokenNotFoundException(activationToken)
             }
     }
 

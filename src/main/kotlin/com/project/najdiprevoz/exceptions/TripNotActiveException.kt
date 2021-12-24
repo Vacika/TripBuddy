@@ -1,3 +1,3 @@
 package com.project.najdiprevoz.exceptions
 
-class TripNotActiveException(s: String) :RuntimeException(s)
+class TripNotActiveException() :RuntimeException("EXCEPTION_TRIP_NOT_ACTIVE_ANYMORE")

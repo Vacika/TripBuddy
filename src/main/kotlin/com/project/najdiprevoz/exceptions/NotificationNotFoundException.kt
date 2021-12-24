@@ -2,6 +2,6 @@ package com.project.najdiprevoz.exceptions
 
 import javassist.NotFoundException
 
-class NotificationNotFoundException(id: Long) : NotFoundException("Notification with ID:[$id] was not found..") {
+class NotificationNotFoundException(id: Long) : NotFoundException("EXCEPTION_NOTIFICATION_NOT_FOUND") {
 
 }

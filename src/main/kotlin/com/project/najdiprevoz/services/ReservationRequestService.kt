@@ -96,19 +96,19 @@ class ReservationRequestService(
         logger.debug("[ReservationRequestValidator] Validating new ReservationRequest..")
         if (checkIfAppliedBefore(tripId, username)) {
             logger.error("[ReservationRequestValidator] User [$username] has already sent a reservation request for Trip [$tripId]")
-            throw AlreadySentReservationException("EXCEPTION_APPLIED_BEFORE")
+            throw AlreadySentReservationException()
         }
         if (!checkIsTripActive(tripId)) {
             logger.error("[ReservationRequestValidator] Trip applied for seat is not ACTIVE! Trip ID: [$tripId]")
-            throw TripNotActiveException("EXCEPTION_TRIP_NOT_ACTIVE_ANYMORE")
+            throw TripNotActiveException()
         }
         if (!checkIfEnoughAvailableSeats(tripId, requestedSeats)) {
             logger.error("[ReservationRequestValidator] Trip applied for seat does not have $requestedSeats seats available! Trip ID: [$tripId]")
-            throw NotEnoughAvailableSeatsException("EXCEPTION_NOT_ENOUGH_SEATS_AVAILABLE")
+            throw NotEnoughAvailableSeatsException()
         }
         if (!checkIfNotDriverItself(username, tripId)) {
             logger.error("[ReservationRequestValidator] You can't create a reservation request for a trip published by you! Username: [$username], TripID: [$tripId]")
-            throw OwnTripReservationApplyException("EXCEPTION_CANNOT_APPLY_FOR_OWN_TRIP")
+            throw OwnTripReservationApplyException()
         }
         logger.debug("[ReservationRequestValidator] New ReservationRequest is successfully validated..")
 

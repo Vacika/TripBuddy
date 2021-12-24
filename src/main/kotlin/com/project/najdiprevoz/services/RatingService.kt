@@ -24,7 +24,7 @@ class RatingService(
     fun addRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         when (canAddRating(this)) {
             true -> pushRatingNotification(this)
-            false -> throw AddRatingFailedException("The request is not APPROVED or member has already submitted rating for this ride")
+            false -> throw AddRatingFailedException()
         }
     }
 

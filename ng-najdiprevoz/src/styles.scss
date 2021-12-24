@@ -29,7 +29,7 @@ html, body {
 
 body {
 	background-size: cover;
-	background: rgb(136, 136, 136) url("assets/images/landing_page_bg.jpg") no-repeat center;
+	background: rgb(136, 136, 136) url("assets/images/landing_page_bg.jpg") no-repeat fixed center;
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -144,7 +144,7 @@ a:not(.mat-icon-button):after {
 
 //overrides buttons when disabled to have more bigger opacity
 .mat-raised-button[disabled] {
-	background: rgb(112, 140, 145) !important;
+	background: rgb(82, 94, 97) !important;
 	opacity: 0.92 !important;
 	cursor: not-allowed !important;
 

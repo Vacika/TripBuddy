@@ -59,7 +59,7 @@
 	width: 15%;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1010.98px) {
 
 	.hide-on-small-screens {
 		display: none;
@@ -80,9 +80,13 @@
 		margin-top: 3%;
 		text-align: center;
 	}
+
+	.mat-form-field {
+		width: auto;
+	}
 }
 
-@media (min-width: 991.99px) {
+@media (min-width: 1010.99px) {
 	.hide-on-small-screens {
 		display: inline-block;
 	}
