@@ -1,4 +1,6 @@
 ﻿{
+	"RIDE_CANCELLED": "Откажана",
+	"DENIED": "Одбиенa",
 	"TRIP_STATUS": "Превоз",
 	"EXCEPTION_USER_NOT_ACTIVATED": "Your user is not activated yet. Please check your mail for activation link :)",
 	"EXCEPTION_USER_BANNED_ERROR": "You are banned.. :)",
@@ -156,7 +158,7 @@
 	"EMAIL": "Email",
 	"PRIMARY_LANG": "Префериран јазик",
 	"MEMBER_SINCE": "Регистриран корисник од",
-	"TOTAL_RATINGS_SUBMITTED": "Вкупно пати оценат",
+	"TOTAL_RATINGS_SUBMITTED": "Вкупно оценки",
 	"INVALID_PW_RESET_TOKEN": "Невалиден токен за ресетирање лозинка",
 	"NEW_PASSWORD": "Нова лозинка",
 	"FORGOT_PW_MAIL_SENT": "Проверете го вашиот email за да ја ресетирате лозинката!",

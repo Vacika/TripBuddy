@@ -71,7 +71,7 @@ class ReservationRequestService(
         } else if (forRequester) {
             if (canSubmitRating(reservationRequest))
                 availableActions = availableActions.plus(Actions.SUBMIT_RATING.name)
-            if (changeStatusActionAllowed(currentStatus, ReservationStatus.CANCELLED))
+            if (changeStatusActionAllowed(currentStatus, ReservationStatus.CANCELLED) && reservationRequest.trip.status == TripStatus.ACTIVE)
                 availableActions = availableActions.plus(Actions.CANCEL_RESERVATION.name)
         }
         return availableActions
@@ -82,7 +82,7 @@ class ReservationRequestService(
     fun onTripCancelled(event: TripCancelledEvent) {
         event.trip.reservationRequests
             .forEach { resRequest ->
-                changeStatus(resRequest.id, ReservationStatus.RIDE_CANCELLED)
+                changeRequestToRideCancelled(resRequest.id)
                 notificationService.pushReservationStatusChangeNotification(
                     resRequest,
                     NotificationType.RIDE_CANCELLED

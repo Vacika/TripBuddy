@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
-class CronJobService(private val reservationRequestService: ReservationRequestService,
-                     private val reservationListService: ReservationRequestListService,
-                     private val tripService: TripService,
-                     private val ratingService: RatingService
+class CronJobService(
+    private val reservationRequestService: ReservationRequestService,
+    private val reservationListService: ReservationRequestListService,
+    private val tripService: TripService,
+    private val ratingService: RatingService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(CronJobService::class.java)
@@ -36,12 +37,18 @@ class CronJobService(private val reservationRequestService: ReservationRequestSe
         val allReservationRequests = reservationListService.findAll()
 
         allReservationRequests
-                .filter { it.status == ReservationStatus.PENDING && it.trip.status == TripStatus.FINISHED }
-                .forEach { changeRequestToExpired(it) }
+            .filter { it.status == ReservationStatus.PENDING && it.trip.status == TripStatus.FINISHED }
+            .forEach { changeRequestToExpired(it) }
 
         allReservationRequests
-                .filter { it.status == ReservationStatus.APPROVED && it.trip.status == TripStatus.FINISHED && !hasAlreadyReceivedNotificationForRating(it) }
-                .forEach { sendRatingNotification(it) }
+            .filter { it.status == ReservationStatus.APPROVED && it.trip.status == TripStatus.FINISHED }
+            .forEach {
+                reservationRequestService.changeStatus(it.id, ReservationStatus.FINISHED)
+                if (!hasAlreadyReceivedNotificationForRating(it)) {
+                    sendRatingNotification(it)
+                }
+            }
+
     }
 
     private fun sendRatingNotification(it: ReservationRequest) {
@@ -55,7 +62,7 @@ class CronJobService(private val reservationRequestService: ReservationRequestSe
     }
 
     private fun updateRideCron() =
-            tripService.updateFinishedTripsCronJob()
+        tripService.updateFinishedTripsCronJob()
 
     private fun hasAlreadyReceivedNotificationForRating(reservationRequest: ReservationRequest): Boolean {
         logger.info("[CRONJOB] Checking if Reservation [${reservationRequest.id}] has a RATING_ALLOWED notification")

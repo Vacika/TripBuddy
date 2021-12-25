@@ -126,7 +126,7 @@ class NotificationService(private val repository: NotificationRepository) {
         repository.findAllByReservationRequest_Id(requestId).forEach { notification ->
             logger.debug(
                     "[NOTIFICATIONS] Removing ACTIONS for last notification associated with ReservationRequest with ID: [$requestId]")
-            repository.save(notification.removeAllActions())
+            repository.save(notification.removeAllActions().markAsSeen())
         }
     }
 

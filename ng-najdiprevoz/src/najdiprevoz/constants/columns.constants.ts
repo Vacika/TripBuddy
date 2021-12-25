@@ -77,7 +77,7 @@ export const tableColumnsForSent = [
 		type: DataTableColumnType.CUSTOM,
 		sortable: true
 	} as DataTableColumn,
-	{name: 'tripId', translationLabel: 'TRIP_ID', type: DataTableColumnType.NUMBER, sortable: true} as DataTableColumn,
+	// {name: 'tripId', translationLabel: 'TRIP_ID', type: DataTableColumnType.NUMBER, sortable: true} as DataTableColumn,
 	{
 		name: 'tripStatus',
 		translationLabel: 'TRIP_STATUS',

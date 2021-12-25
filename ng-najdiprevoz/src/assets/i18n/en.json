@@ -1,5 +1,7 @@
 
 {
+	"RIDE_CANCELLED": "Cancelled",
+	"DENIED": "Denied",
 	"TRIP_STATUS": "Trip status",
 	"EXCEPTION_USER_NOT_ACTIVATED": "Your user is not activated yet. Please check your mail for activation link :)",
 	"EXCEPTION_USER_BANNED_ERROR": "You are banned.. :)",

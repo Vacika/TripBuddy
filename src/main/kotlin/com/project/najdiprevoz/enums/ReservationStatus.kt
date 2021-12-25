@@ -6,5 +6,6 @@ enum class ReservationStatus(private val status: String) {
     DENIED("Denied"),
     CANCELLED("Cancelled"),
     RIDE_CANCELLED("Ride Cancelled"),
-    EXPIRED("Expired")
+    EXPIRED("Expired"),
+    FINISHED("Finished")
 }

@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {City} from '../../interfaces/city.interface';
 import {CityService} from '../../services/city.service';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {UserService} from "../../services/user.service";
 
@@ -18,7 +18,7 @@ export class CreateTripPage implements OnInit {
 	passengerInfoForm: FormGroup;
 	preferencesForm: FormGroup;
 	allCities: City[] = [];
-	currentStep = new Observable<number>();
+	currentStep$ = new BehaviorSubject<number>(null);
 	additionalDescription = new FormControl(null);
 	dateNow: Date;
 
@@ -74,7 +74,7 @@ export class CreateTripPage implements OnInit {
 			fromLocation: new FormControl('', Validators.required),
 			toLocation: new FormControl('', Validators.required)
 		});
-		this.currentStep = new Observable(observer => observer.next(1));
+		this.currentStep$.next(1);
 		this.dateNow = new Date();
 	}
 
@@ -82,14 +82,14 @@ export class CreateTripPage implements OnInit {
 		if (this.getFromLocation.value != this.getToLocation.value) {
 			this.fromToForm.disable();
 			this.passengerInfoForm = this._passengerInfoFormDefinition();
-			this.currentStep = new Observable(observer => observer.next(2));
+			this.currentStep$.next(2);
 		}
 	}
 
 	submitPassengerInfo() {
 		this.passengerInfoForm.disable();
 		this.preferencesForm = this._preferencesFormDefinition();
-		this.currentStep = new Observable(observer => observer.next(3));
+		this.currentStep$.next(3);
 	}
 
 	submitPreferences() {
@@ -109,7 +109,12 @@ export class CreateTripPage implements OnInit {
 		this._service.addNewTrip(formValues).subscribe(() => {
 			this._notificationService.success('TRIP_CREATE_SUCCESS');
 			this._router.navigate(['trips']);
-		}, () => this._notificationService.success('TRIP_CREATE_FAIL'));
+		}, (err) => {
+			this.fromToForm.enable();
+			this.preferencesForm.enable();
+			this.passengerInfoForm.enable();
+			this._notificationService.error(err)
+		});
 	}
 
 	getTimeDateNow() {

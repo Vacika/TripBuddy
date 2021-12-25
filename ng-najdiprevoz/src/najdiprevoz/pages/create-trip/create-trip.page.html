@@ -19,7 +19,7 @@
 
 				<button
 					[disabled]='this.fromToForm.invalid || this.fromToForm.pristine || (this.getFromLocation.value === this.getToLocation.value)'
-					[hidden]='(currentStep|async) != 1'
+					[hidden]='(currentStep$|async) != 1'
 					class='button-form'
 					mat-raised-button
 					color='primary'
@@ -47,7 +47,7 @@
 
 
 	<!--	Passenger Info Form -->
-	<div *ngIf='(currentStep|async) > 1'>
+	<div *ngIf='(currentStep$|async) > 1'>
 		<!--todo: if not active, add some class to make it like smoked/disabled whole part -->
 		<form (submit)="submitPassengerInfo()" [formGroup]="passengerInfoForm">
 			<div class='flex space-between'>
@@ -62,7 +62,7 @@
 				</mat-form-field>
 
 				<button [disabled]=' passengerInfoForm.pristine || passengerInfoForm.invalid'
-								[hidden]='(currentStep|async) != 2'
+								[hidden]='(currentStep$|async) != 2'
 								class='button-form'
 								mat-raised-button
 								color='primary'
@@ -101,7 +101,7 @@
 
 
 	<!--	Preferences form FORM -->
-	<div *ngIf='(currentStep|async) > 2' class="form-container">
+	<div *ngIf='(currentStep$|async) > 2' class="form-container">
 		<form (submit)="submitPreferences()" [formGroup]="preferencesForm" class='flex flex-column text-center'>
 			<div class='flex space-between align-baseline' style="padding-right: 50px;">
 				<mat-checkbox class=" width-12"
@@ -133,7 +133,7 @@
 			</div>
 
 
-			<button [disabled]='preferencesForm.invalid || preferencesForm.pristine' [hidden]='(currentStep|async) != 3'
+			<button [disabled]='preferencesForm.invalid || preferencesForm.pristine' [hidden]='(currentStep$|async) != 3'
 							mat-raised-button
 							class="width-20 final-submit-button"
 							color='primary'
