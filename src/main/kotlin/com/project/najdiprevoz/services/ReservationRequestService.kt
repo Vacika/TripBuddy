@@ -71,7 +71,11 @@ class ReservationRequestService(
         } else if (forRequester) {
             if (canSubmitRating(reservationRequest))
                 availableActions = availableActions.plus(Actions.SUBMIT_RATING.name)
-            if (changeStatusActionAllowed(currentStatus, ReservationStatus.CANCELLED) && reservationRequest.trip.status == TripStatus.ACTIVE)
+            if (changeStatusActionAllowed(
+                    currentStatus,
+                    ReservationStatus.CANCELLED
+                ) && reservationRequest.trip.status == TripStatus.ACTIVE
+            )
                 availableActions = availableActions.plus(Actions.CANCEL_RESERVATION.name)
         }
         return availableActions
@@ -147,6 +151,7 @@ class ReservationRequestService(
                 ReservationStatus.DENIED -> false
                 ReservationStatus.RIDE_CANCELLED -> false
                 ReservationStatus.EXPIRED -> false
+                ReservationStatus.FINISHED -> false
             }
         }
         return false
@@ -167,6 +172,7 @@ class ReservationRequestService(
                 ReservationStatus.CANCELLED -> cancelRequest(requestId)
                 ReservationStatus.RIDE_CANCELLED -> changeRequestToRideCancelled(requestId)
                 ReservationStatus.EXPIRED -> expireRequest(requestId)
+                ReservationStatus.FINISHED -> finishRequest(requestId);
             }
         } else throw RuntimeException(
             "Status change not allowed from $previousStatus to $newStatus for ReservationRequest ID: [$requestId]"
@@ -208,6 +214,10 @@ class ReservationRequestService(
     private fun expireRequest(requestId: Long) {
         repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.EXPIRED)
         pushNotification(findById(requestId), NotificationType.REQUEST_EXPIRED)
+    }
+
+    private fun finishRequest(requestId: Long) {
+        repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.FINISHED)
     }
 
     private fun changeRequestToPending(requestId: Long) {
