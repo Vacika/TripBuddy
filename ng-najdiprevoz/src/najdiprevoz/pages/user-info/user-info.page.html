@@ -13,8 +13,8 @@
 		<div class="basic-info">
 			<div class="rating">
 				<mat-icon>star</mat-icon>
-				<span class="primary-light-color bold">{{"RATING"|translate}}</span>
-				: {{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
+				<span class="primary-light-color bold">{{"RATING"|translate}}: </span>
+				 {{user.averageRating.toString() != 'NaN' ? user.averageRating : 0}} / 5
 				({{"TOTAL_RATINGS_SUBMITTED"|translate}}: {{user.ratings.length}})
 				<mat-icon (click)="navigateToRatings()" *ngIf="user.ratings?.length > 0" class="link">keyboard_arrow_right
 				</mat-icon>
@@ -22,31 +22,31 @@
 
 			<div class="gender">
 				<mat-icon>accessibility</mat-icon>
-				<span class="primary-light-color bold">{{"GENDER"|translate}}</span> : {{user.gender | translate}}
+				<span class="primary-light-color bold">{{"GENDER"|translate}}: </span> {{user.gender | translate}}
 			</div>
 
 			<div class="birthdate">
 				<mat-icon>cake</mat-icon>
-				<span class="primary-light-color bold">{{"BIRTH_DATE"|translate}}</span>
-				: {{user.birthDate | date:"mediumDate"}}
+				<span class="primary-light-color bold">{{"BIRTH_DATE"|translate}}: </span>
+				 {{user.birthDate | date:"mediumDate"}}
 			</div>
 
 			<div class="mail">
 				<mat-icon>mail</mat-icon>
-				<span class="primary-light-color bold">{{"EMAIL"|translate}}</span>
-				: {{user.username}}
+				<span class="primary-light-color bold">{{"EMAIL"|translate}}: </span>
+				 {{user.username}}
 			</div>
 
 			<div class="phone">
 				<mat-icon>phone</mat-icon>
-				<span class="primary-light-color bold">{{"PHONE_NUMBER"|translate}}</span>
-				: {{user.phoneNumber}}
+				<span class="primary-light-color bold">{{"PHONE_NUMBER"|translate}}: </span>
+				 {{user.phoneNumber}}
 			</div>
 
 			<div class="default-lang">
 				<mat-icon>language</mat-icon>
-				<span class="primary-light-color bold">{{"PRIMARY_LANG"|translate}}</span>
-				: {{user.defaultLanguage}}
+				<span class="primary-light-color bold">{{"PRIMARY_LANG"|translate}}: </span>
+				{{user.defaultLanguage}}
 			</div>
 		</div>
 
@@ -56,13 +56,13 @@
 		<div class="footer">
 			<div class="published-rides">
 				<mat-icon>local_taxi</mat-icon>
-				<span class="primary-light-color bold">{{'PUBLISHED_RIDES_TOTAL' | translate}}</span> : {{user.publishedRides}}
+				<span class="primary-light-color bold">{{'PUBLISHED_RIDES_TOTAL' | translate}}:</span>  {{user.publishedRides}}
 			</div>
 
 			<!-- Member Since -->
 			<div class="member-since">
 				<mat-icon>member</mat-icon>
-				<span class="primary-light-color bold">{{"MEMBER_SINCE"|translate}}</span> : {{user.memberSince | date}}
+				<span class="primary-light-color bold">{{"MEMBER_SINCE"|translate}}:</span> {{user.memberSince | date}}
 			</div>
 
 		</div>

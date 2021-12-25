@@ -9,18 +9,19 @@
 					{{city.name | translate}}
 				</mat-option>
 			</mat-select>
-			<mat-error *ngIf="form.controls.fromLocation.touched && form.controls.fromLocation.invalid">
+			<mat-error *ngIf="fromLocation.touched && fromLocation.invalid">
 				<span *ngIf="form.controls.fromLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 			</mat-error>
 		</mat-form-field>
 
 		<!-- Switch FROM-TO Locations button -->
-		<button mat-icon-button
-						(click)="switchLocations()"
-						[matTooltip]="'SWITCH_LOCATIONS'|translate"
-						class="mr-3 hide-on-small-screens">
-			<mat-icon style="width:auto;height:auto;" color="accent">swap_horizontal_circle</mat-icon>
-		</button>
+<!--		<button mat-icon-button-->
+<!--						*ngIf="fromLocation.value!= '' && toLocation.value!=''"-->
+<!--						(click)="switchLocations()"-->
+<!--						[matTooltip]="'SWITCH_LOCATIONS'|translate"-->
+<!--						class="mr-3 hide-on-small-screens">-->
+<!--			<mat-icon style="width:auto;height:auto;" color="accent">swap_horizontal_circle</mat-icon>-->
+<!--		</button>-->
 
 
 		<!-- To Location -->
@@ -31,20 +32,26 @@
 					{{city.name | translate}}
 				</mat-option>
 			</mat-select>
-			<mat-error *ngIf="form.controls.toLocation.touched && form.controls.toLocation.invalid">
-				<span *ngIf="form.controls.toLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
+			<mat-error *ngIf="toLocation.touched && toLocation.invalid">
+				<span *ngIf="toLocation.errors.required">{{'MANDATORY_FIELD' | translate}}</span>
 			</mat-error>
 		</mat-form-field>
 
 
-		<button [disabled]='form.invalid || form.pristine || checkIfFromToAreIdentical()'
-						class='button-form final-submit-button flex-fill mr-3 hide-on-small-screens'
-						mat-raised-button
-						color="primary"
-						type="submit">
-			<span>{{'SEARCH' | translate}}</span>
-			<img height="52px" src='assets/images/moving-car.gif' width="52px">
-		</button>
+<!--		<button-->
+<!--			[disabled]='form.invalid || (fromLocation.value == null || toLocation.value==null) || checkIfFromToAreIdentical()'-->
+<!--			class='button-form final-submit-button flex-fill mr-3 hide-on-small-screens'-->
+<!--			mat-raised-button-->
+<!--			color="primary"-->
+<!--			type="submit">-->
+<!--			<span>{{'SEARCH' | translate}}</span>-->
+<!--			<img height="52px" src='assets/images/moving-car.gif' width="52px">-->
+<!--		</button>-->
+
+		<button class="btn hide-on-small-screens" type="submit"
+						[disabled]='form.invalid || (fromLocation.value == null || toLocation.value==null) || checkIfFromToAreIdentical()'>
+			<mat-icon>search</mat-icon>
+			</button>
 
 
 		<!-- Seats requested -->

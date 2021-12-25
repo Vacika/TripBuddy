@@ -80,7 +80,7 @@ export const tableColumnsForSent = [
 	{name: 'tripId', translationLabel: 'TRIP_ID', type: DataTableColumnType.NUMBER, sortable: true} as DataTableColumn,
 	{
 		name: 'tripStatus',
-		translationLabel: 'RESERVATION_STATUS',
+		translationLabel: 'TRIP_STATUS',
 		type: DataTableColumnType.CUSTOM,
 		sortable: true
 	} as DataTableColumn,
@@ -116,7 +116,7 @@ export const tableColumnsForReceived = [
 	} as DataTableColumn,
 	{
 		name: 'tripStatus',
-		translationLabel: 'RESERVATION_STATUS',
+		translationLabel: 'TRIP_STATUS',
 		type: DataTableColumnType.CUSTOM,
 		sortable: true
 	} as DataTableColumn,

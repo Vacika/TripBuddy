@@ -18,6 +18,10 @@
 	display: flex;
 }
 
+.flex {
+	display: flex;
+}
+
 .space-evenly {
 	justify-content: space-evenly;
 }
@@ -43,6 +47,12 @@
 .green-gradient-bg {
 	background-color: #00b712;
 	background-image: linear-gradient(315deg, #00b712 0%, #5dd38d 60%);
+}
+
+button[disabled].green-gradient-bg {
+	background-color: darkgray;
+	background-image: none;
+	cursor: not-allowed;
 }
 
 .icons {

@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TripDetailsResponse, TripResponse} from '../../interfaces/trip-response.interface';
 import {Router} from "@angular/router";
 import {TripListService} from "../../services/trip-list.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
 	templateUrl: 'trip-details.dialog.html',
@@ -15,6 +16,7 @@ export class TripDetailsDialog {
 
 	constructor(public dialogRef: MatDialogRef<TripDetailsDialog>,
 							private router: Router,
+							private _userService: UserService,
 							@Inject(MAT_DIALOG_DATA) public data,
 							private _tripListService: TripListService) {
 
@@ -33,5 +35,9 @@ export class TripDetailsDialog {
 	navigateToUserPage(id: number) {
 		this.dialogRef.close();
 		this.router.navigate([`/user/${id}`])
+	}
+
+	loggedUserIsDriver() {
+		return this._userService.getLoggedUser().id == this.trip.driver.id;
 	}
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NotificationService} from '../../services/notification.service';
 import {NotificationResponse} from '../../interfaces/notification.interface';
 import {MatDialog} from '@angular/material/dialog';
@@ -17,8 +17,10 @@ import {
 	templateUrl: './notifications.page.html',
 	styleUrls: ['./notifications.page.scss']
 })
-export class NotificationListPage implements OnInit {
+export class NotificationListPage implements OnInit, OnDestroy {
+
 	notifications: NotificationResponse[];
+	intervalVal: any;
 
 	constructor(private _notificationService: NotificationService,
 							private _uiNotificationsService: UINotificationsService,
@@ -26,10 +28,19 @@ export class NotificationListPage implements OnInit {
 	}
 
 	ngOnInit() {
+		this.fetchNotifications();
 		// Fetch notifications every 15 seconds
-		setInterval(() =>
-			this._notificationService.fetchUserNotifications()
-				.subscribe(response => this.notifications = response), 15000);
+		this.intervalVal = setInterval(() =>
+			this.fetchNotifications(), 15000);
+	}
+
+	ngOnDestroy(): void {
+		clearInterval(this.intervalVal);
+	}
+
+	private fetchNotifications() {
+		return this._notificationService.fetchUserNotifications()
+			.subscribe(response => this.notifications = response);
 	}
 
 	takeAction(notification: NotificationResponse, action: string) {
@@ -45,7 +56,7 @@ export class NotificationListPage implements OnInit {
 				height: '400px',
 				width: '600px',
 				data: notification.reservationRequestId
-			});
+			}).afterClosed().subscribe(_ => this.fetchNotifications());
 		}
 	}
 

@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {TripDetailsDialog} from '../../dialogs/trip-details-dialog/trip-details.dialog';
 import {TripConfirmReservationDialog} from "../../dialogs/trip-confirm-reservation/trip-confirm-reservation.dialog";
+import {Trip} from "../../interfaces/trip.interface";
+import {UserService} from "../../services/user.service";
 
 @Component({
 	selector: 'list-trips',
@@ -17,6 +19,7 @@ export class TripListView implements OnInit {
 	@Output() openSmsNotificationEmitter = new EventEmitter<void>();
 
 	constructor(private _service: TripService,
+							private _userService: UserService,
 							private _router: Router,
 							private _dialog: MatDialog) {
 	}
@@ -71,7 +74,11 @@ export class TripListView implements OnInit {
 		})
 	}
 
-	openSmsNotificationDialog(){
+	openSmsNotificationDialog() {
 		this.openSmsNotificationEmitter.emit();
+	}
+
+	loggedUserIsDriver(trip: TripResponse) {
+		return this._userService.getLoggedUser().id == trip.driver.id;
 	}
 }

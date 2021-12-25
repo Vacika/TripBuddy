@@ -61,7 +61,7 @@
 }
 
 .font-18 {
-	font-size: 18px;
+	font-size: 20px;
 }
 
 .color-green {
@@ -187,10 +187,6 @@
 
 @media (max-width: 1010.98px) {
 
-	.no-trips-found {
-		text-align: center;
-	}
-
 	.trip-list-container {
 		display: flex;
 		flex-direction: column;
@@ -201,4 +197,17 @@
 	.card {
 		max-width: 400px;
 	}
+}
+
+.no-trips-found {
+	font-size: 21px;
+	text-align: center;
+}
+
+.link {
+	text-decoration: none;
+}
+
+.cursor-pointer:hover {
+	text-decoration: underline;
 }

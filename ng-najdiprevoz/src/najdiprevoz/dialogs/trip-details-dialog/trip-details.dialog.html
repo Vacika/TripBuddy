@@ -1,7 +1,6 @@
 <div *ngIf="trip">
 	<h1 class="text-center" mat-dialog-title>
-		{{trip.from|translate}}  <img height="13px" src="../../assets/images/right-arrow.png"
-																	width="29px">  {{trip.to | translate}}</h1>
+		{{trip.from|translate}}  -  {{trip.to | translate}}</h1>
 	<div class='mat-dialog-content' mat-dialog-content>
 
 		<div><span class="text-bold">{{'STATUS'|translate}}: </span> {{ trip.status | translate }}</div>
@@ -47,8 +46,8 @@
 						matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 		<svg aria-hidden="true"
 				 fill="#708C91"
-				 height="24" viewBox="0 0 24 24"
-				 width="24"
+				 height="30" viewBox="0 0 24 24"
+				 width="30"
 				 xmlns="http://www.w3.org/2000/svg">
 			<g
 				fill="none" stroke="rgb(93, 209, 103)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
@@ -87,7 +86,7 @@
 	</div>
 	<div mat-dialog-actions class="flex space-between">
 		<button (click)='reserve()' *ngIf='trip.status == "ACTIVE"'
-						[disabled]='trip.availableSeats<=0'
+						[disabled]='trip.availableSeats<=0 || loggedUserIsDriver()'
 						class='width-49-percent mat-stroked-button color-white green-gradient-bg'
 						mat-button>{{'REQUEST_RIDE' | translate}}</button>
 		<button (click)="onCancel()" class='width-49-percent mat-stroked-button mat-primary'

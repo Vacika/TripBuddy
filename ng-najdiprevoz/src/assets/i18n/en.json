@@ -1,5 +1,6 @@
 
 {
+	"TRIP_STATUS": "Trip status",
 	"EXCEPTION_USER_NOT_ACTIVATED": "Your user is not activated yet. Please check your mail for activation link :)",
 	"EXCEPTION_USER_BANNED_ERROR": "You are banned.. :)",
 	"EXCEPTION_TRIP_NOT_ACTIVE_ANYMORE": "Sorry, this trip was cancelled.. :(",
@@ -14,6 +15,7 @@
 	"EXCEPTION_APPLIED_BEFORE": "Already sent a reservation request for this trip. :)",
 	"EXCEPTION_ADD_RATING_FAILED": "The request is not APPROVED or you have already submitted rating for this trip",
 	"EXCEPTION_ACTIVATION_TOKEN_NOT_FOUND": "No user found with that particular activation token :(",
+	"NO_ACCOUNT_CLICK_HERE": "No account? Register here!",
 	"GO_TO_HOME_PAGE": "Go to Home",
 	"REGISTER": "Register",
 	"NAME": "Name",
@@ -26,10 +28,10 @@
 	"RIDE": "Trip",
 	"REQUEST": "Request",
 	"MARK_AS_SEEN": "Mark as seen",
-	"APPROVE": "Approve",
+	"APPROVE_RESERVATION": "Approve",
 	"REJECT": "Reject",
 	"CANCEL": "Cancel",
-	"DENY": "Deny",
+	"DENY_RESERVATION": "Deny",
 	"CANCEL_RIDE": "Cancel trip",
 	"CANCEL_REQUEST": "Cancel Request",
 	"CAR": "Car",
