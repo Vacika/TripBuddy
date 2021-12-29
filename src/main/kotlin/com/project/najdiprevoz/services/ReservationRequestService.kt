@@ -83,13 +83,12 @@ class ReservationRequestService(
     /** EVENT LISTENER **/
     @EventListener
     fun onTripCancelled(event: TripCancelledEvent) {
-        event.trip.reservationRequests.filter { it.status == ReservationStatus.PENDING || it.status == ReservationStatus.APPROVED }
+        event.trip.reservationRequests.filter {
+            it.status == ReservationStatus.PENDING
+                    || it.status == ReservationStatus.APPROVED
+        }
             .forEach { resRequest ->
                 changeRequestToRideCancelled(resRequest.id)
-                notificationService.pushReservationStatusChangeNotification(
-                    resRequest,
-                    NotificationType.TRIP_CANCELLED
-                )
             }
     }
 
