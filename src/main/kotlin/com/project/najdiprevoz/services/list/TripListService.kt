@@ -2,7 +2,7 @@ package com.project.najdiprevoz.services.list
 
 import com.project.najdiprevoz.domain.Trip
 import com.project.najdiprevoz.enums.TripStatus
-import com.project.najdiprevoz.repositories.RideRepository
+import com.project.najdiprevoz.repositories.TripRepository
 import com.project.najdiprevoz.utils.*
 import com.project.najdiprevoz.web.request.FilterTripRequest
 import org.springframework.data.jpa.domain.Specification
@@ -11,7 +11,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 @Service
-class TripListService(private val repository: RideRepository){
+class TripListService(private val repository: TripRepository){
     fun findAllActiveForToday(): List<Trip> =
         repository.findAll(
             listOfNotNull(

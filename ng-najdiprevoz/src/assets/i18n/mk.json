@@ -3,6 +3,7 @@
 	"TRIP_CANCELLED": "Откажана",
 	"DENIED": "Одбиенa",
 	"TRIP_STATUS": "Превоз",
+	"EXCEPTION_NOT_ENOUGH_SEATS_AVAILABLE_TO_APPROVE_REQUEST": "Not enough available seats, cannot approve the request..",
 	"EXCEPTION_USER_NOT_ACTIVATED": "Your user is not activated yet. Please check your mail for activation link :)",
 	"EXCEPTION_USER_BANNED_ERROR": "You are banned.. :)",
 	"EXCEPTION_TRIP_NOT_ACTIVE_ANYMORE": "Sorry, this trip was cancelled.. :(",

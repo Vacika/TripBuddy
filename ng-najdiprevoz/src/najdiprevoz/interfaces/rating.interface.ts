@@ -11,10 +11,10 @@ export interface RatingCustomResponse extends Rating {
 	fromFullName: string;
 	fromId: number;
 	fromProfilePic?: string;
-	rideId: number;
-	rideFrom: string;
-	rideTo: string;
-	rideDate: string;
+	tripId: number;
+	tripFromLocation: string;
+	tripToLocation: string;
+	tripDate: string;
 	// rating: number;
 	// note: string;
 	// dateSubmitted: string;

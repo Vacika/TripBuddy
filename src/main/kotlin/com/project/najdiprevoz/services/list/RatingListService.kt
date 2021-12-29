@@ -13,7 +13,7 @@ class RatingListService(private val repository: RatingRepository) {
 
     fun getRatingsForUser(username: String) =
         repository.findAllByRatedUser_Username(username).map { it.mapToRatingResponse() }
-            .sortedByDescending { it.rideDate }
+            .sortedByDescending { it.tripDate }
 
 
     fun getRatingsForUserById(userId: Long): List<Rating> {

@@ -38,19 +38,19 @@ class ReservationRequestController(private val mapper: ReservationRequestMapper)
     fun changeStatusToCancelled(@PathVariable("requestId") requestId: Long) =
             mapper.changeStatus(requestId, ReservationStatus.CANCELLED)
 
-//    @GetMapping("/ride/{rideId}")
-//    fun getAllRequestsForRide(@PathVariable("rideId") rideId: Long) =
-//            mapper.getAllRequestByTripId(rideId)
+//    @GetMapping("/ride/{tripId}")
+//    fun getAllRequestsForRide(@PathVariable("tripId") tripId: Long) =
+//            mapper.getAllRequestByTripId(tripId)
 //
-//    @GetMapping("/ride/{rideId}/pending")
-//    fun getPendingRequestsForRide(@PathVariable("rideId") rideId: Long) =
-//            service.getRequestsForRideByStatus(rideId, ReservationRequestStatus.PENDING)
+//    @GetMapping("/ride/{tripId}/pending")
+//    fun getPendingRequestsForRide(@PathVariable("tripId") tripId: Long) =
+//            service.getRequestsForRideByStatus(tripId, ReservationRequestStatus.PENDING)
 //
-//    @GetMapping("/ride/{rideId}/approved")
-//    fun getApprovedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-//            service.getRequestsForRideByStatus(rideId, ReservationRequestStatus.APPROVED)
+//    @GetMapping("/ride/{tripId}/approved")
+//    fun getApprovedRequestsForRide(@PathVariable("tripId") tripId: Long) =
+//            service.getRequestsForRideByStatus(tripId, ReservationRequestStatus.APPROVED)
 //
-//    @GetMapping("/ride/{rideId}/denied")
-//    fun getDeniedRequestsForRide(@PathVariable("rideId") rideId: Long) =
-//            service.getRequestsForRideByStatus(rideId, ReservationRequestStatus.DENIED)
+//    @GetMapping("/ride/{tripId}/denied")
+//    fun getDeniedRequestsForRide(@PathVariable("tripId") tripId: Long) =
+//            service.getRequestsForRideByStatus(tripId, ReservationRequestStatus.DENIED)
 }

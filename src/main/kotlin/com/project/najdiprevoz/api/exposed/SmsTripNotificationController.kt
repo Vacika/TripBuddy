@@ -1,4 +1,4 @@
-package com.project.najdiprevoz.api
+package com.project.najdiprevoz.api.exposed
 
 import com.project.najdiprevoz.mapper.SmsTripNotificationMapper
 import com.project.najdiprevoz.web.request.AddNewSmsNotificationRequest

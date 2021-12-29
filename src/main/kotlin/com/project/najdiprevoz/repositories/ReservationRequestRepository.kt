@@ -12,7 +12,7 @@ import javax.transaction.Transactional
 
 @Repository
 interface ReservationRequestRepository : JpaRepository<ReservationRequest, Long>, JpaSpecificationExecutor<ReservationRequest> {
-    fun findAllByTripId(rideId: Long): List<ReservationRequest>
+    fun findAllByTripId(tripId: Long): List<ReservationRequest>
 
     fun findAllByRequesterUsername(username: String): List<ReservationRequest>
 
@@ -28,9 +28,9 @@ interface ReservationRequestRepository : JpaRepository<ReservationRequest, Long>
     """)
     fun updateReservationRequestStatus(@Param("requestId") requestId: Long, @Param("status") status: ReservationStatus): Int
 
-    fun findAllByStatusAndTripId(status: ReservationStatus, rideId:Long): List<ReservationRequest>
+    fun findAllByStatusAndTripId(status: ReservationStatus, tripId:Long): List<ReservationRequest>
 
-    fun findByTripIdAndRequesterUsername(rideId: Long, username: String): List<ReservationRequest>
+    fun findByTripIdAndRequesterUsername(tripId: Long, username: String): List<ReservationRequest>
 
 
 //    @Query("""

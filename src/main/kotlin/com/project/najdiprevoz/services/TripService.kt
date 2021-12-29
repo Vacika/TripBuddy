@@ -6,7 +6,7 @@ import com.project.najdiprevoz.events.TripCancelledEvent
 import com.project.najdiprevoz.exceptions.MinimumHrsBeforeCancelException
 import com.project.najdiprevoz.exceptions.TripNotFoundException
 import com.project.najdiprevoz.exceptions.SeatsLimitException
-import com.project.najdiprevoz.repositories.RideRepository
+import com.project.najdiprevoz.repositories.TripRepository
 import com.project.najdiprevoz.services.sms.SmsTripNotificationService
 import com.project.najdiprevoz.web.request.create.CreateTripRequest
 import com.project.najdiprevoz.web.request.edit.EditTripRequest
@@ -23,7 +23,7 @@ import javax.transaction.Transactional
 
 @Service
 class TripService(
-    private val repository: RideRepository,
+    private val repository: TripRepository,
     private val userService: UserService,
     private val eventPublisher: ApplicationEventPublisher,
     private val cityService: CityService,

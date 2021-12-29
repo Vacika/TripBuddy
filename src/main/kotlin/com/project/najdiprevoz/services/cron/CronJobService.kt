@@ -27,9 +27,10 @@ class CronJobService(
     @Scheduled(fixedDelayString = "\${cron.every-5-minute}")
     @Modifying
     @Transactional
-    fun updateRidesAndRequestsJob() {
-        updateRideCron()
-        logger.info("[CRONJOB] Updating EXPIRED and TRIP_CANCELLED ride requests..")
+    fun updateTripsAndReservationRequestJob() {
+        logger.info("[CRONJOB] Updating FINISHED trips..")
+        updateTripsCron()
+        logger.info("[CRONJOB] Updating EXPIRED, FINISHED and TRIP_CANCELLED reservation requests..")
         updateReservationRequestCron()
     }
 
@@ -61,7 +62,7 @@ class CronJobService(
         reservationRequestService.reservationRequestCronJob(reservationRequest)
     }
 
-    private fun updateRideCron() =
+    private fun updateTripsCron() =
         tripService.updateFinishedTripsCronJob()
 
     private fun hasAlreadyReceivedNotificationForRating(reservationRequest: ReservationRequest): Boolean {

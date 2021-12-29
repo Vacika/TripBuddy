@@ -16,6 +16,6 @@ class UserProfileResponse (
         ratings: List<Rating>?,
         averageRating: Double,
         defaultLanguage: String,
-        val publishedRides: Int,
+        val publishedTrips: Int,
         val memberSince: ZonedDateTime
 ) : UserResponse(id, firstName, lastName, profilePhoto, username, phoneNumber, gender, birthDate, ratings, averageRating, defaultLanguage)

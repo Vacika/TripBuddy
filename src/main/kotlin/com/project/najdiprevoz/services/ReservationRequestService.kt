@@ -6,10 +6,7 @@ import com.project.najdiprevoz.enums.AllowedActions
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.events.TripCancelledEvent
-import com.project.najdiprevoz.exceptions.AlreadySentReservationException
-import com.project.najdiprevoz.exceptions.NotEnoughAvailableSeatsException
-import com.project.najdiprevoz.exceptions.OwnTripReservationApplyException
-import com.project.najdiprevoz.exceptions.TripNotActiveException
+import com.project.najdiprevoz.exceptions.*
 import com.project.najdiprevoz.repositories.ReservationRequestRepository
 import com.project.najdiprevoz.web.request.create.CreateReservationRequestForTrip
 import javassist.NotFoundException
@@ -34,7 +31,7 @@ class ReservationRequestService(
 
     fun findById(id: Long): ReservationRequest =
         repository.findById(id)
-            .orElseThrow { NotFoundException("Ride request not found!") }
+            .orElseThrow { TripNotFoundException() }
 
     @Transactional
     fun create(req: CreateReservationRequestForTrip, username: String) = with(req) {
@@ -88,7 +85,7 @@ class ReservationRequestService(
                     || it.status == ReservationStatus.APPROVED
         }
             .forEach { resRequest ->
-                changeRequestToRideCancelled(resRequest.id)
+                changeRequestToTripCancelled(resRequest.id)
             }
     }
 
@@ -159,15 +156,15 @@ class ReservationRequestService(
         requestId: Long, previousStatus: ReservationStatus,
         newStatus: ReservationStatus
     ) {
-        logger.debug("[ReservationRequestService] Checking if ride request status transition is valid..")
+        logger.debug("[ReservationRequestService] Checking if reservation request status transition is valid..")
         if (changeStatusActionAllowed(previousStatus, newStatus)) {
-            logger.debug("[ReservationRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
+            logger.debug("[ReservationRequestService] Reservation request status transition from $previousStatus to $newStatus is VALID, changing status..")
             return when (newStatus) {
                 ReservationStatus.APPROVED -> approveRequest(requestId)
                 ReservationStatus.DENIED -> denyRequest(requestId)
                 ReservationStatus.PENDING -> changeRequestToPending(requestId)
                 ReservationStatus.CANCELLED -> cancelRequest(requestId)
-                ReservationStatus.TRIP_CANCELLED -> changeRequestToRideCancelled(requestId)
+                ReservationStatus.TRIP_CANCELLED -> changeRequestToTripCancelled(requestId)
                 ReservationStatus.EXPIRED -> expireRequest(requestId)
                 ReservationStatus.FINISHED -> finishRequest(requestId);
             }
@@ -184,7 +181,7 @@ class ReservationRequestService(
                 tripId = reservationRequest.trip.id,
                 seats = reservationRequest.trip.availableSeats - reservationRequest.requestedSeats
             )
-        } else throw RuntimeException("Not enough seats available to approve ReservationRequest with ID: [$requestId]!")
+        } else throw RuntimeException("EXCEPTION_NOT_ENOUGH_SEATS_AVAILABLE_TO_APPROVE_REQUEST")
         pushNotification(reservationRequest, NotificationType.REQUEST_APPROVED)
     }
 
@@ -203,7 +200,7 @@ class ReservationRequestService(
         pushNotification(findById(requestId), NotificationType.REQUEST_CANCELLED)
     }
 
-    private fun changeRequestToRideCancelled(requestId: Long) {
+    private fun changeRequestToTripCancelled(requestId: Long) {
         repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.TRIP_CANCELLED)
         pushNotification(findById(requestId), NotificationType.TRIP_CANCELLED)
     }

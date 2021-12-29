@@ -8,7 +8,7 @@ class RatingResponse(val id: Long,
                      val fromId: Long,
                      val rating: Int,
                      val note: String?,
-                     val rideId: Long,
-                     val rideFrom: String,
-                     val rideTo: String,
-                     val rideDate: ZonedDateTime)
+                     val tripId: Long,
+                     val tripFromLocation: String,
+                     val tripToLocation: String,
+                     val tripDate: ZonedDateTime)

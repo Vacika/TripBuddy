@@ -18,6 +18,6 @@ export interface User {
 }
 
 export interface UserProfileDetails extends User {
-	publishedRides: number;
+	publishedTrips: number;
 	memberSince: string;
 }

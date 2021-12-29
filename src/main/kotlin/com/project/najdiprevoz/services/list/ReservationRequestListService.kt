@@ -12,8 +12,8 @@ class ReservationRequestListService(private val repository: ReservationRequestRe
         repository.findAll()
             .sortedBy { it.status.ordinal }
 
-    fun getAllRequestsByTripId(rideId: Long): List<ReservationRequest> =
-        repository.findAllByTripId(rideId)
+    fun getAllRequestsByTripId(tripId: Long): List<ReservationRequest> =
+        repository.findAllByTripId(tripId)
             .sortedBy { it.status.ordinal }
 
 
@@ -27,7 +27,7 @@ class ReservationRequestListService(private val repository: ReservationRequestRe
         repository.findReceivedRequests(username = username)
             .sortedBy { it.status.ordinal }
 
-    fun getRequestsForRideByStatus(rideId: Long, status: ReservationStatus): List<ReservationRequest> =
-        repository.findAllByStatusAndTripId(status, rideId)
+    fun getRequestsForTripByStatus(tripId: Long, status: ReservationStatus): List<ReservationRequest> =
+        repository.findAllByStatusAndTripId(status, tripId)
             .sortedBy { it.status.ordinal }
 }

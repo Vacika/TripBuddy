@@ -10,10 +10,9 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.time.ZonedDateTime
-import javax.transaction.Transactional
 
 @Repository
-interface RideRepository : JpaRepository<Trip, Long>, JpaSpecificationExecutor<Trip> {
+interface TripRepository : JpaRepository<Trip, Long>, JpaSpecificationExecutor<Trip> {
 
     fun findAllByDriverId(driverId: Long): List<Trip>
 

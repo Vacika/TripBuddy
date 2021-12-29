@@ -22,8 +22,8 @@ class ReservationRequestMapper(
     fun findById(id: Long): ReservationRequestResponse =
         mapToReservationRequestResponse(service.findById(id), service.getAvailableActions(id, true))
 
-    fun getAllRequestByTripId(rideId: Long) =
-        listService.getAllRequestsByTripId(rideId)
+    fun getAllRequestByTripId(tripId: Long) =
+        listService.getAllRequestsByTripId(tripId)
             .map { mapToReservationRequestResponse(it, service.getAvailableActions(it.id, false)) }
 
     fun getSentReservationRequests(username: String) =
@@ -34,8 +34,8 @@ class ReservationRequestMapper(
         listService.getReceivedReservationRequests(username)
             .map { mapToReservationRequestFullResponse(it, service.getAvailableActions(it.id, false)) }
 
-    fun getRequestsForRideByStatus(rideId: Long, status: ReservationStatus): List<ReservationRequestResponse> =
-        listService.getRequestsForRideByStatus(rideId, status)
+    fun getRequestsForTripByStatus(tripId: Long, status: ReservationStatus): List<ReservationRequestResponse> =
+        listService.getRequestsForTripByStatus(tripId, status)
             .map { mapToReservationRequestResponse(it, service.getAvailableActions(it.id, true)) }
 
     fun changeStatus(id: Long, newStatus: ReservationStatus) =

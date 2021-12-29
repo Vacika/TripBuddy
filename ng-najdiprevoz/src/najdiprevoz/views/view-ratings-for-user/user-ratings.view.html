@@ -18,10 +18,10 @@
 						</span>
 
 						<span class="flex-column">
-							<span>{{rating.rideFrom}}
+							<span>{{rating.tripFromLocation}}
 								<img class="car-moving" src="../../../assets/images/car-moving2.gif">
-								{{rating.rideTo}}</span>
-							<span>{{rating.rideDate| date:'medium'}}</span>
+								{{rating.tripToLocation}}</span>
+							<span>{{rating.tripDate| date:'medium'}}</span>
 						</span>
 
 					</span>
@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div>
-						<button (click)="rideDetails(rating.rideId)" color='primary'
+						<button (click)="rideDetails(rating.tripId)" color='primary'
 										mat-stroked-button> {{"SEE_RIDE"|translate}}</button>
 					</div>
 				<hr>

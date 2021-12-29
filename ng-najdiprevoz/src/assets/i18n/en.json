@@ -12,6 +12,7 @@
 	"EXCEPTION_TRIP_NOT_FOUND": "Trip not found.. :(",
 	"EXCEPTION_CANNOT_APPLY_FOR_OWN_TRIP": "You cannot reserve a seat on your own trip, can you? :)",
 	"EXCEPTION_NOTIFICATION_NOT_FOUND": "Notification not found.. :(",
+	"EXCEPTION_NOT_ENOUGH_SEATS_AVAILABLE_TO_APPROVE_REQUEST": "Not enough available seats, cannot approve the request..",
 	"EXCEPTION_NOT_ENOUGH_SEATS_AVAILABLE": "Not enough available seats.. :/",
 	"EXCEPTION_MIN_HRS_TRIP_CANCEL_ERROR": "It is too late to cancel the trip now.. :/",
 	"EXCEPTION_USER_NOT_FOUND": "User not found.. :(",

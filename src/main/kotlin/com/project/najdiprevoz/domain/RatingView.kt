@@ -27,7 +27,7 @@ data class RatingView(
         val reservationRequestId: Long,
 
         @Column(name = "trip_id")
-        val rideId: Long,
+        val tripId: Long,
 
         @Column(name = "author_id")
         val authorId: Long,

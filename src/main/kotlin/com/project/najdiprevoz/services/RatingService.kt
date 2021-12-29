@@ -36,7 +36,7 @@ class RatingService(
     fun checkIfHasRatingAllowedNotification(reservationRequest: ReservationRequest) =
         notificationService.checkIfHasRatingAllowedNotification(reservationRequest)
 
-    // Return true if the reservation has been approved and the member has not submitted rating for this ride previously!
+    // Return true if the reservation has been approved and the member has not submitted rating for this trip previously!
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         logger.debug("[RatingService] Checking if there is already submitted rating for ReservationRequest with ID: $reservationRequestId")
         val reservationRequest = reservationRequestService.findById(reservationRequestId)

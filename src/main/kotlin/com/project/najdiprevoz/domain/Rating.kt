@@ -39,12 +39,12 @@ data class Rating(
                 id = id,
                 rating = rating,
                 note = note,
-                rideId = reservationRequest.trip.id,
+                tripId = reservationRequest.trip.id,
                 fromFullName = getAuthor().getFullName(),
                 fromId = getAuthor().id,
                 fromProfilePic = getAuthor().profilePhoto,
-                rideDate = reservationRequest.trip.departureTime,
-                rideFrom = reservationRequest.trip.fromLocation.name,
-                rideTo = reservationRequest.trip.destination.name
+                tripDate = reservationRequest.trip.departureTime,
+                tripFromLocation = reservationRequest.trip.fromLocation.name,
+                tripToLocation = reservationRequest.trip.destination.name
         )
 }
