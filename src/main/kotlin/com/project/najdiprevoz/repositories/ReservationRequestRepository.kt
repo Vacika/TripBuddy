@@ -43,6 +43,6 @@ interface ReservationRequestRepository : JpaRepository<ReservationRequest, Long>
 //
 //    @Modifying
 //    @Transactional
-//    @Query("""UPDATE ReservationRequest r set r.status='RIDE_CANCELLED' where r.status='PENDING' and r.trip.status='FINISHED'""")
+//    @Query("""UPDATE ReservationRequest r set r.status='TRIP_CANCELLED' where r.status='PENDING' and r.trip.status='FINISHED'""")
 //    fun updateReservationRequestsCron(): Int
 }

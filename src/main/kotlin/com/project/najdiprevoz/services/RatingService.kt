@@ -40,7 +40,7 @@ class RatingService(
     private fun canAddRating(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {
         logger.debug("[RatingService] Checking if there is already submitted rating for ReservationRequest with ID: $reservationRequestId")
         val reservationRequest = reservationRequestService.findById(reservationRequestId)
-        reservationRequest.status == ReservationStatus.APPROVED && reservationRequest.rating == null && reservationRequest.trip.status == TripStatus.FINISHED
+        reservationRequest.status == ReservationStatus.FINISHED && reservationRequest.rating == null && reservationRequest.trip.status == TripStatus.FINISHED
     }
 
     private fun pushRatingNotification(createRatingRequest: CreateRatingRequest) = with(createRatingRequest) {

@@ -5,9 +5,10 @@
 
 					<span class="flex space-between">
 						<span class="flex">
-							<img [src]="rating?.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
-									 class="card-header-image"
-									 style="border-radius:50%;width:52px;height:52px;">
+							<img
+								[src]="rating?.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
+								class="card-header-image"
+								style="border-radius:50%;width:52px;height:52px;">
 
 							<span class="flex-column ml-3">
 								<span class="text-bold no-wrap">{{rating.fromFullName}}:</span>
@@ -24,8 +25,8 @@
 						</span>
 
 					</span>
-					<div>
-						 <p>{{rating.note}}</p>
+					<div style="margin-left:57px; color:lightgray">
+						 <p>"{{rating.note}}"</p>
 					</div>
 				</div>
 				<div>

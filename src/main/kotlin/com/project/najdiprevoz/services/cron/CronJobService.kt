@@ -29,7 +29,7 @@ class CronJobService(
     @Transactional
     fun updateRidesAndRequestsJob() {
         updateRideCron()
-        logger.info("[CRONJOB] Updating EXPIRED and RIDE_CANCELLED ride requests..")
+        logger.info("[CRONJOB] Updating EXPIRED and TRIP_CANCELLED ride requests..")
         updateReservationRequestCron()
     }
 

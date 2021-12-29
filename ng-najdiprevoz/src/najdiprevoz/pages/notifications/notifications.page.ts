@@ -30,8 +30,8 @@ export class NotificationListPage implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.fetchNotifications();
 		// Fetch notifications every 15 seconds
-		this.intervalVal = setInterval(() =>
-			this.fetchNotifications(), 15000);
+		// this.intervalVal = setInterval(() =>
+		// 	this.fetchNotifications(), 15000);
 	}
 
 	ngOnDestroy(): void {

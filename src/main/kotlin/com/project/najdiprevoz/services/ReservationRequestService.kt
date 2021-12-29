@@ -2,7 +2,7 @@ package com.project.najdiprevoz.services
 
 import com.project.najdiprevoz.domain.ReservationRequest
 import com.project.najdiprevoz.enums.NotificationType
-import com.project.najdiprevoz.enums.Actions
+import com.project.najdiprevoz.enums.AllowedActions
 import com.project.najdiprevoz.enums.ReservationStatus
 import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.events.TripCancelledEvent
@@ -37,7 +37,6 @@ class ReservationRequestService(
             .orElseThrow { NotFoundException("Ride request not found!") }
 
     @Transactional
-    @Modifying
     fun create(req: CreateReservationRequestForTrip, username: String) = with(req) {
         validateRequest(this, username)
         val savedRequest = repository.save(
@@ -65,18 +64,18 @@ class ReservationRequestService(
         var availableActions = listOf<String>()
         if (!forRequester && reservationRequest.trip.status == TripStatus.ACTIVE) {
             if (changeStatusActionAllowed(currentStatus, ReservationStatus.APPROVED))
-                availableActions = availableActions.plus(Actions.APPROVE.name)
+                availableActions = availableActions.plus(AllowedActions.APPROVE_RESERVATION.name)
             if (changeStatusActionAllowed(currentStatus, ReservationStatus.DENIED))
-                availableActions = availableActions.plus(Actions.DENY.name)
+                availableActions = availableActions.plus(AllowedActions.DENY_RESERVATION.name)
         } else if (forRequester) {
             if (canSubmitRating(reservationRequest))
-                availableActions = availableActions.plus(Actions.SUBMIT_RATING.name)
+                availableActions = availableActions.plus(AllowedActions.SUBMIT_RATING.name)
             if (changeStatusActionAllowed(
                     currentStatus,
                     ReservationStatus.CANCELLED
                 ) && reservationRequest.trip.status == TripStatus.ACTIVE
             )
-                availableActions = availableActions.plus(Actions.CANCEL_RESERVATION.name)
+                availableActions = availableActions.plus(AllowedActions.CANCEL_RESERVATION.name)
         }
         return availableActions
     }
@@ -84,12 +83,12 @@ class ReservationRequestService(
     /** EVENT LISTENER **/
     @EventListener
     fun onTripCancelled(event: TripCancelledEvent) {
-        event.trip.reservationRequests
+        event.trip.reservationRequests.filter { it.status == ReservationStatus.PENDING || it.status == ReservationStatus.APPROVED }
             .forEach { resRequest ->
                 changeRequestToRideCancelled(resRequest.id)
                 notificationService.pushReservationStatusChangeNotification(
                     resRequest,
-                    NotificationType.RIDE_CANCELLED
+                    NotificationType.TRIP_CANCELLED
                 )
             }
     }
@@ -145,11 +144,11 @@ class ReservationRequestService(
     private fun changeStatusActionAllowed(previousStatus: ReservationStatus, nextStatus: ReservationStatus): Boolean {
         if (previousStatus != nextStatus) {
             return when (previousStatus) {
-                ReservationStatus.APPROVED -> nextStatus == ReservationStatus.CANCELLED
+                ReservationStatus.APPROVED -> nextStatus == ReservationStatus.CANCELLED || nextStatus == ReservationStatus.FINISHED
                 ReservationStatus.PENDING -> nextStatus != ReservationStatus.PENDING
                 ReservationStatus.CANCELLED -> false
                 ReservationStatus.DENIED -> false
-                ReservationStatus.RIDE_CANCELLED -> false
+                ReservationStatus.TRIP_CANCELLED -> false
                 ReservationStatus.EXPIRED -> false
                 ReservationStatus.FINISHED -> false
             }
@@ -162,15 +161,14 @@ class ReservationRequestService(
         newStatus: ReservationStatus
     ) {
         logger.debug("[ReservationRequestService] Checking if ride request status transition is valid..")
-        val request = repository.findById(requestId)
-        if (changeStatusActionAllowed(previousStatus, newStatus) && request.get().trip.status == TripStatus.ACTIVE) {
+        if (changeStatusActionAllowed(previousStatus, newStatus)) {
             logger.debug("[ReservationRequestService]Ride request status transition from $previousStatus to $newStatus is VALID, changing status..")
             return when (newStatus) {
                 ReservationStatus.APPROVED -> approveRequest(requestId)
                 ReservationStatus.DENIED -> denyRequest(requestId)
                 ReservationStatus.PENDING -> changeRequestToPending(requestId)
                 ReservationStatus.CANCELLED -> cancelRequest(requestId)
-                ReservationStatus.RIDE_CANCELLED -> changeRequestToRideCancelled(requestId)
+                ReservationStatus.TRIP_CANCELLED -> changeRequestToRideCancelled(requestId)
                 ReservationStatus.EXPIRED -> expireRequest(requestId)
                 ReservationStatus.FINISHED -> finishRequest(requestId);
             }
@@ -207,8 +205,8 @@ class ReservationRequestService(
     }
 
     private fun changeRequestToRideCancelled(requestId: Long) {
-        repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.RIDE_CANCELLED)
-        pushNotification(findById(requestId), NotificationType.RIDE_CANCELLED)
+        repository.updateReservationRequestStatus(requestId = requestId, status = ReservationStatus.TRIP_CANCELLED)
+        pushNotification(findById(requestId), NotificationType.TRIP_CANCELLED)
     }
 
     private fun expireRequest(requestId: Long) {

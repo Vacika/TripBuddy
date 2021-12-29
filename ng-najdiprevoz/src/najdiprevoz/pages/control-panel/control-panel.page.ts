@@ -7,7 +7,7 @@ import {SubmitRatingDialog} from '../../dialogs/submit-rating/submit-rating.dial
 import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {TranslateService} from "@ngx-translate/core";
 import {Title} from "@angular/platform-browser";
-import {SEE_RIDE_REQUEST_INFO_ACTION, SUBMIT_RATING_ACTION} from "../../constants/actions.constants";
+import {SEE_TRIP_REQUEST_INFO_ACTION, SUBMIT_RATING_ACTION} from "../../constants/actions.constants";
 import {ReservationDetailsDialog} from "../../dialogs/reservation-details/reservation-details.dialog";
 import {UserService} from "../../services/user.service";
 
@@ -47,7 +47,7 @@ export class ControlPanelPage implements OnInit {
 	}
 
 	takeAction(event: any) {
-		if (event.action != SUBMIT_RATING_ACTION && event.action !== SEE_RIDE_REQUEST_INFO_ACTION) {
+		if (event.action != SUBMIT_RATING_ACTION && event.action !== SEE_TRIP_REQUEST_INFO_ACTION) {
 			this._reservationRequestService.changeRequestStatus(event.element, event.action).subscribe(() => {
 				this.sentReservationRequests$ = this._reservationRequestService.getSentRequests();
 				this._notificationService.success('RIDE_REQUEST_STATUS_CHANGE_SUCCESS');
@@ -60,7 +60,7 @@ export class ControlPanelPage implements OnInit {
 				height: '400px',
 				width: '600px'
 			});
-		} else if (event.action === SEE_RIDE_REQUEST_INFO_ACTION) {
+		} else if (event.action === SEE_TRIP_REQUEST_INFO_ACTION) {
 			this._dialog.open(ReservationDetailsDialog, {
 				data: event.element as ReservationRequestFullResponse,
 				height: '305px',

@@ -1,7 +1,7 @@
-<div *ngIf="trip">
+<div *ngIf="trip" class="bg-black text-white">
 	<h1 class="text-center" mat-dialog-title>
 		{{trip.from|translate}}  -  {{trip.to | translate}}</h1>
-	<div class='mat-dialog-content' mat-dialog-content>
+	<div class='mat-dialog-content' mat-dialog-content style="text-align: center;">
 
 		<div><span class="text-bold">{{'STATUS'|translate}}: </span> {{ trip.status | translate }}</div>
 		<div><span class="text-bold">{{'DEPARTURE_TIME'|translate}}
@@ -18,7 +18,7 @@
 							 class="text-bold">{{'ADDITIONAL_DESCRIPTION' |translate}}
 			:</span> {{tripDetails.additionalDescription}}
 		</div>
-		<div class='flex space-evenly'>
+		<div class='flex space-evenly' style="padding-top: 30px;">
 			<mat-icon *ngIf="tripDetails.isPetAllowed" class="success ignore-default-color"
 								matTooltip='{{"IS_PET_ALLOWED_POSITIVE"|translate}}'>
 				pets
@@ -46,8 +46,8 @@
 						matTooltip="{{'MAXIMUM_TWO_BACKSEAT_TOOLTIP' | translate}}">
 		<svg aria-hidden="true"
 				 fill="#708C91"
-				 height="30" viewBox="0 0 24 24"
-				 width="30"
+				 height="24" viewBox="0 0 24 24"
+				 width="24"
 				 xmlns="http://www.w3.org/2000/svg">
 			<g
 				fill="none" stroke="rgb(93, 209, 103)" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
@@ -66,8 +66,8 @@
 						matTooltip="{{'MAXIMUM_TWO_BACKSEAT_FALSE_TOOLTIP' | translate}}">
 		<svg aria-hidden="true"
 				 fill="#708C91"
-				 height="30" viewBox="0 0 24 24"
-				 width="30"
+				 height="24" viewBox="0 0 24 24"
+				 width="24"
 				 xmlns="http://www.w3.org/2000/svg">
 			<g
 				fill="none" stroke="#ff2a26" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
@@ -89,7 +89,7 @@
 						[disabled]='trip.availableSeats<=0 || loggedUserIsDriver()'
 						class='width-49-percent mat-stroked-button color-white green-gradient-bg'
 						mat-button>{{'REQUEST_RIDE' | translate}}</button>
-		<button (click)="onCancel()" class='width-49-percent mat-stroked-button mat-primary'
+		<button (click)="onCancel()" class='width-49-percent mat-stroked-button button-danger'
 						mat-button>{{'CLOSE'|translate}}</button>
 	</div>
 </div>

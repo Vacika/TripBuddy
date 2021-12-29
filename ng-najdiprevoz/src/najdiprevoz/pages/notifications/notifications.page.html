@@ -9,7 +9,7 @@
 								 style="border-radius:50%;width:52px;height:52px; padding-right:10px;">
 						<span *ngIf="notification.type == 'REQUEST_SENT'">
 							<a
-								[routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a>{{"REQUEST_SENT_MESSAGE"|translate}}
+								[routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}  </b>  </a>   {{"REQUEST_SENT_MESSAGE"|translate}}
 						</span>
 
 						<span *ngIf="notification.type == 'REQUEST_CANCELLED'">
@@ -24,8 +24,8 @@
 							<a [routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a>
 						</span>
 						<span
-							*ngIf="notification.type == 'RIDE_CANCELLED'"><a
-							[routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"RIDE_CANCELLED_MESSAGE"|translate}}
+							*ngIf="notification.type == 'TRIP_CANCELLED'"><a
+							[routerLink]="'/user/' + notification.fromId"><b>{{notification.fromName}}</b></a> {{"TRIP_CANCELLED_MESSAGE"|translate}}
 						</span>
 						<span
 							*ngIf="notification.type == 'REQUEST_DENIED'"><a
@@ -42,12 +42,12 @@
 						</span>
 					</span>
 					<span class="flex space-between inline-block">
-						<button (click)="takeAction(notification,action)" *ngFor="let action of notification.actions" [class]="getClassForAction(action)"
+						<button (click)="takeAction(notification,action)" *ngFor="let action of notification.actions"
+										[class]="getClassForAction(action)"
 										class="margin-right-5"
 										mat-raised-button>{{action | translate}}</button>
 					</span>
 				</div>
-				<hr>
 			</span>
 	</div>
 </div>

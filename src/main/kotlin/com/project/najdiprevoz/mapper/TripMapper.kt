@@ -2,7 +2,7 @@ package com.project.najdiprevoz.mapper
 
 import com.project.najdiprevoz.domain.Trip
 import com.project.najdiprevoz.domain.User
-import com.project.najdiprevoz.enums.Actions
+import com.project.najdiprevoz.enums.AllowedActions
 import com.project.najdiprevoz.enums.TripStatus
 import com.project.najdiprevoz.repositories.RatingViewRepository
 import com.project.najdiprevoz.services.list.TripListService
@@ -75,12 +75,12 @@ class TripMapper(private val tripService: TripService,
     private fun getAllowedActions(trip: Trip, asPassenger: Boolean): List<String> = with(trip){
         return if (asPassenger) {
             when (status) {
-                TripStatus.ACTIVE -> listOf(Actions.CANCEL_RESERVATION.name)
-                TripStatus.FINISHED -> listOf(Actions.SUBMIT_RATING.name)
+                TripStatus.ACTIVE -> listOf(AllowedActions.CANCEL_TRIP.name)
+                TripStatus.FINISHED -> listOf(AllowedActions.SUBMIT_RATING.name)
                 else -> emptyList()
             }
         } else {
-            if (status == TripStatus.ACTIVE) listOf(Actions.CANCEL_RIDE.name) else emptyList()
+            if (status == TripStatus.ACTIVE) listOf(AllowedActions.CANCEL_TRIP.name) else emptyList()
         }
     }
 

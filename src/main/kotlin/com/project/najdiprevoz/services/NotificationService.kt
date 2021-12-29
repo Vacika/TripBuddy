@@ -54,7 +54,7 @@ class NotificationService(private val repository: NotificationRepository) {
                 from = requester
                 to = driver
             }
-            NotificationType.RIDE_CANCELLED -> {
+            NotificationType.TRIP_CANCELLED -> {
                 from = driver
                 to = requester
             }

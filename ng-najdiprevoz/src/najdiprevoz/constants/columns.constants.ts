@@ -1,6 +1,6 @@
 import {DataTableColumn} from "../interfaces/data-table-column.interface";
 import {DataTableColumnType} from "../interfaces/enums/column-type.enum";
-import {SEE_RIDE_REQUEST_INFO_ACTION} from "./actions.constants";
+import {SEE_TRIP_REQUEST_INFO_ACTION} from "./actions.constants";
 
 export const adminTableColumns = [
 	{name: 'username', translationLabel: 'USERNAME', type: DataTableColumnType.TEXT, sortable: true} as DataTableColumn,
@@ -124,7 +124,7 @@ export const tableColumnsForReceived = [
 		name: 'info',
 		translationLabel: '',
 		type: DataTableColumnType.BUTTON,
-		actionName: SEE_RIDE_REQUEST_INFO_ACTION,
+		actionName: SEE_TRIP_REQUEST_INFO_ACTION,
 		matIconName: 'info',
 		sortable: false
 	} as DataTableColumn,

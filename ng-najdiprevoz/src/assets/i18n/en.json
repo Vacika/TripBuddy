@@ -1,6 +1,7 @@
 
 {
 	"RIDE_CANCELLED": "Cancelled",
+	"TRIP_CANCELLED": "Cancelled",
 	"DENIED": "Denied",
 	"TRIP_STATUS": "Trip status",
 	"EXCEPTION_USER_NOT_ACTIVATED": "Your user is not activated yet. Please check your mail for activation link :)",
@@ -34,7 +35,7 @@
 	"REJECT": "Reject",
 	"CANCEL": "Cancel",
 	"DENY_RESERVATION": "Deny",
-	"CANCEL_RIDE": "Cancel trip",
+	"CANCEL_TRIP": "Cancel trip",
 	"CANCEL_REQUEST": "Cancel Request",
 	"CAR": "Car",
 	"MODEL": "Model",
@@ -122,8 +123,8 @@
 	"RIDE_REQUEST_STATUS_CHANGE_FAIL": "Request status change failed..",
 	"TRIP_CREATE_SUCCESS": "Trip published successfully",
 	"TRIP_CREATE_FAIL": "Trip publishing failed..",
-	"CANCEL_RIDE_SUCCESS": "Trip cancelled successfully",
-	"CANCEL_RIDE_FAIL": "Trip cancellation did not pass successfully..",
+	"CANCEL_TRIP_SUCCESS": "Trip cancelled successfully",
+	"CANCEL_TRIP_FAIL": "Trip cancellation did not pass successfully..",
 	"REQUEST_CANCELLED_MESSAGE": "has cancelled their reservation!",
 	"SUCCESS_REGISTER": "Registration successful",
 	"ACTIVE": "Active",

@@ -4,7 +4,7 @@ import {TripService} from '../../services/trip.service';
 import {Observable} from 'rxjs';
 import {UINotificationsService} from '../../services/util/ui-notifications-service';
 import {tableColumnsAsDriver, tableColumnsAsPassenger} from "../../constants/columns.constants";
-import {CANCEL_RIDE_ACTION} from "../../constants/actions.constants";
+import {CANCEL_TRIP_ACTION} from "../../constants/actions.constants";
 
 @Component({
 	selector: 'trips-component',
@@ -33,12 +33,12 @@ export class TripsComponent implements OnInit {
 	}
 
 	takeAction(actionEvent) {
-		if (actionEvent.action === CANCEL_RIDE_ACTION) {
+		if (actionEvent.action === CANCEL_TRIP_ACTION) {
 			this._service.cancelTrip(actionEvent.element).subscribe(() => {
-				this._notificationService.success('CANCEL_RIDE_SUCCESS');
+				this._notificationService.success('CANCEL_TRIP_SUCCESS');
 				this.tripsAsDriver$ = this._service.getMyTripsAsDriver();
 			}, () => {
-				this._notificationService.error('CANCEL_RIDE_FAIL');
+				this._notificationService.error('CANCEL_TRIP_FAIL');
 			});
 		}
 	}

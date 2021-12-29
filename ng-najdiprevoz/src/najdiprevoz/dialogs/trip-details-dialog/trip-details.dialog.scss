@@ -1,3 +1,16 @@
+
+::ng-deep .mat-dialog-container {
+	background-color: rgba(0, 0, 0, 0.80);
+}
+
+.bg-black {
+	background-color: rgba(0, 0, 0, 0.95);
+}
+
+.text-white {
+	color: white !important;
+}
+
 .success {
 	color: rgb(93, 209, 103);
 }
@@ -66,9 +79,9 @@ button[disabled].green-gradient-bg {
 :host::ng-deep mat-icon, .icons {
 	border-radius: 60% !important;
 	padding: 4px !important;
-	font-size: 30px !important;
-	width: 30px !important;
-	height: 30px !important
+	font-size: 24px !important;
+	width: 24px !important;
+	height: 24px !important
 }
 
 ::ng-deep mat-icon.danger, .icons.danger {

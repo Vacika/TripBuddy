@@ -88,7 +88,7 @@ export class DataTable2Component implements OnInit {
 				}
 				break;
 
-			case 'RIDE_CANCELLED':
+			case 'TRIP_CANCELLED':
 				if (!indicator) {
 					classes.push('text-fail ');
 				} else {

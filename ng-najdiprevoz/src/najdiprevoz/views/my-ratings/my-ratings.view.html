@@ -5,12 +5,12 @@
 
 					<span class="flex space-between">
 						<span class="flex">
-							<img [src]="rating.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'"
-									 class="card-header-image"
+							<img [src]="rating.fromProfilePic?rating.fromProfilePic:  '../../../assets/images/default-profile-pic.svg'" [routerLink]="'/user/'+rating.fromId"
+									 class="card-header-image cursor-pointer"
 									 style="border-radius:50%;width:52px;height:52px;">
 
 							<span class="flex-column ml-3">
-								<span class="text-bold no-wrap">{{rating.fromFullName}}:</span>
+								<span class="text-bold no-wrap cursor-pointer" [routerLink]="'/user/'+rating.fromId">{{rating.fromFullName}}:</span>
 								<div style='width:85px'><mat-star-rating [rating]="rating.rating"
 																												 [starCount]="5"></mat-star-rating> </div>
 							</span>
@@ -24,8 +24,8 @@
 						</span>
 
 					</span>
-					<div>
-						 <p>{{rating.note}}</p>
+					<div style="margin-left:57px; color:lightgray">
+						 <p>"{{rating.note}}"</p>
 					</div>
 					<div>
 						<button (click)="rideDetails(rating.rideId)" color='primary'
