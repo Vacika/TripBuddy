@@ -1,6 +1,6 @@
 
 {
-	"RIDE_CANCELLED": "Cancelled",
+	"BACK": "Back",
 	"TRIP_CANCELLED": "Cancelled",
 	"DENIED": "Denied",
 	"TRIP_STATUS": "Trip status",
@@ -97,7 +97,6 @@
 	"REQUEST_SENT_MESSAGE": "has sent you a reservation request for a trip you published.",
 	"REQUEST_APPROVED_MESSAGE": "has approved your reservation request.",
 	"REQUEST_EXPIRED_MESSAGE": "Reservation request expired for trip published by",
-	"RIDE_CANCELLED_MESSAGE": "has cancelled the trip, your request is not valid anymore.",
 	"REQUEST_DENIED_MESSAGE": "has denied your reservation request.",
 	"MALE": "Male",
 	"FEMALE": "Female",

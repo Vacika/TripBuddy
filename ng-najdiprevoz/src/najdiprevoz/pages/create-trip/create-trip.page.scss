@@ -83,3 +83,19 @@ button[hidden] {
 :host::ng-deep .mat-form-field-wrapper {
 	padding-top: 0 !important; // fix for search trips overriding this class..
 }
+
+.mat-form-field-disabled {
+	.mat-form-field-outline,
+	.mat-form-field-empty.mat-form-field-label,
+	.mat-form-field-label,
+	.mat-form-field-underline,
+	.mat-input-element, ::placeholder {
+		color: gray !important;
+	}
+}
+
+.mat-select-disabled {
+	& ::ng-deep .mat-select-value {
+		color: gray !important;
+	}
+}

@@ -1,6 +1,6 @@
 ﻿{
+	"BACK": "Назад",
 	"TRIP_CANCELLED": "Откажана",
-	"RIDE_CANCELLED": "Откажана",
 	"DENIED": "Одбиенa",
 	"TRIP_STATUS": "Превоз",
 	"EXCEPTION_USER_NOT_ACTIVATED": "Your user is not activated yet. Please check your mail for activation link :)",
@@ -99,7 +99,6 @@
 	"REQUEST_APPROVED_MESSAGE": "го одобри твоето барање за резервација.",
 	"REQUEST_EXPIRED_MESSAGE": "Барањето за резервација истече за превозот објавен од",
 	"TRIP_CANCELLED_MESSAGE": "го откажа превозот, вашето барање за резервација сега е невалидно.",
-	"RIDE_CANCELLED_MESSAGE": "го откажа превозот, вашето барање за резервација сега е невалидно.",
 	"REQUEST_DENIED_MESSAGE": "го одби вашето барање за резервација.",
 	"NO_RATINGS": "Нема оцена",
 	"CLOSE": "Затвори",

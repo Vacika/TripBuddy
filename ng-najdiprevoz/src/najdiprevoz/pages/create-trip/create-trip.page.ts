@@ -141,4 +141,12 @@ export class CreateTripPage implements OnInit {
 			maxTwoBackseat: new FormControl(false, Validators.required)
 		});
 	}
+
+	getFromLocations() {
+		return this.allCities.filter(it => it.id != this.getToLocation?.value)
+	}
+
+	getToLocations() {
+		return this.allCities.filter(it => it.id != this.getFromLocation?.value)
+	}
 }

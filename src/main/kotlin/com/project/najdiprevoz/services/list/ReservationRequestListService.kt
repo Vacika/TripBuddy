@@ -10,9 +10,12 @@ class ReservationRequestListService(private val repository: ReservationRequestRe
 
     fun findAll(): List<ReservationRequest> =
         repository.findAll()
+            .sortedBy { it.status.ordinal }
 
     fun getAllRequestsByTripId(rideId: Long): List<ReservationRequest> =
         repository.findAllByTripId(rideId)
+            .sortedBy { it.status.ordinal }
+
 
     //Gets request sent from the user
     fun getSentReservationRequests(username: String) =

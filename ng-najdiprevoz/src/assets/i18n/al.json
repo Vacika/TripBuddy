@@ -1,5 +1,5 @@
 {
-	"RIDE_CANCELLED": "Cancelled",
+	"BACK": "Назад",
 	"TRIP_CANCELLED": "Cancelled",
 	"DENIED": "Denied",
 	"TRIP_STATUS": "Trip status",
@@ -34,7 +34,6 @@
 	"REJECT": "Refuzo",
 	"CANCEL": "Anulo",
 	"DENY": "Refuzo",
-	"CANCEL_TRIP": "Anulo udhëtimin",
 	"CANCEL_TRIP": "Anulo udhëtimin",
 	"CANCEL_REQUEST": "Anulo kërkesën",
 	"CAR": "Makina",
@@ -97,7 +96,6 @@
 	"REQUEST_SENT_MESSAGE": "ju ka dërguar kërkesë rezervimi për ulëse për një nga udhëtimet që keni botuar.",
 	"REQUEST_APPROVED_MESSAGE": "ka aprovuar kërkesën tuaj për rezervim të ulëseve.",
 	"REQUEST_EXPIRED_MESSAGE": "Këresë rezervimi i skaduar për udhëtimin e botuar nga",
-	"RIDE_CANCELLED_MESSAGE": "ka anuluar udhëtimin, kërkesa juaj nuk është më e vlefshme.",
 	"TRIP_CANCELLED_MESSAGE": "ka anuluar udhëtimin, kërkesa juaj nuk është më e vlefshme.",
 	"REQUEST_DENIED_MESSAGE": "ka refuzuar kërkesën e juaj për rezervim.",
 	"MALE": "Mashkull",
